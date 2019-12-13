@@ -1,0 +1,13 @@
+"D:\29446\iar\arm\bin\armproc.dll" 
+
+"D:\29446\iar\arm\bin\armsim2.dll" 
+
+"E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\debug\ksdk_platform_lib.a" 
+
+--plugin "D:\29446\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\29446\iar\arm\config\debugger\NXP\KLxx.dmac" 
+
+
+
+

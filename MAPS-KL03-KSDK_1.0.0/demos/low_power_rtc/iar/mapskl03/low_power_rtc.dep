@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>2766536593</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\..\..\..\platform\utilities\fsl_debug_console.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\board.h</file>
+      <file>$PROJ_DIR$\..\..\src\low_power_rtc.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\startup.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\iar\startup_MKL03Z4.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\port\fsl_port_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_llwu.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cmInstr.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\assert.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rfsys.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_fgpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_osc.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\fsl_bitaccess.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\gpio\fsl_gpio_driver.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_smc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_adc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_gpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\fsl_device_registers.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_port.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rtc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_tpm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_cmp.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_ftfa.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lpuart.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lptmr.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mtbdwt.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\gpio\fsl_gpio_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcg.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_i2c.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mtb.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_pmc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_sim.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_spi.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cm0plus.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rcm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_nv.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rom.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_vref.h</file>
+      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\low_power_rtc.pbd</file>
+      <file>$PROJ_DIR$\debug\obj\hardware_init.o</file>
+      <file>$PROJ_DIR$\debug\obj\gpio_pins.o</file>
+      <file>$PROJ_DIR$\debug\obj\hardware_init.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.o</file>
+      <file>$PROJ_DIR$\debug\obj\startup.o</file>
+      <file>$PROJ_DIR$\debug\obj\gpio_pins.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\pin_mux.o</file>
+      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.o</file>
+      <file>$PROJ_DIR$\debug\obj\startup_MKL03Z4.o</file>
+      <file>$PROJ_DIR$\debug\obj\low_power_rtc.o</file>
+      <file>$PROJ_DIR$\debug\obj\pin_mux.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\low_power_rtc.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\startup.pbi</file>
+      <file>$PROJ_DIR$\debug\low_power_rtc.out</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\fsl_clock_manager.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\MKL03Z4\fsl_sim_hal_KL03Z4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\MKL03Z4\fsl_clock_KL03Z4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\fsl_sim_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\gpio\common\fsl_gpio_common.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\system\interrupt\fsl_interrupt_manager.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\pmc\fsl_pmc_hal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\llwu\fsl_llwu_hal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\smc\fsl_smc_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\rtc\fsl_rtc_driver.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\mcglite\fsl_mcglite_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\rtc\fsl_rtc_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\rcm\fsl_rcm_hal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\lpuart\fsl_lpuart_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\fsl_lpuart_driver.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\osa\fsl_os_abstraction_bm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\osa\fsl_os_abstraction.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yfuns.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\common\fsl_lpuart_common.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\lib\ksdk_platform_lib\iar\KL03Z4\debug\ksdk_platform_lib.a</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\linker\iar\KL03Z4\KL03Z32xxx4_flash.icf</file>
+      <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
+      <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
+      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+      <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
+      <file>$PROJ_DIR$\debug\list\low_power_rtc.map</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 66</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 27 13 19 41 46 49 26 24 30 42 9 28 29 14 20 34 16 56 18 58 57 52 45 32 25 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62 47</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17 18 19 13 16 20 22 21 14 15 23 31 27 25 9 24 26 28 30 29 32 33 40 44 35 36 37 45 34 41 46 49 42 47 38 39 50 43 48 51 60 53 59 61 54 55 62 56 57 52 58</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 71</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 76</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 34 16 27 13 19 41 46 49 26 24 56 18 58 57 52 45 32 25 30 42 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62 14 20 29 47 84 2</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 41 13 23 25 15 31 27 58 2 22 17 21 19 47 32 33 40 44 35 36 37 45 49 20 14 84 38 39 50 43 48 51 60 53 59 61 54 55 62 56 26 46 52 34 29 24 18 57 30 42</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\src\low_power_rtc.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 75</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 77</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 96 13 19 41 46 49 26 24 42 97 27 30 88 87 20 34 16 56 18 58 57 52 45 32 25 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62 28 29 14 47 85 80 83 81 82 0 91 94 92 86 93 89 95 4 9 2</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 42 16 34 29 49 13 37 45 25 86 19 40 52 85 32 35 27 20 0 4 41 87 33 44 36 83 2 30 14 94 89 26 46 22 15 17 23 21 31 58 47 81 88 90 28 80 91 92 93 95 97 24 38 39 50 43 48 51 60 53 59 61 54 55 62 56 18 57 82 96 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 65</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 67</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 34 16 27 13 19 41 46 49 26 24 56 18 58 57 52 45 32 25 30 42 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62 4 9 28 29 14 20 47 2 80 83 81 82 0</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 41 21 13 25 22 16 17 58 29 83 15 23 31 27 30 82 80 32 33 40 44 35 36 37 45 49 28 20 4 0 2 38 39 50 43 48 51 60 53 59 61 54 55 62 56 26 46 52 42 14 34 19 24 18 57 9 47 81</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 73</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 72</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 96 13 19 41 46 49 26 24 42 97 30 0 27 80 29 20 83 34 16 56 18 58 57 52 45 32 25 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62 81 82 101 100 99 98 103 102</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 26 25 46 19 98 51 16 80 102 13 82 39 61 30 99 41 49 97 27 20 43 53 55 56 18 29 96 0 101 103 24 42 38 50 48 60 59 54 62 57 90 83 34 81 32 22 33 15 40 17 44 23 35 21 36 31 37 45 52 58 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 68</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 63</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 27 13 19 41 46 49 26 24 34 16 56 18 58 57 52 45 32 25 30 42 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 16 52 25 44 49 33 36 58 32 40 35 37 45 26 19 46 22 15 17 23 21 31 27 34 41 24 38 39 50 43 48 51 60 53 59 61 54 55 62 56 18 57 30 42</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\iar\startup_MKL03Z4.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 74</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 69</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 78</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 6 34 16 27 13 19 41 46 49 26 24 56 18 58 57 52 45 32 25 30 42 38 22 39 33 50 15 43 40 48 17 51 44 60 23 53 35 59 21 61 36 54 31 55 37 62</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25 24 17 52 16 22 21 26 58 15 23 31 27 13 32 33 40 44 35 36 37 45 41 19 34 38 39 50 43 48 51 60 53 59 61 54 55 62 56 46 49 18 57 30 42 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 79 110</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\debug\low_power_rtc.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 110</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 105 73 66 65 75 71 69 74 68 104 108 106 109 107</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

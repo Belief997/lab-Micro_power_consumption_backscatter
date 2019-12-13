@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ANSI C/C++ Compiler V7.70.1.11437/W32 for ARM       13/Dec/2019  21:16:17
+# IAR ANSI C/C++ Compiler V7.70.1.11437/W32 for ARM       13/Dec/2019  22:27:06
 # Copyright 1999-2016 IAR Systems AB.
 #
 #    Cpu mode     =  thumb
@@ -29,22 +29,23 @@ E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\main.c
       1          #include "stdio.h"
       2          
       3          
+      4          
 
    \                                 In section .text, align 4, keep-with-next
-      4          int main()
-      5          {
+      5          int main()
+      6          {
    \                     main: (+1)
    \   00000000   0xB580             PUSH     {R7,LR}
-      6            printf("hello world");
+      7            printf("hello world");
    \   00000002   0x4802             LDR      R0,??main_0
    \   00000004   0x.... 0x....      BL       printf
-      7          
-      8            return 0;
+      8          
+      9            return 0;
    \   00000008   0x2000             MOVS     R0,#+0
    \   0000000A   0xBD02             POP      {R1,PC}          ;; return
    \                     ??main_0:
    \   0000000C   0x........         DC32     ?_0
-      9          }
+     10          }
 
    \                                 In section .rodata, align 4
    \                     ?_0:

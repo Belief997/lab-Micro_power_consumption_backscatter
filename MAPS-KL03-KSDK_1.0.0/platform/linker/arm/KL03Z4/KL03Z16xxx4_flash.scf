@@ -1,0 +1,54 @@
+#! armcc -E
+; Linker file for Keil ARM C/C++ Compiler
+
+#define m_interrupts_start             0x00000000
+#define m_interrupts_size              0x00000100
+
+#define m_text_start                   0x00000410
+#define m_text_size                    0x00003BF0
+
+#define m_data_start                   0x1FFFFF00
+#define m_data_size                    0x00000700
+
+#define m_interrupts_ram_start         0x1FFFFE00
+#define m_interrupts_ram_size          0x00000100
+
+#define FlashConfig_start              0x00000400
+#define FlashConfig_size               0x00000010
+
+/* Sizes */
+#define Stack_Size                     0x0050
+#define Heap_Size                      0x0050
+
+LR_m_text m_text_start m_text_size {   ; load region size_region
+  ER_m_text m_text_start m_text_size { ; load address = execution address
+    * (InRoot$$Sections)
+    .ANY (+RO)
+  }
+  RW_m_data m_data_start m_data_size-Stack_Size-Heap_Size { ; RW data
+    .ANY (+RW +ZI)
+  }
+  ARM_LIB_STACK m_data_start+m_data_size EMPTY -Stack_Size { ; Stack region growing down
+  }
+  ARM_LIB_HEAP m_data_start+m_data_size-Stack_Size-Heap_Size EMPTY Heap_Size { ; Heap region growing up
+  }
+}
+
+LR_m_interrupts m_interrupts_start m_interrupts_size {
+  VECTOR_ROM m_interrupts_start m_interrupts_size { ; load address = execution address
+    * (RESET,+FIRST)
+  }
+}
+
+LR_FlashConfig FlashConfig_start FlashConfig_size {
+  ER_FlashConfig FlashConfig_start FlashConfig_size { ; load address = execution address
+    * (FlashConfig)
+  }
+}
+
+LR_m_interrupts_ram m_interrupts_ram_start m_interrupts_ram_size {
+  VECTOR_RAM m_interrupts_ram_start m_interrupts_ram_size { ; load address = execution address
+    .ANY (.m_interrupts_ram)
+  }
+}
+

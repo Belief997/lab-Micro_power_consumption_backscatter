@@ -20,6 +20,12 @@
         <ColumnWidth0>20</ColumnWidth0>
         <ColumnWidth1>1477</ColumnWidth1>
       </Debug-Log>
+      <Build>
+        <ColumnWidth0>20</ColumnWidth0>
+        <ColumnWidth1>1107</ColumnWidth1>
+        <ColumnWidth2>295</ColumnWidth2>
+        <ColumnWidth3>73</ColumnWidth3>
+      </Build>
     </Static>
     <Windows>
       <Wnd0>
@@ -47,8 +53,14 @@
             <Factory>Debug-Log</Factory>
             <Session/>
           </Tab>
+          <Tab>
+            <Identity>TabID-23879-17860</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
         </Tabs>
-        <SelectedTab>0</SelectedTab>
+        <SelectedTab>1</SelectedTab>
       </Wnd1>
     </Windows>
     <Editor>
@@ -62,8 +74,8 @@
           <SelEnd>0</SelEnd>
           <XPos2>0</XPos2>
           <YPos2>0</YPos2>
-          <SelStart2>61</SelStart2>
-          <SelEnd2>61</SelEnd2>
+          <SelStart2>67</SelStart2>
+          <SelEnd2>80</SelEnd2>
         </Tab>
         <ActiveTab>0</ActiveTab>
       </Pane>

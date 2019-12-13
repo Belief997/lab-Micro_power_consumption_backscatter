@@ -1,0 +1,15 @@
+"D:\29446\iar\arm\bin\armproc.dll" 
+
+"D:\29446\iar\arm\bin\armJET.dll" 
+
+"E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\demos\low_power_rtc\iar\mapskl03\debug\low_power_rtc.out" 
+
+--plugin "D:\29446\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\29446\iar\arm\config\debugger\NXP\KLxx.dmac" 
+
+--flash_loader "D:\29446\iar\arm\config\flashloader\NXP\FlashKL03Z32K.board" 
+
+
+
+
