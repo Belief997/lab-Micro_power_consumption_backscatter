@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+
 <project>
   <fileVersion>2</fileVersion>
   <configuration>
@@ -11,7 +12,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>22</version>
+        <version>24</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -27,11 +28,6 @@
           <state>$PROJ_DIR$/debug/list</state>
         </option>
         <option>
-          <name>Variant</name>
-          <version>20</version>
-          <state>35</state>
-        </option>
-        <option>
           <name>GEndianMode</name>
           <state>0</state>
         </option>
@@ -42,7 +38,7 @@
         </option>
         <option>
           <name>Input description</name>
-          <state>Automatic choice of formatter.</state>
+          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing.</state>
         </option>
         <option>
           <name>Output variant</name>
@@ -51,16 +47,11 @@
         </option>
         <option>
           <name>Output description</name>
-          <state>Automatic choice of formatter.</state>
+          <state>No specifier a, A, no specifier n, no float nor long long.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
           <state>0</state>
-        </option>
-        <option>
-          <name>FPU</name>
-          <version>2</version>
-          <state>5</state>
         </option>
         <option>
           <name>OGCoreOrChip</name>
@@ -78,7 +69,7 @@
         </option>
         <option>
           <name>RTDescription</name>
-          <state>0</state>
+          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -86,7 +77,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.20.1.7306</state>
+          <state>7.70.1.11471</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -98,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>MKL03Z32xxx4	Freescale MKL03Z32xxx4</state>
+          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -135,13 +126,8 @@
           <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
-          <name>GFPUCoreSlave</name>
-          <version>20</version>
-          <state>35</state>
-        </option>
-        <option>
           <name>GBECoreSlave</name>
-          <version>20</version>
+          <version>24</version>
           <state>35</state>
         </option>
         <option>
@@ -156,6 +142,34 @@
           <name>GRuntimeLibThreads</name>
           <state>0</state>
         </option>
+        <option>
+          <name>CoreVariant</name>
+          <version>24</version>
+          <state>35</state>
+        </option>
+        <option>
+          <name>GFPUDeviceSlave</name>
+          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
+        </option>
+        <option>
+          <name>FPU2</name>
+          <version>0</version>
+          <state>0</state>
+        </option>
+        <option>
+          <name>NrRegs</name>
+          <version>0</version>
+          <state>0</state>
+        </option>
+        <option>
+          <name>NEON</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>GFPUCoreSlave2</name>
+          <version>24</version>
+          <state>35</state>
+        </option>
       </data>
     </settings>
     <settings>
@@ -167,8 +181,12 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
-          
-        <state>DEBUG</state><state>CPU_MKL03Z32VFK4</state><state>IAR</state><state>MAPS_KL03</state><state>FREEDOM</state></option>
+          <state>DEBUG</state>
+          <state>CPU_MKL03Z32VFK4</state>
+          <state>IAR</state>
+          <state>MAPS_KL03</state>
+          <state>FREEDOM</state>
+        </option>
         <option>
           <name>CCPreprocFile</name>
           <state>0</state>
@@ -211,15 +229,15 @@
         </option>
         <option>
           <name>CCDiagRemark</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagWarning</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagError</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCObjPrefix</name>
@@ -248,7 +266,7 @@
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -288,7 +306,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CompilerMisraOverride</name>
@@ -296,8 +314,64 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          
-        <state>$PROJ_DIR$/../../../../platform/utilities</state><state>$PROJ_DIR$/../../../../platform/osa</state><state>$PROJ_DIR$/../../../../platform/CMSIS/Include</state><state>$PROJ_DIR$/../../../../platform/CMSIS/Include/device</state><state>$PROJ_DIR$/../../../../platform/startup/MKL03Z4</state><state>$PROJ_DIR$/../../../../platform/hal</state><state>$PROJ_DIR$/../../../../platform/hal/adc</state><state>$PROJ_DIR$/../../../../platform/hal/cmp</state><state>$PROJ_DIR$/../../../../platform/hal/cop</state><state>$PROJ_DIR$/../../../../platform/hal/gpio</state><state>$PROJ_DIR$/../../../../platform/hal/i2c</state><state>$PROJ_DIR$/../../../../platform/hal/lptmr</state><state>$PROJ_DIR$/../../../../platform/hal/mcglite</state><state>$PROJ_DIR$/../../../../platform/hal/osc</state><state>$PROJ_DIR$/../../../../platform/hal/pmc</state><state>$PROJ_DIR$/../../../../platform/hal/port</state><state>$PROJ_DIR$/../../../../platform/hal/rtc</state><state>$PROJ_DIR$/../../../../platform/hal/tpm</state><state>$PROJ_DIR$/../../../../platform/hal/sim</state><state>$PROJ_DIR$/../../../../platform/hal/smc</state><state>$PROJ_DIR$/../../../../platform/hal/spi</state><state>$PROJ_DIR$/../../../../platform/hal/lpuart</state><state>$PROJ_DIR$/../../../../platform/hal/wdog</state><state>$PROJ_DIR$/../../../../platform/hal/llwu</state><state>$PROJ_DIR$/../../../../platform/hal/rcm</state><state>$PROJ_DIR$/../../../../platform/drivers</state><state>$PROJ_DIR$/../../../../platform/drivers/adc</state><state>$PROJ_DIR$/../../../../platform/drivers/adc/common</state><state>$PROJ_DIR$/../../../../platform/drivers/cmp</state><state>$PROJ_DIR$/../../../../platform/drivers/cmp/common</state><state>$PROJ_DIR$/../../../../platform/drivers/cop</state><state>$PROJ_DIR$/../../../../platform/drivers/cop/common</state><state>$PROJ_DIR$/../../../../platform/drivers/flash</state><state>$PROJ_DIR$/../../../../platform/drivers/lptmr</state><state>$PROJ_DIR$/../../../../platform/drivers/lptmr/common</state><state>$PROJ_DIR$/../../../../platform/drivers/tpm</state><state>$PROJ_DIR$/../../../../platform/drivers/tpm/common</state><state>$PROJ_DIR$/../../../../platform/drivers/gpio</state><state>$PROJ_DIR$/../../../../platform/drivers/gpio/common</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_master</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_slave</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/common</state><state>$PROJ_DIR$/../../../../platform/drivers/rtc</state><state>$PROJ_DIR$/../../../../platform/drivers/rtc/common</state><state>$PROJ_DIR$/../../../../platform/drivers/spi</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/common</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_master</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_slave</state><state>$PROJ_DIR$/../../../../platform/drivers/lpuart</state><state>$PROJ_DIR$/../../../../platform/drivers/lpuart/common</state><state>$PROJ_DIR$/../../../../platform/drivers/wdog</state><state>$PROJ_DIR$/../../../../platform/drivers/wdog/common</state><state>$PROJ_DIR$/../../../../platform/system/clock</state><state>$PROJ_DIR$/../../../../platform/system/clock/MKL03Z4</state><state>$PROJ_DIR$/../../../../platform/system/hwtimer</state><state>$PROJ_DIR$/../../../../platform/system/interrupt</state><state>$PROJ_DIR$/../../../../boards/mapskl03</state></option>
+          <state>$PROJ_DIR$/../../../../platform/utilities</state>
+          <state>$PROJ_DIR$/../../../../platform/osa</state>
+          <state>$PROJ_DIR$/../../../../platform/CMSIS/Include</state>
+          <state>$PROJ_DIR$/../../../../platform/CMSIS/Include/device</state>
+          <state>$PROJ_DIR$/../../../../platform/startup/MKL03Z4</state>
+          <state>$PROJ_DIR$/../../../../platform/hal</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/adc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/cmp</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/cop</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/gpio</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/i2c</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/lptmr</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/mcglite</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/osc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/pmc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/port</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/rtc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/tpm</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/sim</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/smc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/spi</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/lpuart</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/wdog</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/llwu</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/rcm</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/adc</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/adc/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cmp</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cmp/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cop</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cop/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/flash</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lptmr</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lptmr/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/tpm</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/tpm/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/gpio</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/gpio/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_master</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_slave</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/rtc</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/rtc/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_master</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_slave</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lpuart</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lpuart/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/wdog</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/wdog/common</state>
+          <state>$PROJ_DIR$/../../../../platform/system/clock</state>
+          <state>$PROJ_DIR$/../../../../platform/system/clock/MKL03Z4</state>
+          <state>$PROJ_DIR$/../../../../platform/system/hwtimer</state>
+          <state>$PROJ_DIR$/../../../../platform/system/interrupt</state>
+          <state>$PROJ_DIR$/../../../../boards/mapskl03</state>
+        </option>
         <option>
           <name>CCStdIncCheck</name>
           <state>0</state>
@@ -442,15 +516,15 @@
         </option>
         <option>
           <name>AWarnOne</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange1</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>ADebug</name>
@@ -462,8 +536,8 @@
         </option>
         <option>
           <name>ADefines</name>
-          
-        <state>DEBUG</state></option>
+          <state>DEBUG</state>
+        </option>
         <option>
           <name>AList</name>
           <state>0</state>
@@ -558,7 +632,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          
+          <state></state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -566,7 +640,7 @@
         </option>
         <option>
           <name>AExtraOptionsV2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AsmNoLiteralPool</name>
@@ -583,7 +657,7 @@
         <debug>1</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -592,7 +666,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -608,8 +682,9 @@
       <name>CUSTOM</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <extensions/>
-        <cmdline/>
+        <extensions></extensions>
+        <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -621,15 +696,15 @@
       <name>BUILDACTION</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <prebuild/>
-        <postbuild/>
+        <prebuild></prebuild>
+        <postbuild></postbuild>
       </data>
     </settings>
     <settings>
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>16</version>
+        <version>17</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
@@ -654,31 +729,31 @@
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySegment</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryAlign</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -714,7 +789,7 @@
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkEnableRemarks</name>
@@ -722,19 +797,19 @@
         </option>
         <option>
           <name>IlinkSuppressDiags</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsRem</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsWarn</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsErr</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkWarningsAreErrors</name>
@@ -746,7 +821,7 @@
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -758,8 +833,8 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          
-        <state>$PROJ_DIR$/../../../../lib/ksdk_platform_lib/iar/KL03Z4/debug/ksdk_platform_lib.a</state></option>
+          <state>$PROJ_DIR$/../../../../lib/ksdk_platform_lib/iar/KL03Z4/debug/ksdk_platform_lib.a</state>
+        </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
           <state>0</state>
@@ -893,11 +968,11 @@
         </option>
         <option>
           <name>IlinkStackControlFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkStackCallGraphFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CrcAlgorithm</name>
@@ -913,6 +988,10 @@
           <name>IlinkThreadsSlave</name>
           <state>1</state>
         </option>
+        <option>
+          <name>IlinkLogCallGraph</name>
+          <state>0</state>
+        </option>
       </data>
     </settings>
     <settings>
@@ -924,7 +1003,7 @@
         <debug>1</debug>
         <option>
           <name>IarchiveInputs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IarchiveOverride</name>
@@ -952,7 +1031,7 @@
       <name>General</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <version>22</version>
+        <version>24</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -966,11 +1045,6 @@
         <option>
           <name>ListPath</name>
           <state>$PROJ_DIR$/release/list</state>
-        </option>
-        <option>
-          <name>Variant</name>
-          <version>20</version>
-          <state>35</state>
         </option>
         <option>
           <name>GEndianMode</name>
@@ -999,11 +1073,6 @@
           <state>0</state>
         </option>
         <option>
-          <name>FPU</name>
-          <version>2</version>
-          <state>5</state>
-        </option>
-        <option>
           <name>OGCoreOrChip</name>
           <state>1</state>
         </option>
@@ -1027,7 +1096,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.20.1.7306</state>
+          <state>7.70.1.11471</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -1076,13 +1145,8 @@
           <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
-          <name>GFPUCoreSlave</name>
-          <version>20</version>
-          <state>35</state>
-        </option>
-        <option>
           <name>GBECoreSlave</name>
-          <version>20</version>
+          <version>24</version>
           <state>35</state>
         </option>
         <option>
@@ -1097,6 +1161,34 @@
           <name>GRuntimeLibThreads</name>
           <state>0</state>
         </option>
+        <option>
+          <name>CoreVariant</name>
+          <version>24</version>
+          <state>35</state>
+        </option>
+        <option>
+          <name>GFPUDeviceSlave</name>
+          <state>MKL03Z32xxx4	Freescale MKL03Z32xxx4</state>
+        </option>
+        <option>
+          <name>FPU2</name>
+          <version>0</version>
+          <state>5</state>
+        </option>
+        <option>
+          <name>NrRegs</name>
+          <version>0</version>
+          <state>2</state>
+        </option>
+        <option>
+          <name>NEON</name>
+          <state>0</state>
+        </option>
+        <option>
+          <name>GFPUCoreSlave2</name>
+          <version>24</version>
+          <state>35</state>
+        </option>
       </data>
     </settings>
     <settings>
@@ -1108,8 +1200,12 @@
         <debug>0</debug>
         <option>
           <name>CCDefines</name>
-          
-        <state>NDEBUG</state><state>CPU_MKL03Z32VFK4</state><state>IAR</state><state>MAPS_KL03</state><state>FREEDOM</state></option>
+          <state>NDEBUG</state>
+          <state>CPU_MKL03Z32VFK4</state>
+          <state>IAR</state>
+          <state>MAPS_KL03</state>
+          <state>FREEDOM</state>
+        </option>
         <option>
           <name>CCPreprocFile</name>
           <state>0</state>
@@ -1152,15 +1248,15 @@
         </option>
         <option>
           <name>CCDiagRemark</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagWarning</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagError</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCObjPrefix</name>
@@ -1189,7 +1285,7 @@
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -1229,7 +1325,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CompilerMisraOverride</name>
@@ -1237,8 +1333,64 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          
-        <state>$PROJ_DIR$/../../../../platform/utilities</state><state>$PROJ_DIR$/../../../../platform/osa</state><state>$PROJ_DIR$/../../../../platform/CMSIS/Include</state><state>$PROJ_DIR$/../../../../platform/CMSIS/Include/device</state><state>$PROJ_DIR$/../../../../platform/startup/MKL03Z4</state><state>$PROJ_DIR$/../../../../platform/hal</state><state>$PROJ_DIR$/../../../../platform/hal/adc</state><state>$PROJ_DIR$/../../../../platform/hal/cmp</state><state>$PROJ_DIR$/../../../../platform/hal/cop</state><state>$PROJ_DIR$/../../../../platform/hal/gpio</state><state>$PROJ_DIR$/../../../../platform/hal/i2c</state><state>$PROJ_DIR$/../../../../platform/hal/lptmr</state><state>$PROJ_DIR$/../../../../platform/hal/mcglite</state><state>$PROJ_DIR$/../../../../platform/hal/osc</state><state>$PROJ_DIR$/../../../../platform/hal/pmc</state><state>$PROJ_DIR$/../../../../platform/hal/port</state><state>$PROJ_DIR$/../../../../platform/hal/rtc</state><state>$PROJ_DIR$/../../../../platform/hal/tpm</state><state>$PROJ_DIR$/../../../../platform/hal/sim</state><state>$PROJ_DIR$/../../../../platform/hal/smc</state><state>$PROJ_DIR$/../../../../platform/hal/spi</state><state>$PROJ_DIR$/../../../../platform/hal/lpuart</state><state>$PROJ_DIR$/../../../../platform/hal/wdog</state><state>$PROJ_DIR$/../../../../platform/hal/llwu</state><state>$PROJ_DIR$/../../../../platform/hal/rcm</state><state>$PROJ_DIR$/../../../../platform/drivers</state><state>$PROJ_DIR$/../../../../platform/drivers/adc</state><state>$PROJ_DIR$/../../../../platform/drivers/adc/common</state><state>$PROJ_DIR$/../../../../platform/drivers/cmp</state><state>$PROJ_DIR$/../../../../platform/drivers/cmp/common</state><state>$PROJ_DIR$/../../../../platform/drivers/cop</state><state>$PROJ_DIR$/../../../../platform/drivers/cop/common</state><state>$PROJ_DIR$/../../../../platform/drivers/flash</state><state>$PROJ_DIR$/../../../../platform/drivers/lptmr</state><state>$PROJ_DIR$/../../../../platform/drivers/lptmr/common</state><state>$PROJ_DIR$/../../../../platform/drivers/tpm</state><state>$PROJ_DIR$/../../../../platform/drivers/tpm/common</state><state>$PROJ_DIR$/../../../../platform/drivers/gpio</state><state>$PROJ_DIR$/../../../../platform/drivers/gpio/common</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_master</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_slave</state><state>$PROJ_DIR$/../../../../platform/drivers/i2c/common</state><state>$PROJ_DIR$/../../../../platform/drivers/rtc</state><state>$PROJ_DIR$/../../../../platform/drivers/rtc/common</state><state>$PROJ_DIR$/../../../../platform/drivers/spi</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/common</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_master</state><state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_slave</state><state>$PROJ_DIR$/../../../../platform/drivers/lpuart</state><state>$PROJ_DIR$/../../../../platform/drivers/lpuart/common</state><state>$PROJ_DIR$/../../../../platform/drivers/wdog</state><state>$PROJ_DIR$/../../../../platform/drivers/wdog/common</state><state>$PROJ_DIR$/../../../../platform/system/clock</state><state>$PROJ_DIR$/../../../../platform/system/clock/MKL03Z4</state><state>$PROJ_DIR$/../../../../platform/system/hwtimer</state><state>$PROJ_DIR$/../../../../platform/system/interrupt</state><state>$PROJ_DIR$/../../../../boards/mapskl03</state></option>
+          <state>$PROJ_DIR$/../../../../platform/utilities</state>
+          <state>$PROJ_DIR$/../../../../platform/osa</state>
+          <state>$PROJ_DIR$/../../../../platform/CMSIS/Include</state>
+          <state>$PROJ_DIR$/../../../../platform/CMSIS/Include/device</state>
+          <state>$PROJ_DIR$/../../../../platform/startup/MKL03Z4</state>
+          <state>$PROJ_DIR$/../../../../platform/hal</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/adc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/cmp</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/cop</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/gpio</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/i2c</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/lptmr</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/mcglite</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/osc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/pmc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/port</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/rtc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/tpm</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/sim</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/smc</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/spi</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/lpuart</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/wdog</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/llwu</state>
+          <state>$PROJ_DIR$/../../../../platform/hal/rcm</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/adc</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/adc/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cmp</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cmp/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cop</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/cop/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/flash</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lptmr</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lptmr/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/tpm</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/tpm/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/gpio</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/gpio/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_master</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/i2c_slave</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/i2c/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/rtc</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/rtc/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_master</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/spi/spi_slave</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lpuart</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/lpuart/common</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/wdog</state>
+          <state>$PROJ_DIR$/../../../../platform/drivers/wdog/common</state>
+          <state>$PROJ_DIR$/../../../../platform/system/clock</state>
+          <state>$PROJ_DIR$/../../../../platform/system/clock/MKL03Z4</state>
+          <state>$PROJ_DIR$/../../../../platform/system/hwtimer</state>
+          <state>$PROJ_DIR$/../../../../platform/system/interrupt</state>
+          <state>$PROJ_DIR$/../../../../boards/mapskl03</state>
+        </option>
         <option>
           <name>CCStdIncCheck</name>
           <state>0</state>
@@ -1383,15 +1535,15 @@
         </option>
         <option>
           <name>AWarnOne</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange1</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>ADebug</name>
@@ -1403,7 +1555,7 @@
         </option>
         <option>
           <name>ADefines</name>
-          
+          <state></state>
         </option>
         <option>
           <name>AList</name>
@@ -1499,7 +1651,7 @@
         </option>
         <option>
           <name>AUserIncludes</name>
-          
+          <state></state>
         </option>
         <option>
           <name>AExtraOptionsCheckV2</name>
@@ -1507,7 +1659,7 @@
         </option>
         <option>
           <name>AExtraOptionsV2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AsmNoLiteralPool</name>
@@ -1524,7 +1676,7 @@
         <debug>0</debug>
         <option>
           <name>OOCOutputFormat</name>
-          <version>2</version>
+          <version>3</version>
           <state>0</state>
         </option>
         <option>
@@ -1533,7 +1685,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1549,8 +1701,9 @@
       <name>CUSTOM</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <extensions/>
-        <cmdline/>
+        <extensions></extensions>
+        <cmdline></cmdline>
+        <hasPrio>0</hasPrio>
       </data>
     </settings>
     <settings>
@@ -1562,15 +1715,15 @@
       <name>BUILDACTION</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <prebuild/>
-        <postbuild/>
+        <prebuild></prebuild>
+        <postbuild></postbuild>
       </data>
     </settings>
     <settings>
       <name>ILINK</name>
       <archiveVersion>0</archiveVersion>
       <data>
-        <version>16</version>
+        <version>17</version>
         <wantNonLocal>1</wantNonLocal>
         <debug>0</debug>
         <option>
@@ -1595,31 +1748,31 @@
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySegment</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryAlign</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -1655,7 +1808,7 @@
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkEnableRemarks</name>
@@ -1663,19 +1816,19 @@
         </option>
         <option>
           <name>IlinkSuppressDiags</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsRem</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsWarn</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsErr</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkWarningsAreErrors</name>
@@ -1687,7 +1840,7 @@
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -1699,8 +1852,8 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          
-        <state>$PROJ_DIR$/../../../../lib/ksdk_platform_lib/iar/KL03Z4/release/ksdk_platform_lib.a</state></option>
+          <state>$PROJ_DIR$/../../../../lib/ksdk_platform_lib/iar/KL03Z4/release/ksdk_platform_lib.a</state>
+        </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
           <state>0</state>
@@ -1834,11 +1987,11 @@
         </option>
         <option>
           <name>IlinkStackControlFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkStackCallGraphFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CrcAlgorithm</name>
@@ -1854,6 +2007,10 @@
           <name>IlinkThreadsSlave</name>
           <state>1</state>
         </option>
+        <option>
+          <name>IlinkLogCallGraph</name>
+          <state>0</state>
+        </option>
       </data>
     </settings>
     <settings>
@@ -1865,7 +2022,7 @@
         <debug>0</debug>
         <option>
           <name>IarchiveInputs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IarchiveOverride</name>
@@ -1873,7 +2030,7 @@
         </option>
         <option>
           <name>IarchiveOutput</name>
-          <state/>
+          <state></state>
         </option>
       </data>
     </settings>
@@ -1883,9 +2040,57 @@
       <data/>
     </settings>
   </configuration>
-  
-  
-  
-  
-  
-<group><name>startup</name><file><name>$PROJ_DIR$/../../../../platform/startup/MKL03Z4/iar/startup_MKL03Z4.s</name></file><file><name>$PROJ_DIR$/../../../../platform/startup/MKL03Z4/system_MKL03Z4.c</name></file><file><name>$PROJ_DIR$/../../../../platform/startup/startup.c</name></file><file><name>$PROJ_DIR$/../../../../platform/startup/startup.h</name></file></group><group><name>utilities</name><file><name>$PROJ_DIR$/../../../../platform/utilities/src/fsl_debug_console.c</name></file><file><name>$PROJ_DIR$/../../../../platform/utilities/fsl_debug_console.h</name></file></group><group><name>source</name><file><name>$PROJ_DIR$/../../src/hello_world.c</name></file></group><group><name>board</name><file><name>$PROJ_DIR$/../../../../boards/mapskl03/gpio_pins.c</name></file><file><name>$PROJ_DIR$/../../../../boards/mapskl03/gpio_pins.h</name></file><file><name>$PROJ_DIR$/../../../../boards/mapskl03/pin_mux.c</name></file><file><name>$PROJ_DIR$/../../../../boards/mapskl03/pin_mux.h</name></file><file><name>$PROJ_DIR$/../../../../boards/mapskl03/board.h</name></file><file><name>$PROJ_DIR$/../../../../boards/mapskl03/hardware_init.c</name></file></group></project>
+  <group>
+    <name>board</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\board.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.h</name>
+    </file>
+  </group>
+  <group>
+    <name>source</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\src\hello_world.c</name>
+    </file>
+  </group>
+  <group>
+    <name>startup</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\startup.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\iar\startup_MKL03Z4.s</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</name>
+    </file>
+  </group>
+  <group>
+    <name>utilities</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\utilities\fsl_debug_console.h</name>
+    </file>
+  </group>
+</project>
+
+

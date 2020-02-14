@@ -1,0 +1,15 @@
+"D:\29446\iar\arm\bin\armproc.dll" 
+
+"D:\29446\iar\arm\bin\armJET.dll" 
+
+"E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\hello_world.out" 
+
+--plugin "D:\29446\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\29446\iar\arm\config\debugger\NXP\KLxx.dmac" 
+
+--flash_loader "D:\29446\iar\arm\config\flashloader\NXP\FlashKL03Z32K.board" 
+
+
+
+

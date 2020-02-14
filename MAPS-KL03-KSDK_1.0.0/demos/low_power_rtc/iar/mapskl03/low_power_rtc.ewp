@@ -38,7 +38,7 @@
         </option>
         <option>
           <name>Input description</name>
-          <state>Automatic choice of formatter.</state>
+          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing.</state>
         </option>
         <option>
           <name>Output variant</name>
@@ -47,7 +47,7 @@
         </option>
         <option>
           <name>Output description</name>
-          <state>Automatic choice of formatter.</state>
+          <state>No specifier a, A, no specifier n, no float nor long long.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -69,7 +69,7 @@
         </option>
         <option>
           <name>RTDescription</name>
-          <state>0</state>
+          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>MKL03Z32xxx4	Freescale MKL03Z32xxx4</state>
+          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -149,17 +149,17 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>MKL03Z32xxx4	Freescale MKL03Z32xxx4</state>
+          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
         </option>
         <option>
           <name>FPU2</name>
           <version>0</version>
-          <state>5</state>
+          <state>0</state>
         </option>
         <option>
           <name>NrRegs</name>
           <version>0</version>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>NEON</name>
@@ -667,7 +667,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state></state>
+          <state>low_power_rtc.srec</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>

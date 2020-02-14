@@ -1,29 +1,29 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.30.3.8024/W32 for ARM                 27/Mar/2015  17:20:45
-# Copyright 2007-2014 IAR Systems AB.
+# IAR ELF Linker V7.70.1.11437/W32 for ARM                13/Dec/2019  22:56:48
+# Copyright 2007-2016 IAR Systems AB.
 #
 #    Output file  =  
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\hello_world.out
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\hello_world.out
 #    Map file     =  
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/debug/list\hello_world.map
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\list\hello_world.map
 #    Command line =  
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\fsl_debug_console.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\gpio_pins.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\hardware_init.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\hello_world.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\pin_mux.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\startup.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\startup_MKL03Z4.o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\system_MKL03Z4.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\fsl_debug_console.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\gpio_pins.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\hardware_init.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\hello_world.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\pin_mux.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\startup.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\startup_MKL03Z4.o
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj\system_MKL03Z4.o
 #        --redirect _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\hello_world.out
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\hello_world.out
 #        --map
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/debug/list\hello_world.map
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\list\hello_world.map
 #        --config
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/../../../../platform/linker/iar/KL03Z4/KL03Z32xxx4_flash.icf
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/../../../../platform/linker/iar/KL03Z4/KL03Z32xxx4_flash.icf
 #        --semihosting
-#        C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/../../../../lib/ksdk_platform_lib/iar/KL03Z4/debug/ksdk_platform_lib.a
+#        E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03/../../../../lib/ksdk_platform_lib/iar/KL03Z4/debug/ksdk_platform_lib.a
 #        --entry __iar_program_start --vfe
 #
 ###############################################################################
@@ -41,16 +41,17 @@ __SystemLibrary = DLib
 *** PLACEMENT SUMMARY
 ***
 
-"A1":  place at 0x00000000 { ro section .intvec };
+"A0":  place at 0x00000000 { ro section .intvec };
 "P1":  place in [from 0x00000400 to 0x0000040f] { section FlashConfig };
 "P2":  place in [from 0x00000000 to 0x000000ff] |
                 [from 0x00000410 to 0x00007fff] { ro };
 "P3":  place in [from 0x1fffff00 to 0x200005ff] { rw, block CSTACK, block HEAP };
 "P4":  place in [from 0x1fffff00 to 0x200005ff] { zi };
+initialize by copy { rw, section .textrw };
 
   Section              Kind        Address    Size  Object
   -------              ----        -------    ----  ------
-"A1":                                         0xc0
+"A0":                                         0xc0
   .intvec              ro code  0x00000000    0xc0  startup_MKL03Z4.o [1]
                               - 0x000000c0    0xc0
 
@@ -62,87 +63,92 @@ __SystemLibrary = DLib
   FlashConfig          ro code  0x00000400    0x10  startup_MKL03Z4.o [1]
                               - 0x00000410    0x10
 
-"P2", part 2 of 2:                          0x19dc
-  .text                ro code  0x00000410   0x524  xprintfsmall.o [3]
-  .text                ro code  0x00000934    0x14  strchr.o [5]
-  .text                ro code  0x00000948    0x10  strlen.o [5]
-  .text                ro code  0x00000958    0x18  memchr.o [5]
-  .text                ro code  0x00000970    0xae  I32DivModFast.o [5]
-  .text                ro code  0x00000a1e    0x2a  zero_init3.o [5]
-  .text                ro code  0x00000a48     0x2  IntDivZer.o [5]
-  .text                ro code  0x00000a4a     0x2  startup_MKL03Z4.o [1]
-  .text                ro code  0x00000a4c   0x30a  fsl_lpuart_hal.o [4]
-  .text                ro code  0x00000d56     0x2  startup_MKL03Z4.o [1]
-  .text                ro code  0x00000d58   0x1c4  fsl_sim_hal.o [4]
-  .text                ro code  0x00000f1c    0x24  ABIassert.o [6]
-  .text                ro code  0x00000f40     0xa  abort.o [3]
-  .text                ro code  0x00000f4a     0x2  startup_MKL03Z4.o [1]
-  .text                ro code  0x00000f4c    0x14  exit.o [6]
-  .text                ro code  0x00000f60   0x19c  fsl_debug_console.o [1]
-  .text                ro code  0x000010fc   0x164  fsl_lpuart_driver.o [4]
-  .text                ro code  0x00001260    0x54  fsl_sim_hal_KL03Z4.o [4]
-  .text                ro code  0x000012b4    0x54  ABImemset.o [5]
-  .text                ro code  0x00001308    0x34  fsl_os_abstraction_bm.o [4]
-  .text                ro code  0x0000133c   0x19c  fsl_clock_KL03Z4.o [4]
-  .text                ro code  0x000014d8    0xec  fsl_mcglite_hal.o [4]
-  .text                ro code  0x000015c4   0x110  system_MKL03Z4.o [1]
-  .text                ro code  0x000016d4    0xe0  pin_mux.o [1]
-  .rodata              const    0x000017b4    0xa8  fsl_lpuart_driver.o [4]
-  .rodata              const    0x0000185c    0x94  pin_mux.o [1]
-  .text                ro code  0x000018f0    0x7c  startup.o [1]
-  .rodata              const    0x0000196c    0x78  fsl_lpuart_driver.o [4]
-  .rodata              const    0x000019e4    0x70  fsl_os_abstraction_bm.o [4]
-  .rodata              const    0x00001a54    0x68  fsl_sim_hal.o [4]
-  .text                ro code  0x00001abc    0x56  hardware_init.o [1]
-  .text                ro code  0x00001b12     0x2  startup_MKL03Z4.o [1]
-  .text                ro code  0x00001b14    0x2c  fsl_clock_manager.o [4]
-  .text                ro code  0x00001b40    0x34  startup_MKL03Z4.o [1]
-  .text                ro code  0x00001b74    0x30  getchar.o [3]
-  .text                ro code  0x00001ba4    0x30  copy_init3.o [5]
-  .rodata              const    0x00001bd4    0x2c  fsl_lpuart_driver.o [4]
-  .text                ro code  0x00001c00    0x28  hello_world.o [1]
-  .text                ro code  0x00001c28    0x24  printf.o [3]
-  .text                ro code  0x00001c4c    0x24  putchar.o [3]
-  .text                ro code  0x00001c70    0x28  data_init.o [5]
-  .rodata              const    0x00001c98    0x24  fsl_lpuart_driver.o [4]
-  .rodata              const    0x00001cbc    0x24  fsl_lpuart_driver.o [4]
-  .iar.init_table      const    0x00001ce0    0x24  - Linker created -
-  .rodata              const    0x00001d04    0x20  fsl_sim_hal.o [4]
-  .rodata              const    0x00001d24    0x20  fsl_sim_hal.o [4]
-  .text                ro code  0x00001d44    0x1a  cmain.o [5]
-  .text                ro code  0x00001d5e     0x4  low_level_init.o [3]
-  .text                ro code  0x00001d62     0x8  exit.o [3]
-  .text                ro code  0x00001d6a     0x2  startup_MKL03Z4.o [1]
-  .text                ro code  0x00001d6c     0xa  cexit.o [5]
-  .text                ro code  0x00001d76    0x16  xprout.o [3]
-  .rodata              const    0x00001d8c    0x14  hello_world.o [1]
-  .rodata              const    0x00001da0    0x10  fsl_lpuart_driver.o [4]
-  .rodata              const    0x00001db0     0xc  pin_mux.o [1]
-  .text                ro code  0x00001dbc     0xc  cstartup_M.o [5]
-  .rodata              const    0x00001dc8     0x8  fsl_gpio_common.o [4]
-  .rodata              const    0x00001dd0     0x8  fsl_os_abstraction_bm.o [4]
-  .data_init                    0x00001dd8     0x8  <Block>
-    Initializer bytes  ro data  0x00001dd8     0x8  <for .data-1>
-  .rodata              const    0x00001de0     0x4  fsl_lpuart_common.o [4]
-  .rodata              const    0x00001de4     0x4  fsl_clock_manager.o [4]
-  .rodata              const    0x00001de8     0x4  fsl_clock_KL03Z4.o [4]
-                              - 0x00001dec  0x19dc
+"P2", part 2 of 2:                          0x1988
+  .text                ro code  0x00000410   0x52c  xprintfsmall.o [3]
+  .text                ro code  0x0000093c    0x14  strchr.o [5]
+  .text                ro code  0x00000950    0x10  strlen.o [5]
+  .text                ro code  0x00000960    0x18  memchr.o [5]
+  .text                ro code  0x00000978    0xae  I32DivModFast.o [5]
+  .text                ro code  0x00000a26     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x00000a28     0x2  IntDivZer.o [5]
+  .text                ro code  0x00000a2a     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x00000a2c   0x32e  fsl_lpuart_hal.o [4]
+  .text                ro code  0x00000d5a     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x00000d5c   0x1c4  fsl_sim_hal.o [4]
+  .text                ro code  0x00000f20    0x24  ABIassert.o [6]
+  .text                ro code  0x00000f44     0xa  abort.o [3]
+  .text                ro code  0x00000f4e     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x00000f50    0x14  exit.o [6]
+  .text                ro code  0x00000f64   0x19c  fsl_clock_KL03Z4.o [4]
+  .text                ro code  0x00001100    0xec  fsl_mcglite_hal.o [4]
+  .text                ro code  0x000011ec   0x17c  fsl_debug_console.o [1]
+  .text                ro code  0x00001368   0x164  fsl_lpuart_driver.o [4]
+  .text                ro code  0x000014cc    0x54  fsl_sim_hal_KL03Z4.o [4]
+  .text                ro code  0x00001520    0x50  ABImemset.o [5]
+  .text                ro code  0x00001570    0x34  fsl_os_abstraction_bm.o [4]
+  .text                ro code  0x000015a4    0xe0  pin_mux.o [1]
+  .rodata              const    0x00001684    0xa8  pin_mux.o [1]
+  .text                ro code  0x0000172c    0xa8  system_MKL03Z4.o [1]
+  .rodata              const    0x000017d4    0x94  fsl_lpuart_driver.o [4]
+  .text                ro code  0x00001868    0x7c  startup.o [1]
+  .rodata              const    0x000018e4    0x64  fsl_lpuart_driver.o [4]
+  .rodata              const    0x00001948    0x5c  fsl_os_abstraction_bm.o [4]
+  .text                ro code  0x000019a4    0x56  hardware_init.o [1]
+  .text                ro code  0x000019fa     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x000019fc    0x2c  fsl_clock_manager.o [4]
+  .rodata              const    0x00001a28    0x54  fsl_sim_hal.o [4]
+  .text                ro code  0x00001a7c    0x3c  zero_init3.o [5]
+  .text                ro code  0x00001ab8    0x34  fsl_debug_console.o [1]
+  .text                ro code  0x00001aec    0x34  startup_MKL03Z4.o [1]
+  .text                ro code  0x00001b20    0x30  getchar.o [3]
+  .text                ro code  0x00001b50    0x30  copy_init3.o [5]
+  .rodata              const    0x00001b80    0x2c  fsl_lpuart_driver.o [4]
+  .text                ro code  0x00001bac    0x28  hello_world.o [1]
+  .text                ro code  0x00001bd4    0x24  printf.o [3]
+  .text                ro code  0x00001bf8    0x24  putchar.o [3]
+  .text                ro code  0x00001c1c    0x28  data_init.o [5]
+  .rodata              const    0x00001c44    0x24  fsl_lpuart_driver.o [4]
+  .rodata              const    0x00001c68    0x24  fsl_lpuart_driver.o [4]
+  .iar.init_table      const    0x00001c8c    0x24  - Linker created -
+  .rodata              const    0x00001cb0    0x20  fsl_sim_hal.o [4]
+  .rodata              const    0x00001cd0    0x20  fsl_sim_hal.o [4]
+  .text                ro code  0x00001cf0    0x1a  cmain.o [5]
+  .text                ro code  0x00001d0a     0x4  low_level_init.o [3]
+  .text                ro code  0x00001d0e     0x8  exit.o [3]
+  .text                ro code  0x00001d16     0x2  startup_MKL03Z4.o [1]
+  .text                ro code  0x00001d18     0xa  cexit.o [5]
+  .text                ro code  0x00001d22    0x16  xprout.o [3]
+  .rodata              const    0x00001d38    0x14  hello_world.o [1]
+  .rodata              const    0x00001d4c    0x10  fsl_lpuart_driver.o [4]
+  .rodata              const    0x00001d5c     0xc  pin_mux.o [1]
+  .text                ro code  0x00001d68     0xc  cstartup_M.o [5]
+  .rodata              const    0x00001d74     0x8  fsl_gpio_common.o [4]
+  .rodata              const    0x00001d7c     0x8  fsl_os_abstraction_bm.o [4]
+  .data_init                    0x00001d84     0x8  <Block>
+    Initializer bytes  const    0x00001d84     0x8  <for .data-1>
+  .rodata              const    0x00001d8c     0x4  fsl_lpuart_common.o [4]
+  .rodata              const    0x00001d90     0x4  fsl_clock_manager.o [4]
+  .rodata              const    0x00001d94     0x4  fsl_clock_KL03Z4.o [4]
+                              - 0x00001d98  0x1988
 
-"P3":                                        0x208
+"P3-P4", part 1 of 3:                          0x8
   .data                         0x1fffff00     0x8  <Block>
-    .data-1                     0x1fffff00     0x8  <Init block>
-      .data            inited   0x1fffff00     0x1  fsl_lpuart_common.o [4]
-      .data            inited   0x1fffff04     0x4  getchar.o [3]
-  CSTACK                        0x1fffff08   0x200  <Block>
-    CSTACK             uninit   0x1fffff08   0x200  <Block tail>
-                              - 0x20000108   0x208
+    .data-1                     0x1fffff00     0x5  <Init block>
+      .data            inited   0x1fffff00     0x4  getchar.o [3]
+      .data            inited   0x1fffff04     0x1  fsl_lpuart_common.o [4]
+                              - 0x1fffff08     0x8
 
-"P4":                                         0x4c
-  .bss                          0x20000108    0x4c  <Block>
-    .bss               zero     0x20000108    0x44  fsl_debug_console.o [1]
-    .bss               zero     0x2000014c     0x4  fsl_lpuart_common.o [4]
-    .bss               zero     0x20000150     0x4  fsl_clock_KL03Z4.o [4]
-                              - 0x20000154    0x4c
+"P3-P4", part 2 of 3:                         0x4c
+  .bss                          0x1fffff08    0x4c  <Block>
+    .bss               zero     0x1fffff08    0x44  fsl_debug_console.o [1]
+    .bss               zero     0x1fffff4c     0x4  fsl_lpuart_common.o [4]
+    .bss               zero     0x1fffff50     0x4  fsl_clock_KL03Z4.o [4]
+                              - 0x1fffff54    0x4c
+
+"P3-P4", part 3 of 3:                        0x200
+  CSTACK                        0x1fffff58   0x200  <Block>
+    CSTACK             uninit   0x1fffff58   0x200  <Block tail>
+                              - 0x20000158   0x200
 
 
 *******************************************************************************
@@ -153,13 +159,13 @@ __SystemLibrary = DLib
           -------     ----
 Zero (__iar_zero_init3)
     1 destination range, total size 0x4c:
-          0x20000108  0x4c
+          0x1fffff08  0x4c
 
 Copy (__iar_copy_init3)
-    1 source range, total size 0x8:
-          0x00001dd8   0x8
-    1 destination range, total size 0x8:
-          0x1fffff00   0x8
+    1 source range, total size 0x8 (160% of destination):
+          0x00001d84   0x8
+    1 destination range, total size 0x5:
+          0x1fffff00   0x5
 
 
 
@@ -169,16 +175,16 @@ Copy (__iar_copy_init3)
 
     Module                   ro code  ro data  rw data
     ------                   -------  -------  -------
-C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj: [1]
-    fsl_debug_console.o          412                68
+E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj: [1]
+    fsl_debug_console.o          432                68
     hardware_init.o               86
     hello_world.o                 40       20
-    pin_mux.o                    224      160
+    pin_mux.o                    224      180
     startup.o                    124
-    startup_MKL03Z4.o            270
-    system_MKL03Z4.o             272
+    startup_MKL03Z4.o            272
+    system_MKL03Z4.o             168
     --------------------------------------------------
-    Total:                     1 428      180       68
+    Total:                     1 346      200       68
 
 command line: [2]
     --------------------------------------------------
@@ -187,31 +193,31 @@ command line: [2]
 dl6M_tln.a: [3]
     abort.o                       10
     exit.o                         8
-    getchar.o                     48        7        4
+    getchar.o                     48        4        4
     low_level_init.o               4
     printf.o                      36
     putchar.o                     36
-    xprintfsmall.o             1 316
+    xprintfsmall.o             1 324
     xprout.o                      22
     --------------------------------------------------
-    Total:                     1 480        7        4
+    Total:                     1 488        4        4
 
 ksdk_platform_lib.a: [4]
     fsl_clock_KL03Z4.o           412        4        4
     fsl_clock_manager.o           44        4
     fsl_gpio_common.o                       8
     fsl_lpuart_common.o                     5        5
-    fsl_lpuart_driver.o          356      420
-    fsl_lpuart_hal.o             778
+    fsl_lpuart_driver.o          356      380
+    fsl_lpuart_hal.o             814
     fsl_mcglite_hal.o            236
-    fsl_os_abstraction_bm.o       52      120
-    fsl_sim_hal.o                452      168
+    fsl_os_abstraction_bm.o       52      100
+    fsl_sim_hal.o                452      148
     fsl_sim_hal_KL03Z4.o          84
     --------------------------------------------------
-    Total:                     2 414      729        9
+    Total:                     2 450      649        9
 
 rt6M_tl.a: [5]
-    ABImemset.o                   84
+    ABImemset.o                   80
     I32DivModFast.o              174
     IntDivZer.o                    2
     cexit.o                       10
@@ -222,9 +228,9 @@ rt6M_tl.a: [5]
     memchr.o                      24
     strchr.o                      20
     strlen.o                      16
-    zero_init3.o                  42
+    zero_init3.o                  60
     --------------------------------------------------
-    Total:                       498
+    Total:                       512
 
 shb_l.a: [6]
     ABIassert.o                   36
@@ -232,10 +238,9 @@ shb_l.a: [6]
     --------------------------------------------------
     Total:                        56
 
-    Gaps                                             3
-    Linker created                         36      512
+    Linker created                         39      512
 ------------------------------------------------------
-    Grand Total:               5 876      952      596
+    Grand Total:               5 852      892      593
 
 
 *******************************************************************************
@@ -244,144 +249,145 @@ shb_l.a: [6]
 
 Entry                      Address   Size  Type      Object
 -----                      -------   ----  ----      ------
-.bss$$Base              0x20000108          --   Gb  - Linker created -
-.bss$$Limit             0x20000154          --   Gb  - Linker created -
+.bss$$Base              0x1fffff08          --   Gb  - Linker created -
+.bss$$Limit             0x1fffff54          --   Gb  - Linker created -
 .data$$Base             0x1fffff00          --   Gb  - Linker created -
 .data$$Limit            0x1fffff08          --   Gb  - Linker created -
-.data_init$$Base        0x00001dd8          --   Gb  - Linker created -
-.data_init$$Limit       0x00001de0          --   Gb  - Linker created -
-?main                   0x00001d45         Code  Gb  cmain.o [5]
+.data_init$$Base        0x00001d84          --   Gb  - Linker created -
+.data_init$$Limit       0x00001d8c          --   Gb  - Linker created -
+.iar.init_table$$Base   0x00001c8c          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x00001cb0          --   Gb  - Linker created -
+?main                   0x00001cf1         Code  Gb  cmain.o [5]
 CLOCK_HAL_GetClkSrcStat
-                        0x00001519    0xc  Code  Lc  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetDivider    0x00000e8d   0x60  Code  Gb  fsl_sim_hal.o [4]
+                        0x00001141    0xc  Code  Lc  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetDivider    0x00000e91   0x60  Code  Gb  fsl_sim_hal.o [4]
 CLOCK_HAL_GetInternalRefClk
-                        0x00001549   0x20  Code  Gb  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetLircClk    0x00001525   0x24  Code  Gb  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetLircCmd    0x000014ff   0x1a  Code  Lc  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetLircDiv2   0x000014f3    0xc  Code  Lc  fsl_mcglite_hal.o [4]
+                        0x00001171   0x20  Code  Gb  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetLircClk    0x0000114d   0x24  Code  Gb  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetLircCmd    0x00001127   0x1a  Code  Lc  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetLircDiv2   0x0000111b    0xc  Code  Lc  fsl_mcglite_hal.o [4]
 CLOCK_HAL_GetLircRefDiv
-                        0x000014e7    0xc  Code  Lc  fsl_mcglite_hal.o [4]
+                        0x0000110f    0xc  Code  Lc  fsl_mcglite_hal.o [4]
 CLOCK_HAL_GetLircSelMode
-                        0x000014d9    0xe  Code  Lc  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetOutClk     0x00001569   0x42  Code  Gb  fsl_mcglite_hal.o [4]
-CLOCK_HAL_GetSource     0x00000df9   0x94  Code  Gb  fsl_sim_hal.o [4]
-CLOCK_HAL_SetSource     0x00000d59   0xa0  Code  Gb  fsl_sim_hal.o [4]
+                        0x00001101    0xe  Code  Lc  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetOutClk     0x00001191   0x42  Code  Gb  fsl_mcglite_hal.o [4]
+CLOCK_HAL_GetSource     0x00000dfd   0x94  Code  Gb  fsl_sim_hal.o [4]
+CLOCK_HAL_SetSource     0x00000d5d   0xa0  Code  Gb  fsl_sim_hal.o [4]
 CLOCK_SYS_EnableLpuartClock
-                        0x0000112b   0x10  Code  Lc  fsl_lpuart_driver.o [4]
+                        0x00001397   0x10  Code  Lc  fsl_lpuart_driver.o [4]
 CLOCK_SYS_EnablePortClock
-                        0x00001abd    0xe  Code  Lc  hardware_init.o [1]
-CLOCK_SYS_GetFreq       0x0000133d  0x12c  Code  Gb  fsl_clock_KL03Z4.o [4]
+                        0x000019a5    0xe  Code  Lc  hardware_init.o [1]
+CLOCK_SYS_GetFreq       0x00000f65  0x12c  Code  Gb  fsl_clock_KL03Z4.o [4]
 CLOCK_SYS_GetLpuartFreq
-                        0x00001469   0x5a  Code  Gb  fsl_clock_KL03Z4.o [4]
-CLOCK_SYS_SetSource     0x00001b15   0x26  Code  Gb  fsl_clock_manager.o [4]
-CSTACK$$Base            0x1fffff08          --   Gb  - Linker created -
-CSTACK$$Limit           0x20000108          --   Gb  - Linker created -
-DbgConsole_Init         0x00001019   0x66  Code  Gb  fsl_debug_console.o [1]
-INT_SYS_EnableIRQ       0x0000113b   0x36  Code  Lc  fsl_lpuart_driver.o [4]
-LPUART_DRV_Init         0x00001171   0xc4  Code  Gb  fsl_lpuart_driver.o [4]
+                        0x00001091   0x5a  Code  Gb  fsl_clock_KL03Z4.o [4]
+CLOCK_SYS_SetSource     0x000019fd   0x26  Code  Gb  fsl_clock_manager.o [4]
+CSTACK$$Base            0x1fffff58          --   Gb  - Linker created -
+CSTACK$$Limit           0x20000158          --   Gb  - Linker created -
+DbgConsole_Init         0x000012a7   0x66  Code  Gb  fsl_debug_console.o [1]
+INT_SYS_EnableIRQ       0x000013a7   0x36  Code  Lc  fsl_lpuart_driver.o [4]
+LPUART_DRV_Init         0x000013dd   0xc4  Code  Gb  fsl_lpuart_driver.o [4]
 LPUART_DRV_ReceivePollBlocking
-                        0x00000fd1   0x48  Code  Lc  fsl_debug_console.o [1]
+                        0x0000125f   0x48  Code  Lc  fsl_debug_console.o [1]
 LPUART_DRV_SendPollBlocking
-                        0x00000f9b   0x36  Code  Lc  fsl_debug_console.o [1]
+                        0x00001229   0x36  Code  Lc  fsl_debug_console.o [1]
 LPUART_HAL_ClearStatusFlag
                         0x00000c31  0x118  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_EnableReceiver
-                        0x0000110b   0x12  Code  Lc  fsl_lpuart_driver.o [4]
+                        0x00001377   0x12  Code  Lc  fsl_lpuart_driver.o [4]
 LPUART_HAL_EnableTransmitter
-                        0x00000bb7   0x14  Code  Gb  fsl_lpuart_hal.o [4]
+                        0x00000ba3   0x18  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_GetStatusFlag
-                        0x00000bcb   0x66  Code  Gb  fsl_lpuart_hal.o [4]
-LPUART_HAL_Getchar      0x00000d51    0x6  Code  Gb  fsl_lpuart_hal.o [4]
-LPUART_HAL_Init         0x00000a4d   0x12  Code  Gb  fsl_lpuart_hal.o [4]
+                        0x00000bbb   0x76  Code  Gb  fsl_lpuart_hal.o [4]
+LPUART_HAL_Getchar      0x00000d51    0xa  Code  Gb  fsl_lpuart_hal.o [4]
+LPUART_HAL_Init         0x00000a2d   0x1e  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_IsRxDataRegFull
-                        0x00000f81   0x1a  Code  Lc  fsl_debug_console.o [1]
+                        0x0000120f   0x1a  Code  Lc  fsl_debug_console.o [1]
 LPUART_HAL_IsTxDataRegEmpty
-                        0x00000f67   0x1a  Code  Lc  fsl_debug_console.o [1]
-LPUART_HAL_Putchar      0x00000f61    0x6  Code  Lc  fsl_debug_console.o [1]
-LPUART_HAL_SetBaudRate  0x00000a69   0xe0  Code  Gb  fsl_lpuart_hal.o [4]
+                        0x000011f5   0x1a  Code  Lc  fsl_debug_console.o [1]
+LPUART_HAL_Putchar      0x000011ed    0x8  Code  Lc  fsl_debug_console.o [1]
+LPUART_HAL_SetBaudRate  0x00000a55   0xe0  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_SetBitCountPerChar
-                        0x00000b49   0x32  Code  Gb  fsl_lpuart_hal.o [4]
+                        0x00000b35   0x32  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_SetParityMode
-                        0x00000b7b   0x3c  Code  Gb  fsl_lpuart_hal.o [4]
+                        0x00000b67   0x3c  Code  Gb  fsl_lpuart_hal.o [4]
 LPUART_HAL_SetStopBitCount
-                        0x0000111d    0xe  Code  Lc  fsl_lpuart_driver.o [4]
-LoadInt                 0x000007c1   0x4c  Code  Lc  xprintfsmall.o [3]
-NMI_Handler             0x00001635   0x4e  Code  Gb  system_MKL03Z4.o [1]
-NVIC_EnableIRQ          0x000010fd    0xe  Code  Lc  fsl_lpuart_driver.o [4]
-OSA_SemaCreate          0x00001309   0x2a  Code  Gb  fsl_os_abstraction_bm.o [4]
-PORT_HAL_SetMuxMode     0x000016d5   0x2c  Code  Lc  pin_mux.o [1]
-Region$$Table$$Base     0x00001ce0          --   Gb  - Linker created -
-Region$$Table$$Limit    0x00001d04          --   Gb  - Linker created -
+                        0x00001389    0xe  Code  Lc  fsl_lpuart_driver.o [4]
+LoadInt                 0x000007c9   0x4c  Code  Lc  xprintfsmall.o [3]
+NVIC_EnableIRQ          0x00001369    0xe  Code  Lc  fsl_lpuart_driver.o [4]
+OSA_SemaCreate          0x00001571   0x2a  Code  Gb  fsl_os_abstraction_bm.o [4]
+PORT_HAL_SetMuxMode     0x000015a5   0x2c  Code  Lc  pin_mux.o [1]
+Region$$Table$$Base     0x00001c8c          --   Gb  - Linker created -
+Region$$Table$$Limit    0x00001cb0          --   Gb  - Linker created -
 SIM_HAL_EnableLpuartClock
-                        0x00001299   0x16  Code  Gb  fsl_sim_hal_KL03Z4.o [4]
+                        0x00001505   0x16  Code  Gb  fsl_sim_hal_KL03Z4.o [4]
 SIM_HAL_EnablePortClock
-                        0x00001261   0x32  Code  Gb  fsl_sim_hal_KL03Z4.o [4]
-SystemInit              0x000015c5   0x70  Code  Gb  system_MKL03Z4.o [1]
-_LitobSmall             0x0000080d   0xf2  Code  Lc  xprintfsmall.o [3]
-_PrintfSmall            0x00000411  0x3a4  Code  Gb  xprintfsmall.o [3]
-_Prout                  0x00001d77   0x16  Code  Gb  xprout.o [3]
-_PutcharsSmall          0x00000905   0x30  Code  Lc  xprintfsmall.o [3]
-_UngetChar              0x1fffff04    0x4  Data  Lc  getchar.o [3]
-__VECTOR_RAM {Abs}      0x1ffffe00          --   Gb  command line/config [2]
-__VECTOR_TABLE {Abs}    0x00000000          --   Gb  command line/config [2]
+                        0x000014cd   0x32  Code  Gb  fsl_sim_hal_KL03Z4.o [4]
+SystemInit              0x0000172d   0x70  Code  Gb  system_MKL03Z4.o [1]
+_LitobSmall             0x00000815   0xf2  Code  Lc  xprintfsmall.o [3]
+_PrintfSmall            0x00000411  0x3ac  Code  Gb  xprintfsmall.o [3]
+_Prout                  0x00001d23   0x16  Code  Gb  xprout.o [3]
+_PutcharsSmall          0x0000090d   0x30  Code  Lc  xprintfsmall.o [3]
+_UngetChar              0x1fffff00    0x4  Data  Lc  getchar.o [3]
+__VECTOR_RAM {Abs}      0x1ffffe00         Data  Gb  command line/config [2]
+__VECTOR_TABLE {Abs}    0x00000000         Data  Gb  command line/config [2]
 __Vectors               0x00000000          --   Gb  startup_MKL03Z4.o [1]
 __Vectors_End           0x000000c0         Data  Gb  startup_MKL03Z4.o [1]
 __Vectors_Size {Abs}    0x000000c0          --   Gb  startup_MKL03Z4.o [1]
-__aeabi_assert          0x00000f1d   0x24  Code  Gb  ABIassert.o [6]
-__aeabi_idiv0           0x00000a49         Code  Gb  IntDivZer.o [5]
-__aeabi_memset          0x000012b5         Code  Gb  ABImemset.o [5]
-__aeabi_uidiv           0x00000971         Code  Gb  I32DivModFast.o [5]
-__aeabi_uidivmod        0x00000971         Code  Gb  I32DivModFast.o [5]
-__cmain                 0x00001d45         Code  Gb  cmain.o [5]
-__exit                  0x00000f4d   0x14  Code  Gb  exit.o [6]
-__iar_Memchr            0x00000959   0x18  Code  Gb  memchr.o [5]
-__iar_Memset4_word      0x000012d5         Code  Gb  ABImemset.o [5]
-__iar_Memset_word       0x000012c1         Code  Gb  ABImemset.o [5]
-__iar_Strchr            0x00000935   0x14  Code  Gb  strchr.o [5]
-__iar_copy_init3        0x00001ba5   0x30  Code  Gb  copy_init3.o [5]
-__iar_data_init3        0x00001c71   0x28  Code  Gb  data_init.o [5]
-__iar_program_start     0x00001dbd         Code  Gb  cstartup_M.o [5]
-__iar_zero_init3        0x00000a1f   0x2a  Code  Gb  zero_init3.o [5]
-__low_level_init        0x00001d5f    0x4  Code  Gb  low_level_init.o [3]
-__read                  0x000010b5   0x2a  Code  Wk  fsl_debug_console.o [1]
+__aeabi_assert          0x00000f21   0x24  Code  Gb  ABIassert.o [6]
+__aeabi_idiv0           0x00000a29         Code  Gb  IntDivZer.o [5]
+__aeabi_memset          0x00001521         Code  Gb  ABImemset.o [5]
+__aeabi_uidiv           0x00000979         Code  Gb  I32DivModFast.o [5]
+__aeabi_uidivmod        0x00000979         Code  Gb  I32DivModFast.o [5]
+__cmain                 0x00001cf1         Code  Gb  cmain.o [5]
+__exit                  0x00000f51   0x14  Code  Gb  exit.o [6]
+__iar_Memchr            0x00000961   0x18  Code  Gb  memchr.o [5]
+__iar_Memset4_word      0x00001541         Code  Gb  ABImemset.o [5]
+__iar_Memset_word       0x0000152d         Code  Gb  ABImemset.o [5]
+__iar_Strchr            0x0000093d   0x14  Code  Gb  strchr.o [5]
+__iar_copy_init3        0x00001b51   0x30  Code  Gb  copy_init3.o [5]
+__iar_data_init3        0x00001c1d   0x28  Code  Gb  data_init.o [5]
+__iar_program_start     0x00001d69         Code  Gb  cstartup_M.o [5]
+__iar_zero_init3        0x00001a7d   0x3c  Code  Gb  zero_init3.o [5]
+__low_level_init        0x00001d0b    0x4  Code  Gb  low_level_init.o [3]
+__read                  0x00001ab9   0x34  Code  Wk  fsl_debug_console.o [1]
 __vector_table          0x00000000         Data  Gb  startup_MKL03Z4.o [1]
 __vector_table_0x1c     0x0000001c         Data  Gb  startup_MKL03Z4.o [1]
-__write                 0x0000107f   0x36  Code  Wk  fsl_debug_console.o [1]
-_call_main              0x00001d51         Code  Gb  cmain.o [5]
-_exit                   0x00001d6d         Code  Gb  cexit.o [5]
-_main                   0x00001d5b         Code  Gb  cmain.o [5]
-abort                   0x00000f41    0xa  Code  Gb  abort.o [3]
-configure_gpio_pins     0x00001701   0x46  Code  Gb  pin_mux.o [1]
-configure_uart_pins     0x00001747   0x5e  Code  Gb  pin_mux.o [1]
-dbg_uart_init           0x00001afd   0x16  Code  Gb  hardware_init.o [1]
-exit                    0x00001d63    0x8  Code  Gb  exit.o [3]
-g_lpuartBaseAddr        0x00001de0    0x4  Data  Gb  fsl_lpuart_common.o [4]
-g_lpuartRxTxIrqId       0x1fffff00    0x1  Data  Gb  fsl_lpuart_common.o [4]
-g_lpuartStatePtr        0x2000014c    0x4  Data  Gb  fsl_lpuart_common.o [4]
-g_mcgBaseAddr           0x00001de8    0x4  Data  Gb  fsl_clock_KL03Z4.o [4]
-g_portBaseAddr          0x00001dc8    0x8  Data  Gb  fsl_gpio_common.o [4]
-g_simBaseAddr           0x00001de4    0x4  Data  Gb  fsl_clock_manager.o [4]
-getchar                 0x00001b75   0x2c  Code  Gb  getchar.o [3]
-hardware_init           0x00001ad1   0x2c  Code  Gb  hardware_init.o [1]
-init_data_bss           0x000018f1   0x7c  Code  Gb  startup.o [1]
-main                    0x00001c01   0x28  Code  Gb  hello_world.o [1]
-printf                  0x00001c29   0x24  Code  Gb  printf.o [3]
-putchar                 0x00001c4d   0x24  Code  Gb  putchar.o [3]
-s_debugConsole          0x20000108   0x44  Data  Lc  fsl_debug_console.o [1]
-s_rtcClkInFreq          0x20000150    0x4  Data  Lc  fsl_clock_KL03Z4.o [4]
-strlen                  0x00000949   0x10  Code  Gb  strlen.o [5]
+__write                 0x00001329   0x40  Code  Wk  fsl_debug_console.o [1]
+_call_main              0x00001cfd         Code  Gb  cmain.o [5]
+_exit                   0x00001d19         Code  Gb  cexit.o [5]
+_main                   0x00001d07         Code  Gb  cmain.o [5]
+abort                   0x00000f45    0xa  Code  Gb  abort.o [3]
+configure_gpio_pins     0x000015d1   0x46  Code  Gb  pin_mux.o [1]
+configure_uart_pins     0x00001617   0x5e  Code  Gb  pin_mux.o [1]
+dbg_uart_init           0x000019e5   0x16  Code  Gb  hardware_init.o [1]
+exit                    0x00001d0f    0x8  Code  Gb  exit.o [3]
+g_lpuartBaseAddr        0x00001d8c    0x4  Data  Gb  fsl_lpuart_common.o [4]
+g_lpuartRxTxIrqId       0x1fffff04    0x1  Data  Gb  fsl_lpuart_common.o [4]
+g_lpuartStatePtr        0x1fffff4c    0x4  Data  Gb  fsl_lpuart_common.o [4]
+g_mcgBaseAddr           0x00001d94    0x4  Data  Gb  fsl_clock_KL03Z4.o [4]
+g_portBaseAddr          0x00001d74    0x8  Data  Gb  fsl_gpio_common.o [4]
+g_simBaseAddr           0x00001d90    0x4  Data  Gb  fsl_clock_manager.o [4]
+getchar                 0x00001b21   0x2c  Code  Gb  getchar.o [3]
+hardware_init           0x000019b9   0x2c  Code  Gb  hardware_init.o [1]
+init_data_bss           0x00001869   0x7c  Code  Gb  startup.o [1]
+main                    0x00001bad   0x28  Code  Gb  hello_world.o [1]
+printf                  0x00001bd5   0x24  Code  Gb  printf.o [3]
+putchar                 0x00001bf9   0x24  Code  Gb  putchar.o [3]
+s_debugConsole          0x1fffff08   0x44  Data  Lc  fsl_debug_console.o [1]
+s_rtcClkInFreq          0x1fffff50    0x4  Data  Lc  fsl_clock_KL03Z4.o [4]
+strlen                  0x00000951   0x10  Code  Gb  strlen.o [5]
 
 
-[1] = C:\LUL_Work\MAPS-KL03\mcu-sdk-maps\1.0.0_release\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj
+[1] = E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\demos\hello_world\iar\mapskl03\debug\obj
 [2] = command line
 [3] = dl6M_tln.a
 [4] = ksdk_platform_lib.a
 [5] = rt6M_tl.a
 [6] = shb_l.a
 
-  5 876 bytes of readonly  code memory
-    952 bytes of readonly  data memory
-    596 bytes of readwrite data memory
+  5 852 bytes of readonly  code memory
+    892 bytes of readonly  data memory
+    593 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

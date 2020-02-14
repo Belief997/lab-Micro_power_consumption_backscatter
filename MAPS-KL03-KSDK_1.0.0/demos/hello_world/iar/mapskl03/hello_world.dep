@@ -2,103 +2,209 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2866959935</fileChecksum>
+  <fileChecksum>3117674021</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
+      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\hardware_init.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\hello_world.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\gpio_pins.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\pin_mux.__cstat.et</file>
+      <file>$PROJ_DIR$\debug\obj\startup.__cstat.et</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\utilities\fsl_debug_console.h</file>
       <file>$PROJ_DIR$\..\..\src\hello_world.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\board.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\startup\startup.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\iar\startup_MKL03Z4.s</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</file>
-      <file>$PROJ_DIR$\debug\obj\gpio_pins.o</file>
-      <file>$PROJ_DIR$\debug\obj\startup_MKL03Z4.o</file>
-      <file>$PROJ_DIR$\debug\hello_world.out</file>
-      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.o</file>
-      <file>$PROJ_DIR$\debug\obj\pin_mux.o</file>
-      <file>$PROJ_DIR$\debug\obj\hardware_init.o</file>
-      <file>$PROJ_DIR$\debug\obj\hello_world.o</file>
-      <file>$PROJ_DIR$\debug\obj\startup.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.o</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\fsl_sim_hal.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cmInstr.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cm0plus.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\fsl_device_registers.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\startup.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\iar\startup_MKL03Z4.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cmFunc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_adc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\MKL03Z4\fsl_sim_hal_KL03Z4.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\fsl_bitaccess.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_fgpio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\assert.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_cmp.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_gpio.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_i2c.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lptmr.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcm.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lpuart.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_port.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_llwu.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcg.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mtb.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_nv.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_ftfa.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_osc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cmInstr.h</file>
+      <file>$PROJ_DIR$\debug\hello_world.out</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\fsl_sim_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.h</file>
+      <file>$PROJ_DIR$\debug\obj\startup.o</file>
+      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.o</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</file>
+      <file>$PROJ_DIR$\debug\obj\gpio_pins.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\board.h</file>
+      <file>$PROJ_DIR$\debug\obj\startup_MKL03Z4.o</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4.h</file>
+      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\core_cm0plus.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\fsl_device_registers.h</file>
+      <file>$PROJ_DIR$\debug\obj\hello_world.o</file>
+      <file>$PROJ_DIR$\debug\obj\pin_mux.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.h</file>
+      <file>$PROJ_DIR$\debug\obj\hardware_init.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_smc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rcm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_vref.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mtbdwt.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rfsys.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rcm.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\hal\lpuart\fsl_lpuart_hal.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_spi.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_smc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_tpm.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_vref.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_sim.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\MKL03Z4\fsl_clock_KL03Z4.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\osa\fsl_os_abstraction.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\osa\fsl_os_abstraction_bm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_sim.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lptmr.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\osa\fsl_os_abstraction.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rom.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rtc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_spi.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\MKL03Z4\fsl_clock_KL03Z4.h</file>
       <file>$TOOLKIT_DIR$\inc\c\yfuns.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\fsl_lpuart_driver.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\common\fsl_lpuart_common.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_pmc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_osc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\sim\MKL03Z4\fsl_sim_hal_KL03Z4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_lpuart.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_port.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_gpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_nv.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_fgpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mtb.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_ftfa.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\lpuart\fsl_lpuart_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_i2c.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\fsl_bitaccess.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_rtc.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\assert.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_llwu.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_cmp.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_mcg.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_tpm.h</file>
       <file>$PROJ_DIR$\..\..\..\..\platform\drivers\gpio\fsl_gpio_driver.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\hal\gpio\fsl_gpio_hal.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\hal\port\fsl_port_hal.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\gpio\common\fsl_gpio_common.h</file>
-      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-      <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\linker\iar\KL03Z4\KL03Z32xxx4_flash.icf</file>
-      <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
-      <file>$PROJ_DIR$\..\..\..\..\lib\ksdk_platform_lib\iar\KL03Z4\debug\ksdk_platform_lib.a</file>
-      <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
       <file>$PROJ_DIR$\debug\list\hello_world.map</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\fsl_clock_manager.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
       <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\gpio\fsl_gpio_hal.h</file>
+      <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
+      <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\system\clock\fsl_clock_manager.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+      <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\CMSIS\Include\device\MKL03Z4\MKL03Z4_pmc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\fsl_lpuart_driver.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\gpio\common\fsl_gpio_common.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\linker\iar\KL03Z4\KL03Z32xxx4_flash.icf</file>
+      <file>$PROJ_DIR$\..\..\..\..\lib\ksdk_platform_lib\iar\KL03Z4\debug\ksdk_platform_lib.a</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\hal\port\fsl_port_hal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\platform\drivers\lpuart\common\fsl_lpuart_common.h</file>
+      <file>$PROJ_DIR$\debug\obj\hello_world.pbd</file>
+      <file>$PROJ_DIR$\debug\obj\hello_world.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\pin_mux.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\system_MKL03Z4.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\fsl_debug_console.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\hardware_init.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\startup.pbi</file>
+      <file>$PROJ_DIR$\debug\obj\gpio_pins.pbi</file>
     </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 19 79</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\src\hello_world.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 34</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 101</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 3</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 97 86 80 87 81 96 92 36 45 26 38 33 29 44 32 18 43 39 16 41 17 70 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48 85 31 73 20 60 57 8 27 40 78 98 82 21</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70 44 74 29 57 46 86 87 45 59 43 8 96 65 71 50 78 31 33 92 81 17 63 61 49 62 72 77 41 73 21 38 85 27 80 26 36 75 67 69 53 76 66 64 90 47 55 52 56 48 32 16 82 97 18 39 20 60 40 98</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 30</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 103</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 1</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 44 86 80 87 81 96 92 36 33 29 32 18 43 39 16 41 17 70 38 45 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 86 29 16 70 49 96 63 72 43 17 61 62 77 41 92 80 81 65 74 71 59 50 46 44 33 87 36 75 67 69 53 76 66 64 90 47 55 52 56 48 32 18 39 38 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 22</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 106</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 33 29 44 86 80 87 81 96 92 36 32 18 43 39 16 41 17 70 38 45 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70 36 71 16 29 65 50 92 43 74 59 46 44 86 17 63 61 49 62 72 77 41 87 80 33 75 67 69 53 76 66 64 90 47 55 52 56 48 32 81 96 18 39 38 45 12</file>
+        </tool>
+      </inputs>
+    </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\platform\utilities\src\fsl_debug_console.c</name>
       <outputs>
@@ -106,95 +212,23 @@
           <name>ICCARM</name>
           <file> 23</file>
         </tool>
-      </outputs>
-      <inputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 89 88 91 90 87 85 84 22 21 25 30 1 36 86 27 41 24 31 26 29 28 33 32 34 35 37 39 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62 38 64 65 66 70 58 71 69</file>
+          <name>BICOMP</name>
+          <file> 104</file>
         </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\src\hello_world.c</name>
-      <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 19</file>
+          <name>__cstat</name>
+          <file> 4</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCARM</name>
-          <file> 89 88 91 90 87 85 84 22 21 25 30 31 26 36 29 28 33 32 34 35 37 39 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62 86 27 41 24 38 64 1 7 4 73 75 74 6</file>
+          <file> 97 86 80 87 81 96 92 36 45 26 38 8 44 85 31 73 20 33 29 32 18 43 39 16 41 17 70 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48 60 57 54 51 91 68 99 58</file>
         </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</name>
-      <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 13</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 36 88 91 90 87 85 84 22 30 21 4 73 27 75 41 31 26 29 28 33 32 34 35 37 39 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62 74</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 17</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 31 26 36 88 91 90 87 85 84 22 29 28 33 32 34 35 37 39 30 21 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62 75 41 27 74 76 6</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 18</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 31 26 36 88 91 90 87 85 84 22 29 28 33 32 34 35 37 39 30 21 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62 7 4 73 27 75 41 74 6 86 24 38 64 1</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 15 83</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\platform\startup\MKL03Z4\system_MKL03Z4.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 16</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 36 88 91 90 87 85 84 22 31 26 29 28 33 32 34 35 37 39 30 21 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62</file>
+          <name>BICOMP</name>
+          <file> 92 70 81 80 68 66 29 85 58 86 57 67 55 38 91 87 96 26 44 73 53 90 56 32 18 31 97 8 54 99 36 45 75 69 76 64 47 52 48 39 0 20 33 60 17 65 63 74 61 71 49 59 62 50 72 46 77 41 16 43 51</file>
         </tool>
       </inputs>
     </file>
@@ -203,22 +237,34 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 14</file>
+          <file> 28</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\platform\startup\startup.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\pin_mux.c</name>
       <outputs>
         <tool>
           <name>ICCARM</name>
-          <file> 20</file>
+          <file> 35</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 102</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 6</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCARM</name>
-          <file> 9 31 26 36 88 91 90 87 85 84 22 29 28 33 32 34 35 37 39 30 21 42 40 53 43 44 49 45 47 50 46 51 55 52 54 72 48 57 56 67 68 63 60 59 61 62</file>
+          <file> 33 29 44 86 80 87 81 96 92 36 32 18 43 39 16 41 17 70 38 45 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48 98 73 31 82 93 21</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 29 87 86 59 70 74 46 44 43 21 65 71 50 80 82 17 63 61 49 62 72 77 41 96 73 98 93 75 67 69 53 76 66 64 90 47 55 52 56 48 32 92 81 16 33 31 36 18 39 38 45</file>
         </tool>
       </inputs>
     </file>
@@ -227,13 +273,67 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 83</file>
+          <file> 79</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 79 23 13 18 19 17 20 14 16 81 77 78 80 82</file>
+          <file> 94 23 25 42 34 35 22 28 30 95 88 84 89 83</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\gpio_pins.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 25</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 107</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 5</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 44 86 80 87 81 96 92 36 38 45 40 78 31 98 73 33 29 32 18 43 39 16 41 17 70 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48 82</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 71 18 80 86 29 73 65 50 98 74 59 46 44 70 40 36 92 78 38 31 17 63 61 49 62 72 77 41 33 87 81 96 45 82 75 67 69 53 76 66 64 90 47 55 52 56 48 32 39 16 43</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\boards\mapskl03\hardware_init.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 42</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 105</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 2</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 33 29 44 86 80 87 81 96 92 36 32 18 43 39 16 41 17 70 38 45 75 65 67 63 69 74 53 61 76 71 66 49 64 59 90 62 47 50 55 72 52 46 56 77 48 27 40 78 31 98 73 82 21 85 20 60 57 8</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 50 86 70 65 29 71 43 31 20 74 59 46 44 38 57 85 17 63 61 49 62 72 77 41 96 78 73 27 8 21 75 67 69 53 76 66 64 90 47 55 52 56 48 32 92 81 16 45 98 33 80 36 18 39 40 82 60</file>
         </tool>
       </inputs>
     </file>

@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\29446\iar\common\bin\cspybat" -f "E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.general.xcl" --backend -f "E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.driver.xcl" 
+"D:\29446\iar\common\bin\cspybat" -f "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.general.xcl" --backend -f "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\29446\iar\common\bin\cspybat" -f "E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.general.xcl" "--debug_file=%~1" --backend -f "E:\ä¯ÀÀÆ÷\MAPS-KL03_SDK_1.0.0\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.driver.xcl" 
+"D:\29446\iar\common\bin\cspybat" -f "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.general.xcl" "--debug_file=%~1" --backend -f "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03-KSDK_1.0.0\lib\ksdk_platform_lib\iar\KL03Z4\settings\ksdk_platform_lib.Debug.driver.xcl" 
 
 @echo off 
 :end
