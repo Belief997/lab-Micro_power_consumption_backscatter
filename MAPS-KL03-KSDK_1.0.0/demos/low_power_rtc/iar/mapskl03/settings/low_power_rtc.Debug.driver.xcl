@@ -6,13 +6,13 @@
 
 "-p" 
 
-"D:\29446\iar\arm\CONFIG\debugger\NXP\MKL03Z16xxx4.ddf" 
+"D:\29446\iar\arm\CONFIG\debugger\NXP\MKL03Z32xxx4.ddf" 
 
 "--drv_verify_download" 
 
 "--semihosting" 
 
-"--device=MKL03Z16xxx4" 
+"--device=MKL03Z32xxx4" 
 
 "--drv_mtb_regbase=0xF0000000" 
 

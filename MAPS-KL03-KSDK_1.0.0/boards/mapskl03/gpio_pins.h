@@ -60,7 +60,8 @@ enum _gpio_pins
     kGpioSpiLcdCs    = GPIO_MAKE_PIN(HW_GPIOA, 12),
 	kGpioSpicLcdCs   = GPIO_MAKE_PIN(HW_GPIOB, 6),
 	kGpioSpiMemCs    = GPIO_MAKE_PIN(HW_GPIOA, 5),
-    kGpiollwuWakeup  = GPIO_MAKE_PIN(HW_GPIOA, 0)
+//    kGpiollwuWakeup  = GPIO_MAKE_PIN(HW_GPIOA, 0)
+    kGpiollwuWakeup  = GPIO_MAKE_PIN(HW_GPIOB, 0)
 };
     
 extern gpio_input_pin_user_config_t switchPins[];

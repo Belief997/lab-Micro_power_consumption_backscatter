@@ -57,16 +57,6 @@ sim_hal_status_t CLOCK_HAL_SetSource(uint32_t baseAddr,
 
     switch (clockSource)
     {
-
-
-
-
-
-
-
-
-
-
     case kClockTpmSrc:                   /* TPMSRC*/
         BW_SIM_SOPT2_TPMSRC(baseAddr, setting);
         break;

@@ -25,15 +25,29 @@ E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\MAPS-KL03
 Project File Date:  03/27/2015
 
 <h2>Output:</h2>
-Build target 'low_power_rtc Debug'
+Rebuild target 'low_power_rtc Debug'
+compiling fsl_misc_utilities.c...
+compiling fsl_debug_console.c...
+assembling startup_MKL03Z4.s...
+compiling system_MKL03Z4.c...
+compiling startup.c...
 compiling low_power_rtc.c...
-../../src/low_power_rtc.c(513): warning:  #177-D: function "port_config_lowpower" was declared but never referenced
+../../src/low_power_rtc.c(441): warning:  #177-D: function "port_config_lowpower" was declared but never referenced
   static void port_config_lowpower(void)
-../../src/low_power_rtc.c: 1 warning, 0 errors
+../../src/low_power_rtc.c(275): warning:  #177-D: function "enter_stop" was declared but never referenced
+  static void enter_stop(smc_pstop_option_t partialStopOpt)
+../../src/low_power_rtc.c(355): warning:  #177-D: function "enter_vlps" was declared but never referenced
+  static void enter_vlps(void)
+../../src/low_power_rtc.c(344): warning:  #177-D: function "enter_wait" was declared but never referenced
+  static void enter_wait(power_modes_t pMode)
+../../src/low_power_rtc.c: 4 warnings, 0 errors
+compiling gpio_pins.c...
+compiling pin_mux.c...
+compiling hardware_init.c...
 linking...
 debug\low_power_rtc.out: error: L6002U: Could not open file ../../../../lib/ksdk_platform_lib/uv4/KL03Z4/debug/ksdk_platform_lib.lib: No such file or directory
 Finished: 0 information, 0 warning, 0 error and 1 fatal error messages.
-"debug\low_power_rtc.out" - 1 Error(s), 1 Warning(s).
+"debug\low_power_rtc.out" - 1 Error(s), 4 Warning(s).
 Target not created.
 </pre>
 </body>

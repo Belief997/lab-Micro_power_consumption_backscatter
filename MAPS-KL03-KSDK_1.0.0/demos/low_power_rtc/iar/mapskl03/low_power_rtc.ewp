@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
+          <state>MKL03Z32xxx4	NXP MKL03Z32xxx4</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -149,7 +149,7 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>MKL03Z16xxx4	NXP MKL03Z16xxx4</state>
+          <state>MKL03Z32xxx4	NXP MKL03Z32xxx4</state>
         </option>
         <option>
           <name>FPU2</name>

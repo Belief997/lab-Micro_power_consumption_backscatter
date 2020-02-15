@@ -49,13 +49,13 @@ void configure_gpio_pins(uint32_t instance)
       /* PORTB_PCR5 */
       PORT_HAL_SetMuxMode(g_portBaseAddr[1],5u,kPortMuxAsGpio);
       /* PORTB_PCR7 */
-      PORT_HAL_SetMuxMode(g_portBaseAddr[1],7u,kPortMuxAsGpio);
+//      PORT_HAL_SetMuxMode(g_portBaseAddr[1],7u,kPortMuxAsGpio);
       /* PORTB_PCR10 */
-      PORT_HAL_SetMuxMode(g_portBaseAddr[1],10u,kPortMuxAsGpio);
+//      PORT_HAL_SetMuxMode(g_portBaseAddr[1],10u,kPortMuxAsGpio);
       /* PORTB_PCR11 */
-      PORT_HAL_SetMuxMode(g_portBaseAddr[1],11u,kPortMuxAsGpio);
+//      PORT_HAL_SetMuxMode(g_portBaseAddr[1],11u,kPortMuxAsGpio);
       /* PORTB_PCR13 */
-      PORT_HAL_SetMuxMode(g_portBaseAddr[1],13u,kPortMuxAsGpio);
+//      PORT_HAL_SetMuxMode(g_portBaseAddr[1],13u,kPortMuxAsGpio);
       break;
     default:
       break;

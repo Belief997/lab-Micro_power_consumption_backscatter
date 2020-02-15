@@ -636,7 +636,7 @@ ARM Macro Assembler    Page 10
               00000000 
 Command Line: --debug --cpreproc --diag_suppress=9931,1609,1581 --cpu=Cortex-M0
 + --apcs=interwork --depend=debug\startup_mkl03z4.d -odebug\startup_mkl03z4.o -
-ID:\29446\MDK514\ARM\RV31\INC -ID:\29446\MDK514\ARM\CMSIS\Include -IDevice\Incl
-ude --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 514" --
-predefine="DEBUG SETA 1" --list=.\output\startup_mkl03z4.lst ../../../../platfo
-rm/startup/MKL03Z4/arm/startup_MKL03Z4.s
+ID:\29446\MDK514\ARM\RV31\INC -ID:\29446\MDK514\ARM\CMSIS\Include -ID:\29446\MD
+K514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1 --predefine="__MICROLIB SETA 1" --predefin
+e="__UVISION_VERSION SETA 514" --predefine="DEBUG SETA 1" --list=.\output\start
+up_mkl03z4.lst ../../../../platform/startup/MKL03Z4/arm/startup_MKL03Z4.s

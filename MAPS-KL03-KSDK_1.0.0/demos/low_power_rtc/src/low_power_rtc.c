@@ -61,6 +61,7 @@
 ******************************************************************************/
 static rtc_datetime_t rtcDatetime_alarm;          /*!<Structure of simple "date" format.  */
 static uint8_t rtc_enable = 0;
+static uint8_t flag_sleep;
 
 /*******************************************************************************
 * Prototypes
@@ -85,57 +86,78 @@ static void enter_wait(power_modes_t pMode);                       /*!<Normal WA
 /*******************************************************************************
 * Code
 ******************************************************************************/
+//          RUN -> VLPR -> VLLS3
+//           |               |
+//           ------------- RESET               
 int main (void)
 {
-    uint8_t testVal = 0;
-    
+    // init gpio  B5
     hardware_init();
+    
+    // init lpuart
+    // ALT2: B1(TX) B2(RX)  9600
     dbg_uart_init();
 
     printf("\n\rLow power demo Start!\n\r");
 
+    // 判断复位原因
     print_reset_source();
     
     CLOCK_HAL_SetSource(SIM_BASE,kClockOsc32kSel,0x0);/*set system oscillator(OSC32KCLK) as RTC clock*/
     CLOCK_SYS_EnableRtcClock(0); 
     /* Configure the RTC date and time */
-    rtcDatetime_alarm.year = 2014;
-    rtcDatetime_alarm.month = 3;
-    rtcDatetime_alarm.day = 21;
-    rtcDatetime_alarm.hour = 5;
-    rtcDatetime_alarm.minute = 22;
-    rtcDatetime_alarm.second = 0;
-    /* Set the Date and Time */
-    RTC_DRV_SetDatetime(0,&rtcDatetime_alarm);
+//    rtcDatetime_alarm.year = 2014;
+//    rtcDatetime_alarm.month = 3;
+//    rtcDatetime_alarm.day = 21;
+//    rtcDatetime_alarm.hour = 5;
+//    rtcDatetime_alarm.minute = 22;
+//    rtcDatetime_alarm.second = 0;
+//    /* Set the Date and Time */
+//    RTC_DRV_SetDatetime(0,&rtcDatetime_alarm);
+//    
+//    /* Stop timer just in case */
+//    RTC_HAL_EnableCounter(RTC_BASE, false);
+//    
+//    /* Turn on the RTC Oscillator */
+//    RTC_HAL_SetOscillatorCmd(RTC_BASE, true);
+//    
+//    /* Install the ISR function for seconds */
+//    INT_SYS_InstallHandler(RTC_IRQn, &rtc_alarm_isr);
+//    INT_SYS_EnableIRQ(RTC_IRQn);
     
-    /* Stop timer just in case */
-    RTC_HAL_EnableCounter(RTC_BASE, false);
-    
-    /* Turn on the RTC Oscillator */
-    RTC_HAL_SetOscillatorCmd(RTC_BASE, true);
-    
-    /* Install the ISR function for seconds */
-    INT_SYS_InstallHandler(RTC_IRQn, &rtc_alarm_isr);
-    INT_SYS_EnableIRQ(RTC_IRQn);
-    
-    /* Set the Alarm Time */
-    rtcDatetime_alarm.second = 2;
-    RTC_DRV_SetAlarm(0, &rtcDatetime_alarm, true);
-    
-    /* Stop the timer */
-    RTC_HAL_EnableCounter(RTC_BASE, false);
+//    /* Set the Alarm Time */
+//    rtcDatetime_alarm.second = 2;
+//    RTC_DRV_SetAlarm(0, &rtcDatetime_alarm, true);
+//    
+//    /* Stop the timer */
+//    RTC_HAL_EnableCounter(RTC_BASE, false);
     
     /* Configure both pushbuttons for falling edge interrupts */
-    llwuWakeupPins[0].config.interrupt = kPortIntRisingEdge; /* K2 on Main */
-    llwuWakeupPins[1].config.interrupt = kPortIntFallingEdge; /* K1 on Dock*/
-    GPIO_DRV_Init(llwuWakeupPins, NULL);
-    
-    INT_SYS_InstallHandler(PORTB_IRQn, &portb_isr);
-    INT_SYS_EnableIRQ(PORTB_IRQn);
-    INT_SYS_InstallHandler(PORTA_IRQn, &porta_isr);
-    INT_SYS_EnableIRQ(PORTA_IRQn);
-    
-    PORT_HAL_SetMuxMode(PORTA_BASE, 0u, kPortMuxAsGpio);
+    // A0 B5
+//    llwuWakeupPins[0].config.interrupt = kPortIntRisingEdge; /* K2 on Main */
+//    llwuWakeupPins[1].config.interrupt = kPortIntFallingEdge; /* K1 on Dock*/
+
+    // B0 llwu
+    llwuWakeupPins[0].config.interrupt = kPortIntRisingEdge; 
+    GPIO_DRV_Init(llwuWakeupPins, NULL); // INPUT , OUTPUT
+
+//    // set pin irq, clear flag in isr
+//    INT_SYS_InstallHandler(PORTB_IRQn, &portb_isr);
+//    INT_SYS_EnableIRQ(PORTB_IRQn);
+//    INT_SYS_InstallHandler(PORTA_IRQn, &porta_isr);
+//    INT_SYS_EnableIRQ(PORTA_IRQn);
+
+
+
+    // LLWU PIN   A0/B0
+//    PORT_HAL_SetMuxMode(PORTA_BASE, 0u, kPortMuxAsGpio);
+//    LLWU_HAL_SetExternalInputPinMode(LLWU_BASE,kLlwuExternalPinRisingEdge,7u);
+//    LLWU_HAL_ClearExternalPinWakeupFlag(LLWU_BASE, 7u);
+//    INT_SYS_InstallHandler(LLWU_IRQn, &llwu_isr);
+//    INT_SYS_EnableIRQ(LLWU_IRQn);
+
+    // B0 llwu 上升沿唤醒
+    PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
     LLWU_HAL_SetExternalInputPinMode(LLWU_BASE,kLlwuExternalPinRisingEdge,7u);
     LLWU_HAL_ClearExternalPinWakeupFlag(LLWU_BASE, 7u);
     INT_SYS_InstallHandler(LLWU_IRQn, &llwu_isr);
@@ -165,150 +187,61 @@ int main (void)
         printf("\n\r ******************************************************** \n");
         printf("\n\r Enter one key number to choose low power mode: "); 
         
-        while (1) 
-        { 
-            testVal= getchar(); 
-            if ((0xff != testVal) && (0x0 != testVal)) 
-            { 
-                break; 
-            } 
-        }
+//        if(rtc_enable == 1)
+//        {
+//            RTC_HAL_EnableCounter(RTC_BASE, true);
+//        }
+//        else
+//        {
+//            RTC_HAL_EnableCounter(RTC_BASE, false);
+//        }
         
-        if((testVal>=0x30) && (testVal<=0x39))
+//        case 5:  
+//            printf("\n\rVLLS0 mode with POR disabled entered!\n\r");
+//            enter_vllsx(kSmcPorDisabled,kSmcStopSub0);
+//            break;
+//        case 6:  
+//            printf("\n\rVLLS1 mode entered!\n\r");
+//            enter_vllsx((smc_por_option_t)NULL,kSmcStopSub1);
+//            break;
+
+
+        // VLPR
+        /*if in LIRC8Mhz */
+//            CLOCK_HAL_SetOutDividers(SIM_BASE,1,0,0,3);//Busclk = 8Mhz/2 /2 /4= 500K
+        CLOCK_HAL_SetOutDividers(SIM_BASE,1,0,0,3);//Busclk = 8Mhz/2 /2 /4= 500K
+        if ((enter_vlpr())== kStatVlpr)
         {
-            testVal = testVal - 0x30;
+            printf("\n\rVLPR mode entered!\n ");
+        } 
+        else 
+        {
+            printf("\n\rFAIL!VLPR mode didn't enter successfully!\n\r");
         }
-        if((testVal>=0x41) && (testVal<=0x4C))
+
+
+        //  sleep in VLLS3
+        if(flag_sleep)
         {
-            testVal = testVal - 0x37;
-        }
-        if((testVal>=0x61) && (testVal<=0x6C))
-        {
-            testVal = testVal - 0x57;
-        }
-        
-        if(rtc_enable == 1)
-        {
-            RTC_HAL_EnableCounter(RTC_BASE, true);
-        }
-        else
-        {
-            RTC_HAL_EnableCounter(RTC_BASE, false);
-        }
-        
-        switch(testVal)
-        {
-        case 1:
-            if (SMC_HAL_GetStat(SMC_BASE) == kStatVlpr)
-            {
-                printf("\n\rNormal Stop mode can not be entered from VLPR mode!\n\r");
-            }
-            else
-            {
-                printf("\n\rNormal Stop mode entered!\n\r");
-                enter_stop(kSmcPstopStop);
-            }
-            
-            break;
-        case 2:  
-            printf("\n\rPSTOP1 mode entered!\n\r");
-            enter_stop(kSmcPstopStop1);
-            break;			
-        case 3:  
-            printf("\n\rPSTOP2 mode entered!\n\r");
-            enter_stop(kSmcPstopStop2);
-            break;
-        case 4:  
-            printf("\n\rVLLS0 mode with POR enabled entered!\n\r");
-            enter_vllsx(kSmcPorEnabled,kSmcStopSub0);
-            break;
-        case 5:  
-            printf("\n\rVLLS0 mode with POR disabled entered!\n\r");
-            enter_vllsx(kSmcPorDisabled,kSmcStopSub0);
-            break;
-        case 6:  
-            printf("\n\rVLLS1 mode entered!\n\r");
-            enter_vllsx((smc_por_option_t)NULL,kSmcStopSub1);
-            break;
-        case 7:  
             printf("\n\rVLLS3 mode entered!\n\r");
             enter_vllsx((smc_por_option_t)NULL,kSmcStopSub3);
-            break;
-        case 8:  
-            /*if in LIRC8Mhz */
-            CLOCK_HAL_SetOutDividers(SIM_BASE,1,0,0,3);//Busclk = 8Mhz/2 /2 /4= 500K
-            if ((enter_vlpr())== kStatVlpr)
-            {
-                printf("\n\rVLPR mode entered!\n ");
-            } 
-            else 
-            {
-                printf("\n\rFAIL!VLPR mode didn't enter successfully!\n\r");
-            }
-            break;
-        case 9:
-            if (SMC_HAL_GetStat(SMC_BASE) == kStatVlpr)
-            {
-                printf("\n\rWAIT mode can not be entered from VLPR mode!\n\r");
-            }
-            else
-            {
-                printf("\n\rWAIT mode entered!\n\r");
-                enter_wait(kPowerModeWait);
-            }
-            break;
-        case 0xa:
-            /*if in LIRC8Mhz */
-            CLOCK_HAL_SetOutDividers(SIM_BASE,1,0,0,3);//Busclk = 8Mhz/2 /2 /4= 500K
-            if ((enter_vlpr())== kStatVlpr)
-            {
-                printf("\n\rVLPR mode entered first!\n ");
-            } 
-            else 
-            {
-                printf("\n\rFAIL!VLPR mode didn't enter successfully!\n\r");
-                break;
-            }
-            printf("\n\rVLPW mode entered!\n\r");
-            enter_wait(kPowerModeVlpw);
-            break;
-        case 0xb:
-            printf("\n\rVLPS mode entered!\n\r");
-            enter_vlps();
-            break;
-        case 0xc:
-            printf("\n\rRTC enabled!\n\r");
-            //RTC_HAL_EnableCounter(RTC_BASE, true);
-            rtc_enable = 1;
-            break;
-        case 0xd:
-            printf("\n\rRTC disabled!\n\r");
-            //RTC_HAL_EnableCounter(RTC_BASE, false);
-            rtc_enable = 0;
-            break;
+        }
             
-        default:
-            printf("\n\rWrong number input!\n\r");
-            break;
-        }	
+//        RTC_HAL_EnableCounter(RTC_BASE, false);
+//        // stop uart
+//        PORT_HAL_SetMuxMode(PORTB_BASE,1u,kPortPinDisabled);
+//        PORT_HAL_SetMuxMode(PORTB_BASE,2u,kPortPinDisabled);
+//        DbgConsole_DeInit();
+//        dbg_uart_init();
         
-        RTC_HAL_EnableCounter(RTC_BASE, false);
-        PORT_HAL_SetMuxMode(PORTB_BASE,1u,kPortPinDisabled);
-        PORT_HAL_SetMuxMode(PORTB_BASE,2u,kPortPinDisabled);
-        DbgConsole_DeInit();
-        dbg_uart_init();
-        
-        if((testVal==0x1)||(testVal==0x2)||(testVal==0x3)||(testVal==0x9)||(testVal==0xa)||(testVal==0xb))
-        {
-            if (SMC_HAL_GetStat(SMC_BASE) == kStatVlpr)
-            {   
-                printf("\n\rIn VLPR Mode Now\n"); 
-            }  
-            else 
-            {   
-                printf("\n\rIn RUN Mode Now\n");
-            }  
-        } 
+        if (SMC_HAL_GetStat(SMC_BASE) == kStatVlpr)
+        {   
+            printf("\n\rIn VLPR Mode Now\n"); 
+        }  
+        else 
+        {   
+            printf("\n\rIn RUN Mode Now\n");
+        }  
         
     }
     
