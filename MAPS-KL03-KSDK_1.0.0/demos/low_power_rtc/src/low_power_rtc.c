@@ -54,6 +54,16 @@
 /*******************************************************************************
 * Definitions
 ******************************************************************************/
+#ifndef FALSE
+#define FALSE 0
+#endif
+    
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#define DEBUG 0
+
 
 
 /*******************************************************************************
@@ -82,6 +92,19 @@ static void enter_vllsx(smc_por_option_t PORPOValue,smc_stop_submode_t VLLSValue
 static uint32_t enter_vlpr(void);								   /*!<VLPR mode entry routinue */
 static void enter_vlps(void);									   /*!<VLPS mode entry routinue */
 static void enter_wait(power_modes_t pMode);                       /*!<Normal WAIT and VLPW mode entry routinue */
+
+
+
+
+
+
+/*** user func declear ***/
+void sleep_setSW(uint8_t enSlp);
+
+
+
+
+
 
 /*******************************************************************************
 * Code
@@ -165,6 +188,8 @@ int main (void)
     
     while(1) 
     {
+#if DEBUG
+        
         //port_config_lowpower();
         printf("\n\r ********************************************************* \n");
         printf("\n\r KL03 Power Managerment Test.");
@@ -186,7 +211,8 @@ int main (void)
         printf("\n\r Notes3:RTC can be used as STOP/WAIT/VLPS/VLLSx Wakeup source,except VLLS0!");
         printf("\n\r ******************************************************** \n");
         printf("\n\r Enter one key number to choose low power mode: "); 
-        
+#endif
+
 //        if(rtc_enable == 1)
 //        {
 //            RTC_HAL_EnableCounter(RTC_BASE, true);
@@ -213,6 +239,8 @@ int main (void)
         if ((enter_vlpr())== kStatVlpr)
         {
             printf("\n\rVLPR mode entered!\n ");
+
+            flag_sleep = TRUE;
         } 
         else 
         {
@@ -246,6 +274,15 @@ int main (void)
     }
     
 }
+
+
+void sleep_setSW(uint8_t enSlp)
+{
+    // 配置唤醒 pin 使能
+
+}
+
+
 
 
 /*!
