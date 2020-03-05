@@ -1,0 +1,12 @@
+KinetisSDK/doc/*
+KinetisSDK/lib/*
+KinetisSDK/middleware/*
+KinetisSDK/platform/*
+KinetisSDK/rtos/*
+KinetisSDK/tools/*
+KinetisSDK/usb/*
+KinetisSDK/utilities/*
+KinetisSDK/*.xml
+KinetisSDK/*.htm
+KinetisSDK/*.txt
+
