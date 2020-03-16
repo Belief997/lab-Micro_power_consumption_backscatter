@@ -438,7 +438,22 @@ void dbg_uart_reinit()
 #define LOG_DEBUG(fmt, ...) PRINTF("[D][%s:%d %s]"fmt"\r\n", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__);
 
 
-
+void user_PrintMenu(void)
+{
+    PRINTF("\r\nSelect the desired operation \r\n\r\n");
+    PRINTF("Press  %c for enter: RUN   - Normal RUN mode\r\n",kDemoRun);
+    PRINTF("Press  %c for enter: Wait  - Wait mode\r\n",kDemoWait);
+    PRINTF("Press  %c for enter: Stop  - Stop mode\r\n",kDemoStop);
+    PRINTF("Press  %c for enter: VLPR  - Very Low Power Run mode\r\n",kDemoVlpr);
+    PRINTF("Press  %c for enter: VLPW  - Very Low Power Wait mode\r\n",kDemoVlpw);
+    PRINTF("Press  %c for enter: VLPS  - Very Low Power Stop mode\r\n",kDemoVlps);
+    PRINTF("Press  %c for enter: VLLS0 - Very Low Leakage Stop 0 mode\r\n",kDemoVlls0);
+    
+    PRINTF("Press  %c for enter: VLLS1 - Very Low Leakage Stop 1 mode\r\n",kDemoVlls1);
+    PRINTF("Press  %c for enter: VLLS3 - Very Low Leakage Stop 3 mode\r\n",kDemoVlls3);
+    
+    PRINTF("\r\nWaiting for key press..\r\n\r\n");
+}
 
 
 
@@ -614,51 +629,43 @@ int main(void) {
         mode = 0;
 
         CLOCK_SYS_GetFreq(kCoreClock, &freq);
-        PRINTF("\r\n####################  Power Manager Demo ####################\r\n\r\n");
         PRINTF("    Core Clock = %dHz \r\n", freq);
         displayPowerMode();
+//        user_PrintMenu();
 
-        PRINTF("\r\nSelect the desired operation \r\n\r\n");
-        PRINTF("Press  %c for enter: RUN   - Normal RUN mode\r\n",kDemoRun);
-        PRINTF("Press  %c for enter: Wait  - Wait mode\r\n",kDemoWait);
-        PRINTF("Press  %c for enter: Stop  - Stop mode\r\n",kDemoStop);
-        PRINTF("Press  %c for enter: VLPR  - Very Low Power Run mode\r\n",kDemoVlpr);
-        PRINTF("Press  %c for enter: VLPW  - Very Low Power Wait mode\r\n",kDemoVlpw);
-        PRINTF("Press  %c for enter: VLPS  - Very Low Power Stop mode\r\n",kDemoVlps);
-        PRINTF("Press  %c for enter: VLLS0 - Very Low Leakage Stop 0 mode\r\n",kDemoVlls0);
 
-        PRINTF("Press  %c for enter: VLLS1 - Very Low Leakage Stop 1 mode\r\n",kDemoVlls1);
-        PRINTF("Press  %c for enter: VLLS3 - Very Low Leakage Stop 3 mode\r\n",kDemoVlls3);
+        LOG_DEBUG("State change: VLPR -> VLLS3");
 
-        PRINTF("\r\nWaiting for key press..\r\n\r\n");
-
-        LOG_DEBUG("TO test is ok?");
-
+        // a little delay
         {
             LOG_DEBUG("delay...");
             uint32_t cnt = 0;
-//            while(++cnt < 9999999);
+            while(++cnt < 99999);
+            LOG_DEBUG("CNT %d", cnt);
             cnt = 0;
         }
 
 
+        // Into VLLS3 deep sleep
         {
             LOG_DEBUG("ENTER VLLS3!");
             mode = kDemoVlls3 - kDemoMin - 1;
             // 0:rtc, 1:btn
 //            setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
+            // set btn(sw2) gpio int as wake source
             setWakeUpSource(1,"Very Low Leakage Stop 3 mode");
             PRINTF("Wake up goes through Reset sequence.\r\n");
             ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
             CHECK_RET_VAL(ret, mode);
-            LOG_DEBUG("DONE!!");
+            
+            LOG_DEBUG("Sleep Fail!!");
         }
 
 
 
-
-
-        // Wait for user response
+        // demo logic for reference
+//        {
+//        // Wait for user response
 //        testVal = (demo_power_modes_t)GETCHAR();
 
 //        if ((testVal >= 'a') && (testVal <= 'z'))
@@ -779,7 +786,7 @@ int main(void) {
 //            }
 //            PRINTF("\r\nNext loop\r\n");
 //        }
-
+//        }
 
     }
 }
