@@ -431,6 +431,39 @@ void dbg_uart_reinit()
     DbgConsole_Init(BOARD_DEBUG_UART_INSTANCE, BOARD_LOW_POWER_UART_BAUD, kDebugConsoleLPUART);
 }
 
+/*******************************  user func begin *********************************************/
+
+#define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1):__FILE__)
+
+#define LOG_DEBUG(fmt, ...) PRINTF("[D][%s:%d %s]"fmt"\r\n", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*******************************  user func end *********************************************/
+
+
 /*!
  * @brief main demo function.
  */
@@ -551,6 +584,31 @@ int main(void) {
     // Enables LLWU interrupt
     INT_SYS_EnableIRQ(LLWU_IRQn);
 
+
+
+// enter VLPR default
+//    LOG_DEBUG("enter VLPR");
+    CLOCK_SYS_GetFreq(kCoreClock, &freq);
+    PRINTF("\r\n####################  Power Manager Demo ####################\r\n\r\n");
+    PRINTF("    Core Clock = %dHz \r\n", freq);
+    displayPowerMode();
+    if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
+    {
+        mode = kDemoVlpr - kDemoMin - 1;
+        update_clock_mode(CLOCK_VLPR);
+        PRINTF("Entering Very Low Power Run mode\r\n");
+        ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+        CHECK_RET_VAL(ret, mode);
+    }
+    else
+    {
+        PRINTF("Very Low Power Run mode already active\r\n");
+    }
+
+
+
+
+
     while (1)
     {
         mode = 0;
@@ -574,127 +632,155 @@ int main(void) {
 
         PRINTF("\r\nWaiting for key press..\r\n\r\n");
 
+        LOG_DEBUG("TO test is ok?");
+
+        {
+            LOG_DEBUG("delay...");
+            uint32_t cnt = 0;
+//            while(++cnt < 9999999);
+            cnt = 0;
+        }
+
+
+        {
+            LOG_DEBUG("ENTER VLLS3!");
+            mode = kDemoVlls3 - kDemoMin - 1;
+            // 0:rtc, 1:btn
+//            setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
+            setWakeUpSource(1,"Very Low Leakage Stop 3 mode");
+            PRINTF("Wake up goes through Reset sequence.\r\n");
+            ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+            CHECK_RET_VAL(ret, mode);
+            LOG_DEBUG("DONE!!");
+        }
+
+
+
+
+
         // Wait for user response
-        testVal = (demo_power_modes_t)GETCHAR();
+//        testVal = (demo_power_modes_t)GETCHAR();
 
-        if ((testVal >= 'a') && (testVal <= 'z'))
-        {
-            testVal -= 'a' - 'A';
-        }
+//        if ((testVal >= 'a') && (testVal <= 'z'))
+//        {
+//            testVal -= 'a' - 'A';
+//        }
 
-        if (testVal > kDemoMin && testVal < kDemoMax)
-        {
+//        if (testVal > kDemoMin && testVal < kDemoMax)
+//        {
 
-            mode = testVal - kDemoMin - 1;
+//            mode = testVal - kDemoMin - 1;
 
-            switch (testVal)
-            {
-                case kDemoWait:
-                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
-                    {
-                        PRINTF("Can not go from VLPR to WAIT directly\r\n");
-                        break;
-                    }
-                    setWakeUpSource(selectWakeUpSource(testVal),"Wait mode");
+//            switch (testVal)
+//            {
+//                case kDemoWait:
+//                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
+//                    {
+//                        PRINTF("Can not go from VLPR to WAIT directly\r\n");
+//                        break;
+//                    }
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Wait mode");
 
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                    CHECK_RET_VAL(ret, mode);
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    CHECK_RET_VAL(ret, mode);
 
-                    break;
+//                    break;
 
-                case kDemoStop:
-                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
-                    {
-                        PRINTF("Can not go from VLPR to STOP directly\r\n");
-                        break;
-                    }
-                    setWakeUpSource(selectWakeUpSource(testVal),"Stop mode");
+//                case kDemoStop:
+//                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
+//                    {
+//                        PRINTF("Can not go from VLPR to STOP directly\r\n");
+//                        break;
+//                    }
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Stop mode");
 
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 
-                    CHECK_RET_VAL(ret, mode);
+//                    CHECK_RET_VAL(ret, mode);
 
-                    // update Clock Mode
-                    update_clock_mode(CLOCK_RUN);
-                    break;
+//                    // update Clock Mode
+//                    update_clock_mode(CLOCK_RUN);
+//                    break; 
 
-                case kDemoVlpr:
-                    if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
-                    {
-                        update_clock_mode(CLOCK_VLPR);
-                        PRINTF("Entering Very Low Power Run mode\r\n");
-                        ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                        CHECK_RET_VAL(ret, mode);
-                    }
-                    else
-                    {
-                        PRINTF("Very Low Power Run mode already active\r\n");
-                    }
-                    break;
+//                case kDemoVlpr:
+//                    if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
+//                    {
+//                        update_clock_mode(CLOCK_VLPR);
+//                        PRINTF("Entering Very Low Power Run mode\r\n");
+//                        ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                        CHECK_RET_VAL(ret, mode);
+//                    }
+//                    else
+//                    {
+//                        PRINTF("Very Low Power Run mode already active\r\n");
+//                    }
+//                    break;
 
-                case kDemoVlpw:
-                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
-                    {
-                        PRINTF("Can not go from RUN to VLPW directly\r\n");
-                        break;
-                    }
-                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Wait mode");
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                    CHECK_RET_VAL(ret, mode);
-                    break;
+//                case kDemoVlpw:
+//                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
+//                    {
+//                        PRINTF("Can not go from RUN to VLPW directly\r\n");
+//                        break;
+//                    }
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Wait mode");
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    CHECK_RET_VAL(ret, mode);
+//                    break;
 
-                case kDemoVlps:
-                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Power Stop mode");
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                case kDemoVlps:
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Power Stop mode");
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 
-                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
-                    {
-                        // update Clock Mode to Run
-                        update_clock_mode(CLOCK_RUN);
-                    }
+//                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
+//                    {
+//                        // update Clock Mode to Run
+//                        update_clock_mode(CLOCK_RUN);
+//                    }
 
-                    CHECK_RET_VAL(ret, mode);
-                    break;
-                case kDemoVlls0:
-                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 0 mode");
-                    PRINTF("Wake up goes through Reset sequence.\r\n");
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                    CHECK_RET_VAL(ret, mode);
+//                    CHECK_RET_VAL(ret, mode);
+//                    break;
+//                case kDemoVlls0:
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 0 mode");
+//                    PRINTF("Wake up goes through Reset sequence.\r\n");
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    CHECK_RET_VAL(ret, mode);
 
-                    break;
-                case kDemoVlls1:
-                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 1 mode");
-                    PRINTF("Wake up goes through Reset sequence.\r\n");
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                    CHECK_RET_VAL(ret, mode);
-                    break;
+//                    break;
+//                case kDemoVlls1:
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 1 mode");
+//                    PRINTF("Wake up goes through Reset sequence.\r\n");
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    CHECK_RET_VAL(ret, mode);
+//                    break;
 
-                case kDemoVlls3:
-                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
-                    PRINTF("Wake up goes through Reset sequence.\r\n");
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-                    CHECK_RET_VAL(ret, mode);
+//                case kDemoVlls3:
+//                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
+//                    PRINTF("Wake up goes through Reset sequence.\r\n");
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                    CHECK_RET_VAL(ret, mode);
 
-                    break;
+//                    break;
 
-                case kDemoRun:
-                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+//                case kDemoRun:
+//                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 
-                    if (ret != kPowerManagerSuccess)
-                    {
-                        PRINTF("POWER_SYS_SetMode(%u) returned unexpected status : %u\r\n",mode,ret);
-                    }
-                    else
-                    {
-                        update_clock_mode(CLOCK_RUN);
-                    }
-                    break;
-                default:
-                    PRINTF("Wrong value");
-                    break;
-            }
-            PRINTF("\r\nNext loop\r\n");
-        }
+//                    if (ret != kPowerManagerSuccess)
+//                    {
+//                        PRINTF("POWER_SYS_SetMode(%u) returned unexpected status : %u\r\n",mode,ret);
+//                    }
+//                    else
+//                    {
+//                        update_clock_mode(CLOCK_RUN);
+//                    }
+//                    break;
+//                default:
+//                    PRINTF("Wrong value");
+//                    break;
+//            }
+//            PRINTF("\r\nNext loop\r\n");
+//        }
+
+
     }
 }
 
