@@ -439,6 +439,9 @@ void dbg_uart_reinit()
 
 #define GET_MODE_INDEX(mode) ((mode) - kDemoMin - 1)
 
+// initializes configuration structures
+#define INIT_MODE_CONFIG(SetMode) {.mode = SetMode, .sleepOnExitValue = false,}
+
 enum
 {
     WakeUp_rtc = 0,
@@ -465,6 +468,32 @@ void user_PrintMenu(void)
     PRINTF("\r\nWaiting for key press..\r\n\r\n");
 }
 
+void user_initRTC(void)
+{
+    rtc_datetime_t date =
+    {
+        .year = 2014U, .month = 4U, .day = 30U,
+        .hour = 14U, .minute = 0U, .second = 0U,
+    };
+
+    // select the 1Hz for RTC_CLKOUT
+    CLOCK_SYS_SetRtcOutSrc(kClockRtcoutSrc1Hz);
+    /* Enable clock gate to RTC module */
+    CLOCK_SYS_EnableRtcClock( 0U);
+    /* Initialize the general configuration for RTC module.*/
+    // clear all interrupts and resets the RTC
+    RTC_HAL_Init(RTC_BASE_PTR);
+    BOARD_InitRtcOsc();
+
+    /* Enable the RTC Clock output */
+    RTC_HAL_SetClockOutCmd(RTC_BASE_PTR, true);
+
+    NVIC_ClearPendingIRQ(RTC_IRQn);
+
+    INT_SYS_EnableIRQ(RTC_IRQn);
+
+    RTC_HAL_SetDatetime(RTC_BASE_PTR, &date);
+}
 
 void user_delayTemp(void)
 {
@@ -524,27 +553,20 @@ int user_test(void)
  */
 int main(void) {
     power_manager_error_code_t ret = kPowerManagerSuccess;
-    rtc_datetime_t date =
-    {
-        .year = 2014U, .month = 4U, .day = 30U,
-        .hour = 14U, .minute = 0U, .second = 0U,
-    };
 
+    // 各个低功耗模式配置
     // Example of constant configuration
     // It may save the space in RAM
-    const power_manager_user_config_t vlprConfig = {
-        .mode = kPowerManagerVlpr,
-        .sleepOnExitValue = false,
-    };
-    power_manager_user_config_t vlpwConfig     =    vlprConfig;
-    power_manager_user_config_t vlls0Config    =    vlprConfig;
-    power_manager_user_config_t vlls1Config    =    vlprConfig;
-    power_manager_user_config_t vlls3Config    =    vlprConfig;
-    power_manager_user_config_t vlpsConfig     =    vlprConfig;
-    power_manager_user_config_t waitConfig     =    vlprConfig;
-    power_manager_user_config_t stopConfig     =    vlprConfig;
-    power_manager_user_config_t runConfig      =    vlprConfig;
-
+    const power_manager_user_config_t vlprConfig = INIT_MODE_CONFIG(kPowerManagerVlpr);
+    power_manager_user_config_t vlpwConfig     = INIT_MODE_CONFIG(kPowerManagerVlpw);
+    // VLLS0 mode is supported only by some SOCs.
+    power_manager_user_config_t vlls0Config    = INIT_MODE_CONFIG(kPowerManagerVlls0);   
+    power_manager_user_config_t vlls1Config    = INIT_MODE_CONFIG(kPowerManagerVlls1);   
+    power_manager_user_config_t vlls3Config    = INIT_MODE_CONFIG(kPowerManagerVlls3);   
+    power_manager_user_config_t vlpsConfig     = INIT_MODE_CONFIG(kPowerManagerVlps);   
+    power_manager_user_config_t waitConfig     = INIT_MODE_CONFIG(kPowerManagerWait);   
+    power_manager_user_config_t stopConfig     = INIT_MODE_CONFIG(kPowerManagerStop);   
+    power_manager_user_config_t runConfig      = INIT_MODE_CONFIG(kPowerManagerRun);   
     // Initializes array of pointers to power manager configurations
     power_manager_user_config_t const *powerConfigs[] =
     {
@@ -558,7 +580,7 @@ int main(void) {
       &vlls1Config,
       &vlls3Config,
     };
-
+    
     // User callback data
     user_callback_data_t callbackData0 = {0};
 
@@ -584,47 +606,14 @@ int main(void) {
 
     // Action: set clock 
     CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
-    
-    // select the 1Hz for RTC_CLKOUT
-    CLOCK_SYS_SetRtcOutSrc(kClockRtcoutSrc1Hz);
-    /* Enable clock gate to RTC module */
-    CLOCK_SYS_EnableRtcClock( 0U);
-    /* Initialize the general configuration for RTC module.*/
-    // clear all interrupts and resets the RTC
-    RTC_HAL_Init(RTC_BASE_PTR);
-    BOARD_InitRtcOsc();
 
-    /* Enable the RTC Clock output */
-    RTC_HAL_SetClockOutCmd(RTC_BASE_PTR, true);
+//    user_initRTC();
 
-    NVIC_ClearPendingIRQ(RTC_IRQn);
-
-    INT_SYS_EnableIRQ(RTC_IRQn);
-
-    //RTC_DRV_SetDatetime(0, &date);
-    RTC_HAL_SetDatetime(RTC_BASE_PTR, &date);
-    
    // Initializes GPIO driver for LEDs and buttons
     GPIO_DRV_Init(switchPins, ledPins);
 
-//    memset(&callbackData0, 0, sizeof(user_callback_data_t));
-
-    // initializes configuration structures
-    vlpwConfig.mode = kPowerManagerVlpw;
-    // VLLS0 mode is supported only by some SOCs.
-    vlls0Config.mode = kPowerManagerVlls0;
-    vlls1Config.mode = kPowerManagerVlls1;
-    vlls3Config.mode = kPowerManagerVlls3;
-    vlpsConfig.mode = kPowerManagerVlps;
-    waitConfig.mode = kPowerManagerWait;
-    stopConfig.mode = kPowerManagerStop;
-    runConfig.mode  = kPowerManagerRun;
-
     // initialize power manager driver
-//    POWER_SYS_Init(powerConfigs, sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
-//    callbacks, sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
     POWER_SYS_Init(powerConfigs, ARRAY_SIZE(powerConfigs), callbacks, ARRAY_SIZE(callbacks));
-
 
     // Enables LLWU interrupt
     INT_SYS_EnableIRQ(LLWU_IRQn);
@@ -633,8 +622,7 @@ int main(void) {
 
 
 
-    PRINTF("\r\n###########  Power Manager Demo @ %s %s ###########\r\n\r\n",
-            __DATE__, __TIME__);
+    PRINTF("\r\n###########  Power Manager Demo @ %s %s ###########\r\n\r\n", __DATE__, __TIME__);
     user_showState();
 
     // enter VLPR default
