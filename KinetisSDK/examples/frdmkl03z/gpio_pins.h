@@ -73,6 +73,10 @@ enum _gpio_pins
     kGpioLED3        = GPIO_MAKE_PIN(GPIOB_IDX, 13),  /* FRDM-KL03Z RGB LED Blue LED */
     kGpioSW2         = GPIO_MAKE_PIN(GPIOB_IDX, 0),   /* FRDM-KL03Z SW2 */
     kGpioSW3         = GPIO_MAKE_PIN(GPIOB_IDX, 5),   /* FRDM-KL03Z SW3 */
+
+
+
+    
 };
 
 extern gpio_input_pin_user_config_t switchPins[];

@@ -465,12 +465,6 @@ void user_PrintMenu(void)
     PRINTF("\r\nWaiting for key press..\r\n\r\n");
 }
 
-int user_test(void)
-{
-
-
-    return 0;
-}
 
 void user_delayTemp(void)
 {
@@ -492,6 +486,17 @@ void user_showState(void)
 
 
 
+int user_SetGpio(uint32_t pinName, uint32_t value)
+{
+    /* Get actual port and pin number.*/
+    uint32_t port = GPIO_EXTRACT_PORT(pinName);
+    uint32_t pin = GPIO_EXTRACT_PIN(pinName);
+    GPIO_Type * gpioBase = g_gpioBase[port];
+    PORT_Type * portBase = g_portBase[port];
+
+    GPIO_HAL_WritePinOutput(gpioBase, pin, value);
+    return 0;
+}
 
 
 
@@ -502,7 +507,13 @@ void user_showState(void)
 
 
 
+int user_test(void)
+{
+    user_SetGpio(kGpioLED1, 0);
 
+
+    return 0;
+}
 
 
 /*******************************  user func end *********************************************/
@@ -571,16 +582,16 @@ int main(void) {
     CLOCK_SYS_Init(g_defaultClockConfigurations, CLOCK_NUMBER_OF_CONFIGURATIONS,
                    clockCallbackTable, ARRAY_SIZE(clockCallbackTable));
 
+    // Action: set clock 
     CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
+    
     // select the 1Hz for RTC_CLKOUT
     CLOCK_SYS_SetRtcOutSrc(kClockRtcoutSrc1Hz);
-
     /* Enable clock gate to RTC module */
     CLOCK_SYS_EnableRtcClock( 0U);
-
     /* Initialize the general configuration for RTC module.*/
+    // clear all interrupts and resets the RTC
     RTC_HAL_Init(RTC_BASE_PTR);
-
     BOARD_InitRtcOsc();
 
     /* Enable the RTC Clock output */
@@ -592,6 +603,7 @@ int main(void) {
 
     //RTC_DRV_SetDatetime(0, &date);
     RTC_HAL_SetDatetime(RTC_BASE_PTR, &date);
+    
    // Initializes GPIO driver for LEDs and buttons
     GPIO_DRV_Init(switchPins, ledPins);
 
@@ -609,8 +621,10 @@ int main(void) {
     runConfig.mode  = kPowerManagerRun;
 
     // initialize power manager driver
-    POWER_SYS_Init(powerConfigs, sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
-    callbacks, sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
+//    POWER_SYS_Init(powerConfigs, sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
+//    callbacks, sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
+    POWER_SYS_Init(powerConfigs, ARRAY_SIZE(powerConfigs), callbacks, ARRAY_SIZE(callbacks));
+
 
     // Enables LLWU interrupt
     INT_SYS_EnableIRQ(LLWU_IRQn);
@@ -619,7 +633,8 @@ int main(void) {
 
 
 
-    PRINTF("\r\n####################  Power Manager Demo ####################\r\n\r\n");
+    PRINTF("\r\n###########  Power Manager Demo @ %s %s ###########\r\n\r\n",
+            __DATE__, __TIME__);
     user_showState();
 
     // enter VLPR default
@@ -635,8 +650,6 @@ int main(void) {
     {
         PRINTF("Very Low Power Run mode already active\r\n");
     }
-
-
 
     user_test();
     
