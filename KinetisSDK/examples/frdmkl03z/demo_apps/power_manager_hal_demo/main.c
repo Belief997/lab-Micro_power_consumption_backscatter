@@ -605,8 +605,9 @@ int main(void) {
                    clockCallbackTable, ARRAY_SIZE(clockCallbackTable));
 
     // Action: set clock 
-    CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
-
+//    CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
+    CLOCK_SYS_UpdateConfiguration(CLOCK_VLPR, kClockManagerPolicyForcible);
+    
 //    user_initRTC();
 
    // Initializes GPIO driver for LEDs and buttons
