@@ -437,6 +437,16 @@ void dbg_uart_reinit()
 
 #define LOG_DEBUG(fmt, ...) PRINTF("[D][%s:%d %s]"fmt"\r\n", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__);
 
+#define GET_MODE_INDEX(mode) ((mode) - kDemoMin - 1)
+
+enum
+{
+    WakeUp_rtc = 0,
+    WakeUp_btn = 1,
+
+};
+
+
 
 void user_PrintMenu(void)
 {
@@ -455,10 +465,29 @@ void user_PrintMenu(void)
     PRINTF("\r\nWaiting for key press..\r\n\r\n");
 }
 
+int user_test(void)
+{
 
 
+    return 0;
+}
 
+void user_delayTemp(void)
+{
+    LOG_DEBUG("delay...");
+    uint32_t cnt = 0;
+    while(++cnt < 99999);
+    LOG_DEBUG("CNT %d", cnt);
+    cnt = 0;
+}
 
+void user_showState(void)
+{
+    uint32_t freq = 0;
+    CLOCK_SYS_GetFreq(kCoreClock, &freq);
+    PRINTF("    Core Clock = %dHz \r\n", freq);
+    displayPowerMode();
+}
 
 
 
@@ -483,18 +512,11 @@ void user_PrintMenu(void)
  * @brief main demo function.
  */
 int main(void) {
-    demo_power_modes_t testVal = kDemoRun;
-    uint8_t mode;
     power_manager_error_code_t ret = kPowerManagerSuccess;
-    uint32_t freq = 0;
     rtc_datetime_t date =
     {
-        .year = 2014U,
-        .month = 4U,
-        .day = 30U,
-        .hour = 14U,
-        .minute = 0U,
-        .second = 0U,
+        .year = 2014U, .month = 4U, .day = 30U,
+        .hour = 14U, .minute = 0U, .second = 0U,
     };
 
     // Example of constant configuration
@@ -527,7 +549,7 @@ int main(void) {
     };
 
     // User callback data
-    user_callback_data_t callbackData0;
+    user_callback_data_t callbackData0 = {0};
 
     // Initializes callback configuration structure for power manager
     power_manager_callback_user_config_t callbackCfg0 = { callback0,
@@ -537,6 +559,7 @@ int main(void) {
     // Initializes array of pointers to power manager callbacks
     power_manager_callback_user_config_t * callbacks[] =
     { &callbackCfg0 };
+
 
     // Initializes hardware
     hardware_init();
@@ -572,48 +595,41 @@ int main(void) {
    // Initializes GPIO driver for LEDs and buttons
     GPIO_DRV_Init(switchPins, ledPins);
 
-    memset(&callbackData0, 0, sizeof(user_callback_data_t));
+//    memset(&callbackData0, 0, sizeof(user_callback_data_t));
 
     // initializes configuration structures
     vlpwConfig.mode = kPowerManagerVlpw;
-
     // VLLS0 mode is supported only by some SOCs.
     vlls0Config.mode = kPowerManagerVlls0;
-
     vlls1Config.mode = kPowerManagerVlls1;
     vlls3Config.mode = kPowerManagerVlls3;
     vlpsConfig.mode = kPowerManagerVlps;
-
     waitConfig.mode = kPowerManagerWait;
-
     stopConfig.mode = kPowerManagerStop;
-
     runConfig.mode  = kPowerManagerRun;
 
     // initialize power manager driver
-    POWER_SYS_Init(powerConfigs,
-    sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
-    callbacks,
-    sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
+    POWER_SYS_Init(powerConfigs, sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
+    callbacks, sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
 
     // Enables LLWU interrupt
     INT_SYS_EnableIRQ(LLWU_IRQn);
 
 
 
-// enter VLPR default
-//    LOG_DEBUG("enter VLPR");
-    CLOCK_SYS_GetFreq(kCoreClock, &freq);
+
+
     PRINTF("\r\n####################  Power Manager Demo ####################\r\n\r\n");
-    PRINTF("    Core Clock = %dHz \r\n", freq);
-    displayPowerMode();
+    user_showState();
+
+    // enter VLPR default
+    LOG_DEBUG("enter VLPR");
     if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
     {
-        mode = kDemoVlpr - kDemoMin - 1;
         update_clock_mode(CLOCK_VLPR);
         PRINTF("Entering Very Low Power Run mode\r\n");
-        ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-        CHECK_RET_VAL(ret, mode);
+        ret = POWER_SYS_SetMode(GET_MODE_INDEX(kDemoVlpr), kPowerManagerPolicyAgreement);
+        CHECK_RET_VAL(ret, GET_MODE_INDEX(kDemoVlpr));
     }
     else
     {
@@ -622,41 +638,29 @@ int main(void) {
 
 
 
+    user_test();
+    
+    // a little delay
+    user_delayTemp();
 
 
     while (1)
     {
-        mode = 0;
-
-        CLOCK_SYS_GetFreq(kCoreClock, &freq);
-        PRINTF("    Core Clock = %dHz \r\n", freq);
-        displayPowerMode();
+        user_showState();
 //        user_PrintMenu();
 
-
         LOG_DEBUG("State change: VLPR -> VLLS3");
-
-        // a little delay
-        {
-            LOG_DEBUG("delay...");
-            uint32_t cnt = 0;
-            while(++cnt < 99999);
-            LOG_DEBUG("CNT %d", cnt);
-            cnt = 0;
-        }
-
 
         // Into VLLS3 deep sleep
         {
             LOG_DEBUG("ENTER VLLS3!");
-            mode = kDemoVlls3 - kDemoMin - 1;
             // 0:rtc, 1:btn
 //            setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
             // set btn(sw2) gpio int as wake source
-            setWakeUpSource(1,"Very Low Leakage Stop 3 mode");
+            setWakeUpSource(WakeUp_btn, "Very Low Leakage Stop 3 mode");
             PRINTF("Wake up goes through Reset sequence.\r\n");
-            ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-            CHECK_RET_VAL(ret, mode);
+            ret = POWER_SYS_SetMode(GET_MODE_INDEX(kDemoVlls3), kPowerManagerPolicyAgreement);
+            CHECK_RET_VAL(ret, GET_MODE_INDEX(kDemoVlls3));
             
             LOG_DEBUG("Sleep Fail!!");
         }
@@ -665,6 +669,7 @@ int main(void) {
 
         // demo logic for reference
 //        {
+//        demo_power_modes_t testVal = kDemoRun;
 //        // Wait for user response
 //        testVal = (demo_power_modes_t)GETCHAR();
 
