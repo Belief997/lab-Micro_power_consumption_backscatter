@@ -1,0 +1,13 @@
+function [outputArg1,outputArg2] = ideal_decline(fs,r,)
+%IDEAL_DECLINE 自由空间电磁波的理想功率衰减公式
+%   L(dB) = 10 lg(P_tx / P_rx)
+%         = 32.45 + 20 lg(f)(MHz) + 20 lg(r)(km) \
+%           - G_tx(dB) - G_rx(dB)
+
+
+
+
+outputArg1 = fs;
+outputArg2 = r;
+end
+
