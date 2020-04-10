@@ -1,9 +1,17 @@
-clc;
-% 频率 1k
-f1 = 1000;
+clc; clear;
+% 频率 10k
+f_source = 10000;
 % 采样率 1M
 fs = 1000000;
-
+%采样点数 5s
+N = 5 * fs;
+n = 0 : N-1;
+%时间序列
+t = n / fs;
+y_source = A * sin(2 * pi * f_source * t) + Offset;
+%画出信号源
+figure
+plot(t, y_source);
 
 
 

@@ -38,13 +38,11 @@ L_direct = ideal_decline(f_tx * 10^(-6), r_direct, G_source, G_rx);
 P_tagOut = P_tagIn * 10^(-0.1 * L_tagOut);
 P_direct = P_source * 10^(-0.1 * L_direct);
 
-L_test = ideal_decline(f_tx * 10^(-6), r_tagIn + r_tagOut, G_source, G_rx);
-P_test = P_source * 10^(-0.1 * L_test); 
+P_test =
 %--------------------------------------
 % 50 mW  的发射功率
 decline_direct = y_source * (P_direct / P_source);
-% decline_tag = y_sig * (P_tagOut / P_source);
-decline_tag = y_sig * (P_test / P_source);
+decline_tag = y_sig * (P_tagOut / P_source);
 figure
 subplot(2, 1, 1);
 plot(t / ratio, decline_direct);
