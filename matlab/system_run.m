@@ -43,8 +43,8 @@ P_test = P_source * 10^(-0.1 * L_test);
 %--------------------------------------
 % 50 mW  的发射功率
 decline_direct = y_source * (P_direct / P_source);
-% decline_tag = y_sig * (P_tagOut / P_source);
-decline_tag = y_sig * (P_test / P_source);
+decline_tag = y_sig * (P_tagOut / P_source);
+% decline_tag = y_sig * (P_test / P_source);
 figure
 subplot(2, 1, 1);
 plot(t / ratio, decline_direct);
