@@ -98,9 +98,10 @@ save(filename, 'delay_reflect', 'delay_direct');
     end
     save(filename, 'sig_rx');
         
-    if draw_plot
+    if draw_plot && false
         % 画出延时后的波形
         figure('NumberTitle', 'off', 'Name', '两个延时及其加和');
+        
         subplot(3, 1, 1);
         % plot(t / ratio, decline_direct);
         plot(t_plot / ratio, [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))])

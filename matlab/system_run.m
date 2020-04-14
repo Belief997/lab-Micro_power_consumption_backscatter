@@ -9,7 +9,19 @@ source;
 tag;
 global y_sig;
 y_sig = y_source .* y_tag;
-% 保存信号
+
+%% 添加高斯噪声
+% y_noise = awgn(y_sig, 50);
+% figure
+% subplot(3, 1, 1);
+% plot(t / ratio, y_sig);
+% subplot(3, 1, 2);
+% plot(t / ratio, y_noise);
+% subplot(3, 1, 3);
+% plot(t / ratio, y_noise - y_sig)
+
+
+%% 保存信号
 global dirname;
 filename = sprintf('%s%s', dirname, 'y_sig');
 save(filename, 'y_sig');
@@ -24,7 +36,7 @@ plot(t / ratio, y_sig)
 
 disp(f_source);
 
-% ------------------------------------------
+%% ------------------------------------------
 % 计算坐标
 global width;
 global length;
@@ -41,7 +53,7 @@ y = y .* temp';
 x = (2 * x - ones(size(x))) * rx;
 y = (2 * y - ones(size(x))) * ry;
 
-% ---------------------------------------
+%% ---------------------------------------
 % 计算三个距离
 h1 = H1 * ones(size(x));
 h2 = H2 * ones(size(x));
@@ -55,7 +67,7 @@ single_run(d1, d2, d3, true, false);
 
 
 
-% ---------------------------------------
+%% ---------------------------------------
 % 计算 fence 信号
 r_bx = 5 / 3;
 r_by = 6 / 4;
@@ -77,7 +89,7 @@ single_run(d1_b, d2_b, d3_b, true, true);
 
 
 % % r_tagIn = 6.5, r_tagOut = 3.25, r_direct = 9.086
-% %---------------------------------------------------
+%% ---------------------------------------------------
 % % 衰减计算
 % 
 % % [L_out] = ideal_decline(fx, r, G_tx, G_rx)
