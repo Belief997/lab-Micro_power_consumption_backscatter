@@ -22,3 +22,8 @@ end
 %画出 tag 编码信号
 % figure
 % plot(t / ratio, y_tag);
+
+% 保存信号
+global dirname;
+filename = sprintf('%s%s', dirname, 'y_tag');
+save(filename, 'y_tag');

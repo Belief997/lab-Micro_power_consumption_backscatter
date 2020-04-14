@@ -12,7 +12,7 @@ global block_Ny;
 width = 5;
 length = 6;
 block_Nx = 2;
-block_Ny = 3;
+block_Ny = 2;
 
 global H1;
 global H2;
@@ -33,3 +33,9 @@ f_source = 2.412 * (10 ^ 4);
 % 信号发射功率 mW
 global P_source;
 P_source = 50;
+
+global dirname;
+time_now = datestr(now, 30);
+dirname = sprintf('.\\%s\\', time_now);
+mkdir(dirname);
+

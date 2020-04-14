@@ -1,5 +1,4 @@
-
-% 采样率 1M
+% 采样率 10 倍
 global fs;
 fs = f_source * 10;
 A = 1;
@@ -15,6 +14,11 @@ y_source = A * sin(2 * pi * f_source * t) + E;
 %画出信号源
 % figure
 % plot(t / ratio, y_source);
+
+% 保存信号
+global dirname;
+filename = sprintf('%s%s', dirname, 'y_source');
+save(filename, 'y_source');
 
 
 

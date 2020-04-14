@@ -3,13 +3,16 @@ clear;
 
 % 配置
 config;
-
 %-----------------------------
 % 产生信号
 source;
 tag;
 global y_sig;
 y_sig = y_source .* y_tag;
+% 保存信号
+global dirname;
+filename = sprintf('%s%s', dirname, 'y_sig');
+save(filename, 'y_sig');
 
 figure
 subplot(3, 1, 1);
@@ -47,8 +50,8 @@ d2 = sqrt(x .^2 + (length * ones(size(x)) - y) .^2 + h2 .^2);
 d3 = D3 * ones(size(x));
 
 % ---------------------------------------
-% single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-% single_run(d1, d2, d3, true);
+% single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
+single_run(d1, d2, d3, true, false);
 
 
 
@@ -70,7 +73,7 @@ d2_b = sqrt(x_b .^2 + (length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
 d3_b = D3 * ones(size(x_b));
 
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-single_run(d1_b, d2_b, d3_b, true);
+single_run(d1_b, d2_b, d3_b, true, true);
 
 
 % % r_tagIn = 6.5, r_tagOut = 3.25, r_direct = 9.086

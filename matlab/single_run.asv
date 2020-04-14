@@ -37,11 +37,7 @@ P_tag = P_tagIn .* 10.^(-0.1 * L_tagOut);
 P_direct = P_source .* 10.^(-0.1 * L_direct);
 
 % 保存数据
-if isBeacon
-    filename = sprintf('%sBeacon_%s', dirname, 'decline');
-else 
-    filename = sprintf('%s%s', dirname, 'decline');
-end
+filename = sprintf('%s%s', dirname, 'decline');
 save(filename, 'L_tagIn', 'L_tagOut', 'L_direct');
 
 % 使用 tag 前后的距离和计算衰减，不采用
@@ -73,11 +69,7 @@ disp('delta t is');
 disp(delta_t);
 
 % 保存数据
-if isBeacon
-    filename = sprintf('%sBeacon_%s', dirname, 'delay');
-else
-    filename = sprintf('%s%s', dirname, 'delay');  
-end
+filename = sprintf('%s%s', dirname, 'delay');
 save(filename, 'delay_reflect', 'delay_direct');
 
 % 画出两个延时及其加和
@@ -91,11 +83,7 @@ save(filename, 'delay_reflect', 'delay_direct');
 
     sig_rx = [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))] + [shift_reflect decline_tag(i,:)];
     % 保存数据
-    if isBeacon
-        filename = sprintf('%sBeacon_%s_%s', dirname, 'sig_rx', num2str(i));
-    else
-        filename = sprintf('%s%s_%s', dirname, 'sig_rx', num2str(i));
-    end
+    filename = sprintf('%s%s_%s', dirname, 'sig_rx', num2str(i));
     save(filename, 'sig_rx');
         
     if draw_plot
