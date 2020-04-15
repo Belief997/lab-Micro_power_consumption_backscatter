@@ -38,10 +38,10 @@ disp(f_source);
 
 %% ------------------------------------------
 % 计算坐标
-global width;
-global length;
-rx = width / (2 * block_Nx);
-ry = length / (2 * block_Ny);
+global Width;
+global Length;
+rx = Width / (2 * block_Nx);
+ry = Length / (2 * block_Ny);
 temp = (1 : block_Nx);
 x = ones(block_Ny, block_Nx);
 x = x .* temp;
@@ -86,6 +86,11 @@ d3_b = D3 * ones(size(x_b));
 
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
 single_run(d1_b, d2_b, d3_b, true, true);
+
+%%
+% 数据处理
+load()
+
 
 
 % % r_tagIn = 6.5, r_tagOut = 3.25, r_direct = 9.086

@@ -88,7 +88,8 @@ save(filename, 'delay_reflect', 'delay_direct');
     % 以反射时长为基准，扩展时间轴
     n_plot = 0 : (length(shift_reflect) + N - 1);
     t_plot = n_plot / fs;
-
+    sig_dir = [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))];
+    sig_tag = [shift_reflect decline_tag(i,:)];
     sig_rx = [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))] + [shift_reflect decline_tag(i,:)];
     % 保存数据
     if isBeacon
@@ -96,7 +97,7 @@ save(filename, 'delay_reflect', 'delay_direct');
     else
         filename = sprintf('%s%s_%s', dirname, 'sig_rx', num2str(i));
     end
-    save(filename, 'sig_rx');
+    save(filename, 'sig_dir', 'sig_tag', 'sig_rx');
         
     if draw_plot && false
         % 画出延时后的波形
@@ -104,15 +105,15 @@ save(filename, 'delay_reflect', 'delay_direct');
         
         subplot(3, 1, 1);
         % plot(t / ratio, decline_direct);
-        plot(t_plot / ratio, [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))])
+        plot(t_plot / ratio, sig_dir);
         title('直射路径');
         subplot(3, 1, 2);
         % plot(t / ratio, decline_tag);
-        plot(t_plot / ratio, [shift_reflect decline_tag(i,:)])
+        plot(t_plot / ratio, sig_tag);
         title('Tag 路径');
         subplot(3, 1, 3);
         % plot(t / ratio, decline_tag);
-        plot(t_plot / ratio, sig_rx)
+        plot(t_plot / ratio, sig_rx);
         title('叠加');
     end
 end

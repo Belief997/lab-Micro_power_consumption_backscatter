@@ -5,12 +5,12 @@ global c;
 c = 3 * (10 ^ 8);
 
 % 房间尺寸 5m x 6m
-global width;
-global length;
+global Width;
+global Length;
 global block_Nx;
 global block_Ny;
-width = 5;
-length = 6;
+Width = 5;
+Length = 6;
 block_Nx = 2;
 block_Ny = 2;
 
@@ -22,7 +22,7 @@ H1 = 1.25;
 H2 = 0.75;
 
 global D3;
-D3 = sqrt(length ^2 + (H1 - H2 ^2));
+D3 = sqrt(Length ^2 + (H1 - H2 ^2));
 
 % 仿真比率，发射源信号频率 2.412 * 10k (G) 
 global ratio;
