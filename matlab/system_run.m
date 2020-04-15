@@ -1,4 +1,4 @@
-close all;
+% close all;
 clear;
 
 % ≈‰÷√
@@ -58,7 +58,7 @@ y = (2 * y - ones(size(x))) * ry;
 h1 = H1 * ones(size(x));
 h2 = H2 * ones(size(x));
 d1 = sqrt(x .^2 + y .^2 + h1 .^2);
-d2 = sqrt(x .^2 + (length * ones(size(x)) - y) .^2 + h2 .^2);
+d2 = sqrt(x .^2 + (Length * ones(size(x)) - y) .^2 + h2 .^2);
 d3 = D3 * ones(size(x));
 
 % ---------------------------------------
@@ -81,7 +81,7 @@ y_b = y_b * r_by;
 h1_b = H1 * ones(size(x_b));
 h2_b = H2 * ones(size(x_b));
 d1_b = sqrt(x_b .^2 + y_b .^2 + h1_b .^2);
-d2_b = sqrt(x_b .^2 + (length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
+d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
 d3_b = D3 * ones(size(x_b));
 
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
