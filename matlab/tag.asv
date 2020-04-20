@@ -7,15 +7,14 @@ N = 10 * fs;
 n = 0 : N-1;
 %时间序列
 t = n / fs ;
-sig_bin = [1 0 1 0 1 1 0 1 1];
-index = 1;
+
+
 y_tag = zeros(1, N);
 for i=0:N-1
     % tag 在 1s 到 8s 内随机调制
     if i >= (1 * fs) && i <= (9 * fs) 
         if mod(i, fs / f_tag) == 0
-            y_tag(i) = sig_bin(index) ;
-            index = index + 1;
+            y_tag(i) = round(unifrnd(0,1)) ;
         else
             y_tag(i) = y_tag(i - 1);
         end

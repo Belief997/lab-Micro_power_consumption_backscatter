@@ -90,7 +90,7 @@ save(filename, 'delay_reflect', 'delay_direct');
     t_plot = n_plot / fs;
     sig_dir = [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))];
     sig_tag = [shift_reflect decline_tag(i,:)];
-    sig_rx = [shift_direct decline_direct(i,:) zeros(1, length(shift_reflect) - length(shift_direct))] + [shift_reflect decline_tag(i,:)];
+    sig_rx = sig_dir + sig_tag;
     % ±£´æÊý¾Ý
     if isBeacon
         filename = sprintf('%sBeacon_%s_%s', dirname, 'sig_rx', num2str(i));

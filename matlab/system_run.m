@@ -63,7 +63,7 @@ d3 = D3 * ones(size(x));
 
 % ---------------------------------------
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
-single_run(d1, d2, d3, true, false);
+single_run(d1, d2, d3, false, false);
 
 
 
@@ -85,20 +85,20 @@ d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
 d3_b = D3 * ones(size(x_b));
 
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-single_run(d1_b, d2_b, d3_b, true, true);
+single_run(d1_b, d2_b, d3_b, false, true);
 
 %%
-% 数据处理
+% 数据预处理
 global block_Nx;
 global block_Ny;
 % [] = preproc(filename, i, draw, isBeacon)
 for i=1: block_Nx * block_Ny
-    preproc('sig_rx', i, true, false);
+    preproc('sig_rx', i, false, false);
 end
 
 % beacon
 for i=1: 12
-    preproc('Beacon_sig_rx', i, true, true);
+    preproc('Beacon_sig_rx', i, false, true);
 end
 
 % % r_tagIn = 6.5, r_tagOut = 3.25, r_direct = 9.086
