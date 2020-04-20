@@ -28,6 +28,7 @@ end
 % 10 k, 20k,  12dB, 80dB
 load('G.mat');
 load('SOS.mat');
+% FIR: b=Num,a=1;
 [b,a]=sos2tf(SOS,G);
 y_fil=filter(b,a, y_conv);
 

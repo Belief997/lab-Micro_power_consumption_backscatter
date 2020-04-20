@@ -63,7 +63,7 @@ d3 = D3 * ones(size(x));
 
 % ---------------------------------------
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
-single_run(d1, d2, d3, false, false);
+single_run(d1, d2, d3, true, false);
 
 
 
@@ -85,7 +85,7 @@ d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
 d3_b = D3 * ones(size(x_b));
 
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-single_run(d1_b, d2_b, d3_b, false, true);
+single_run(d1_b, d2_b, d3_b, true, true);
 
 %%
 % 数据处理
