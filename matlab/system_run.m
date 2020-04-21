@@ -26,15 +26,15 @@ global dirname;
 filename = sprintf('%s%s', dirname, 'y_sig');
 save(filename, 'y_sig');
 
-figure
-subplot(3, 1, 1);
-plot(t / ratio, y_source);
-subplot(3, 1, 2);
-plot(t / ratio, y_tag);
-subplot(3, 1, 3);
-plot(t / ratio, y_sig)
-
-disp(f_source);
+% figure
+% subplot(3, 1, 1);
+% plot(t / ratio, y_source);
+% subplot(3, 1, 2);
+% plot(t / ratio, y_tag);
+% subplot(3, 1, 3);
+% plot(t / ratio, y_sig)
+% 
+% disp(f_source);
 
 %% ------------------------------------------
 % ¼ÆËã×ø±ê

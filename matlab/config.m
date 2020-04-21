@@ -11,8 +11,8 @@ global block_Nx;
 global block_Ny;
 Width = 5;
 Length = 6;
-block_Nx = 2;
-block_Ny = 2;
+block_Nx = 10;
+block_Ny = 10;
 
 global H1;
 global H2;
