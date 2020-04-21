@@ -5,7 +5,7 @@ function [] = preproc(filename, i, draw, type)
 global dirname;
 savePath = dirname;
 % xxx -> xxx_i -> .\xxx\xxx_i
-if type == 'inside' || type == 'outside'
+if strcmp(type ,  'inside') || strcmp(type ,  'outside')
     savePath = '.\DataSet\';
 end
 file_name = sprintf('%s%s_%d.mat',savePath, filename, i);
@@ -42,13 +42,13 @@ y_smooth = smooth(y_cut, 800);
 
 % ±£´æÊý¾Ý
 
-if type == 'beacon'
+if strcmp(type ,  'beacon')
     savename = sprintf('%sBeacon_%s_%d', savePath, 'sig_proc', i);
-elseif type == 'outside'
+elseif strcmp(type , 'tag')
     savename = sprintf('%s%s_%d', savePath, 'sig_proc', i);  
-elseif type == 'inside'
+elseif strcmp(type ,  'inside')
     savename = sprintf('%si_%s_%d', savePath, 'sig_proc', i);
-elseif type == 'outside'
+elseif strcmp(type , 'outside')
     savename = sprintf('%so_%s_%d', savePath, 'sig_proc', i);
 end
 save(savename, 'y_conv', 'y_fil', 'y_smooth');

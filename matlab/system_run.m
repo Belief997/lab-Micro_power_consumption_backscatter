@@ -88,12 +88,12 @@ global block_Nx;
 global block_Ny;
 % [] = preproc(filename, i, draw, isBeacon)
 for i=1: block_Nx * block_Ny
-    preproc('sig_rx', i, false, false);
+    preproc('sig_rx', i, false, 'tag');
 end
 
 % beacon
 for i=1: 12
-    preproc('Beacon_sig_rx', i, false, true);
+    preproc('Beacon_sig_rx', i, false, 'beacon');
 end
 
 % % r_tagIn = 6.5, r_tagOut = 3.25, r_direct = 9.086

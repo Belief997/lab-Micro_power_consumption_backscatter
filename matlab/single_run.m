@@ -37,13 +37,13 @@ P_tag = P_tagIn .* 10.^(-0.1 * L_tagOut);
 P_direct = P_source .* 10.^(-0.1 * L_direct);
 
 % 保存数据
-if type == 'beacon'
+if strcmp(type , 'beacon')
     filename = sprintf('%sBeacon_%s', dirname, 'decline');
-elseif type == 'tag'
+elseif strcmp(type ,  'tag')
     filename = sprintf('%s%s', dirname, 'decline');
-elseif type == 'inside'
+elseif strcmp(type ,  'inside')
     filename = sprintf('.\\DataSet\\i_%s', 'decline');
-elseif type == 'outside'
+elseif strcmp(type ,  'outside')
     filename = sprintf('.\\DataSet\\o_%s', 'decline');
 end
 save(filename, 'L_tagIn', 'L_tagOut', 'L_direct');
@@ -77,13 +77,13 @@ disp('delta t is');
 disp(delta_t);
 
 % 保存数据
-if type == 'beacon'
+if strcmp(type , 'beacon')
     filename = sprintf('%sBeacon_%s', dirname, 'delay');
-elseif type == 'tag'
+elseif strcmp(type , 'tag')
     filename = sprintf('%s%s', dirname, 'delay');  
-elseif type == 'inside'
+elseif strcmp(type ,  'inside')
     filename = sprintf('.\\DataSet\\i_%s', 'delay');
-elseif type == 'outside'
+elseif strcmp(type ,  'outside')
     filename = sprintf('.\\DataSet\\o_%s', 'delay');
 end
 save(filename, 'delay_reflect', 'delay_direct');
@@ -100,14 +100,14 @@ save(filename, 'delay_reflect', 'delay_direct');
     sig_tag = [shift_reflect decline_tag(i,:)];
     sig_rx = sig_dir + sig_tag;
     % 保存数据
-    if type == 'beacon'
+    if strcmp(type ,  'beacon')
         filename = sprintf('%sBeacon_%s_%d', dirname, 'sig_rx', i);
-    elseif type == 'tag'
+    elseif strcmp(type ,  'tag')
         filename = sprintf('%s%s_%d', dirname, 'sig_rx', i);
-    elseif type == 'inside'
-        filename = sprintf('.\\DataSet\i_%s_%d', 'sig_rx', i);
-    elseif type == 'outside'
-        filename = sprintf('.\\DataSet\o_%s_%d', 'sig_rx', i);
+    elseif strcmp(type , 'inside')
+        filename = sprintf('.\\DataSet\\i_%s_%d', 'sig_rx', i);
+    elseif strcmp(type ,  'outside')
+        filename = sprintf('.\\DataSet\\o_%s_%d', 'sig_rx', i);
     end
     save(filename, 'sig_dir', 'sig_tag', 'sig_rx');
         

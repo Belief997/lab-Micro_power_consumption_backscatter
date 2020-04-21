@@ -4,6 +4,7 @@ function [d1, d2, d3] = xy2d(x,y)
 global H1;
 global H2;
 global Length;
+global D3;
 
 h1 = H1 * ones(size(x));
 h2 = H2 * ones(size(x));
