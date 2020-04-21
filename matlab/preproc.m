@@ -3,9 +3,13 @@ function [] = preproc(filename, i, draw, type)
 %   
 
 global dirname;
+savePath = dirname;
 % xxx -> xxx_i -> .\xxx\xxx_i
-file_name = sprintf('%s_%s', filename, num2str(i));
-file_name = strcat(dirname, file_name);
+if type == 'inside' || type == 'outside'
+    savePath = '.\DataSet\';
+end
+file_name = sprintf('%s%s_%d.mat',savePath, filename, i);
+
 % 为了保持同频同相
 sig_dir = cell2mat(struct2cell(load(file_name, 'sig_dir')));
 sig_rx = cell2mat(struct2cell(load(file_name, 'sig_rx')));
@@ -37,14 +41,17 @@ y_cut = y_fil(1,1000:2400000);
 y_smooth = smooth(y_cut, 800);
 
 % 保存数据
+
 if type == 'beacon'
-    savename = sprintf('%sBeacon_%s_%s', dirname, 'sig_proc', num2str(i));
+    savename = sprintf('%sBeacon_%s_%d', savePath, 'sig_proc', i);
 elseif type == 'outside'
-    savename = sprintf('%s%s_%s', dirname, 'sig_proc', num2str(i));  
+    savename = sprintf('%s%s_%d', savePath, 'sig_proc', i);  
 elseif type == 'inside'
+    savename = sprintf('%si_%s_%d', savePath, 'sig_proc', i);
+elseif type == 'outside'
+    savename = sprintf('%so_%s_%d', savePath, 'sig_proc', i);
 end
 save(savename, 'y_conv', 'y_fil', 'y_smooth');
-
 
 % 
 if draw

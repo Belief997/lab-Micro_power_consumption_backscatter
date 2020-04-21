@@ -42,9 +42,9 @@ if type == 'beacon'
 elseif type == 'tag'
     filename = sprintf('%s%s', dirname, 'decline');
 elseif type == 'inside'
-    filename = sprintf('.\\DataSet\i_%s', 'decline');
+    filename = sprintf('.\\DataSet\\i_%s', 'decline');
 elseif type == 'outside'
-    filename = sprintf('.\\DataSet\o_%s', 'decline');
+    filename = sprintf('.\\DataSet\\o_%s', 'decline');
 end
 save(filename, 'L_tagIn', 'L_tagOut', 'L_direct');
 
@@ -82,9 +82,9 @@ if type == 'beacon'
 elseif type == 'tag'
     filename = sprintf('%s%s', dirname, 'delay');  
 elseif type == 'inside'
-    filename = sprintf('.\\DataSet\i_%s', 'delay');
+    filename = sprintf('.\\DataSet\\i_%s', 'delay');
 elseif type == 'outside'
-    filename = sprintf('.\\DataSet\o_%s', 'delay');
+    filename = sprintf('.\\DataSet\\o_%s', 'delay');
 end
 save(filename, 'delay_reflect', 'delay_direct');
 
