@@ -1,4 +1,4 @@
-function [] = preproc(filename, i, draw, isBeacon)
+function [] = preproc(filename, i, draw, type)
 %PREPROC 对接收的信号做预处理，去载波，滤波
 %   
 
