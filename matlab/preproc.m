@@ -41,6 +41,7 @@ if type == 'beacon'
     savename = sprintf('%sBeacon_%s_%s', dirname, 'sig_proc', num2str(i));
 elseif type == 'outside'
     savename = sprintf('%s%s_%s', dirname, 'sig_proc', num2str(i));  
+elseif type == 'inside'
 end
 save(savename, 'y_conv', 'y_fil', 'y_smooth');
 
