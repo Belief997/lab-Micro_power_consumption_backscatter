@@ -37,9 +37,9 @@ y_cut = y_fil(1,1000:2400000);
 y_smooth = smooth(y_cut, 800);
 
 % ±£´æÊý¾Ý
-if isBeacon
+if type == 'beacon'
     savename = sprintf('%sBeacon_%s_%s', dirname, 'sig_proc', num2str(i));
-else
+elseif type == 'outside'
     savename = sprintf('%s%s_%s', dirname, 'sig_proc', num2str(i));  
 end
 save(savename, 'y_conv', 'y_fil', 'y_smooth');
