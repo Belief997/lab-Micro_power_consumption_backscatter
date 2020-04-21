@@ -39,12 +39,8 @@ P_direct = P_source .* 10.^(-0.1 * L_direct);
 % 保存数据
 if type == 'beacon'
     filename = sprintf('%sBeacon_%s', dirname, 'decline');
-elseif type == 'tag'
+else if type == 'tag'
     filename = sprintf('%s%s', dirname, 'decline');
-elseif type == 'inside'
-    filename = sprintf('.\\DataSet\i_%s', 'decline');
-elseif type == 'outside'
-    filename = sprintf('.\\DataSet\o_%s', 'decline');
 end
 save(filename, 'L_tagIn', 'L_tagOut', 'L_direct');
 
@@ -77,14 +73,10 @@ disp('delta t is');
 disp(delta_t);
 
 % 保存数据
-if type == 'beacon'
+if type
     filename = sprintf('%sBeacon_%s', dirname, 'delay');
-elseif type == 'tag'
+else
     filename = sprintf('%s%s', dirname, 'delay');  
-elseif type == 'inside'
-    filename = sprintf('.\\DataSet\i_%s', 'delay');
-elseif type == 'outside'
-    filename = sprintf('.\\DataSet\o_%s', 'delay');
 end
 save(filename, 'delay_reflect', 'delay_direct');
 
@@ -100,14 +92,10 @@ save(filename, 'delay_reflect', 'delay_direct');
     sig_tag = [shift_reflect decline_tag(i,:)];
     sig_rx = sig_dir + sig_tag;
     % 保存数据
-    if type == 'beacon'
-        filename = sprintf('%sBeacon_%s_%d', dirname, 'sig_rx', i);
-    elseif type == 'tag'
-        filename = sprintf('%s%s_%d', dirname, 'sig_rx', i);
-    elseif type == 'inside'
-        filename = sprintf('.\\DataSet\i_%s_%d', 'sig_rx', i);
-    elseif type == 'outside'
-        filename = sprintf('.\\DataSet\o_%s_%d', 'sig_rx', i);
+    if type
+        filename = sprintf('%sBeacon_%s_%s', dirname, 'sig_rx', num2str(i));
+    else
+        filename = sprintf('%s%s_%s', dirname, 'sig_rx', num2str(i));
     end
     save(filename, 'sig_dir', 'sig_tag', 'sig_rx');
         
@@ -129,6 +117,11 @@ save(filename, 'delay_reflect', 'delay_direct');
         title('叠加');
     end
 end
+
+%--------------------------------------
+
+
+
 
 
 end

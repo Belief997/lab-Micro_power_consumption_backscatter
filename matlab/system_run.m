@@ -53,18 +53,12 @@ y = y .* temp';
 x = (2 * x - ones(size(x))) * rx;
 y = (2 * y - ones(size(x))) * ry;
 
-%% ---------------------------------------
 % 计算三个距离
-h1 = H1 * ones(size(x));
-h2 = H2 * ones(size(x));
-d1 = sqrt(x .^2 + y .^2 + h1 .^2);
-d2 = sqrt(x .^2 + (Length * ones(size(x)) - y) .^2 + h2 .^2);
-d3 = D3 * ones(size(x));
+[d1, d2, d3] = xy2d(x, y);
 
 % ---------------------------------------
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
-single_run(d1, d2, d3, false, false);
-
+single_run(d1, d2, d3, false, 'tag');
 
 
 %% ---------------------------------------
@@ -78,14 +72,15 @@ x_b = x_b * r_bx;
 y_b = y_b * r_by;
 
 % 计算三个距离
-h1_b = H1 * ones(size(x_b));
-h2_b = H2 * ones(size(x_b));
-d1_b = sqrt(x_b .^2 + y_b .^2 + h1_b .^2);
-d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
-d3_b = D3 * ones(size(x_b));
+% h1_b = H1 * ones(size(x_b));
+% h2_b = H2 * ones(size(x_b));
+% d1_b = sqrt(x_b .^2 + y_b .^2 + h1_b .^2);
+% d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
+% d3_b = D3 * ones(size(x_b));
 
+[d1_b, d2_b, d3_b] = xy2d(x_b, y_b);
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-single_run(d1_b, d2_b, d3_b, false, true);
+single_run(d1_b, d2_b, d3_b, false, 'beacon');
 
 %%
 % 数据预处理
