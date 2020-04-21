@@ -11,3 +11,9 @@
 
 > update @ 02/15
 ---
+### 使用 KDS 开发 
+- 官方开发 ide
+
+- simulate 分支为 matlab 仿真代码
+> update @04/21
+---
