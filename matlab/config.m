@@ -37,8 +37,11 @@ P_source = 50;
 global dirname;
 time_now = datestr(now, 30);
 dirname = sprintf('.\\%s\\', time_now);
-mkdir(dirname);
 
+global run_type;
+if run_type ~= 'io'
+    mkdir(dirname);
+end
 %% 保存配置信息, 将会覆盖已有的配置文件
 filename = sprintf('.\\%s', 'config');
 save(filename, 'Width', 'Length', 'block_Nx', 'block_Ny', 'dirname');
