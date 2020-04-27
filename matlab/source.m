@@ -18,8 +18,11 @@ y_source = A * sin(2 * pi * f_source * t) + E;
 % ±£¥Ê–≈∫≈
 global dirname;
 filename = sprintf('%s%s', dirname, 'y_source');
-save(filename, 'y_source');
 
+global run_type;
+if run_type == 'bt'
+    save(filename, 'y_source');
+end
 
 
 

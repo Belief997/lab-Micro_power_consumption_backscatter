@@ -1,0 +1,16 @@
+DataSet_noNoise
+    i:50    o:100   width:5 length:6
+    
+
+DataSet_5_6
+    i:50    o:100   width:5 length:6
+    noise  50 dB
+
+20200426T191014
+    size 6 9
+    N 6 9
+
+DataSet_6_9
+    i:50    o:100   width:6 length:9
+    noise  50 dB
+

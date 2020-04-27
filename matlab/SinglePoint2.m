@@ -39,6 +39,8 @@ L_direct = ideal_decline(f_tx * 10^(-6), r_direct, G_source, G_rx);
 % 墙外衰减
 L_t = outsideDecline(x, y, L_tagIn, L_tagOut);
 
+disp(L_t);
+
 % 保存数据
 if strcmp(type , 'beacon')
     filename = sprintf('%sBeacon_%s', dirname, 'decline');

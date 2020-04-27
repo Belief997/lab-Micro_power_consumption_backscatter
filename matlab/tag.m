@@ -28,4 +28,8 @@ end
 % ±£¥Ê–≈∫≈
 global dirname;
 filename = sprintf('%s%s', dirname, 'y_tag');
-save(filename, 'y_tag');
+
+global run_type;
+if run_type == 'bt'
+    save(filename, 'y_tag');
+end
