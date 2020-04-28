@@ -6,16 +6,16 @@ global run_type;
 run_type = 'bt';
 config;
 %-----------------------------
-% 产生信号
+%% 信号源
 source;
 tag;
 global y_sig;
 y_sig = y_source .* y_tag;
 
-%% 添加高斯噪声
+% 添加高斯噪声
 % dB 单位信噪比
-y_noise = awgn(y_sig, 50);
-y_sig = y_noise;
+% y_noise = awgn(y_sig, 50);  % 输入复信号，则加复噪声
+% y_sig = y_noise;
 % figure
 % subplot(3, 1, 1);
 % plot(t / ratio, y_sig);
@@ -25,7 +25,7 @@ y_sig = y_noise;
 % plot(t / ratio, y_noise - y_sig)
 
 
-%% 保存信号
+% 保存信号
 global dirname;
 filename = sprintf('%s%s', dirname, 'y_sig');
 save(filename, 'y_sig');
@@ -40,7 +40,7 @@ save(filename, 'y_sig');
 % 
 % disp(f_source);
 
-%% 计算坐标
+%% 计算 block 坐标
 % 
 global Width;
 global Length;
@@ -59,15 +59,7 @@ y = y .* temp';
 x = (2 * x - ones(size(x))) * rx;
 y = (2 * y - ones(size(x))) * ry;
 
-% 计算三个距离
-[d1, d2, d3] = xy2d(x, y);
-
-% ---------------------------------------
-% single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
-single_run(d1, d2, d3, false, 'tag');
-
-
-%% 计算 fence 信号
+%% 设定 fence 位置
 % 
 r_bx = 5 / 3;
 r_by = 6 / 4;
@@ -77,19 +69,22 @@ y_b = [1 2 3;1 2 3;0 0 0;4 4 4;];
 x_b = x_b * r_bx;
 y_b = y_b * r_by;
 
-% 计算三个距离
-% h1_b = H1 * ones(size(x_b));
-% h2_b = H2 * ones(size(x_b));
-% d1_b = sqrt(x_b .^2 + y_b .^2 + h1_b .^2);
-% d2_b = sqrt(x_b .^2 + (Length * ones(size(x_b)) - y_b) .^2 + h2_b .^2);
-% d3_b = D3 * ones(size(x_b));
 
-[d1_b, d2_b, d3_b] = xy2d(x_b, y_b);
+%% 信道
+% 计算三个距离
+[d1, d2, d3] = xy2d(x, y, 1);
+
+% single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
+single_run(d1, d2, d3, false, 'tag');
+
+[d1_b, d2_b, d3_b] = xy2d(x_b, y_b, 1);
 % single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
 single_run(d1_b, d2_b, d3_b, false, 'beacon');
 
-%% 接收端数据处理
-% 
+
+
+%% 接收端
+% 数据处理
 global block_Nx;
 global block_Ny;
 % [] = preproc(filename, i, draw, isBeacon)

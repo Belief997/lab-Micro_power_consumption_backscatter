@@ -14,14 +14,13 @@ Length = 6;
 block_Nx = 5;
 block_Ny = 6 ;
 
-global H0;
 global H1;
 global H2;
-global H3;
+global H0;
 H0 = 1.25; % 整体的偏移
 H1 = 1.25; % 发射器 2.5m
 H2 = 0.75; % 接收器_1 2m 
-H3 = 0.85; % 接收器_2 2.1m
+H3 = 
 
 global D3;
 D3 = sqrt(Length ^2 + (H1 - H2 ^2));
