@@ -101,10 +101,10 @@ N_delayIn =  round(delay_tagIn * ratio * fs);
 N_delayDir = round(delta_t * ratio * fs);
 
 % 画出两个延时及其加和
- for i=1:length(delay_reflect(:)) 
+ for i=1:length(r_tagIn(:)) 
      % 时延 截取
-    sig_direct = y_source(1, N_delayDir + 1 : N_delayDir + length(y_tag));
-    sig_reflect = y_source(1, N_delayIn + 1 : N_delayIn + length(y_tag));
+    sig_direct = y_source(1, N_delayDir(i) + 1 : N_delayDir(i) + length(y_tag));
+    sig_reflect = y_source(1, N_delayIn(i) + 1 : N_delayIn(i) + length(y_tag));
 
     decline_direct = sig_direct * 10^(-0.1 * L_direct(i));
     decline_tagIn = sig_reflect * 10^(-0.1 * L_tagIn(i));
@@ -114,9 +114,7 @@ N_delayDir = round(delta_t * ratio * fs);
     
     sig_rx = decline_direct + decline_tagOut;
     
-    % 以反射时长为基准，扩展时间轴
-    n_plot = 0 : length(y_tag)-1;
-    t_plot = n_plot / fs;
+
     % 保存数据
     if strcmp(type ,  'beacon')
         filename = sprintf('%sBeacon_%s_%d_%d', dirname, 'sig_rx', N_rx, i);
@@ -130,6 +128,9 @@ N_delayDir = round(delta_t * ratio * fs);
     save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
         
     if draw_plot && false
+        % 时间轴
+        n_plot = 0 : length(y_tag)-1;
+        t_plot = n_plot / fs;
         % 画出延时后的波形
         figure('NumberTitle', 'off', 'Name', '两个延时及其加和');
         
