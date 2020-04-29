@@ -6,6 +6,7 @@ global ratio;
 global f_source;
 global P_source;
 global P_noise;
+global L_recTre;
 global y_source;
 global y_tag;
 % global y_sig;
@@ -54,7 +55,7 @@ elseif strcmp(type ,  'inside')
 elseif strcmp(type ,  'outside')
     filename = sprintf('.\\DataSet\\o_%s_%d', 'decline', N_rx);
 end
-save(filename, 'L_tagIn', 'L_tagOut', 'L_direct');
+save(filename, 'L_tagIn', 'L_tagOut', 'L_tag', 'L_direct');
 
 %--------------------------------------
 % 分别画出每个点两条路径衰减后的信号，得到的每一行代表一个点
@@ -100,17 +101,29 @@ save(filename, 'delay_tagIn', 'delay_reflect', 'delay_direct', 'delta_t');
 N_delayIn =  round(delay_tagIn * ratio * fs);
 N_delayDir = round(delta_t * ratio * fs);
 
+Cnt_miss = 0;
+
 % 画出两个延时及其加和
- for i=1:length(r_tagIn(:)) 
+ for i=1:numel(r_tagIn) 
      % 时延 截取
     sig_direct = y_source(1, N_delayDir(i) + 1 : N_delayDir(i) + length(y_tag));
     sig_reflect = y_source(1, N_delayIn(i) + 1 : N_delayIn(i) + length(y_tag));
 
-    decline_direct = sig_direct * 10^(-0.1 * L_direct(i));
-    decline_tagIn = sig_reflect * 10^(-0.1 * L_tagIn(i));
+    if L_direct(i) < L_recTre
+        decline_direct = sig_direct * 10^(-0.1 * L_direct(i));
+    else
+        decline_direct = zeros(1, length(y_tag));
+    end
     
-    sig_tagOut = decline_tagIn .* y_tag;
-    decline_tagOut = sig_tagOut * 10^(-0.1 * L_tagOut(i));
+    if L_tagIn(i) + L_tagOut(i) < L_recTre
+        decline_tagIn = sig_reflect * 10^(-0.1 * L_tagIn(i));
+
+        sig_tagOut = decline_tagIn .* y_tag;
+        decline_tagOut = sig_tagOut * 10^(-0.1 * L_tagOut(i));
+    else
+        decline_tagOut = zeros(1, length(y_tag));
+        Cnt_miss = Cnt_miss + 1;
+    end
     
     sig_rx = decline_direct + decline_tagOut;
     
@@ -147,7 +160,9 @@ N_delayDir = round(delta_t * ratio * fs);
         plot(t_plot / ratio, angle(sig_rx));
         title('叠加');
     end
-end
+ end
+
+Rate_miss = Cnt_miss / numel(r_tagIn)
 
 
 end

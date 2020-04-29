@@ -34,10 +34,15 @@ f_source = 2.412 * (10 ^ 4);
 
 % 信号发射功率 mW
 global P_source;
-P_source = 50;
+P_source = 80;
 % 噪声功率 dBW
 global P_noise;
 P_noise = 0.5;
+% 接收灵敏度及其接收功率阈值
+global L_recTre;
+RecSen = -110; % dBm
+P_recTre = 10 ^ (RecSen / 10);
+L_recTre = 10 * log10(P_source / P_recTre)
 
 global dirname;
 time_now = datestr(now, 30);
