@@ -17,12 +17,12 @@ index = 1;
 
 global y_tag;
 y_tag = zeros(1, N);
-for i=0:N-2
+for i=0:N-1
     if mod(i, fs / f_tag) == 0
-        y_tag(i + 1) = sig_bin(index) ;
+        y_tag(i) = sig_bin(index) ;
         index = index + 1;
     else
-        y_tag(i+1) = y_tag(i);
+        y_tag(i) = y_tag(i - 1);
     end
 end
 %»­³ö tag ±àÂëĞÅºÅ

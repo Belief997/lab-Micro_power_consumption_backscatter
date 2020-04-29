@@ -1,17 +1,20 @@
 % 采样率 10 倍
 global fs;
-fs = f_source * 10;
 A = 1;
 E = 0 * A;
 %采样点数 10s
-N = 10 * fs;
+Ns = 10; % 单个周期采样点数
+fs = f_source * Ns;
+N = round(10 * fs);
 n = 0 : N-1;
 %时间序列
 % global t;
 t = n / fs ;
+phase = linspace(0, 2 * pi, Ns + 1); % 采样相位
+
 global y_source;
-y_source_i = sin(2 * pi * f_source * t) + E;
-y_source_q = cos(2 * pi * f_source * t) + E;
+y_source_i = cos(phase(mod(n, Ns)+1)) + E;
+y_source_q = sin(phase(mod(n, Ns)+1)) + E;
 y_source = A * (y_source_i + y_source_q * 1i);
 %画出信号源
 % figure

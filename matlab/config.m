@@ -35,6 +35,9 @@ f_source = 2.412 * (10 ^ 4);
 % 信号发射功率 mW
 global P_source;
 P_source = 50;
+% 噪声功率 dBW
+global P_noise;
+P_noise = 0.5;
 
 global dirname;
 time_now = datestr(now, 30);

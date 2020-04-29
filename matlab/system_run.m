@@ -7,10 +7,13 @@ run_type = 'bt';
 config;
 %-----------------------------
 %% 信号源
-source;
-tag;
+source;   % 载波
+tag;      % tag
+
+global y_source;
 global y_sig;
-y_sig = y_source .* y_tag;
+% y_sig = y_source .* y_tag;
+y_sig = y_source;
 
 % 添加高斯噪声
 % dB 单位信噪比
@@ -27,8 +30,8 @@ y_sig = y_source .* y_tag;
 
 % 保存信号
 global dirname;
-filename = sprintf('%s%s', dirname, 'y_sig');
-save(filename, 'y_sig');
+filename = sprintf('%s%s', dirname, 'source');
+save(filename, 'y_source', 'y_tag');
 
 % figure
 % subplot(3, 1, 1);
@@ -72,15 +75,15 @@ y_b = y_b * r_by;
 
 %% 信道
 % 计算三个距离
-[d1, d2, d3] = xy2d(x, y, 1);
+for j=1:2
+    [d1, d2, d3] = xy2d(x, y, j);
+    [d1_b, d2_b, d3_b] = xy2d(x_b, y_b, j);
 
-% single_run(r_tagIn,r_tagOut, r_direct, draw_plot, )
-single_run(d1, d2, d3, false, 'tag');
-
-[d1_b, d2_b, d3_b] = xy2d(x_b, y_b, 1);
-% single_run(r_tagIn,r_tagOut, r_direct, draw_plot)
-single_run(d1_b, d2_b, d3_b, false, 'beacon');
-
+    % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, type)
+    single_run(d1, d2, d3, false, 'tag', j);
+    % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, type)
+    single_run(d1_b, d2_b, d3_b, false, 'beacon', j);
+end
 
 
 %% 接收端
