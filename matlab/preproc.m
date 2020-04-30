@@ -9,13 +9,24 @@ if strcmp(type ,  'inside') || strcmp(type ,  'outside') || strcmp(type ,  'up')
     savePath = '.\DataSet\';
 end
 file_name = sprintf('%s%s_1_%d.mat',savePath, filename, i);
-sig_rx_1 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
+if strcmp(type ,  'tag')
+    Sig_rx_1 = [cell2mat(struct2cell(load(file_name, 'sig_rx_1'))); ...
+                cell2mat(struct2cell(load(file_name, 'sig_rx_2'))); ...
+                cell2mat(struct2cell(load(file_name, 'sig_rx_3')))];
+else
+    Sig_rx_1 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
+end
 file_name = sprintf('%s%s_2_%d.mat',savePath, filename, i);
-sig_rx_2 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
-
+if strcmp(type ,  'tag')
+    Sig_rx_2 = [cell2mat(struct2cell(load(file_name, 'sig_rx_1'))); ...
+                cell2mat(struct2cell(load(file_name, 'sig_rx_2'))) ; ...
+                cell2mat(struct2cell(load(file_name, 'sig_rx_3')))];
+else
+    Sig_rx_2 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
+end
 %% 求幅度
-    Amp_1 = abs(sig_rx_1);
-    Amp_2 = abs(sig_rx_2);
+    Amp_1 = abs(Sig_rx_1);
+    Amp_2 = abs(Sig_rx_2);
     
 if draw
     figure;
@@ -25,8 +36,8 @@ if draw
     plot(Amp_2);
 end
 %% 求相位差
-An_1 = angle(sig_rx_1);
-An_2 = angle(sig_rx_2);
+An_1 = angle(Sig_rx_1);
+An_2 = angle(Sig_rx_2);
 An_diff = An_1 - An_2;
 
 if draw

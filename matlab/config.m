@@ -42,7 +42,7 @@ global P_noise;
 P_noise = 0.5;
 % 接收灵敏度及其接收功率阈值
 global L_recTre;
-RecSen = -90; % dBm
+RecSen = -100; % dBm
 P_recTre = 10 ^ (RecSen / 10);
 L_recTre = 10 * log10(P_source / P_recTre)
 

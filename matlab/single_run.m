@@ -139,7 +139,12 @@ Cnt_miss = 0;
     end
     
     sig_rx = decline_direct + decline_tagOut;
-    sig_rx = awgn(sig_rx, 50);
+    if strcmp(type , 'tag')
+        sig_rx_1 = awgn(sig_rx, 50);
+        sig_rx_2 = awgn(sig_rx, 50);
+        sig_rx_3 = awgn(sig_rx, 50);
+    end
+    
 %     figure
 %     subplot(3,1,1);
 %     plot(abs(sig_rx));
@@ -162,8 +167,11 @@ Cnt_miss = 0;
     elseif strcmp(type ,  'down')
         filename = sprintf('.\\DataSet\\d_%s_%d_%d', 'sig_rx', N_rx, i);
     end
-    save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
-        
+    if strcmp(type , 'tag')
+        save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx', 'sig_rx_1', 'sig_rx_2', 'sig_rx_3');
+    else
+        save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
+    end
     if draw_plot && false
         %  ±º‰÷·
         n_plot = 0 : length(y_tag)-1;
