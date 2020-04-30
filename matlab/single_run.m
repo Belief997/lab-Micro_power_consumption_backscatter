@@ -13,10 +13,6 @@ global y_tag;
 global fs;
 global dirname;
 
-N = 10 * fs;
-n = 0 : N-1;
-t = n / fs ;
-
 %% 衰减计算
 % 
 % [L_out] = ideal_decline(fx, r, G_tx, G_rx)
@@ -103,7 +99,7 @@ N_delayDir = round(delta_t * ratio * fs);
 
 Cnt_miss = 0;
 
-% 画出两个延时及其加和
+%% 求出最终波形并画出其加和
  for i=1:numel(r_tagIn) 
      % 时延 截取
     sig_direct = y_source(1, N_delayDir(i) + 1 : N_delayDir(i) + length(y_tag));
@@ -120,7 +116,8 @@ Cnt_miss = 0;
 
         sig_tagOut = decline_tagIn .* y_tag;
         decline_tagOut = sig_tagOut * 10^(-0.1 * L_tagOut(i));
-
+        % 等效于
+        % decline_tagOut = y_tag .* sig_reflect * 10^(-0.1 * (L_tagOut(i) + L_tagIn(i)));
     else
         decline_tagOut = zeros(1, length(y_tag));
         Cnt_miss = Cnt_miss + 1;
