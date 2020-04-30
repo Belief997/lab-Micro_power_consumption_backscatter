@@ -76,8 +76,8 @@ y_b = y_b * r_by;
 %% 信道
 % 计算三个距离
 for j=1:2
-    [d1, d2, d3] = xy2d(x, y, j);
-    [d1_b, d2_b, d3_b] = xy2d(x_b, y_b, j);
+    [d1, d2, d3] = xy2d(x, y, j, 'inside');
+    [d1_b, d2_b, d3_b] = xy2d(x_b, y_b, j, 'inside');
 
     % single_run(r_tagIn,r_tagOut, r_direct, draw_plot, type)
     single_run(d1, d2, d3, false, 'tag', j);

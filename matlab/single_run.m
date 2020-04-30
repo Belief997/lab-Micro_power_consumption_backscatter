@@ -31,6 +31,13 @@ L_direct = ideal_decline(f_tx * 10^(-6), r_direct, G_source, G_rx);
 % P_tag = P_tagIn .* 10.^(-0.1 * L_tagOut);
 % P_direct = P_source .* 10.^(-0.1 * L_direct);
 
+
+if strcmp(type ,  'up') ||  strcmp(type ,  'down')
+    L_tagIn = L_tagIn + 10;
+    L_tagOut = L_tagOut + 10;
+end
+
+
 % L_all = [L_tagIn L_tagOut L_direct];
 L_tag = L_tagIn + L_tagOut;
 disp('L_tag is');
@@ -50,6 +57,10 @@ elseif strcmp(type ,  'inside')
     filename = sprintf('.\\DataSet\\i_%s_%d', 'decline', N_rx);
 elseif strcmp(type ,  'outside')
     filename = sprintf('.\\DataSet\\o_%s_%d', 'decline', N_rx);
+elseif strcmp(type ,  'up')
+    filename = sprintf('.\\DataSet\\u_%s_%d', 'decline', N_rx);
+elseif strcmp(type ,  'down')
+    filename = sprintf('.\\DataSet\\d_%s_%d', 'decline', N_rx);
 end
 save(filename, 'L_tagIn', 'L_tagOut', 'L_tag', 'L_direct');
 
@@ -90,6 +101,10 @@ elseif strcmp(type ,  'inside')
     filename = sprintf('.\\DataSet\\i_%s_%d', 'delay', N_rx);
 elseif strcmp(type ,  'outside')
     filename = sprintf('.\\DataSet\\o_%s_%d', 'delay', N_rx);
+elseif strcmp(type ,  'up')
+    filename = sprintf('.\\DataSet\\u_%s_%d', 'delay', N_rx);
+elseif strcmp(type ,  'down')
+    filename = sprintf('.\\DataSet\\d_%s_%d', 'delay', N_rx);
 end
 save(filename, 'delay_tagIn', 'delay_reflect', 'delay_direct', 'delta_t');
 
@@ -124,7 +139,7 @@ Cnt_miss = 0;
     end
     
     sig_rx = decline_direct + decline_tagOut;
-    
+    sig_rx = awgn(sig_rx, 50);
 %     figure
 %     subplot(3,1,1);
 %     plot(abs(sig_rx));
@@ -142,6 +157,10 @@ Cnt_miss = 0;
         filename = sprintf('.\\DataSet\\i_%s_%d_%d', 'sig_rx', N_rx, i);
     elseif strcmp(type ,  'outside')
         filename = sprintf('.\\DataSet\\o_%s_%d_%d', 'sig_rx', N_rx, i);
+    elseif strcmp(type ,  'up')
+        filename = sprintf('.\\DataSet\\u_%s_%d_%d', 'sig_rx', N_rx, i);
+    elseif strcmp(type ,  'down')
+        filename = sprintf('.\\DataSet\\d_%s_%d_%d', 'sig_rx', N_rx, i);
     end
     save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
         

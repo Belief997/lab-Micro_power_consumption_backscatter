@@ -7,10 +7,12 @@ c = 3 * (10 ^ 8);
 % 房间尺寸 5m x 6m
 global Width;
 global Length;
+global Hight;
 global block_Nx;
 global block_Ny;
 Width = 5;
 Length = 6;
+Hight = 3;
 block_Nx = 5;
 block_Ny = 6 ;
 
@@ -40,7 +42,7 @@ global P_noise;
 P_noise = 0.5;
 % 接收灵敏度及其接收功率阈值
 global L_recTre;
-RecSen = -110; % dBm
+RecSen = -90; % dBm
 P_recTre = 10 ^ (RecSen / 10);
 L_recTre = 10 * log10(P_source / P_recTre)
 

@@ -5,7 +5,7 @@ function [] = preproc(filename, i, draw, type)
 global dirname;
 savePath = dirname;
 % xxx -> xxx_i -> .\xxx\xxx_i
-if strcmp(type ,  'inside') || strcmp(type ,  'outside')
+if strcmp(type ,  'inside') || strcmp(type ,  'outside') || strcmp(type ,  'up') || strcmp(type ,  'down')
     savePath = '.\DataSet\';
 end
 file_name = sprintf('%s%s_1_%d.mat',savePath, filename, i);
@@ -49,6 +49,10 @@ elseif strcmp(type ,  'inside')
     savename = sprintf('%si_%s_%d', savePath, 'sig_proc', i);
 elseif strcmp(type , 'outside')
     savename = sprintf('%so_%s_%d', savePath, 'sig_proc', i);
+elseif strcmp(type , 'up')
+    savename = sprintf('%su_%s_%d', savePath, 'sig_proc', i); 
+elseif strcmp(type , 'down')
+    savename = sprintf('%sd_%s_%d', savePath, 'sig_proc', i);     
 end
 save(savename, 'Amp_1', 'Amp_2', 'An_diff');
 
