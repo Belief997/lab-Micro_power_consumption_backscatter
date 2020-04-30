@@ -14,10 +14,10 @@ file_name = sprintf('%s%s_2_%d.mat',savePath, filename, i);
 sig_rx_2 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
 
 %% 求幅度
+if draw
     Amp_1 = abs(sig_rx_1);
     Amp_2 = abs(sig_rx_2);
-    
-if draw
+
     figure;
     subplot(2, 1, 1);
     plot(Amp_1);
@@ -29,15 +29,15 @@ An_1 = angle(sig_rx_1);
 An_2 = angle(sig_rx_2);
 An_diff = An_1 - An_2;
 
-if draw
-    figure
-    subplot(3, 1, 1);
-    plot(An_1);
-    subplot(3, 1, 2);
-    plot(An_2);
-    subplot(3, 1, 3);
-    plot(An_diff);
-end
+
+figure
+subplot(3, 1, 1);
+plot(An_1);
+subplot(3, 1, 2);
+plot(An_2);
+subplot(3, 1, 3);
+plot(An_diff);
+
 
 % 保存数据
 

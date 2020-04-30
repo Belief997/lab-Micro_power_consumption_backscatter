@@ -120,6 +120,7 @@ Cnt_miss = 0;
 
         sig_tagOut = decline_tagIn .* y_tag;
         decline_tagOut = sig_tagOut * 10^(-0.1 * L_tagOut(i));
+
     else
         decline_tagOut = zeros(1, length(y_tag));
         Cnt_miss = Cnt_miss + 1;
@@ -127,6 +128,13 @@ Cnt_miss = 0;
     
     sig_rx = decline_direct + decline_tagOut;
     
+%     figure
+%     subplot(3,1,1);
+%     plot(abs(sig_rx));
+%     subplot(3,1,2);
+%     plot(abs(decline_direct));
+%     subplot(3,1,3);
+%     plot(abs(decline_tagOut));
 
     % ±£´æÊý¾Ý
     if strcmp(type ,  'beacon')
