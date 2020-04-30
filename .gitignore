@@ -13,3 +13,5 @@ KinetisSDK/*.txt
 matlab/simulate.zip
 matlab/2020*
 matlab/DataSet*/*
+matlab/*.asv
+

@@ -51,7 +51,7 @@ dirname = sprintf('.\\%s\\', time_now);
 global run_type;
 if run_type ~= 'io'
     mkdir(dirname);
+    % 保存配置信息, 将会覆盖已有的配置文件
+    filename = sprintf('.\\%s', 'config');
+    save(filename, 'Width', 'Length', 'block_Nx', 'block_Ny', 'dirname');
 end
-%% 保存配置信息, 将会覆盖已有的配置文件
-filename = sprintf('.\\%s', 'config');
-save(filename, 'Width', 'Length', 'block_Nx', 'block_Ny', 'dirname');
