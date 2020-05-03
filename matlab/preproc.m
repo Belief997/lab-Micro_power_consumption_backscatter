@@ -67,7 +67,7 @@ elseif strcmp(type , 'up')
 elseif strcmp(type , 'down')
     savename = sprintf('%sd_%s_%d', savePath, 'sig_proc', i);     
 end
-save(savename, 'Amp_1', 'Amp_2', 'An_diff');
+save(savename, 'Amp_1', 'Amp_2', 'An_1', 'An_diff');
 
 end
 
