@@ -45,6 +45,10 @@ global L_recTre;
 RecSen = -100; % dBm
 P_recTre = 10 ^ (RecSen / 10);
 L_recTre = 10 * log10(P_source / P_recTre)
+% –≈‘Î±»
+global SNR;
+SNR = 50;
+
 
 global dirname;
 time_now = datestr(now, 30);

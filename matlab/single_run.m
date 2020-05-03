@@ -6,6 +6,7 @@ global ratio;
 global f_source;
 global P_source;
 global P_noise;
+global SNR;
 global L_recTre;
 global y_source;
 global y_tag;
@@ -140,9 +141,12 @@ Cnt_miss = 0;
     
     sig_rx = decline_direct + decline_tagOut;
     if strcmp(type , 'tag')
-        sig_rx_1 = awgn(sig_rx, 50);
-        sig_rx_2 = awgn(sig_rx, 50);
-        sig_rx_3 = awgn(sig_rx, 50);
+        sig_rx_1 = awgn(sig_rx, SNR);
+        sig_rx_2 = awgn(sig_rx, SNR);
+        sig_rx_3 = awgn(sig_rx, SNR);    
+%         sig_rx_4 = awgn(sig_rx, SNR);
+    else
+        sig_rx = awgn(sig_rx, SNR);
     end
     
 %     figure
@@ -168,9 +172,11 @@ Cnt_miss = 0;
         filename = sprintf('.\\DataSet\\d_%s_%d_%d', 'sig_rx', N_rx, i);
     end
     if strcmp(type , 'tag')
-        save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx', 'sig_rx_1', 'sig_rx_2', 'sig_rx_3');
+%         save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx', 
+        save(filename, 'sig_rx_1', 'sig_rx_2', 'sig_rx_3');%, 'sig_rx_4');
     else
-        save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
+%         save(filename, 'decline_direct', 'decline_tagOut', 
+        save(filename,'sig_rx');
     end
     if draw_plot && false
         %  ±º‰÷·
@@ -194,6 +200,7 @@ Cnt_miss = 0;
     end
  end
 
+ disp([type ,' ', num2str(N_rx)]);
 Rate_miss = Cnt_miss / numel(r_tagIn)
 
 

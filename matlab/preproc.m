@@ -12,7 +12,8 @@ file_name = sprintf('%s%s_1_%d.mat',savePath, filename, i);
 if strcmp(type ,  'tag')
     Sig_rx_1 = [cell2mat(struct2cell(load(file_name, 'sig_rx_1'))); ...
                 cell2mat(struct2cell(load(file_name, 'sig_rx_2'))); ...
-                cell2mat(struct2cell(load(file_name, 'sig_rx_3')))];
+                cell2mat(struct2cell(load(file_name, 'sig_rx_3')));];% ...
+%                 cell2mat(struct2cell(load(file_name, 'sig_rx_4')))];
 else
     Sig_rx_1 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
 end
@@ -20,7 +21,8 @@ file_name = sprintf('%s%s_2_%d.mat',savePath, filename, i);
 if strcmp(type ,  'tag')
     Sig_rx_2 = [cell2mat(struct2cell(load(file_name, 'sig_rx_1'))); ...
                 cell2mat(struct2cell(load(file_name, 'sig_rx_2'))) ; ...
-                cell2mat(struct2cell(load(file_name, 'sig_rx_3')))];
+                cell2mat(struct2cell(load(file_name, 'sig_rx_3')))]; %...
+%                 cell2mat(struct2cell(load(file_name, 'sig_rx_4')))];
 else
     Sig_rx_2 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
 end
@@ -40,7 +42,7 @@ An_1 = angle(Sig_rx_1);
 An_2 = angle(Sig_rx_2);
 An_diff = An_1 - An_2;
 
-if draw
+if draw 
     figure
     subplot(3, 1, 1);
     plot(An_1);

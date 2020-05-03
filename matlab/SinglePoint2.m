@@ -5,6 +5,7 @@ global c;
 global ratio;
 global f_source;
 % global P_source;
+global SNR;
 global y_source;
 % global y_sig;
 global y_tag;
@@ -105,7 +106,7 @@ Cnt_miss = 0;
     end
     
     sig_rx = decline_direct + decline_tagOut;
-    sig_rx = awgn(sig_rx, 50);
+    sig_rx = awgn(sig_rx, SNR);
     
     % 保存数据
     if strcmp(type ,  'beacon')
@@ -117,8 +118,9 @@ Cnt_miss = 0;
     elseif strcmp(type ,  'outside')
         filename = sprintf('.\\DataSet\\o_%s_%d_%d', 'sig_rx', N_rx, i);
     end
-    save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
-        
+%     save(filename, 'decline_direct', 'decline_tagOut', 'sig_rx');
+    save(filename, 'sig_rx');
+    
     if draw_plot && false
         % 时间轴
         n_plot = 0 : length(y_tag)-1;
@@ -139,8 +141,10 @@ Cnt_miss = 0;
         plot(t_plot / ratio, angle(sig_rx));
         title('叠加');
     end
-end
+ end
 
+ disp([type, ' ', num2str(N_rx)]);
+Rate_miss = Cnt_miss / numel(r_tagIn)
 
 end
 
