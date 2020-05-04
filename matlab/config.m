@@ -36,7 +36,7 @@ f_source = 2.412 * (10 ^ 4);
 
 % 信号发射功率 mW
 global P_source;
-P_source = 80;
+P_source = 100;
 % 噪声功率 dBW
 global P_noise;
 P_noise = 0.5;
@@ -47,7 +47,7 @@ P_recTre = 10 ^ (RecSen / 10);
 L_recTre = 10 * log10(P_source / P_recTre)
 % 信噪比
 global SNR;
-SNR = 50;
+SNR = 250;
 
 
 global dirname;

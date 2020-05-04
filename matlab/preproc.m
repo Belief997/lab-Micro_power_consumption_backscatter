@@ -26,9 +26,23 @@ if strcmp(type ,  'tag')
 else
     Sig_rx_2 = cell2mat(struct2cell(load(file_name, 'sig_rx')));
 end
+if strcmp(type ,  'tag')
+    Sig_rx_1_smooth = [smooth(Sig_rx_1(1,:), 3001)'; smooth(Sig_rx_1(2,:), 3001)'; smooth(Sig_rx_1(3,:)', 3001)'];
+    Sig_rx_2_smooth = [smooth(Sig_rx_2(1,:), 3001)'; smooth(Sig_rx_2(2,:), 3001)' ;smooth(Sig_rx_2(3,:)', 3001)'];
+else
+    Sig_rx_1_smooth = smooth(Sig_rx_1, 101)';
+    Sig_rx_2_smooth = smooth(Sig_rx_2, 101)';
+end
 %% 求幅度
+%     Sig_rx_1 = Sig_rx_1_smooth;
+%     Sig_rx_2 = Sig_rx_2_smooth;
+
     Amp_1 = abs(Sig_rx_1);
     Amp_2 = abs(Sig_rx_2);
+    
+    Amp_1 = Amp_1(:,200000:2000000);
+    Amp_2 = Amp_2(:,200000:2000000);
+    
     
 if draw
     figure;
@@ -40,7 +54,13 @@ end
 %% 求相位差
 An_1 = angle(Sig_rx_1);
 An_2 = angle(Sig_rx_2);
+
+    An_1 = An_1(:,200000:2000000);
+    An_2 = An_2(:,200000:2000000);
+
 An_diff = An_1 - An_2;
+
+
 
 if draw 
     figure

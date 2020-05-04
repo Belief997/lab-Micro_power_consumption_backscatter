@@ -105,8 +105,8 @@ Cnt_miss = 0;
         Cnt_miss = Cnt_miss + 1;
     end
     
-    sig_rx = decline_direct + decline_tagOut;
-    sig_rx = awgn(sig_rx, SNR);
+    sig_rx = decline_direct + awgn(decline_tagOut, SNR);
+%     sig_rx = awgn(sig_rx, SNR);
     
     % ±£´æÊý¾Ý
     if strcmp(type ,  'beacon')

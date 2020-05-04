@@ -88,7 +88,7 @@ end
 
 %% 接收端
 % 数据处理
-dirname = '.\20200503T220901\';
+% dirname = '.\20200504T222631\';
 global block_Nx;
 global block_Ny;
 % [] = preproc(filename, i, draw, isBeacon)
@@ -103,6 +103,6 @@ end
 
 % clear;
 %
-% GenData;
-% dist;
+GenData;
+dist;
 

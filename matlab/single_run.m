@@ -139,14 +139,18 @@ Cnt_miss = 0;
         Cnt_miss = Cnt_miss + 1;
     end
     
-    sig_rx = decline_direct + decline_tagOut;
+
+    
+%     sig_rx = decline_direct + decline_tagOut;
+    
     if strcmp(type , 'tag')
-        sig_rx_1 = awgn(sig_rx, SNR);
-        sig_rx_2 = awgn(sig_rx, SNR);
-        sig_rx_3 = awgn(sig_rx, SNR);    
-%         sig_rx_4 = awgn(sig_rx, SNR);
+        sig_rx_1 = decline_direct + awgn(decline_tagOut, SNR);
+        sig_rx_2 = decline_direct + awgn(decline_tagOut, SNR);
+    %         sig_rx_3 = sig_rx;    
+        sig_rx_3 = decline_direct + awgn(decline_tagOut, SNR); 
+    %         sig_rx_4 = awgn(sig_rx, SNR);
     else
-        sig_rx = awgn(sig_rx, SNR);
+        sig_rx = decline_direct + awgn(decline_tagOut, SNR);
     end
     
 %     figure
