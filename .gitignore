@@ -10,3 +10,6 @@ KinetisSDK/*.xml
 KinetisSDK/*.htm
 KinetisSDK/*.txt
 
+*.mat
+*.o
+*.d
