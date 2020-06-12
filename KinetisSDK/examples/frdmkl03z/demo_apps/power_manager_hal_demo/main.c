@@ -31,27 +31,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 ///////////////////////////////////////////////////////////////////////////////
+//
+//#include <stdint.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <assert.h>
+//#include <stdio.h>
+//
+//#include "fsl_os_abstraction.h"
+//#include "fsl_interrupt_manager.h"
+//#include "fsl_power_manager.h"
+//#include "fsl_llwu_hal.h"
+//#include "fsl_smc_hal.h"
+//#include "fsl_clock_manager.h"
+//#include "fsl_debug_console.h"
+//#include "fsl_sim_hal.h"
+//#include "board.h"
+//#include "fsl_misc_utilities.h"
+//#include "fsl_lpuart_driver.h"
+//
+//#include "fsl_rtc_hal.h"
+//#include "fsl_device_registers.h"
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+// Standard C Included Files
 #include <stdio.h>
 
-#include "fsl_os_abstraction.h"
-#include "fsl_interrupt_manager.h"
-#include "fsl_power_manager.h"
-#include "fsl_llwu_hal.h"
-#include "fsl_smc_hal.h"
-#include "fsl_clock_manager.h"
-#include "fsl_debug_console.h"
-#include "fsl_sim_hal.h"
+// SDK Included Files
 #include "board.h"
-#include "fsl_misc_utilities.h"
-#include "fsl_lpuart_driver.h"
+#include "fsl_hwtimer.h"
+#include "fsl_debug_console.h"
 
-#include "fsl_rtc_hal.h"
-#include "fsl_device_registers.h"
+//// power demo
+#if 0
 ///////////////////////////////////////////////////////////////////////////////
 // Definitions
 ///////////////////////////////////////////////////////////////////////////////
@@ -431,142 +442,96 @@ void dbg_uart_reinit()
     DbgConsole_Init(BOARD_DEBUG_UART_INSTANCE, BOARD_LOW_POWER_UART_BAUD, kDebugConsoleLPUART);
 }
 
-/*******************************  user func begin *********************************************/
+#endif
+// TIMER
+/*!
+ * @brief Hardware timer callback function
+ */
+///////////////////////////////////////////////////////////////////////////////
+// Definitions
+///////////////////////////////////////////////////////////////////////////////
+#if 1
+#include "fsl_hwtimer.h"
 
-#define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1):__FILE__)
+#define HWTIMER_LL_DEVIF    kSystickDevif
+#define HWTIMER_LL_ID       0
 
-#define LOG_DEBUG(fmt, ...) PRINTF("[D][%s:%d %s]"fmt"\r\n", __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__);
+#define HWTIMER_ISR_PRIOR       5
+#define HWTIMER_PERIOD          10000
+#define HWTIMER_DOTS_PER_LINE   40
+#define HWTIMER_LINES_COUNT     4
 
-#define GET_MODE_INDEX(mode) ((mode) - kDemoMin - 1)
+///////////////////////////////////////////////////////////////////////////////
+// Variables
+///////////////////////////////////////////////////////////////////////////////
 
-// initializes configuration structures
-#define INIT_MODE_CONFIG(SetMode) {.mode = SetMode, .sleepOnExitValue = false,}
+extern const hwtimer_devif_t kSystickDevif;
+extern const hwtimer_devif_t kPitDevif;
+hwtimer_t hwtimer;
 
-enum
+
+static uint8_t flag;
+
+void hwtimer_callback(void* data)
 {
-    WakeUp_rtc = 0,
-    WakeUp_btn = 1,
-
-};
-
-
-
-void user_PrintMenu(void)
-{
-    PRINTF("\r\nSelect the desired operation \r\n\r\n");
-    PRINTF("Press  %c for enter: RUN   - Normal RUN mode\r\n",kDemoRun);
-    PRINTF("Press  %c for enter: Wait  - Wait mode\r\n",kDemoWait);
-    PRINTF("Press  %c for enter: Stop  - Stop mode\r\n",kDemoStop);
-    PRINTF("Press  %c for enter: VLPR  - Very Low Power Run mode\r\n",kDemoVlpr);
-    PRINTF("Press  %c for enter: VLPW  - Very Low Power Wait mode\r\n",kDemoVlpw);
-    PRINTF("Press  %c for enter: VLPS  - Very Low Power Stop mode\r\n",kDemoVlps);
-    PRINTF("Press  %c for enter: VLLS0 - Very Low Leakage Stop 0 mode\r\n",kDemoVlls0);
-    
-    PRINTF("Press  %c for enter: VLLS1 - Very Low Leakage Stop 1 mode\r\n",kDemoVlls1);
-    PRINTF("Press  %c for enter: VLLS3 - Very Low Leakage Stop 3 mode\r\n",kDemoVlls3);
-    
-    PRINTF("\r\nWaiting for key press..\r\n\r\n");
-}
-
-void user_initRTC(void)
-{
-    rtc_datetime_t date =
+    PRINTF("!.");
+    if ((HWTIMER_SYS_GetTicks(&hwtimer) % HWTIMER_DOTS_PER_LINE) == 0)
     {
-        .year = 2014U, .month = 4U, .day = 30U,
-        .hour = 14U, .minute = 0U, .second = 0U,
-    };
-
-    // select the 1Hz for RTC_CLKOUT
-    CLOCK_SYS_SetRtcOutSrc(kClockRtcoutSrc1Hz);
-    /* Enable clock gate to RTC module */
-    CLOCK_SYS_EnableRtcClock( 0U);
-    /* Initialize the general configuration for RTC module.*/
-    // clear all interrupts and resets the RTC
-    RTC_HAL_Init(RTC_BASE_PTR);
-    BOARD_InitRtcOsc();
-
-    /* Enable the RTC Clock output */
-    RTC_HAL_SetClockOutCmd(RTC_BASE_PTR, true);
-
-    NVIC_ClearPendingIRQ(RTC_IRQn);
-
-    INT_SYS_EnableIRQ(RTC_IRQn);
-
-    RTC_HAL_SetDatetime(RTC_BASE_PTR, &date);
-}
-
-void user_delayTemp(void)
-{
-    LOG_DEBUG("delay...");
-    uint32_t cnt = 0;
-    while(++cnt < 99999);
-    LOG_DEBUG("CNT %d", cnt);
-    cnt = 0;
-}
-
-void user_showState(void)
-{
-    uint32_t freq = 0;
-    CLOCK_SYS_GetFreq(kCoreClock, &freq);
-    PRINTF("    Core Clock = %dHz \r\n", freq);
-    displayPowerMode();
-}
-
-
-
-
-int user_SetGpio(uint32_t pinName, uint32_t value)
-{
-    /* Get actual port and pin number.*/
-    uint32_t port = GPIO_EXTRACT_PORT(pinName);
-    uint32_t pin = GPIO_EXTRACT_PIN(pinName);
-    GPIO_Type * gpioBase = g_gpioBase[port];
-    PORT_Type * portBase = g_portBase[port];
-
-    GPIO_HAL_WritePinOutput(gpioBase, pin, value);
-    return 0;
+        PRINTF("\r\n");
+    }
+    if ((HWTIMER_SYS_GetTicks(&hwtimer) % (HWTIMER_LINES_COUNT * HWTIMER_DOTS_PER_LINE)) == 0)
+    {
+        if (kHwtimerSuccess != HWTIMER_SYS_Stop(&hwtimer))
+        {
+            PRINTF("\r\nError: hwtimer stop.\r\n");
+        }
+        PRINTF("End\r\n");
+        flag = 1;
+    }
 }
 
 
 
 
 
-
-
-
-
-
-int user_test(void)
-{
-    user_SetGpio(kGpioLED1, 0);
-
-
-    return 0;
-}
-
-
-/*******************************  user func end *********************************************/
+#endif
+// TIMER END
 
 
 /*!
  * @brief main demo function.
  */
 int main(void) {
+#if 0
+    demo_power_modes_t testVal = kDemoRun;
+    uint8_t mode;
     power_manager_error_code_t ret = kPowerManagerSuccess;
+    uint32_t freq = 0;
+    rtc_datetime_t date =
+    {
+        .year = 2014U,
+        .month = 4U,
+        .day = 30U,
+        .hour = 14U,
+        .minute = 0U,
+        .second = 0U,
+    };
 
-    // 各个低功耗模式配置
     // Example of constant configuration
     // It may save the space in RAM
-    const power_manager_user_config_t vlprConfig = INIT_MODE_CONFIG(kPowerManagerVlpr);
-    power_manager_user_config_t vlpwConfig     = INIT_MODE_CONFIG(kPowerManagerVlpw);
-    // VLLS0 mode is supported only by some SOCs.
-    power_manager_user_config_t vlls0Config    = INIT_MODE_CONFIG(kPowerManagerVlls0);   
-    power_manager_user_config_t vlls1Config    = INIT_MODE_CONFIG(kPowerManagerVlls1);   
-    power_manager_user_config_t vlls3Config    = INIT_MODE_CONFIG(kPowerManagerVlls3);   
-    power_manager_user_config_t vlpsConfig     = INIT_MODE_CONFIG(kPowerManagerVlps);   
-    power_manager_user_config_t waitConfig     = INIT_MODE_CONFIG(kPowerManagerWait);   
-    power_manager_user_config_t stopConfig     = INIT_MODE_CONFIG(kPowerManagerStop);   
-    power_manager_user_config_t runConfig      = INIT_MODE_CONFIG(kPowerManagerRun);   
+    const power_manager_user_config_t vlprConfig = {
+        .mode = kPowerManagerVlpr,
+        .sleepOnExitValue = false,
+    };
+    power_manager_user_config_t vlpwConfig     =    vlprConfig;
+    power_manager_user_config_t vlls0Config    =    vlprConfig;
+    power_manager_user_config_t vlls1Config    =    vlprConfig;
+    power_manager_user_config_t vlls3Config    =    vlprConfig;
+    power_manager_user_config_t vlpsConfig     =    vlprConfig;
+    power_manager_user_config_t waitConfig     =    vlprConfig;
+    power_manager_user_config_t stopConfig     =    vlprConfig;
+    power_manager_user_config_t runConfig      =    vlprConfig;
+
     // Initializes array of pointers to power manager configurations
     power_manager_user_config_t const *powerConfigs[] =
     {
@@ -580,9 +545,9 @@ int main(void) {
       &vlls1Config,
       &vlls3Config,
     };
-    
+
     // User callback data
-    user_callback_data_t callbackData0 = {0};
+    user_callback_data_t callbackData0;
 
     // Initializes callback configuration structure for power manager
     power_manager_callback_user_config_t callbackCfg0 = { callback0,
@@ -592,10 +557,10 @@ int main(void) {
     // Initializes array of pointers to power manager callbacks
     power_manager_callback_user_config_t * callbacks[] =
     { &callbackCfg0 };
-
-
+#endif
     // Initializes hardware
     hardware_init();
+#if 0
     // Initializes OS abstraction layer which uses LPTMR HAL layer
     OSA_Init();
 
@@ -604,17 +569,53 @@ int main(void) {
     CLOCK_SYS_Init(g_defaultClockConfigurations, CLOCK_NUMBER_OF_CONFIGURATIONS,
                    clockCallbackTable, ARRAY_SIZE(clockCallbackTable));
 
-    // Action: set clock 
-//    CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
-    CLOCK_SYS_UpdateConfiguration(CLOCK_VLPR, kClockManagerPolicyForcible);
-    
-//    user_initRTC();
+    CLOCK_SYS_UpdateConfiguration(CLOCK_RUN, kClockManagerPolicyForcible);
+    // select the 1Hz for RTC_CLKOUT
+    CLOCK_SYS_SetRtcOutSrc(kClockRtcoutSrc1Hz);
 
+    /* Enable clock gate to RTC module */
+    CLOCK_SYS_EnableRtcClock( 0U);
+
+    /* Initialize the general configuration for RTC module.*/
+    RTC_HAL_Init(RTC_BASE_PTR);
+
+    BOARD_InitRtcOsc();
+
+    /* Enable the RTC Clock output */
+    RTC_HAL_SetClockOutCmd(RTC_BASE_PTR, true);
+
+    NVIC_ClearPendingIRQ(RTC_IRQn);
+
+    INT_SYS_EnableIRQ(RTC_IRQn);
+
+    //RTC_DRV_SetDatetime(0, &date);
+    RTC_HAL_SetDatetime(RTC_BASE_PTR, &date);
    // Initializes GPIO driver for LEDs and buttons
     GPIO_DRV_Init(switchPins, ledPins);
 
+    memset(&callbackData0, 0, sizeof(user_callback_data_t));
+
+    // initializes configuration structures
+    vlpwConfig.mode = kPowerManagerVlpw;
+
+    // VLLS0 mode is supported only by some SOCs.
+    vlls0Config.mode = kPowerManagerVlls0;
+
+    vlls1Config.mode = kPowerManagerVlls1;
+    vlls3Config.mode = kPowerManagerVlls3;
+    vlpsConfig.mode = kPowerManagerVlps;
+
+    waitConfig.mode = kPowerManagerWait;
+
+    stopConfig.mode = kPowerManagerStop;
+
+    runConfig.mode  = kPowerManagerRun;
+
     // initialize power manager driver
-    POWER_SYS_Init(powerConfigs, ARRAY_SIZE(powerConfigs), callbacks, ARRAY_SIZE(callbacks));
+    POWER_SYS_Init(powerConfigs,
+    sizeof(powerConfigs)/sizeof(power_manager_user_config_t *),
+    callbacks,
+    sizeof(callbacks)/sizeof(power_manager_callback_user_config_t *));
 
     // Enables LLWU interrupt
     INT_SYS_EnableIRQ(LLWU_IRQn);
@@ -622,71 +623,177 @@ int main(void) {
 
 
 
-
-    PRINTF("\r\n###########  Power Manager Demo @ %s %s ###########\r\n\r\n", __DATE__, __TIME__);
-    user_showState();
-
-    // enter VLPR default
-    LOG_DEBUG("enter VLPR");
-    if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
+    	//// enter vlpr mode
     {
-        update_clock_mode(CLOCK_VLPR);
-        PRINTF("Entering Very Low Power Run mode\r\n");
-        ret = POWER_SYS_SetMode(GET_MODE_INDEX(kDemoVlpr), kPowerManagerPolicyAgreement);
-        CHECK_RET_VAL(ret, GET_MODE_INDEX(kDemoVlpr));
+		mode = kDemoVlpr - kDemoMin - 1;
+		if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
+		{
+			update_clock_mode(CLOCK_VLPR);
+//			PRINTF("Entering Very Low Power Run mode\r\n");
+			PRINTF("VLPR\r\n");
+			ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
+			CHECK_RET_VAL(ret, mode);
+		}
+		else
+		{
+//			PRINTF("Very Low Power Run mode already active\r\n");
+			PRINTF("VLPR already\r\n");
+		}
     }
-    else
+#endif
+
+
+    ////  config timer and start
+
+////    if(kPowerManagerVlpr == POWER_SYS_GetCurrentMode())
+//    {
+//    	uint8_t ret = 0;
+//        // Hwtimer initialization
+//                if (kHwtimerSuccess != HWTIMER_SYS_Init(&hwtimer, &HWTIMER_LL_DEVIF, HWTIMER_LL_ID, NULL))
+//                {
+////                    PRINTF("\r\nError: hwtimer initialization.\r\n");
+//                	ret += 0x10;
+//                }
+//        /*
+//         * In case you wish to raise the Systick ISR priority, then use the below command with the
+//         * appropriate priority setting:
+//         * NVIC_SetPriority(SysTick_IRQn, isrPrior);
+//         */
+//                NVIC_SetPriority(SysTick_IRQn, HWTIMER_ISR_PRIOR);
+//
+//                if (kHwtimerSuccess != HWTIMER_SYS_SetPeriod(&hwtimer, HWTIMER_PERIOD))
+//                {
+//                	ret += 0x01;
+////                    PRINTF("\r\nError: hwtimer set period.\r\n");
+//                }
+//                if (kHwtimerSuccess != HWTIMER_SYS_RegisterCallback(&hwtimer, hwtimer_callback, NULL))
+//                {
+//                	ret += 0x02;
+////                    PRINTF("\r\nError: hwtimer callback registration.\r\n");
+//                }
+//                if (kHwtimerSuccess != HWTIMER_SYS_Start(&hwtimer))
+//                {
+//                	ret += 0x04;
+////                    PRINTF("\r\nError: hwtimer start.\r\n");
+//                }
+//
+//    	PRINTF("hello %x\r\n", ret);
+//    }
+//
+//while(1);
+
+
+
+    // Print the initial banner
+    PRINTF("\r\nHwtimer Example \r\n");
+
+    // Hwtimer initialization
+    if (kHwtimerSuccess != HWTIMER_SYS_Init(&hwtimer, &HWTIMER_LL_DEVIF, HWTIMER_LL_ID, NULL))
     {
-        PRINTF("Very Low Power Run mode already active\r\n");
+        PRINTF("\r\nError: hwtimer initialization.\r\n");
     }
 
-    user_test();
-    
-    // a little delay
-    user_delayTemp();
+
+    uint32_t freq = 0;
+    CLOCK_SYS_GetFreq(kCoreClock, &freq);
+    PRINTF("    Core Clock = %dHz \r\n", freq);
 
 
-    while (1)
+    /*
+     * In case you wish to raise the Systick ISR priority, then use the below command with the
+     * appropriate priority setting:
+     * NVIC_SetPriority(SysTick_IRQn, isrPrior);
+     */
+    NVIC_SetPriority(SysTick_IRQn, HWTIMER_ISR_PRIOR);
+
+    if (kHwtimerSuccess != HWTIMER_SYS_SetPeriod(&hwtimer, HWTIMER_PERIOD))
     {
-        user_showState();
-//        user_PrintMenu();
+        PRINTF("\r\nError: hwtimer set period.\r\n");
+    }
+    if (kHwtimerSuccess != HWTIMER_SYS_RegisterCallback(&hwtimer, hwtimer_callback, NULL))
+    {
+        PRINTF("\r\nError: hwtimer callback registration.\r\n");
+    }
+    if (kHwtimerSuccess != HWTIMER_SYS_Start(&hwtimer))
+    {
+        PRINTF("\r\nError: hwtimer start.\r\n");
+    }
 
-        LOG_DEBUG("State change: VLPR -> VLLS3");
-
-        // Into VLLS3 deep sleep
-        {
-            LOG_DEBUG("ENTER VLLS3!");
-            // 0:rtc, 1:btn
-//            setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
-            // set btn(sw2) gpio int as wake source
-            setWakeUpSource(WakeUp_btn, "Very Low Leakage Stop 3 mode");
-            PRINTF("Wake up goes through Reset sequence.\r\n");
-            ret = POWER_SYS_SetMode(GET_MODE_INDEX(kDemoVlls3), kPowerManagerPolicyAgreement);
-            CHECK_RET_VAL(ret, GET_MODE_INDEX(kDemoVlls3));
-            
-            LOG_DEBUG("Sleep Fail!!");
-        }
+    // Wait for Hardware Timer interrupts
+    while(1)
+    {}
 
 
 
-        // demo logic for reference
-//        {
-//        demo_power_modes_t testVal = kDemoRun;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    while (flag)
+//    {
+//        mode = 0;
+//
+//        CLOCK_SYS_GetFreq(kCoreClock, &freq);
+//        PRINTF("\r\n Demo %s %s \r\n\r\n", __DATE__, __TIME__);
+//        PRINTF("    Core Clock = %dHz \r\n", freq);
+//        displayPowerMode();
+//
+////        PRINTF("\r\nSelect the desired operation \r\n\r\n");
+////        PRINTF("Press  %c for enter: RUN   - Normal RUN mode\r\n",kDemoRun);
+////        PRINTF("Press  %c for enter: Wait  - Wait mode\r\n",kDemoWait);
+////        PRINTF("Press  %c for enter: Stop  - Stop mode\r\n",kDemoStop);
+////        PRINTF("Press  %c for enter: VLPR  - Very Low Power Run mode\r\n",kDemoVlpr);
+////        PRINTF("Press  %c for enter: VLPW  - Very Low Power Wait mode\r\n",kDemoVlpw);
+////        PRINTF("Press  %c for enter: VLPS  - Very Low Power Stop mode\r\n",kDemoVlps);
+////        PRINTF("Press  %c for enter: VLLS0 - Very Low Leakage Stop 0 mode\r\n",kDemoVlls0);
+////
+////        PRINTF("Press  %c for enter: VLLS1 - Very Low Leakage Stop 1 mode\r\n",kDemoVlls1);
+////        PRINTF("Press  %c for enter: VLLS3 - Very Low Leakage Stop 3 mode\r\n",kDemoVlls3);
+//
+////        PRINTF("\r\nWaiting for key press..\r\n\r\n");
+//        PRINTF("\r\nWait\r\n");
+//
 //        // Wait for user response
 //        testVal = (demo_power_modes_t)GETCHAR();
-
+//
 //        if ((testVal >= 'a') && (testVal <= 'z'))
 //        {
 //            testVal -= 'a' - 'A';
 //        }
-
+//
 //        if (testVal > kDemoMin && testVal < kDemoMax)
 //        {
-
+//
 //            mode = testVal - kDemoMin - 1;
-
+//
 //            switch (testVal)
 //            {
+//#if 0
 //                case kDemoWait:
 //                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
 //                    {
@@ -694,12 +801,12 @@ int main(void) {
 //                        break;
 //                    }
 //                    setWakeUpSource(selectWakeUpSource(testVal),"Wait mode");
-
+//
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                    CHECK_RET_VAL(ret, mode);
-
+//
 //                    break;
-
+//
 //                case kDemoStop:
 //                    if (POWER_SYS_GetCurrentMode() == kPowerManagerVlpr)
 //                    {
@@ -707,29 +814,31 @@ int main(void) {
 //                        break;
 //                    }
 //                    setWakeUpSource(selectWakeUpSource(testVal),"Stop mode");
-
+//
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-
+//
 //                    CHECK_RET_VAL(ret, mode);
-
+//
 //                    // update Clock Mode
 //                    update_clock_mode(CLOCK_RUN);
-//                    break; 
-
+//                    break;
+//#endif
 //                case kDemoVlpr:
 //                    if(kPowerManagerVlpr != POWER_SYS_GetCurrentMode())
 //                    {
 //                        update_clock_mode(CLOCK_VLPR);
-//                        PRINTF("Entering Very Low Power Run mode\r\n");
+////                        PRINTF("Entering Very Low Power Run mode\r\n");
+//                        PRINTF("VLPR\r\n");
 //                        ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                        CHECK_RET_VAL(ret, mode);
 //                    }
 //                    else
 //                    {
-//                        PRINTF("Very Low Power Run mode already active\r\n");
+////                        PRINTF("Very Low Power Run mode already active\r\n");
+//                        PRINTF("VLPR  already \r\n");
 //                    }
 //                    break;
-
+//#if 0
 //                case kDemoVlpw:
 //                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
 //                    {
@@ -740,17 +849,17 @@ int main(void) {
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                    CHECK_RET_VAL(ret, mode);
 //                    break;
-
+//
 //                case kDemoVlps:
 //                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Power Stop mode");
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-
+//
 //                    if (POWER_SYS_GetCurrentMode() == kPowerManagerRun)
 //                    {
 //                        // update Clock Mode to Run
 //                        update_clock_mode(CLOCK_RUN);
 //                    }
-
+//
 //                    CHECK_RET_VAL(ret, mode);
 //                    break;
 //                case kDemoVlls0:
@@ -758,7 +867,7 @@ int main(void) {
 //                    PRINTF("Wake up goes through Reset sequence.\r\n");
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                    CHECK_RET_VAL(ret, mode);
-
+//
 //                    break;
 //                case kDemoVlls1:
 //                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 1 mode");
@@ -766,18 +875,18 @@ int main(void) {
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                    CHECK_RET_VAL(ret, mode);
 //                    break;
-
+//#endif
 //                case kDemoVlls3:
 //                    setWakeUpSource(selectWakeUpSource(testVal),"Very Low Leakage Stop 3 mode");
 //                    PRINTF("Wake up goes through Reset sequence.\r\n");
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
 //                    CHECK_RET_VAL(ret, mode);
-
+//
 //                    break;
-
+//#if 0
 //                case kDemoRun:
 //                    ret = POWER_SYS_SetMode(mode, kPowerManagerPolicyAgreement);
-
+//
 //                    if (ret != kPowerManagerSuccess)
 //                    {
 //                        PRINTF("POWER_SYS_SetMode(%u) returned unexpected status : %u\r\n",mode,ret);
@@ -787,15 +896,15 @@ int main(void) {
 //                        update_clock_mode(CLOCK_RUN);
 //                    }
 //                    break;
+//#endif
 //                default:
-//                    PRINTF("Wrong value");
+////                    PRINTF("Wrong value");
 //                    break;
 //            }
-//            PRINTF("\r\nNext loop\r\n");
+//
+////            PRINTF("\r\nNext loop\r\n");
 //        }
-//        }
-
-    }
+//    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

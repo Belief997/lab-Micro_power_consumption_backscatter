@@ -1,0 +1,10 @@
+debug\fsl_misc_utilities.o: ../../../../../platform/utilities/src/fsl_misc_utilities.c
+debug\fsl_misc_utilities.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdarg.h
+debug\fsl_misc_utilities.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdio.h
+debug\fsl_misc_utilities.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdlib.h
+debug\fsl_misc_utilities.o: ../../../../../platform/utilities/inc/fsl_misc_utilities.h
+debug\fsl_misc_utilities.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdint.h
+debug\fsl_misc_utilities.o: ../../../../../platform/utilities/inc/fsl_debug_console.h
+debug\fsl_misc_utilities.o: ../../../../../platform/osa/inc/fsl_os_abstraction.h
+debug\fsl_misc_utilities.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdbool.h
+debug\fsl_misc_utilities.o: ../../../../../platform/osa/inc/fsl_os_abstraction_bm.h

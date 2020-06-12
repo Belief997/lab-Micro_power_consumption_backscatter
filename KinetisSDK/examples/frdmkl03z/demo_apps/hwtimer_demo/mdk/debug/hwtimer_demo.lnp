@@ -1,0 +1,24 @@
+--cpu Cortex-M0+ --scatter "./RTE/Device/MKL03Z32VFK4/MKL03Z32xxx4_flash.scf"
+"debug\fsl_misc_utilities.o"
+"debug\fsl_debug_console.o"
+"debug\print_scan.o"
+"debug\startup_mkl03z4.o"
+"debug\system_mkl03z4.o"
+"debug\startup.o"
+"debug\main.o"
+"debug\fsl_hwtimer_systick_irq.o"
+"debug\fsl_hwtimer_pit_irq.o"
+"debug\hardware_init.o"
+"debug\gpio_pins.o"
+"debug\pin_mux.o"
+"debug\board.o"
+--library_type=microlib --diag_suppress 6314 --strict --scatter "../../../../../platform/devices/MKL03Z4/linker/arm/MKL03Z32xxx4_flash.scf"
+
+../../../../../lib/ksdk_platform_lib/mdk/KL03Z4/debug/libksdk_platform.lib 
+--remove 
+--predefine="-D__stack_size__=0x200" 
+--predefine="-D__heap_size__=0x100" 
+--predefine="-D__ram_vector_table__=1" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\output\hwtimer_demo.map" -o debug\hwtimer_demo.out

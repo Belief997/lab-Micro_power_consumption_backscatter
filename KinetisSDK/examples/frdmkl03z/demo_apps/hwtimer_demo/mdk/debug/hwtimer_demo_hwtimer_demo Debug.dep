@@ -1,0 +1,221 @@
+Dependencies for Project 'hwtimer_demo', Target 'hwtimer_demo Debug': (DO NOT MODIFY !)
+F (../../../../../platform/utilities/src/fsl_misc_utilities.c)(0x55C31B46)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\fsl_misc_utilities.o --depend debug\fsl_misc_utilities.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/utilities/inc/fsl_misc_utilities.h)(0x55840518)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)
+I (../../../../../platform/osa/inc/fsl_os_abstraction.h)(0x55840516)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/osa/inc/fsl_os_abstraction_bm.h)(0x55840516)
+F (../../../../../platform/utilities/src/fsl_debug_console.c)(0x5584056C)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\fsl_debug_console.o --depend debug\fsl_debug_console.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)
+I (../../../../../platform/osa/inc/fsl_os_abstraction.h)(0x55840516)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/osa/inc/fsl_os_abstraction_bm.h)(0x55840516)
+I (../../../../../platform/hal/inc/fsl_lpuart_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (../../../../../platform/system/inc/fsl_clock_manager.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_sim_hal.h)(0x5584056A)
+I (../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h)(0x55840516)
+I (../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h)(0x5584056C)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_osc_hal.h)(0x55840516)
+I (../../../../../platform/utilities/src/print_scan.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\string.h)(0x5475F300)
+F (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)()
+F (../../../../../platform/utilities/src/print_scan.c)(0x55B87F10)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\print_scan.o --depend debug\print_scan.d)
+I (../../../../../platform/utilities/src/print_scan.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\string.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\ctype.h)(0x5475F300)
+F (../../../../../platform/utilities/src/print_scan.h)(0x55DC5588)()
+F (../../../../../platform/devices/MKL03Z4/startup/arm/startup_MKL03Z4.s)(0x55840566)(--cpu Cortex-M0+ -g --apcs=interwork --pd "__MICROLIB SETA 1" --cpreproc --diag_suppress=1609,1581 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 514" --pd "CPU_MKL03Z32VFK4 SETA 1" --pd "DEBUG SETA 1"--list .\output\startup_mkl03z4.lst -o debug\startup_mkl03z4.o --depend debug\startup_mkl03z4.d)
+F (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c)(0x5584050A)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\system_mkl03z4.o --depend debug\system_mkl03z4.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+F (../../../../../platform/devices/startup.c)(0x55840514)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\startup.o --depend debug\startup.d)
+I (../../../../../platform/devices/startup.h)(0x55840514)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+F (../../../../../platform/devices/startup.h)(0x55840514)()
+F (../main.c)(0x5ED389EE)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\main.o --depend debug\main.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (../../../board.h)(0x5E70EE5A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../gpio_pins.h)(0x5E70E4CE)
+I (../../../../../platform/drivers/inc/fsl_gpio_driver.h)(0x55840514)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/hal/inc/fsl_port_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/hal/inc/fsl_gpio_hal.h)(0x55840516)
+I (../../../pin_mux.h)(0x55A8AD82)
+I (../../../../../platform/system/inc/fsl_hwtimer.h)(0x55DC5588)
+I (../../../../../platform/system/inc/fsl_clock_manager.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_sim_hal.h)(0x5584056A)
+I (../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h)(0x55840516)
+I (../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h)(0x5584056C)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_osc_hal.h)(0x55840516)
+I (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)
+I (../../../../../platform/osa/inc/fsl_os_abstraction.h)(0x55840516)
+I (../../../../../platform/osa/inc/fsl_os_abstraction_bm.h)(0x55840516)
+F (../../../../../platform/system/src/hwtimer/fsl_hwtimer_systick_irq.c)(0x55840518)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\fsl_hwtimer_systick_irq.o --depend debug\fsl_hwtimer_systick_irq.d)
+F (../../../../../platform/system/src/hwtimer/fsl_hwtimer_pit_irq.c)(0x55840518)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\fsl_hwtimer_pit_irq.o --depend debug\fsl_hwtimer_pit_irq.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+F (../hardware_init.c)(0x558404F0)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\hardware_init.o --depend debug\hardware_init.d)
+I (../../../board.h)(0x5E70EE5A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../gpio_pins.h)(0x5E70E4CE)
+I (../../../../../platform/drivers/inc/fsl_gpio_driver.h)(0x55840514)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/hal/inc/fsl_port_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/hal/inc/fsl_gpio_hal.h)(0x55840516)
+I (../../../pin_mux.h)(0x55A8AD82)
+I (../../../../../platform/system/inc/fsl_clock_manager.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_sim_hal.h)(0x5584056A)
+I (../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h)(0x55840516)
+I (../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h)(0x5584056C)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_osc_hal.h)(0x55840516)
+I (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)
+I (../../../../../platform/osa/inc/fsl_os_abstraction.h)(0x55840516)
+I (../../../../../platform/osa/inc/fsl_os_abstraction_bm.h)(0x55840516)
+F (../../../gpio_pins.c)(0x5E70CCEF)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\gpio_pins.o --depend debug\gpio_pins.d)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../gpio_pins.h)(0x5E70E4CE)
+I (../../../../../platform/drivers/inc/fsl_gpio_driver.h)(0x55840514)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/hal/inc/fsl_port_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/hal/inc/fsl_gpio_hal.h)(0x55840516)
+F (../../../gpio_pins.h)(0x5E70E4CE)()
+F (../../../pin_mux.c)(0x55A8AD82)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\pin_mux.o --depend debug\pin_mux.d)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/hal/inc/fsl_port_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../pin_mux.h)(0x55A8AD82)
+F (../../../pin_mux.h)(0x55A8AD82)()
+F (../../../board.c)(0x558BEFB6)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../../../../../platform/osa/inc -I../../../../../platform/utilities/inc -I../../../../../platform/CMSIS/Include -I../../../../../platform/devices -I../../../../../platform/devices/MKL03Z4/include -I../../../../../platform/devices/MKL03Z4/startup -I../../../../../platform/hal/inc -I../../../../../platform/drivers/inc -I../../../../../platform/system/inc -I../../..   --library_type=standardlib --c99 --diag_suppress=1296,186  --library_interface=armcc  --diag_suppress=66 -I E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\KinetisSDK\examples\frdmkl03z\demo_apps\hwtimer_demo\mdk\RTE-I D:\29446\MDK514\ARM\PACK\NXP\MKL03Z4_DFP\10.0.1-I D:\29446\MDK514\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DCPU_MKL03Z32VFK4 -DDEBUG -DCPU_MKL03Z32VFK4 -DFRDM_KL03Z -DFREEDOM --C99-o debug\board.o --depend debug\board.d)
+I (../../../board.h)(0x5E70EE5A)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (../../../gpio_pins.h)(0x5E70E4CE)
+I (../../../../../platform/drivers/inc/fsl_gpio_driver.h)(0x55840514)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdlib.h)(0x5475F300)
+I (D:\29446\MDK514\ARM\ARMCC\include\stdbool.h)(0x5475F300)
+I (../../../../../platform/hal/inc/fsl_port_hal.h)(0x55DC5588)
+I (D:\29446\MDK514\ARM\ARMCC\include\assert.h)(0x5475F300)
+I (../../../../../platform/devices/fsl_device_registers.h)(0x5584056A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/CMSIS/Include/core_cm0plus.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmInstr.h)(0x55840560)
+I (../../../../../platform/CMSIS/Include/core_cmFunc.h)(0x55840560)
+I (../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h)(0x55B87F10)
+I (../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h)(0x5584050A)
+I (../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h)(0x55A8AD84)
+I (../../../../../platform/hal/inc/fsl_gpio_hal.h)(0x55840516)
+I (../../../pin_mux.h)(0x55A8AD82)
+I (../../../../../platform/system/inc/fsl_clock_manager.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_sim_hal.h)(0x5584056A)
+I (../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h)(0x55840516)
+I (../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h)(0x5584056C)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h)(0x55DC5588)
+I (../../../../../platform/hal/inc/fsl_osc_hal.h)(0x55840516)
+I (../../../../../platform/hal/inc/fsl_smc_hal.h)(0x55DC5588)
+I (../../../../../platform/utilities/inc/fsl_debug_console.h)(0x5584056C)
+I (../../../../../platform/osa/inc/fsl_os_abstraction.h)(0x55840516)
+I (../../../../../platform/osa/inc/fsl_os_abstraction_bm.h)(0x55840516)
+F (../../../board.h)(0x5E70EE5A)()

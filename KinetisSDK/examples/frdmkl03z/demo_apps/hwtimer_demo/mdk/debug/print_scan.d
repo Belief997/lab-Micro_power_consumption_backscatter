@@ -1,0 +1,9 @@
+debug\print_scan.o: ../../../../../platform/utilities/src/print_scan.c
+debug\print_scan.o: ../../../../../platform/utilities/src/print_scan.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdio.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdarg.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdint.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdbool.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\string.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdlib.h
+debug\print_scan.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\ctype.h

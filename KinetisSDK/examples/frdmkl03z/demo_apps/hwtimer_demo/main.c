@@ -49,9 +49,9 @@
 #define HWTIMER_LL_ID       0
 
 #define HWTIMER_ISR_PRIOR       5
-#define HWTIMER_PERIOD          100000
+#define HWTIMER_PERIOD          1000000
 #define HWTIMER_DOTS_PER_LINE   40
-#define HWTIMER_LINES_COUNT     2
+#define HWTIMER_LINES_COUNT     4
 
 ///////////////////////////////////////////////////////////////////////////////
 // Variables
@@ -101,6 +101,12 @@ int main (void)
     {
         PRINTF("\r\nError: hwtimer initialization.\r\n");
     }
+
+
+    uint32_t freq = 0;
+    CLOCK_SYS_GetFreq(kCoreClock, &freq);
+    PRINTF("    Core Clock = %dHz \r\n", freq);
+
 
     /*
      * In case you wish to raise the Systick ISR priority, then use the below command with the

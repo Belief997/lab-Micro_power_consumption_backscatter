@@ -1,0 +1,17 @@
+debug\pin_mux.o: ../../../pin_mux.c
+debug\pin_mux.o: ../../../../../platform/devices/fsl_device_registers.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\pin_mux.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdint.h
+debug\pin_mux.o: ../../../../../platform/CMSIS/Include/core_cm0plus.h
+debug\pin_mux.o: ../../../../../platform/CMSIS/Include/core_cmInstr.h
+debug\pin_mux.o: ../../../../../platform/CMSIS/Include/core_cmFunc.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h
+debug\pin_mux.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdlib.h
+debug\pin_mux.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h
+debug\pin_mux.o: ../../../../../platform/hal/inc/fsl_port_hal.h
+debug\pin_mux.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\assert.h
+debug\pin_mux.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdbool.h
+debug\pin_mux.o: ../../../pin_mux.h

@@ -96,13 +96,13 @@ int main (void)
     LED1_EN;
 
     // Print the initial banner
-    PRINTF("\r\nHello World!\r\n\r\n");
+    PRINTF("\r\nHello World! 1\r\n\r\n");
 
     while(1)
     {
         // Main routine that simply echoes received characters forever
         // Print the initial banner
-        PRINTF("\r\nHello World!\r\n\r\n");
+        PRINTF("\r\nHello World! 2\r\n\r\n");
         // First, get character
         receiveBuff = GETCHAR();
 

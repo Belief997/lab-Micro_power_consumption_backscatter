@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_projx.xsd">
 
   <SchemaVersion>2.1</SchemaVersion>
@@ -12,33 +12,33 @@
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>MKL03Z32xxx4</Device>
-          <Vendor>Freescale</Vendor>
-          <PackID>Keil.Kinetis_KLxx_DFP.1.1.0</PackID>
-          <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x00000000,0x8000) IRAM(0x20000000,0x0600) IRAM2(0x1FFFFE00,0x0200) CPUTYPE("Cortex-M0+") CLOCK(48000000) ELITTLE</Cpu>
-          <FlashUtilSpec/>
-          <StartupFile/>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD1FFFFE00 -FC800 -FN1 -FF0MK_P32_48MHZ -FS00 -FL08000 -FP0($$Device:MKL03Z32xxx4$Flash\MK_P32_48MHZ.FLM))</FlashDriverDll>
+          <Device>MKL03Z32VFK4</Device>
+          <Vendor>NXP</Vendor>
+          <PackID>NXP.MKL03Z4_DFP.10.0.1</PackID>
+          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
+          <Cpu>CPUTYPE("Cortex-M0+") CLOCK(12000000) ELITTLE</Cpu>
+          <FlashUtilSpec></FlashUtilSpec>
+          <StartupFile></StartupFile>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD1FFFFE00 -FC800 -FN1 -FF0MK_P32_48MHZ_KL03 -FS00 -FL08000 -FP0($$Device:MKL03Z32VFK4$arm/MK_P32_48MHZ_KL03.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MKL03Z32xxx4$Device\Include\MKL03Z4.h</RegisterFile>
-          <MemoryEnv/>
-          <Cmp/>
-          <Asm/>
-          <Linker/>
-          <OHString/>
-          <InfinionOptionDll/>
-          <SLE66CMisc/>
-          <SLE66AMisc/>
-          <SLE66LinkerMisc/>
-          <SFDFile>$$Device:MKL03Z32xxx4$SVD\MKL03Z4.svd</SFDFile>
+          <RegisterFile>$$Device:MKL03Z32VFK4$fsl_device_registers.h</RegisterFile>
+          <MemoryEnv></MemoryEnv>
+          <Cmp></Cmp>
+          <Asm></Asm>
+          <Linker></Linker>
+          <OHString></OHString>
+          <InfinionOptionDll></InfinionOptionDll>
+          <SLE66CMisc></SLE66CMisc>
+          <SLE66AMisc></SLE66AMisc>
+          <SLE66LinkerMisc></SLE66LinkerMisc>
+          <SFDFile>$$Device:MKL03Z32VFK4$MKL03Z4.xml</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
-          <BinPath/>
-          <IncludePath/>
-          <LibPath/>
-          <RegisterFilePath/>
-          <DBRegisterFilePath/>
+          <BinPath></BinPath>
+          <IncludePath></IncludePath>
+          <LibPath></LibPath>
+          <RegisterFilePath></RegisterFilePath>
+          <DBRegisterFilePath></DBRegisterFilePath>
           <TargetStatus>
             <Error>0</Error>
             <ExitCodeStop>0</ExitCodeStop>
@@ -60,8 +60,8 @@
           <BeforeCompile>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopU1X>0</nStopU1X>
@@ -70,8 +70,8 @@
           <BeforeMake>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopB1X>0</nStopB1X>
@@ -80,13 +80,13 @@
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
           <SelectedForBatchBuild>1</SelectedForBatchBuild>
-          <SVCSIdString/>
+          <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
           <UseCPPCompiler>0</UseCPPCompiler>
@@ -100,8 +100,8 @@
           <AssembleAssemblyFile>0</AssembleAssemblyFile>
           <PublicsOnly>0</PublicsOnly>
           <StopOnExitCode>3</StopOnExitCode>
-          <CustomArgument/>
-          <IncludeLibraryModules/>
+          <CustomArgument></CustomArgument>
+          <IncludeLibraryModules></IncludeLibraryModules>
           <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
@@ -145,24 +145,23 @@
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>1</RestoreTracepoints>
             <RestoreSysVw>1</RestoreSysVw>
-            <UsePdscDebugDescription>1</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>14</TargetSelection>
+          <TargetSelection>1</TargetSelection>
           <SimDlls>
-            <CpuDll/>
-            <CpuDllArguments/>
-            <PeripheralDll/>
-            <PeripheralDllArguments/>
-            <InitializationFile/>
+            <CpuDll></CpuDll>
+            <CpuDllArguments></CpuDllArguments>
+            <PeripheralDll></PeripheralDll>
+            <PeripheralDllArguments></PeripheralDllArguments>
+            <InitializationFile></InitializationFile>
           </SimDlls>
           <TargetDlls>
-            <CpuDll/>
-            <CpuDllArguments/>
-            <PeripheralDll/>
-            <PeripheralDllArguments/>
-            <InitializationFile/>
-            <Driver>PEMicro\Pemicro_ArmCortexInterface.dll</Driver>
+            <CpuDll></CpuDll>
+            <CpuDllArguments></CpuDllArguments>
+            <PeripheralDll></PeripheralDll>
+            <PeripheralDllArguments></PeripheralDllArguments>
+            <InitializationFile></InitializationFile>
+            <Driver>BIN\UL2CM3.DLL</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -176,11 +175,11 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
-          <Flash4/>
-          <pFcarmOut/>
-          <pFcarmGrp/>
-          <pFcArmRoot/>
+          <Flash3></Flash3>
+          <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
           <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
@@ -213,23 +212,23 @@
             <RvctClst>0</RvctClst>
             <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M0+"</AdsCpuType>
-            <RvctDeviceName/>
+            <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
-            <hadIROM>1</hadIROM>
-            <hadIRAM>1</hadIRAM>
+            <hadIROM>0</hadIROM>
+            <hadIRAM>0</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
-            <hadIRAM2>1</hadIRAM2>
+            <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
-            <StupSel>8</StupSel>
+            <StupSel>0</StupSel>
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <RoSelD>3</RoSelD>
-            <RwSelD>3</RwSelD>
+            <RoSelD>0</RoSelD>
+            <RwSelD>0</RwSelD>
             <CodeSel>0</CodeSel>
             <OptFeed>0</OptFeed>
             <NoZi1>0</NoZi1>
@@ -240,12 +239,12 @@
             <Ro1Chk>0</Ro1Chk>
             <Ro2Chk>0</Ro2Chk>
             <Ro3Chk>0</Ro3Chk>
-            <Ir1Chk>1</Ir1Chk>
+            <Ir1Chk>0</Ir1Chk>
             <Ir2Chk>0</Ir2Chk>
             <Ra1Chk>0</Ra1Chk>
             <Ra2Chk>0</Ra2Chk>
             <Ra3Chk>0</Ra3Chk>
-            <Im1Chk>1</Im1Chk>
+            <Im1Chk>0</Im1Chk>
             <Im2Chk>0</Im2Chk>
             <OnChipMemories>
               <Ocm1>
@@ -311,7 +310,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x0</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -335,16 +334,16 @@
               </OCR_RVCT8>
               <OCR_RVCT9>
                 <Type>0</Type>
-                <StartAddress>0x20000000</StartAddress>
-                <Size>0x600</Size>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
-                <StartAddress>0x1ffffe00</StartAddress>
-                <Size>0x200</Size>
+                <StartAddress>0x0</StartAddress>
+                <Size>0x0</Size>
               </OCR_RVCT10>
             </OnChipMemories>
-            <RvctStartVector/>
+            <RvctStartVector></RvctStartVector>
           </ArmAdsMisc>
           <Cads>
             <interw>0</interw>
@@ -368,7 +367,7 @@
 --diag_suppress=66 
 </MiscControls>
               <Define>DEBUG, CPU_MKL03Z32VFK4, FRDM_KL03Z, FREEDOM</Define>
-              <Undefine/>
+              <Undefine></Undefine>
               <IncludePath>../../../../../platform/osa/inc;../../../../../platform/utilities/inc;../../../../../platform/CMSIS/Include;../../../../../platform/devices;../../../../../platform/devices/MKL03Z4/include;../../../../../platform/devices/MKL03Z4/startup;../../../../../platform/hal/inc;../../../../../platform/drivers/inc;../../../../../platform/system/inc;../../..</IncludePath>
             </VariousControls>
           </Cads>
@@ -385,8 +384,8 @@
             <VariousControls>
               <MiscControls>--cpreproc --diag_suppress=1609,1581 </MiscControls>
               <Define>DEBUG</Define>
-              <Undefine/>
-              <IncludePath/>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -398,22 +397,139 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
-            <pXoBase/>
+            <pXoBase></pXoBase>
             <ScatterFile>../../../../../platform/devices/MKL03Z4/linker/arm/MKL03Z32xxx4_flash.scf</ScatterFile>
-            <IncludeLibs/>
-            <IncludeLibsPath/>
+            <IncludeLibs></IncludeLibs>
+            <IncludeLibsPath></IncludeLibsPath>
             <Misc>../../../../../lib/ksdk_platform_lib/mdk/KL03Z4/debug/libksdk_platform.lib 
 --remove 
 --predefine="-D__stack_size__=0x200" 
 --predefine="-D__heap_size__=0x100" 
 --predefine="-D__ram_vector_table__=1" 
 </Misc>
-            <LinkerInputFile/>
+            <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings>6314</DisabledWarnings>
           </LDads>
         </TargetArmAds>
       </TargetOption>
-    <Groups><Group><GroupName>utilities</GroupName><Files><File><FileName>fsl_misc_utilities.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/fsl_misc_utilities.c</FilePath></File><File><FileName>fsl_debug_console.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/fsl_debug_console.c</FilePath></File><File><FileName>fsl_debug_console.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/utilities/inc/fsl_debug_console.h</FilePath></File><File><FileName>print_scan.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/print_scan.c</FilePath></File><File><FileName>print_scan.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/utilities/src/print_scan.h</FilePath></File></Files></Group><Group><GroupName>startup</GroupName><Files><File><FileName>startup_MKL03Z4.s</FileName><FileType>2</FileType><FilePath>../../../../../platform/devices/MKL03Z4/startup/arm/startup_MKL03Z4.s</FilePath></File><File><FileName>system_MKL03Z4.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c</FilePath></File><File><FileName>startup.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/devices/startup.c</FilePath></File><File><FileName>startup.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/devices/startup.h</FilePath></File></Files></Group><Group><GroupName>source</GroupName><Files><File><FileName>main.c</FileName><FileType>1</FileType><FilePath>../main.c</FilePath></File><File><FileName>fsl_hwtimer_systick_irq.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_systick_irq.c</FilePath></File><File><FileName>fsl_hwtimer_pit_irq.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_pit_irq.c</FilePath></File></Files></Group><Group><GroupName>board</GroupName><Files><File><FileName>hardware_init.c</FileName><FileType>1</FileType><FilePath>../hardware_init.c</FilePath></File><File><FileName>gpio_pins.c</FileName><FileType>1</FileType><FilePath>../../../gpio_pins.c</FilePath></File><File><FileName>gpio_pins.h</FileName><FileType>5</FileType><FilePath>../../../gpio_pins.h</FilePath></File><File><FileName>pin_mux.c</FileName><FileType>1</FileType><FilePath>../../../pin_mux.c</FilePath></File><File><FileName>pin_mux.h</FileName><FileType>5</FileType><FilePath>../../../pin_mux.h</FilePath></File><File><FileName>board.c</FileName><FileType>1</FileType><FilePath>../../../board.c</FilePath></File><File><FileName>board.h</FileName><FileType>5</FileType><FilePath>../../../board.h</FilePath></File></Files></Group></Groups></Target>
+      <Groups>
+        <Group>
+          <GroupName>utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>fsl_misc_utilities.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/fsl_misc_utilities.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_debug_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/fsl_debug_console.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_debug_console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/utilities/inc/fsl_debug_console.h</FilePath>
+            </File>
+            <File>
+              <FileName>print_scan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/print_scan.c</FilePath>
+            </File>
+            <File>
+              <FileName>print_scan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/utilities/src/print_scan.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>startup</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_MKL03Z4.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>../../../../../platform/devices/MKL03Z4/startup/arm/startup_MKL03Z4.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_MKL03Z4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/devices/startup.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/devices/startup.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>source</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../main.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_hwtimer_systick_irq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_systick_irq.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_hwtimer_pit_irq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_pit_irq.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>board</GroupName>
+          <Files>
+            <File>
+              <FileName>hardware_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../hardware_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_pins.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../gpio_pins.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_pins.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../gpio_pins.h</FilePath>
+            </File>
+            <File>
+              <FileName>pin_mux.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../pin_mux.c</FilePath>
+            </File>
+            <File>
+              <FileName>pin_mux.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../pin_mux.h</FilePath>
+            </File>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../board.c</FilePath>
+            </File>
+            <File>
+              <FileName>board.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../board.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+      </Groups>
+    </Target>
     <Target>
       <TargetName>hwtimer_demo Release</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
@@ -425,28 +541,28 @@
           <PackID>Keil.Kinetis_KLxx_DFP.1.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x00000000,0x8000) IRAM(0x20000000,0x0600) IRAM2(0x1FFFFE00,0x0200) CPUTYPE("Cortex-M0+") CLOCK(48000000) ELITTLE</Cpu>
-          <FlashUtilSpec/>
-          <StartupFile/>
+          <FlashUtilSpec></FlashUtilSpec>
+          <StartupFile></StartupFile>
           <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD1FFFFE00 -FC800 -FN1 -FF0MK_P32_48MHZ_KL03 -FS00 -FL08000 -FP0($$Device:MKL03Z32xxx4$Flash\MK_P32_48MHZ_KL03.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
           <RegisterFile>$$Device:MKL03Z32xxx4$Device\Include\MKL03Z4.h</RegisterFile>
-          <MemoryEnv/>
-          <Cmp/>
-          <Asm/>
-          <Linker/>
-          <OHString/>
-          <InfinionOptionDll/>
-          <SLE66CMisc/>
-          <SLE66AMisc/>
-          <SLE66LinkerMisc/>
+          <MemoryEnv></MemoryEnv>
+          <Cmp></Cmp>
+          <Asm></Asm>
+          <Linker></Linker>
+          <OHString></OHString>
+          <InfinionOptionDll></InfinionOptionDll>
+          <SLE66CMisc></SLE66CMisc>
+          <SLE66AMisc></SLE66AMisc>
+          <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile>$$Device:MKL03Z32xxx4$SVD\MKL03Z4.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
-          <BinPath/>
-          <IncludePath/>
-          <LibPath/>
-          <RegisterFilePath/>
-          <DBRegisterFilePath/>
+          <BinPath></BinPath>
+          <IncludePath></IncludePath>
+          <LibPath></LibPath>
+          <RegisterFilePath></RegisterFilePath>
+          <DBRegisterFilePath></DBRegisterFilePath>
           <TargetStatus>
             <Error>0</Error>
             <ExitCodeStop>0</ExitCodeStop>
@@ -468,8 +584,8 @@
           <BeforeCompile>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopU1X>0</nStopU1X>
@@ -478,8 +594,8 @@
           <BeforeMake>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopB1X>0</nStopB1X>
@@ -488,13 +604,13 @@
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name/>
-            <UserProg2Name/>
+            <UserProg1Name></UserProg1Name>
+            <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </AfterMake>
           <SelectedForBatchBuild>1</SelectedForBatchBuild>
-          <SVCSIdString/>
+          <SVCSIdString></SVCSIdString>
         </TargetCommonOption>
         <CommonProperty>
           <UseCPPCompiler>0</UseCPPCompiler>
@@ -508,8 +624,8 @@
           <AssembleAssemblyFile>0</AssembleAssemblyFile>
           <PublicsOnly>0</PublicsOnly>
           <StopOnExitCode>3</StopOnExitCode>
-          <CustomArgument/>
-          <IncludeLibraryModules/>
+          <CustomArgument></CustomArgument>
+          <IncludeLibraryModules></IncludeLibraryModules>
           <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
@@ -553,23 +669,22 @@
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>1</RestoreTracepoints>
             <RestoreSysVw>1</RestoreSysVw>
-            <UsePdscDebugDescription>1</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>14</TargetSelection>
           <SimDlls>
-            <CpuDll/>
-            <CpuDllArguments/>
-            <PeripheralDll/>
-            <PeripheralDllArguments/>
-            <InitializationFile/>
+            <CpuDll></CpuDll>
+            <CpuDllArguments></CpuDllArguments>
+            <PeripheralDll></PeripheralDll>
+            <PeripheralDllArguments></PeripheralDllArguments>
+            <InitializationFile></InitializationFile>
           </SimDlls>
           <TargetDlls>
-            <CpuDll/>
-            <CpuDllArguments/>
-            <PeripheralDll/>
-            <PeripheralDllArguments/>
-            <InitializationFile/>
+            <CpuDll></CpuDll>
+            <CpuDllArguments></CpuDllArguments>
+            <PeripheralDll></PeripheralDll>
+            <PeripheralDllArguments></PeripheralDllArguments>
+            <InitializationFile></InitializationFile>
             <Driver>PEMicro\Pemicro_ArmCortexInterface.dll</Driver>
           </TargetDlls>
         </DebugOption>
@@ -585,10 +700,10 @@
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
-          <Flash4/>
-          <pFcarmOut/>
-          <pFcarmGrp/>
-          <pFcArmRoot/>
+          <Flash4></Flash4>
+          <pFcarmOut></pFcarmOut>
+          <pFcarmGrp></pFcarmGrp>
+          <pFcArmRoot></pFcArmRoot>
           <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
@@ -621,7 +736,7 @@
             <RvctClst>0</RvctClst>
             <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M0+"</AdsCpuType>
-            <RvctDeviceName/>
+            <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
@@ -752,7 +867,7 @@
                 <Size>0x200</Size>
               </OCR_RVCT10>
             </OnChipMemories>
-            <RvctStartVector/>
+            <RvctStartVector></RvctStartVector>
           </ArmAdsMisc>
           <Cads>
             <interw>0</interw>
@@ -776,7 +891,7 @@
 --diag_suppress=66 
 </MiscControls>
               <Define>NDEBUG, CPU_MKL03Z32VFK4, FRDM_KL03Z, FREEDOM</Define>
-              <Undefine/>
+              <Undefine></Undefine>
               <IncludePath>../../../../../platform/osa/inc;../../../../../platform/utilities/inc;../../../../../platform/CMSIS/Include;../../../../../platform/devices;../../../../../platform/devices/MKL03Z4/include;../../../../../platform/devices/MKL03Z4/startup;../../../../../platform/hal/inc;../../../../../platform/drivers/inc;../../../../../platform/system/inc;../../..</IncludePath>
             </VariousControls>
           </Cads>
@@ -792,9 +907,9 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls>--cpreproc --diag_suppress=1609,1581 </MiscControls>
-              <Define/>
-              <Undefine/>
-              <IncludePath/>
+              <Define></Define>
+              <Undefine></Undefine>
+              <IncludePath></IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -806,22 +921,139 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
-            <pXoBase/>
+            <pXoBase></pXoBase>
             <ScatterFile>../../../../../platform/devices/MKL03Z4/linker/arm/MKL03Z32xxx4_flash.scf</ScatterFile>
-            <IncludeLibs/>
-            <IncludeLibsPath/>
+            <IncludeLibs></IncludeLibs>
+            <IncludeLibsPath></IncludeLibsPath>
             <Misc>../../../../../lib/ksdk_platform_lib/mdk/KL03Z4/release/libksdk_platform.lib 
 --remove 
 --predefine="-D__stack_size__=0x200" 
 --predefine="-D__heap_size__=0x100" 
 --predefine="-D__ram_vector_table__=1" 
 </Misc>
-            <LinkerInputFile/>
+            <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings>6314</DisabledWarnings>
           </LDads>
         </TargetArmAds>
       </TargetOption>
-    <Groups><Group><GroupName>utilities</GroupName><Files><File><FileName>fsl_misc_utilities.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/fsl_misc_utilities.c</FilePath></File><File><FileName>fsl_debug_console.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/fsl_debug_console.c</FilePath></File><File><FileName>fsl_debug_console.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/utilities/inc/fsl_debug_console.h</FilePath></File><File><FileName>print_scan.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/utilities/src/print_scan.c</FilePath></File><File><FileName>print_scan.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/utilities/src/print_scan.h</FilePath></File></Files></Group><Group><GroupName>startup</GroupName><Files><File><FileName>startup_MKL03Z4.s</FileName><FileType>2</FileType><FilePath>../../../../../platform/devices/MKL03Z4/startup/arm/startup_MKL03Z4.s</FilePath></File><File><FileName>system_MKL03Z4.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c</FilePath></File><File><FileName>startup.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/devices/startup.c</FilePath></File><File><FileName>startup.h</FileName><FileType>5</FileType><FilePath>../../../../../platform/devices/startup.h</FilePath></File></Files></Group><Group><GroupName>source</GroupName><Files><File><FileName>main.c</FileName><FileType>1</FileType><FilePath>../main.c</FilePath></File><File><FileName>fsl_hwtimer_systick_irq.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_systick_irq.c</FilePath></File><File><FileName>fsl_hwtimer_pit_irq.c</FileName><FileType>1</FileType><FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_pit_irq.c</FilePath></File></Files></Group><Group><GroupName>board</GroupName><Files><File><FileName>hardware_init.c</FileName><FileType>1</FileType><FilePath>../hardware_init.c</FilePath></File><File><FileName>gpio_pins.c</FileName><FileType>1</FileType><FilePath>../../../gpio_pins.c</FilePath></File><File><FileName>gpio_pins.h</FileName><FileType>5</FileType><FilePath>../../../gpio_pins.h</FilePath></File><File><FileName>pin_mux.c</FileName><FileType>1</FileType><FilePath>../../../pin_mux.c</FilePath></File><File><FileName>pin_mux.h</FileName><FileType>5</FileType><FilePath>../../../pin_mux.h</FilePath></File><File><FileName>board.c</FileName><FileType>1</FileType><FilePath>../../../board.c</FilePath></File><File><FileName>board.h</FileName><FileType>5</FileType><FilePath>../../../board.h</FilePath></File></Files></Group></Groups></Target>
+      <Groups>
+        <Group>
+          <GroupName>utilities</GroupName>
+          <Files>
+            <File>
+              <FileName>fsl_misc_utilities.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/fsl_misc_utilities.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_debug_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/fsl_debug_console.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_debug_console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/utilities/inc/fsl_debug_console.h</FilePath>
+            </File>
+            <File>
+              <FileName>print_scan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/utilities/src/print_scan.c</FilePath>
+            </File>
+            <File>
+              <FileName>print_scan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/utilities/src/print_scan.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>startup</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_MKL03Z4.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>../../../../../platform/devices/MKL03Z4/startup/arm/startup_MKL03Z4.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_MKL03Z4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/devices/startup.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../../platform/devices/startup.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>source</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../main.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_hwtimer_systick_irq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_systick_irq.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_hwtimer_pit_irq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../../platform/system/src/hwtimer/fsl_hwtimer_pit_irq.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>board</GroupName>
+          <Files>
+            <File>
+              <FileName>hardware_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../hardware_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_pins.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../gpio_pins.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_pins.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../gpio_pins.h</FilePath>
+            </File>
+            <File>
+              <FileName>pin_mux.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../pin_mux.c</FilePath>
+            </File>
+            <File>
+              <FileName>pin_mux.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../pin_mux.h</FilePath>
+            </File>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../board.c</FilePath>
+            </File>
+            <File>
+              <FileName>board.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../board.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+      </Groups>
+    </Target>
   </Targets>
 
 </Project>

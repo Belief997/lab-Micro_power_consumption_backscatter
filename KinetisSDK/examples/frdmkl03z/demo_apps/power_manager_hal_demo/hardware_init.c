@@ -32,72 +32,17 @@
 #include "pin_mux.h"
 #include "fsl_clock_manager.h"
 #include "fsl_debug_console.h"
-#include "fsl_pmc_hal.h"
 
-void setup_debug_pins(port_mux_t mux)
-{
-  PORT_HAL_SetMuxMode(PORTA, 0u, mux);
-  PORT_HAL_SetMuxMode(PORTA, 2u, mux);
+void hardware_init(void) {
+
+  /* enable clock for PORTs */
+  CLOCK_SYS_EnablePortClock(PORTA_IDX);
+  CLOCK_SYS_EnablePortClock(PORTB_IDX);
+
+  /* Init board clock */
+  BOARD_ClockInit();
+  dbg_uart_init();
 }
-
-void setup_uart_pins(port_mux_t mux)
-{
-  /* PORTA_PCR1 */
-  PORT_HAL_SetMuxMode(PORTB,1u,mux);
-  /* PORTA_PCR2 */
-  PORT_HAL_SetMuxMode(PORTB,2u,mux);
-}
-
-void hardware_init(void)
-{
-
-    /* enable clock for PORTs */
-    CLOCK_SYS_EnablePortClock(PORTA_IDX);
-    CLOCK_SYS_EnablePortClock(PORTB_IDX);
-
-#if FSL_FEATURE_SIM_OPT_HAS_RTC_CLOCK_OUT_SELECTION
-    configure_rtc_pins(0);
-#endif
-
-    if(PMC_HAL_GetAckIsolation(PMC_BASE_PTR) != 0)
-    {
-        PMC_HAL_ClearAckIsolation(PMC_BASE_PTR);
-    }
-
-    /* Init board clock */
-    BOARD_ClockInit();
-
-    setup_uart_pins(kPortMuxAlt2);
-
-#if (CLOCK_INIT_CONFIG == CLOCK_VLPR)
-    CLOCK_SYS_SetLpuartSrc(BOARD_DEBUG_UART_INSTANCE, kClockLpuartSrcMcgIrClk);
-#else
-    CLOCK_SYS_SetLpuartSrc(BOARD_DEBUG_UART_INSTANCE, kClockLpuartSrcIrc48M);
-#endif
-
-    DbgConsole_Init(BOARD_DEBUG_UART_INSTANCE, BOARD_LOW_POWER_UART_BAUD, kDebugConsoleLPUART);
-}
-
-void disable_unused_pins(void)
-{
-  /* Disable debug pins when MCU sleeps */
-  setup_debug_pins(kPortPinDisabled);
-
-  /* Disable uart pins */
-  setup_uart_pins(kPortMuxAlt4);
-
-}
-
-void enable_unused_pins(void)
-{
-  /* Enable debug pins when MCU sleeps */
-  setup_debug_pins(kPortMuxAlt7);
-
-  /* Enable uart pins */
-  setup_uart_pins(kPortMuxAlt2);
-
-}
-
 
 /*!
 ** @}

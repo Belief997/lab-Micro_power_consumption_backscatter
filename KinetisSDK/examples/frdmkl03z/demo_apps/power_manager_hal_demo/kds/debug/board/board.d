@@ -1,0 +1,86 @@
+board/board.o: \
+ E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/board.c \
+ E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/board.h \
+ E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/gpio_pins.h \
+ ../../../../../../platform/drivers/inc/fsl_gpio_driver.h \
+ ../../../../../../platform/hal/inc/fsl_port_hal.h \
+ ../../../../../../platform/devices/fsl_device_registers.h \
+ ../../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h \
+ ../../../../../../platform/CMSIS/Include/core_cm0plus.h \
+ ../../../../../../platform/CMSIS/Include/core_cmInstr.h \
+ ../../../../../../platform/CMSIS/Include/core_cmFunc.h \
+ ../../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h \
+ ../../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h \
+ ../../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h \
+ ../../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h \
+ ../../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h \
+ ../../../../../../platform/hal/inc/fsl_gpio_hal.h \
+ E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/pin_mux.h \
+ ../../../../../../platform/system/inc/fsl_clock_manager.h \
+ ../../../../../../platform/hal/inc/fsl_sim_hal.h \
+ ../../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h \
+ ../../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h \
+ ../../../../../../platform/hal/inc/fsl_mcglite_hal.h \
+ ../../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h \
+ ../../../../../../platform/hal/inc/fsl_mcglite_hal.h \
+ ../../../../../../platform/hal/inc/fsl_osc_hal.h \
+ ../../../../../../platform/hal/inc/fsl_smc_hal.h \
+ ../../../../../../platform/utilities/inc/fsl_debug_console.h \
+ ../../../../../../platform/osa/inc/fsl_os_abstraction.h \
+ ../../../../../../platform/osa/inc/fsl_os_abstraction_bm.h
+
+E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/board.h:
+
+E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/gpio_pins.h:
+
+../../../../../../platform/drivers/inc/fsl_gpio_driver.h:
+
+../../../../../../platform/hal/inc/fsl_port_hal.h:
+
+../../../../../../platform/devices/fsl_device_registers.h:
+
+../../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h:
+
+../../../../../../platform/CMSIS/Include/core_cm0plus.h:
+
+../../../../../../platform/CMSIS/Include/core_cmInstr.h:
+
+../../../../../../platform/CMSIS/Include/core_cmFunc.h:
+
+../../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h:
+
+../../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h:
+
+../../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h:
+
+../../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h:
+
+../../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h:
+
+../../../../../../platform/hal/inc/fsl_gpio_hal.h:
+
+E:/Project/IAR/MPC_backscatter/lab-Micro_power_consumption_backscatter/KinetisSDK/examples/frdmkl03z/pin_mux.h:
+
+../../../../../../platform/system/inc/fsl_clock_manager.h:
+
+../../../../../../platform/hal/inc/fsl_sim_hal.h:
+
+../../../../../../platform/hal/inc/../src/sim/MKL03Z4/fsl_sim_hal_MKL03Z4.h:
+
+../../../../../../platform/system/inc/../src/clock/MKL03Z4/fsl_clock_MKL03Z4.h:
+
+../../../../../../platform/hal/inc/fsl_mcglite_hal.h:
+
+../../../../../../platform/hal/inc/fsl_mcglite_hal_modes.h:
+
+../../../../../../platform/hal/inc/fsl_mcglite_hal.h:
+
+../../../../../../platform/hal/inc/fsl_osc_hal.h:
+
+../../../../../../platform/hal/inc/fsl_smc_hal.h:
+
+../../../../../../platform/utilities/inc/fsl_debug_console.h:
+
+../../../../../../platform/osa/inc/fsl_os_abstraction.h:
+
+../../../../../../platform/osa/inc/fsl_os_abstraction_bm.h:

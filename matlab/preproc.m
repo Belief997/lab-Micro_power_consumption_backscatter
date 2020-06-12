@@ -37,6 +37,9 @@ end
 %     Sig_rx_1 = Sig_rx_1_smooth;
 %     Sig_rx_2 = Sig_rx_2_smooth;
 
+Sig_rx_1 = sig_rx_1;
+Sig_rx_2 = sig_rx_2;
+
     Amp_1 = abs(Sig_rx_1);
     Amp_2 = abs(Sig_rx_2);
     
@@ -47,9 +50,9 @@ end
 if draw
     figure;
     subplot(2, 1, 1);
-    plot(Amp_1);
+    plot(Amp_1(1,:));
     subplot(2, 1, 2);
-    plot(Amp_2);
+    plot(Amp_2(1,:));
 end
 %% 求相位差
 An_1 = angle(Sig_rx_1);
@@ -65,11 +68,14 @@ An_diff = An_1 - An_2;
 if draw 
     figure
     subplot(3, 1, 1);
-    plot(An_1);
+    plot(An_1(1,:));
+    title('接收天线1的信号相位');
     subplot(3, 1, 2);
-    plot(An_2);
+    plot(An_2(1,:));
+    title('接收天线2的信号相位');
     subplot(3, 1, 3);
-    plot(An_diff);
+    plot(An_diff(1,:));
+    title('两个天线信号相位差');
 end
 
 % 保存数据

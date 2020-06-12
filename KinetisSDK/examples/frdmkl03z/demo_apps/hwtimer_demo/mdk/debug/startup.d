@@ -1,0 +1,14 @@
+debug\startup.o: ../../../../../platform/devices/startup.c
+debug\startup.o: ../../../../../platform/devices/startup.h
+debug\startup.o: ../../../../../platform/devices/fsl_device_registers.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\startup.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdint.h
+debug\startup.o: ../../../../../platform/CMSIS/Include/core_cm0plus.h
+debug\startup.o: ../../../../../platform/CMSIS/Include/core_cmInstr.h
+debug\startup.o: ../../../../../platform/CMSIS/Include/core_cmFunc.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h
+debug\startup.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdlib.h
+debug\startup.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h

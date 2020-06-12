@@ -1,0 +1,13 @@
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.c
+debug\system_mkl03z4.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdint.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/fsl_device_registers.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\system_mkl03z4.o: ../../../../../platform/CMSIS/Include/core_cm0plus.h
+debug\system_mkl03z4.o: ../../../../../platform/CMSIS/Include/core_cmInstr.h
+debug\system_mkl03z4.o: ../../../../../platform/CMSIS/Include/core_cmFunc.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/startup/system_MKL03Z4.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_extension.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/include/fsl_bitaccess.h
+debug\system_mkl03z4.o: D:\29446\MDK514\ARM\ARMCC\Bin\..\include\stdlib.h
+debug\system_mkl03z4.o: ../../../../../platform/devices/MKL03Z4/include/MKL03Z4_features.h
