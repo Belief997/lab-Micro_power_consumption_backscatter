@@ -567,66 +567,88 @@ int main(void)
 
         APP_ShowPowerMode(curPowerState);
 
-        PRINTF("\r\nSelect the desired operation \n\r\n");
-        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
-        PRINTF("Press  %c for enter: WAIT     - Wait mode\r\n", kAPP_PowerModeWait);
-        PRINTF("Press  %c for enter: STOP     - Stop mode\r\n", kAPP_PowerModeStop);
-        PRINTF("Press  %c for enter: VLPR     - Very Low Power Run mode\r\n", kAPP_PowerModeVlpr);
-        PRINTF("Press  %c for enter: VLPW     - Very Low Power Wait mode\r\n", kAPP_PowerModeVlpw);
-        PRINTF("Press  %c for enter: VLPS     - Very Low Power Stop mode\r\n", kAPP_PowerModeVlps);
-        PRINTF("Press  %c for enter: VLLS0    - Very Low Leakage Stop 0 mode\r\n", kAPP_PowerModeVlls0);
-        PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
-        PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
-
-        PRINTF("1\r\n");
-        PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
+//        PRINTF("\r\nSelect the desired operation \n\r\n");
+//        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
+//        PRINTF("Press  %c for enter: WAIT     - Wait mode\r\n", kAPP_PowerModeWait);
+//        PRINTF("Press  %c for enter: STOP     - Stop mode\r\n", kAPP_PowerModeStop);
+//        PRINTF("Press  %c for enter: VLPR     - Very Low Power Run mode\r\n", kAPP_PowerModeVlpr);
+//        PRINTF("Press  %c for enter: VLPW     - Very Low Power Wait mode\r\n", kAPP_PowerModeVlpw);
+//        PRINTF("Press  %c for enter: VLPS     - Very Low Power Stop mode\r\n", kAPP_PowerModeVlps);
+//        PRINTF("Press  %c for enter: VLLS0    - Very Low Leakage Stop 0 mode\r\n", kAPP_PowerModeVlls0);
+//        PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
+//        PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
+//
+//        PRINTF("1\r\n");
+//        PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
 
         /* Wait for user response */
 
-        ch = GETCHAR();
+//        ch = GETCHAR();
+//
+//        if ((ch >= 'a') && (ch <= 'z'))
+//        {
+//            ch -= 'a' - 'A';
+//        }
 
-        if ((ch >= 'a') && (ch <= 'z'))
+//        targetPowerMode = (app_power_mode_t)ch;
+
+        // set default powermode as vlpr
+
+        if(curPowerState != kSMC_PowerStateVlpr)
         {
-            ch -= 'a' - 'A';
+			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
         }
-
-        targetPowerMode = (app_power_mode_t)ch;
-
-        if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
+        else
         {
-            /* If could not set the target power mode, loop continue. */
-            if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
-            {
-                continue;
-            }
-
-            /* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
-            if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
-            {
-                needSetWakeup = false;
-            }
-
-            else
-            {
-                needSetWakeup = true;
-            }
-
-            if (needSetWakeup)
-            {
-                APP_GetWakeupConfig(targetPowerMode);
-            }
-
-            APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-
-            if (needSetWakeup)
-            {
-                APP_SetWakeupConfig(targetPowerMode);
-            }
-
-            APP_PowerModeSwitch(curPowerState, targetPowerMode);
-            APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-
-            PRINTF("\r\nNext loop\r\n");
+        	ch = GETCHAR();
+        	if(ch == '3')
+        	{
+        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+        	}
+        	else
+        	{
+        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+        	}
         }
+        PRINTF("\r\nTarget ");
+        APP_ShowPowerMode(targetPowerMode);
+
+		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
+		{
+			/* If could not set the target power mode, loop continue. */
+			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
+			{
+				continue;
+			}
+
+			/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
+			if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
+			{
+				needSetWakeup = false;
+			}
+
+			else
+			{
+				needSetWakeup = true;
+			}
+
+			if (needSetWakeup)
+			{
+				APP_GetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+
+			if (needSetWakeup)
+			{
+				APP_SetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerModeSwitch(curPowerState, targetPowerMode);
+			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+
+			PRINTF("\r\nNext loop\r\n");
+		}
+
     }
 }
