@@ -523,7 +523,20 @@ int main(void)
         NVIC_ClearPendingIRQ(LLWU_IRQn);
     }
 
+    /* Define the init structure for the output ENABLE pin*/
+    gpio_pin_config_t enable_config = {
+        kGPIO_DigitalOutput, 0,
+    };
     BOARD_InitPins();
+    /* Init output ENABLE GPIO. */
+    GPIO_PinInit(GPIOA, 7U, &enable_config);
+//    GPIO_PinInit(GPIOB, 3U, &enable_config);
+
+    // api to write gpio value
+//    GPIO_WritePinOutput(GPIOA, 7U, 1);
+
+
+
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
@@ -569,6 +582,7 @@ int main(void)
         PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
 
         /* Wait for user response */
+
         ch = GETCHAR();
 
         if ((ch >= 'a') && (ch <= 'z'))

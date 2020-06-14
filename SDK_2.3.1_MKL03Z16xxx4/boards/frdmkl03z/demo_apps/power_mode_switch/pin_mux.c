@@ -75,6 +75,7 @@ void BOARD_InitPins(void)
 {
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
+    CLOCK_EnableClock(kCLOCK_PortA);
 
     const port_pin_config_t portb0_pin12_config = {/* Internal pull-up resistor is enabled */
                                                    /*kPORT_PullUp,*/
@@ -88,7 +89,12 @@ void BOARD_InitPins(void)
                                                    /* Pin is configured as PTB0 */
                                                    kPORT_MuxAsGpio};
     /* PORTB0 (pin 12) is configured as PTB0 */
+    // llwu
     PORT_SetPinConfig(PORTB, 0U, &portb0_pin12_config);
+
+    // set gpio: pin enble PTA7
+    PORT_SetPinMux(PORTA, 7U, kPORT_MuxAsGpio);
+//    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
 
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
     PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
