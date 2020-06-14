@@ -869,12 +869,12 @@ ARM Macro Assembler    Page 14
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=..\obj\startup_stm32f40_41xxx.d -o..\obj\startup_stm32f40_41xxx
-.o -I"E:\STI\stm32f04\探索者F4 资料盘(A盘)\探索者F4 资料盘(A盘)\4，程序源码\2，
-标准例程-库函数版本\2，标准例程-库函数版本\实验10 输入捕获实验\USER\RTE" -ID:\2
-9446\MDK514\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0 -ID:\29446\MDK514\ARM\CMSIS\Incl
-ude -ID:\29446\MDK514\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Device\Include --prede
-fine="__UVISION_VERSION SETA 514" --predefine="STM32F407xx SETA 1" --list=..\ob
-j\startup_stm32f40_41xxx.lst ..\CORE\startup_stm32f40_41xxx.s
+.o -IE:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\F40
+7_capture\USER\RTE -ID:\29446\MDK514\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0 -ID:\29
+446\MDK514\ARM\CMSIS\Include -ID:\29446\MDK514\ARM\PACK\Keil\STM32F4xx_DFP\2.14
+.0\Device\Include --predefine="__UVISION_VERSION SETA 514" --predefine="STM32F4
+07xx SETA 1" --list=..\obj\startup_stm32f40_41xxx.lst ..\CORE\startup_stm32f40_
+41xxx.s
 
 
 

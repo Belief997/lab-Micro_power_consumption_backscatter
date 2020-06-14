@@ -38,7 +38,7 @@ int main(void)
 			temp=TIM5CH1_CAPTURE_STA&0X3F; 
 			temp*=0XFFFFFFFF;		 		         //溢出时间总和
 			temp+=TIM5CH1_CAPTURE_VAL;		   //得到总的高电平时间
-			printf("HIGH:%lld us\r\n",temp); //打印总的高点平时间
+			printf("H:%lld us\r\n",temp); //打印总的高点平时间
 			TIM5CH1_CAPTURE_STA=0;			     //开启下一次捕获
 		}
 	}

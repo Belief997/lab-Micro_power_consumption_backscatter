@@ -107,7 +107,7 @@ int main(void)
     /* Initialize TPM module */
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 24000U, TPM_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
 
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
