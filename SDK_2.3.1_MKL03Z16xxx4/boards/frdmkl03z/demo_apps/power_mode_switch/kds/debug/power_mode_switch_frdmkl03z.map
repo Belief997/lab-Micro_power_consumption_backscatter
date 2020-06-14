@@ -1270,7 +1270,7 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_ranges  0x00000608       0x30 ./board/clock_config.o
  .debug_ranges  0x00000638       0x28 ./board/pin_mux.o
 
-.debug_line     0x00000000     0x3172
+.debug_line     0x00000000     0x319a
  .debug_line    0x00000000      0x186 ./utilities/fsl_assert.o
  .debug_line    0x00000186      0x232 ./utilities/fsl_debug_console.o
  .debug_line    0x000003b8      0x239 ./utilities/fsl_io.o
@@ -1279,17 +1279,17 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_line    0x00000c39       0xec ./startup/startup_MKL03Z4.o
  .debug_line    0x00000d25      0x116 ./startup/system_MKL03Z4.o
  .debug_line    0x00000e3b      0x1a2 ./source/clock_mcglite.o
- .debug_line    0x00000fdd      0x619 ./source/power_mode_switch.o
- .debug_line    0x000015f6      0x371 ./drivers/fsl_clock.o
- .debug_line    0x00001967      0x636 ./drivers/fsl_flash.o
- .debug_line    0x00001f9d      0x1df ./drivers/fsl_llwu.o
- .debug_line    0x0000217c      0x1e7 ./drivers/fsl_lptmr.o
- .debug_line    0x00002363      0x6da ./drivers/fsl_lpuart.o
- .debug_line    0x00002a3d      0x37e ./drivers/fsl_smc.o
- .debug_line    0x00002dbb      0x1ed ./board/clock_config.o
- .debug_line    0x00002fa8      0x1ca ./board/pin_mux.o
+ .debug_line    0x00000fdd      0x641 ./source/power_mode_switch.o
+ .debug_line    0x0000161e      0x371 ./drivers/fsl_clock.o
+ .debug_line    0x0000198f      0x636 ./drivers/fsl_flash.o
+ .debug_line    0x00001fc5      0x1df ./drivers/fsl_llwu.o
+ .debug_line    0x000021a4      0x1e7 ./drivers/fsl_lptmr.o
+ .debug_line    0x0000238b      0x6da ./drivers/fsl_lpuart.o
+ .debug_line    0x00002a65      0x37e ./drivers/fsl_smc.o
+ .debug_line    0x00002de3      0x1ed ./board/clock_config.o
+ .debug_line    0x00002fd0      0x1ca ./board/pin_mux.o
 
-.debug_str      0x00000000     0x5479
+.debug_str      0x00000000     0x5536
  .debug_str     0x00000000      0x265 ./utilities/fsl_assert.o
                                 0x2a8 (size before relaxing)
  .debug_str     0x00000265      0x22f ./utilities/fsl_debug_console.o
@@ -1304,23 +1304,23 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
                                 0x3a4 (size before relaxing)
  .debug_str     0x000013a8      0x33c ./source/clock_mcglite.o
                                 0x639 (size before relaxing)
- .debug_str     0x000016e4     0x13bc ./source/power_mode_switch.o
-                               0x1e13 (size before relaxing)
- .debug_str     0x00002aa0      0x336 ./drivers/fsl_clock.o
+ .debug_str     0x000016e4     0x1479 ./source/power_mode_switch.o
+                               0x1e63 (size before relaxing)
+ .debug_str     0x00002b5d      0x336 ./drivers/fsl_clock.o
                                 0xf4f (size before relaxing)
- .debug_str     0x00002dd6     0x1541 ./drivers/fsl_flash.o
+ .debug_str     0x00002e93     0x1541 ./drivers/fsl_flash.o
                                0x1e48 (size before relaxing)
- .debug_str     0x00004317      0x213 ./drivers/fsl_llwu.o
+ .debug_str     0x000043d4      0x213 ./drivers/fsl_llwu.o
                                 0x4e5 (size before relaxing)
- .debug_str     0x0000452a       0xbf ./drivers/fsl_lptmr.o
+ .debug_str     0x000045e7       0xbf ./drivers/fsl_lptmr.o
                                 0xd79 (size before relaxing)
- .debug_str     0x000045e9      0x8ce ./drivers/fsl_lpuart.o
+ .debug_str     0x000046a6      0x8ce ./drivers/fsl_lpuart.o
                                0x1943 (size before relaxing)
- .debug_str     0x00004eb7      0x293 ./drivers/fsl_smc.o
+ .debug_str     0x00004f74      0x293 ./drivers/fsl_smc.o
                                 0xd04 (size before relaxing)
- .debug_str     0x0000514a      0x12b ./board/clock_config.o
+ .debug_str     0x00005207      0x12b ./board/clock_config.o
                                 0xe28 (size before relaxing)
- .debug_str     0x00005275      0x204 ./board/pin_mux.o
+ .debug_str     0x00005332      0x204 ./board/pin_mux.o
                                 0x745 (size before relaxing)
 
 .comment        0x00000000       0x70

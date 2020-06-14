@@ -493,6 +493,7 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
             vlls_config.subMode = kSMC_StopSub3;
             SMC_PreEnterStopModes();
             SMC_SetPowerModeVlls(SMC, &vlls_config);
+
             SMC_PostExitStopModes();
             break;
 
@@ -564,7 +565,7 @@ int main(void)
         PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
         PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
 
-        PRINTF("2\r\n");
+        PRINTF("1\r\n");
         PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
 
         /* Wait for user response */

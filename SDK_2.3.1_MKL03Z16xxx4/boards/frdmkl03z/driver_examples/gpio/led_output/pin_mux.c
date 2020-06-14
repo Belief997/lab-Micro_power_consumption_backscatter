@@ -79,7 +79,8 @@ void BOARD_InitPins(void)
     PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
 
     /* PORTB10 (pin 9) is configured as PTB10 */
-    PORT_SetPinMux(PORTB, 10U, kPORT_MuxAsGpio);
+//    PORT_SetPinMux(PORTB, 10U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
 
     /* PORTB2 (pin 14) is configured as LPUART0_RX */
     PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);

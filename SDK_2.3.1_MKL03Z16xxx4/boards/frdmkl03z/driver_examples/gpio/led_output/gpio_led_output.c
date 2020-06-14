@@ -42,7 +42,8 @@
  * Definitions
  ******************************************************************************/
 #define BOARD_LED_GPIO BOARD_LED_RED_GPIO
-#define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
+//#define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
+#define BOARD_LED_GPIO_PIN 3
 
 /*******************************************************************************
  * Prototypes
@@ -62,7 +63,7 @@ void delay(void);
 void delay(void)
 {
     volatile uint32_t i = 0;
-    for (i = 0; i < 800000; ++i)
+    for (i = 0; i < 990000; ++i)
     {
         __asm("NOP"); /* delay */
     }
@@ -71,6 +72,8 @@ void delay(void)
 /*!
  * @brief Main function
  */
+// 16:45 2020/6/14 change io from B10 to B3
+// change micro and board_initPin
 int main(void)
 {
     /* Define the init structure for the output LED pin*/
@@ -79,7 +82,7 @@ int main(void)
     };
 
     /* Board pin, clock, debug console init */
-    BOARD_InitPins();
+    BOARD_InitPins();  //
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
 
@@ -93,6 +96,7 @@ int main(void)
     while (1)
     {
         delay();
+        PRINTF("\r\n toggle io \r\n");
         GPIO_PortToggle(BOARD_LED_GPIO, 1u << BOARD_LED_GPIO_PIN);
     }
 }
