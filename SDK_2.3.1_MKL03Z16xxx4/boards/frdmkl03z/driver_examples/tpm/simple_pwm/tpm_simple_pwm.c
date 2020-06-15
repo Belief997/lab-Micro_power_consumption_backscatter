@@ -95,6 +95,7 @@ int main(void)
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
 
+
     /* Select the clock source for the TPM counter as MCGPLLCLK */
     CLOCK_SetTpmClock(1U);
 
@@ -107,24 +108,25 @@ int main(void)
     /* Initialize TPM module */
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, TPM_SOURCE_CLOCK);
 
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
-    while (1)
+//    while (1)
     {
-        do
-        {
-            PRINTF("\r\nPlease enter a value to update the Duty cycle:\r\n");
-            PRINTF("Note: The range of value is 0 to 9.\r\n");
-            PRINTF("For example: If enter '5', the duty cycle will be set to 50 percent.\r\n");
-            PRINTF("Value:");
-            getCharValue = GETCHAR() - 0x30U;
-            PRINTF("%d", getCharValue);
-            PRINTF("\r\n");
-        } while (getCharValue > 9U);
-
-        updatedDutycycle = getCharValue * 10U;
+//        do
+//        {
+//            PRINTF("\r\nPlease enter a value to update the Duty cycle:\r\n");
+//            PRINTF("Note: The range of value is 0 to 9.\r\n");
+//            PRINTF("For example: If enter '5', the duty cycle will be set to 50 percent.\r\n");
+//            PRINTF("Value:");
+//            getCharValue = GETCHAR() - 0x30U;
+//            PRINTF("%d", getCharValue);
+//            PRINTF("\r\n");
+//        } while (getCharValue > 9U);
+//
+//        updatedDutycycle = getCharValue * 10U;
+        updatedDutycycle = 5 * 10U;
 
         /* Disable channel output before updating the dutycycle */
         TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0U);

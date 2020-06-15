@@ -45,6 +45,19 @@
 #include "pin_mux.h"
 #include "fsl_lpuart.h"
 #include "fsl_pmc.h"
+
+#include "fsl_tpm.h"
+
+
+
+
+
+
+
+
+
+
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -115,6 +128,39 @@ extern void APP_PowerPostSwitchHook(smc_power_state_t originPowerState, app_powe
  ******************************************************************************/
 static uint8_t s_wakeupTimeout;            /* Wakeup timeout. (Unit: Second) */
 static app_wakeup_source_t s_wakeupSource; /* Wakeup source.                 */
+
+
+
+// pwm setting
+
+/* Get source clock for TPM driver */
+#define TPM_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgIrc48MClk)
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+volatile bool brightnessUp = true; /* Indicate LED is brighter or dimmer */
+volatile uint8_t updatedDutycycle = 10U;
+volatile uint8_t getCharValue = 0U;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*******************************************************************************
  * Code
@@ -523,6 +569,28 @@ int main(void)
         NVIC_ClearPendingIRQ(LLWU_IRQn);
     }
 
+    /*******************************************************************************
+     *
+     *  pwm init
+     *
+     *  *******************************************************************************/
+    tpm_config_t tpmInfo;
+    tpm_chnl_pwm_signal_param_t tpmParam;
+
+#ifndef TPM_LED_ON_LEVEL
+  #define TPM_LED_ON_LEVEL kTPM_LowTrue
+#endif
+
+    /* Configure tpm params with frequency 24kHZ */
+    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
+    tpmParam.level = TPM_LED_ON_LEVEL;
+    tpmParam.dutyCyclePercent = updatedDutycycle;
+
+
+
+
+/******************************************************************************/
+
     /* Define the init structure for the output ENABLE pin*/
     gpio_pin_config_t enable_config = {
         kGPIO_DigitalOutput, 0,
@@ -556,7 +624,48 @@ int main(void)
     {
         PRINTF("\r\nMCU wakeup from VLLS modes...\r\n");
     }
-    while (1)
+
+
+
+    // show state
+    {
+        curPowerState = SMC_GetPowerModeState(SMC);
+
+        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+
+        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+        PRINTF("    Core Clock = %dHz \r\n", freq);
+
+        APP_ShowPowerMode(curPowerState);
+
+    }
+
+    // mode now is run 48 MHz
+    /* Select the clock source for the TPM counter as MCGPLLCLK */
+    CLOCK_SetTpmClock(1U);
+
+    TPM_GetDefaultConfig(&tpmInfo);
+    /* Initialize TPM module */
+    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, TPM_SOURCE_CLOCK);
+
+    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+
+    updatedDutycycle = 5 * 10U;
+
+    /* Disable channel output before updating the dutycycle */
+    TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0U);
+
+    /* Update PWM duty cycle */
+    TPM_UpdatePwmDutycycle(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, kTPM_CenterAlignedPwm,
+                           updatedDutycycle);
+
+    /* Start channel output with updated dutycycle */
+    TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, TPM_LED_ON_LEVEL);
+
+
+    while (0)
     {
         curPowerState = SMC_GetPowerModeState(SMC);
 
@@ -652,3 +761,4 @@ int main(void)
 
     }
 }
+
