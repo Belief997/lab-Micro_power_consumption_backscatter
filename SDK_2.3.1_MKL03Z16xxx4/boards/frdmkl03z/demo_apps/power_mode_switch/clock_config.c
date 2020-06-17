@@ -113,6 +113,8 @@ const mcglite_config_t mcgliteConfig_BOARD_BootClockRUN =
         .lircDiv2 = kMCGLITE_LircDivBy1,          /* Second Low-frequency Internal Reference Clock Divider: divided by 1 */
         .hircEnableInNotHircMode = true,          /* HIRC source is enabled */
     };
+
+
 const sim_clock_config_t simConfig_BOARD_BootClockRUN =
     {
         .er32kSrc = SIM_OSC32KSEL_OSC32KCLK_CLK,  /* OSC32KSEL select: OSC32KCLK clock */

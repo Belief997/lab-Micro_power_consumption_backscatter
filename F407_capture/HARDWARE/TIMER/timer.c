@@ -86,7 +86,7 @@ void TIM5_CH1_Cap_Init(u32 arr,u16 psc)
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource0,GPIO_AF_TIM5); //PA0复用位定时器5
   
 	  
-	TIM_TimeBaseStructure.TIM_Prescaler=psc/10;  //定时器分频
+	TIM_TimeBaseStructure.TIM_Prescaler=psc/4;//10;  //定时器分频
 	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
 	TIM_TimeBaseStructure.TIM_Period=arr;   //自动重装载值
 	TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 

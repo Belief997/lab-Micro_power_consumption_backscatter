@@ -67,7 +67,7 @@ void delay(void);
  * Variables
  ******************************************************************************/
 volatile bool brightnessUp = true; /* Indicate LED is brighter or dimmer */
-volatile uint8_t updatedDutycycle = 10U;
+volatile uint8_t updatedDutycycle = 50U;
 volatile uint8_t getCharValue = 0U;
 
 /*******************************************************************************

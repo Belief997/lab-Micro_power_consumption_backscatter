@@ -53,11 +53,18 @@
 void APP_SetClockRunFromVlpr(void)
 {
     const mcglite_config_t mcgliteConfig = {.outSrc = kMCGLITE_ClkSrcHirc,
-                                            .irclkEnableMode = 0U,
+                                            .irclkEnableMode = 0U, // kMCGLITE_IrclkEnable
                                             .ircs = kMCGLITE_Lirc8M,
                                             .fcrdiv = kMCGLITE_LircDivBy1,
                                             .lircDiv2 = kMCGLITE_LircDivBy1,
                                             .hircEnableInNotHircMode = true};
+
+//    const mcglite_config_t mcgliteConfig = {.outSrc = kMCGLITE_ClkSrcHirc,
+//                                            .irclkEnableMode = 0U, // kMCGLITE_IrclkEnable
+//                                            .ircs = kMCGLITE_Lirc8M,
+//                                            .fcrdiv = kMCGLITE_LircDivBy2,
+//                                            .lircDiv2 = kMCGLITE_LircDivBy4,
+//                                            .hircEnableInNotHircMode = true};
 
     const sim_clock_config_t simConfig =
     {
@@ -77,13 +84,23 @@ void APP_SetClockRunFromVlpr(void)
  */
 void APP_SetClockVlpr(void)
 {
+//        const mcglite_config_t mcgliteConfig = {
+//        .outSrc = kMCGLITE_ClkSrcLirc,
+//        .irclkEnableMode = kMCGLITE_IrclkEnable,
+//        .ircs = kMCGLITE_Lirc2M,
+//        .fcrdiv = kMCGLITE_LircDivBy1,  // 内核时钟分频系数，当频率小于或等于 2M 时才能进入 VLPR
+//        .lircDiv2 = kMCGLITE_LircDivBy1, // 
+//        .hircEnableInNotHircMode = false,
+//    };
+        
     const mcglite_config_t mcgliteConfig = {
         .outSrc = kMCGLITE_ClkSrcLirc,
         .irclkEnableMode = kMCGLITE_IrclkEnable,
-        .ircs = kMCGLITE_Lirc2M,
-        .fcrdiv = kMCGLITE_LircDivBy1,
-        .lircDiv2 = kMCGLITE_LircDivBy1,
-        .hircEnableInNotHircMode = false,
+//        .ircs = kMCGLITE_Lirc2M,
+        .ircs = kMCGLITE_Lirc8M,
+        .fcrdiv = kMCGLITE_LircDivBy4,  // 内核时钟分频系数，当频率小于或等于 2M 时才能进入 VLPR
+        .lircDiv2 = kMCGLITE_LircDivBy1, // 
+        .hircEnableInNotHircMode = false,   
     };
 
     const sim_clock_config_t simConfig =
