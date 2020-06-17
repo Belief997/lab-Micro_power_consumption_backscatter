@@ -666,7 +666,6 @@ int main(void)
 
 
 //    while (0)
-//    do
     {
         curPowerState = SMC_GetPowerModeState(SMC);
 
@@ -761,7 +760,7 @@ int main(void)
 			PRINTF("\r\nNext loop\r\n");
 		}
 
-    };//while(0);
+    };
 
     // show state
     {
@@ -779,15 +778,16 @@ int main(void)
 //    user_showFreqList();
 
     // init and run pwm here
-    /* Select the clock source for the TPM counter as MCGPLLCLK */
+    /* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
+//    CLOCK_SetTpmClock(1U);
     CLOCK_SetTpmClock(3U);
 
     TPM_GetDefaultConfig(&tpmInfo);
     /* Initialize TPM module */
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 125000U, TPM_SOURCE_CLOCK);
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 8M sys
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, 2000000); // 2M
 
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 

@@ -1341,7 +1341,7 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_ranges  0x000006d0       0x30 ./board/clock_config.o
  .debug_ranges  0x00000700       0x28 ./board/pin_mux.o
 
-.debug_line     0x00000000     0x36d5
+.debug_line     0x00000000     0x36d7
  .debug_line    0x00000000      0x186 ./utilities/fsl_assert.o
  .debug_line    0x00000186      0x232 ./utilities/fsl_debug_console.o
  .debug_line    0x000003b8      0x239 ./utilities/fsl_io.o
@@ -1350,16 +1350,16 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_line    0x00000c39       0xec ./startup/startup_MKL03Z4.o
  .debug_line    0x00000d25      0x116 ./startup/system_MKL03Z4.o
  .debug_line    0x00000e3b      0x1ce ./source/clock_mcglite.o
- .debug_line    0x00001009      0x6c1 ./source/power_mode_switch.o
- .debug_line    0x000016ca      0x371 ./drivers/fsl_clock.o
- .debug_line    0x00001a3b      0x636 ./drivers/fsl_flash.o
- .debug_line    0x00002071      0x269 ./drivers/fsl_gpio.o
- .debug_line    0x000022da      0x1df ./drivers/fsl_llwu.o
- .debug_line    0x000024b9      0x6da ./drivers/fsl_lpuart.o
- .debug_line    0x00002b93      0x37e ./drivers/fsl_smc.o
- .debug_line    0x00002f11      0x3ba ./drivers/fsl_tpm.o
- .debug_line    0x000032cb      0x215 ./board/clock_config.o
- .debug_line    0x000034e0      0x1f5 ./board/pin_mux.o
+ .debug_line    0x00001009      0x6c3 ./source/power_mode_switch.o
+ .debug_line    0x000016cc      0x371 ./drivers/fsl_clock.o
+ .debug_line    0x00001a3d      0x636 ./drivers/fsl_flash.o
+ .debug_line    0x00002073      0x269 ./drivers/fsl_gpio.o
+ .debug_line    0x000022dc      0x1df ./drivers/fsl_llwu.o
+ .debug_line    0x000024bb      0x6da ./drivers/fsl_lpuart.o
+ .debug_line    0x00002b95      0x37e ./drivers/fsl_smc.o
+ .debug_line    0x00002f13      0x3ba ./drivers/fsl_tpm.o
+ .debug_line    0x000032cd      0x215 ./board/clock_config.o
+ .debug_line    0x000034e2      0x1f5 ./board/pin_mux.o
 
 .debug_str      0x00000000     0x6058
  .debug_str     0x00000000      0x265 ./utilities/fsl_assert.o
