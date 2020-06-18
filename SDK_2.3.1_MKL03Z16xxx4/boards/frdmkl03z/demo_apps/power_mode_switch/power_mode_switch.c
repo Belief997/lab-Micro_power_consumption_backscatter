@@ -572,6 +572,7 @@ void delay(void)
     }
 }
 
+#define USER_PWM_NUM  2
 /*!
  * @brief main demo function.
  */
@@ -598,17 +599,42 @@ int main(void)
      *
      *  *******************************************************************************/
     // tpm config init
+#ifndef TPM_LED_ON_LEVEL
+#define TPM_LED_ON_LEVEL kTPM_LowTrue
+#endif
+#if USER_PWM_NUM == 1
     tpm_config_t tpmInfo;
     tpm_chnl_pwm_signal_param_t tpmParam;
 
-#ifndef TPM_LED_ON_LEVEL
-  #define TPM_LED_ON_LEVEL kTPM_LowTrue
-#endif
+
 
     /* Configure tpm params with frequency 24kHZ */
     tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
     tpmParam.level = TPM_LED_ON_LEVEL;
     tpmParam.dutyCyclePercent = updatedDutycycle;
+    
+#elif USER_PWM_NUM == 2
+    tpm_config_t tpmInfo;
+    tpm_chnl_pwm_signal_param_t tpmParam[2];
+
+#ifndef TPM_LED_ON_LEVEL  
+      #define TPM_LED_ON_LEVEL kTPM_LowTrue
+#endif    
+#define BOARD_FIRST_TPM_CHANNEL 0U
+#define BOARD_SECOND_TPM_CHANNEL 1U
+
+    /* Configure tpm params with frequency 24kHZ */
+    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
+    tpmParam[0].level = TPM_LED_ON_LEVEL;
+    tpmParam[0].dutyCyclePercent = updatedDutycycle;
+
+    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
+    tpmParam[1].level = TPM_LED_ON_LEVEL;
+    tpmParam[1].dutyCyclePercent = updatedDutycycle;
+
+#else
+    #error "pwm num set err!"
+#endif
 
 /******************************************************************************/
 
@@ -757,23 +783,23 @@ int main(void)
 			APP_PowerModeSwitch(curPowerState, targetPowerMode);
 			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
 
-			PRINTF("\r\nNext loop\r\n");
+//			PRINTF("\r\nNext loop\r\n");
 		}
 
     };
 
     // show state
-    {
-        curPowerState = SMC_GetPowerModeState(SMC);
+//    {
+//        curPowerState = SMC_GetPowerModeState(SMC);
 
-        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+//        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 
-        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-        PRINTF("    Core Clock = %dHz \r\n", freq);
+//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//        PRINTF("    Core Clock = %dHz \r\n", freq);
 
-        APP_ShowPowerMode(curPowerState);
+//        APP_ShowPowerMode(curPowerState);
 
-    }
+//    }
 
 //    user_showFreqList();
 
@@ -787,14 +813,27 @@ int main(void)
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
 //    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, 2000000); // 2M
-
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+    
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
-    while(1)
+    uint8_t i_delay = 0;
+    while(i_delay++ < 120)// about 120s
     {
         delay();
         PRINTF(". ");
+    }
+
+    {
+        curPowerState = kSMC_PowerStateVlpr;
+        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+        //needSetWakeup = true;
+        APP_GetWakeupConfig(targetPowerMode);
+        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+        APP_SetWakeupConfig(targetPowerMode);
+        APP_PowerModeSwitch(curPowerState, targetPowerMode);
+        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
     }
 
     return 0;
