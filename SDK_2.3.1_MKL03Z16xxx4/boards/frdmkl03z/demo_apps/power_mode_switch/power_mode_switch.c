@@ -818,23 +818,24 @@ int main(void)
     
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
-    uint8_t i_delay = 0;
-    while(i_delay++ < 120)// about 120s
-    {
-        delay();
-        PRINTF(". ");
-    }
+    while(1);
+//    uint8_t i_delay = 0;
+//    while(i_delay++ < 120)// about 120s
+//    {
+//        delay();
+//        PRINTF(". ");
+//    }
 
-    {
-        curPowerState = kSMC_PowerStateVlpr;
-        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
-        //needSetWakeup = true;
-        APP_GetWakeupConfig(targetPowerMode);
-        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-        APP_SetWakeupConfig(targetPowerMode);
-        APP_PowerModeSwitch(curPowerState, targetPowerMode);
-        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-    }
+//    {
+//        curPowerState = kSMC_PowerStateVlpr;
+//        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+//        //needSetWakeup = true;
+//        APP_GetWakeupConfig(targetPowerMode);
+//        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+//        APP_SetWakeupConfig(targetPowerMode);
+//        APP_PowerModeSwitch(curPowerState, targetPowerMode);
+//        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+//    }
 
     return 0;
 }
