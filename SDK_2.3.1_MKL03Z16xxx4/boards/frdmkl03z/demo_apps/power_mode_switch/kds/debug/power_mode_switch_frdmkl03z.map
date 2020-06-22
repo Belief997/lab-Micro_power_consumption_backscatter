@@ -724,7 +724,7 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
  .FlashConfig   0x00000400       0x10 ./startup/startup_MKL03Z4.o
                 0x00000410                . = ALIGN (0x4)
 
-.text           0x00000410     0x3420
+.text           0x00000410     0x3484
                 0x00000410                . = ALIGN (0x4)
  *(.text)
  .text          0x00000410       0x60 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
@@ -878,291 +878,291 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
  .text.ADC0_IRQHandler
                 0x000015f8       0x2c ./source/power_mode_switch.o
                 0x000015f8                ADC0_IRQHandler
- .text.main     0x00001624      0x190 ./source/power_mode_switch.o
+ .text.main     0x00001624      0x1e4 ./source/power_mode_switch.o
                 0x00001624                main
  .text.CLOCK_EnableClock
-                0x000017b4       0x34 ./drivers/fsl_adc16.o
+                0x00001808       0x34 ./drivers/fsl_adc16.o
  .text.ADC16_GetInstance
-                0x000017e8       0x54 ./drivers/fsl_adc16.o
+                0x0000183c       0x54 ./drivers/fsl_adc16.o
  .text.ADC16_Init
-                0x0000183c      0x120 ./drivers/fsl_adc16.o
-                0x0000183c                ADC16_Init
+                0x00001890      0x120 ./drivers/fsl_adc16.o
+                0x00001890                ADC16_Init
  .text.ADC16_GetDefaultConfig
-                0x0000195c       0x64 ./drivers/fsl_adc16.o
-                0x0000195c                ADC16_GetDefaultConfig
+                0x000019b0       0x64 ./drivers/fsl_adc16.o
+                0x000019b0                ADC16_GetDefaultConfig
  .text.ADC16_DoAutoCalibration
-                0x000019c0       0xe8 ./drivers/fsl_adc16.o
-                0x000019c0                ADC16_DoAutoCalibration
+                0x00001a14       0xe8 ./drivers/fsl_adc16.o
+                0x00001a14                ADC16_DoAutoCalibration
  .text.ADC16_SetHardwareAverage
-                0x00001aa8       0x40 ./drivers/fsl_adc16.o
-                0x00001aa8                ADC16_SetHardwareAverage
+                0x00001afc       0x40 ./drivers/fsl_adc16.o
+                0x00001afc                ADC16_SetHardwareAverage
  .text.ADC16_GetStatusFlags
-                0x00001ae8       0x3c ./drivers/fsl_adc16.o
-                0x00001ae8                ADC16_GetStatusFlags
+                0x00001b3c       0x3c ./drivers/fsl_adc16.o
+                0x00001b3c                ADC16_GetStatusFlags
  .text.ADC16_SetChannelConfig
-                0x00001b24       0x70 ./drivers/fsl_adc16.o
-                0x00001b24                ADC16_SetChannelConfig
+                0x00001b78       0x70 ./drivers/fsl_adc16.o
+                0x00001b78                ADC16_SetChannelConfig
  .text.ADC16_GetChannelStatusFlags
-                0x00001b94       0x50 ./drivers/fsl_adc16.o
-                0x00001b94                ADC16_GetChannelStatusFlags
+                0x00001be8       0x50 ./drivers/fsl_adc16.o
+                0x00001be8                ADC16_GetChannelStatusFlags
  .text.CLOCK_SetEr32kClock
-                0x00001be4       0x30 ./drivers/fsl_clock.o
+                0x00001c38       0x30 ./drivers/fsl_clock.o
  .text.CLOCK_GetLircClkFreq
-                0x00001c14       0x48 ./drivers/fsl_clock.o
+                0x00001c68       0x48 ./drivers/fsl_clock.o
  .text.CLOCK_GetOsc0ErClkFreq
-                0x00001c5c       0x4c ./drivers/fsl_clock.o
-                0x00001c5c                CLOCK_GetOsc0ErClkFreq
+                0x00001cb0       0x4c ./drivers/fsl_clock.o
+                0x00001cb0                CLOCK_GetOsc0ErClkFreq
  .text.CLOCK_GetEr32kClkFreq
-                0x00001ca8       0x84 ./drivers/fsl_clock.o
-                0x00001ca8                CLOCK_GetEr32kClkFreq
+                0x00001cfc       0x84 ./drivers/fsl_clock.o
+                0x00001cfc                CLOCK_GetEr32kClkFreq
  .text.CLOCK_GetFreq
-                0x00001d2c       0xc4 ./drivers/fsl_clock.o
-                0x00001d2c                CLOCK_GetFreq
+                0x00001d80       0xc4 ./drivers/fsl_clock.o
+                0x00001d80                CLOCK_GetFreq
  .text.CLOCK_SetSimConfig
-                0x00001df0       0x2c ./drivers/fsl_clock.o
-                0x00001df0                CLOCK_SetSimConfig
+                0x00001e44       0x2c ./drivers/fsl_clock.o
+                0x00001e44                CLOCK_SetSimConfig
  .text.CLOCK_GetInternalRefClkFreq
-                0x00001e1c       0x48 ./drivers/fsl_clock.o
-                0x00001e1c                CLOCK_GetInternalRefClkFreq
+                0x00001e70       0x48 ./drivers/fsl_clock.o
+                0x00001e70                CLOCK_GetInternalRefClkFreq
  .text.CLOCK_GetPeriphClkFreq
-                0x00001e64       0x38 ./drivers/fsl_clock.o
-                0x00001e64                CLOCK_GetPeriphClkFreq
+                0x00001eb8       0x38 ./drivers/fsl_clock.o
+                0x00001eb8                CLOCK_GetPeriphClkFreq
  .text.CLOCK_GetOutClkFreq
-                0x00001e9c       0x8c ./drivers/fsl_clock.o
-                0x00001e9c                CLOCK_GetOutClkFreq
+                0x00001ef0       0x8c ./drivers/fsl_clock.o
+                0x00001ef0                CLOCK_GetOutClkFreq
  .text.CLOCK_SetMcgliteConfig
-                0x00001f28      0x124 ./drivers/fsl_clock.o
-                0x00001f28                CLOCK_SetMcgliteConfig
+                0x00001f7c      0x124 ./drivers/fsl_clock.o
+                0x00001f7c                CLOCK_SetMcgliteConfig
  .text.GPIO_PinWrite
-                0x0000204c       0x34 ./drivers/fsl_gpio.o
+                0x000020a0       0x34 ./drivers/fsl_gpio.o
  .text.GPIO_WritePinOutput
-                0x00002080       0x28 ./drivers/fsl_gpio.o
+                0x000020d4       0x28 ./drivers/fsl_gpio.o
  .text.GPIO_PinInit
-                0x000020a8       0x78 ./drivers/fsl_gpio.o
-                0x000020a8                GPIO_PinInit
+                0x000020fc       0x78 ./drivers/fsl_gpio.o
+                0x000020fc                GPIO_PinInit
  .text.LLWU_GetExternalWakeupPinFlag
-                0x00002120       0x4c ./drivers/fsl_llwu.o
-                0x00002120                LLWU_GetExternalWakeupPinFlag
+                0x00002174       0x4c ./drivers/fsl_llwu.o
+                0x00002174                LLWU_GetExternalWakeupPinFlag
  .text.LLWU_ClearExternalWakeupPinFlag
-                0x0000216c       0x40 ./drivers/fsl_llwu.o
-                0x0000216c                LLWU_ClearExternalWakeupPinFlag
+                0x000021c0       0x40 ./drivers/fsl_llwu.o
+                0x000021c0                LLWU_ClearExternalWakeupPinFlag
  .text.CLOCK_EnableClock
-                0x000021ac       0x34 ./drivers/fsl_lptmr.o
+                0x00002200       0x34 ./drivers/fsl_lptmr.o
  .text.LPTMR_GetInstance
-                0x000021e0       0x54 ./drivers/fsl_lptmr.o
+                0x00002234       0x54 ./drivers/fsl_lptmr.o
  .text.LPTMR_Init
-                0x00002234       0xa0 ./drivers/fsl_lptmr.o
-                0x00002234                LPTMR_Init
+                0x00002288       0xa0 ./drivers/fsl_lptmr.o
+                0x00002288                LPTMR_Init
  .text.LPTMR_GetDefaultConfig
-                0x000022d4       0x58 ./drivers/fsl_lptmr.o
-                0x000022d4                LPTMR_GetDefaultConfig
+                0x00002328       0x58 ./drivers/fsl_lptmr.o
+                0x00002328                LPTMR_GetDefaultConfig
  .text.CLOCK_EnableClock
-                0x0000232c       0x34 ./drivers/fsl_lpuart.o
+                0x00002380       0x34 ./drivers/fsl_lpuart.o
  .text.LPUART_GetInstance
-                0x00002360       0x54 ./drivers/fsl_lpuart.o
-                0x00002360                LPUART_GetInstance
+                0x000023b4       0x54 ./drivers/fsl_lpuart.o
+                0x000023b4                LPUART_GetInstance
  .text.LPUART_Init
-                0x000023b4      0x2bc ./drivers/fsl_lpuart.o
-                0x000023b4                LPUART_Init
+                0x00002408      0x2bc ./drivers/fsl_lpuart.o
+                0x00002408                LPUART_Init
  .text.LPUART_GetDefaultConfig
-                0x00002670       0x68 ./drivers/fsl_lpuart.o
-                0x00002670                LPUART_GetDefaultConfig
+                0x000026c4       0x68 ./drivers/fsl_lpuart.o
+                0x000026c4                LPUART_GetDefaultConfig
  .text.LPUART_GetStatusFlags
-                0x000026d8       0x18 ./drivers/fsl_lpuart.o
-                0x000026d8                LPUART_GetStatusFlags
+                0x0000272c       0x18 ./drivers/fsl_lpuart.o
+                0x0000272c                LPUART_GetStatusFlags
  .text.LPUART_ClearStatusFlags
-                0x000026f0       0x88 ./drivers/fsl_lpuart.o
-                0x000026f0                LPUART_ClearStatusFlags
+                0x00002744       0x88 ./drivers/fsl_lpuart.o
+                0x00002744                LPUART_ClearStatusFlags
  .text.LPUART_WriteBlocking
-                0x00002778       0x5c ./drivers/fsl_lpuart.o
-                0x00002778                LPUART_WriteBlocking
+                0x000027cc       0x5c ./drivers/fsl_lpuart.o
+                0x000027cc                LPUART_WriteBlocking
  .text.LPUART_ReadBlocking
-                0x000027d4       0xec ./drivers/fsl_lpuart.o
-                0x000027d4                LPUART_ReadBlocking
+                0x00002828       0xec ./drivers/fsl_lpuart.o
+                0x00002828                LPUART_ReadBlocking
  .text.LPUART0_DriverIRQHandler
-                0x000028c0       0x24 ./drivers/fsl_lpuart.o
-                0x000028c0                LPUART0_DriverIRQHandler
+                0x00002914       0x24 ./drivers/fsl_lpuart.o
+                0x00002914                LPUART0_DriverIRQHandler
  .text.PMC_ConfigureBandgapBuffer
-                0x000028e4       0x28 ./drivers/fsl_pmc.o
-                0x000028e4                PMC_ConfigureBandgapBuffer
+                0x00002938       0x28 ./drivers/fsl_pmc.o
+                0x00002938                PMC_ConfigureBandgapBuffer
  .text.CLOCK_SetSimSafeDivs
-                0x0000290c       0x1c ./board/clock_config.o
+                0x00002960       0x1c ./board/clock_config.o
  .text.BOARD_BootClockRUN
-                0x00002928       0x34 ./board/clock_config.o
-                0x00002928                BOARD_BootClockRUN
+                0x0000297c       0x34 ./board/clock_config.o
+                0x0000297c                BOARD_BootClockRUN
  .text.CLOCK_EnableClock
-                0x0000295c       0x34 ./board/pin_mux.o
+                0x000029b0       0x34 ./board/pin_mux.o
  .text.PORT_SetPinConfig
-                0x00002990       0x44 ./board/pin_mux.o
+                0x000029e4       0x44 ./board/pin_mux.o
  .text.PORT_SetPinMux
-                0x000029d4       0x3c ./board/pin_mux.o
+                0x00002a28       0x3c ./board/pin_mux.o
  .text.BOARD_InitPins
-                0x00002a10       0xc0 ./board/pin_mux.o
-                0x00002a10                BOARD_InitPins
- .text.exit     0x00002ad0       0x2c f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-exit.o)
-                0x00002ad0                exit
+                0x00002a64       0xcc ./board/pin_mux.o
+                0x00002a64                BOARD_InitPins
+ .text.exit     0x00002b30       0x2c f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-exit.o)
+                0x00002b30                exit
  .text.__libc_init_array
-                0x00002afc       0x4c f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-init.o)
-                0x00002afc                __libc_init_array
- .text.memset   0x00002b48       0x10 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memset.o)
-                0x00002b48                memset
- .text.strlen   0x00002b58        0xe f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-strlen.o)
-                0x00002b58                strlen
- *fill*         0x00002b66        0x2 
- .text._exit    0x00002b68        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
-                0x00002b68                _exit
+                0x00002b5c       0x4c f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-init.o)
+                0x00002b5c                __libc_init_array
+ .text.memset   0x00002ba8       0x10 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memset.o)
+                0x00002ba8                memset
+ .text.strlen   0x00002bb8        0xe f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-strlen.o)
+                0x00002bb8                strlen
+ *fill*         0x00002bc6        0x2 
+ .text._exit    0x00002bc8        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libnosys.a(_exit.o)
+                0x00002bc8                _exit
  *(.rodata)
- .rodata        0x00002b6c       0x40 ./utilities/fsl_assert.o
- .rodata        0x00002bac       0x90 ./utilities/fsl_debug_console.o
- .rodata        0x00002c3c       0x68 ./utilities/fsl_io.o
- .rodata        0x00002ca4       0x78 ./utilities/fsl_log.o
- .rodata        0x00002d1c      0x4d0 ./source/power_mode_switch.o
- .rodata        0x000031ec       0xd8 ./drivers/fsl_adc16.o
- .rodata        0x000032c4       0x88 ./drivers/fsl_clock.o
- .rodata        0x0000334c       0xac ./drivers/fsl_gpio.o
- .rodata        0x000033f8       0xb0 ./drivers/fsl_lptmr.o
- .rodata        0x000034a8       0xfc ./drivers/fsl_lpuart.o
- .rodata        0x000035a4       0x40 ./board/pin_mux.o
+ .rodata        0x00002bcc       0x40 ./utilities/fsl_assert.o
+ .rodata        0x00002c0c       0x90 ./utilities/fsl_debug_console.o
+ .rodata        0x00002c9c       0x68 ./utilities/fsl_io.o
+ .rodata        0x00002d04       0x78 ./utilities/fsl_log.o
+ .rodata        0x00002d7c      0x4d4 ./source/power_mode_switch.o
+ .rodata        0x00003250       0xd8 ./drivers/fsl_adc16.o
+ .rodata        0x00003328       0x88 ./drivers/fsl_clock.o
+ .rodata        0x000033b0       0xac ./drivers/fsl_gpio.o
+ .rodata        0x0000345c       0xb0 ./drivers/fsl_lptmr.o
+ .rodata        0x0000350c       0xfc ./drivers/fsl_lpuart.o
+ .rodata        0x00003608       0x40 ./board/pin_mux.o
  *(.rodata*)
  .rodata.__func__.5281
-                0x000035e4       0x10 ./utilities/fsl_debug_console.o
+                0x00003648       0x10 ./utilities/fsl_debug_console.o
  .rodata.__func__.5039
-                0x000035f4        0x8 ./utilities/fsl_io.o
+                0x00003658        0x8 ./utilities/fsl_io.o
  .rodata.__func__.4873
-                0x000035fc        0xc ./utilities/fsl_log.o
+                0x00003660        0xc ./utilities/fsl_log.o
  .rodata.__func__.5057
-                0x00003608       0x18 ./source/power_mode_switch.o
+                0x0000366c       0x18 ./source/power_mode_switch.o
  .rodata.__func__.5287
-                0x00003620       0x20 ./source/power_mode_switch.o
+                0x00003684       0x20 ./source/power_mode_switch.o
  .rodata.__func__.4941
-                0x00003640       0x14 ./drivers/fsl_adc16.o
+                0x000036a4       0x14 ./drivers/fsl_adc16.o
  .rodata.__func__.4946
-                0x00003654        0xc ./drivers/fsl_adc16.o
+                0x000036b8        0xc ./drivers/fsl_adc16.o
  .rodata.__func__.4954
-                0x00003660       0x18 ./drivers/fsl_adc16.o
+                0x000036c4       0x18 ./drivers/fsl_adc16.o
  .rodata.__func__.4997
-                0x00003678       0x18 ./drivers/fsl_adc16.o
+                0x000036dc       0x18 ./drivers/fsl_adc16.o
  .rodata.__func__.5003
-                0x00003690       0x1c ./drivers/fsl_adc16.o
+                0x000036f4       0x1c ./drivers/fsl_adc16.o
  .rodata.CLOCK_GetFreq
-                0x000036ac       0x30 ./drivers/fsl_clock.o
+                0x00003710       0x30 ./drivers/fsl_clock.o
  .rodata.lircFreqs.4820
-                0x000036dc        0x8 ./drivers/fsl_clock.o
+                0x00003740        0x8 ./drivers/fsl_clock.o
  .rodata.__func__.4824
-                0x000036e4       0x18 ./drivers/fsl_clock.o
+                0x00003748       0x18 ./drivers/fsl_clock.o
  .rodata.__func__.4832
-                0x000036fc       0x18 ./drivers/fsl_clock.o
+                0x00003760       0x18 ./drivers/fsl_clock.o
  .rodata.__func__.4884
-                0x00003714       0x14 ./drivers/fsl_clock.o
+                0x00003778       0x14 ./drivers/fsl_clock.o
  .rodata.__func__.4898
-                0x00003728       0x18 ./drivers/fsl_clock.o
+                0x0000378c       0x18 ./drivers/fsl_clock.o
  .rodata.__func__.4959
-                0x00003740       0x10 ./drivers/fsl_gpio.o
+                0x000037a4       0x10 ./drivers/fsl_gpio.o
  .rodata.__func__.4920
-                0x00003750       0x14 ./drivers/fsl_lptmr.o
+                0x000037b4       0x14 ./drivers/fsl_lptmr.o
  .rodata.__func__.4925
-                0x00003764        0xc ./drivers/fsl_lptmr.o
+                0x000037c8        0xc ./drivers/fsl_lptmr.o
  .rodata.__func__.4934
-                0x00003770       0x18 ./drivers/fsl_lptmr.o
+                0x000037d4       0x18 ./drivers/fsl_lptmr.o
  .rodata.__func__.5044
-                0x00003788       0x14 ./drivers/fsl_lpuart.o
+                0x000037ec       0x14 ./drivers/fsl_lpuart.o
  .rodata.__func__.5082
-                0x0000379c        0xc ./drivers/fsl_lpuart.o
+                0x00003800        0xc ./drivers/fsl_lpuart.o
  .rodata.__func__.5106
-                0x000037a8       0x18 ./drivers/fsl_lpuart.o
+                0x0000380c       0x18 ./drivers/fsl_lpuart.o
  .rodata.__func__.5152
-                0x000037c0       0x18 ./drivers/fsl_lpuart.o
+                0x00003824       0x18 ./drivers/fsl_lpuart.o
  .rodata.__func__.5164
-                0x000037d8       0x14 ./drivers/fsl_lpuart.o
+                0x0000383c       0x14 ./drivers/fsl_lpuart.o
  .rodata.mcgliteConfig_BOARD_BootClockRUN
-                0x000037ec        0x8 ./board/clock_config.o
-                0x000037ec                mcgliteConfig_BOARD_BootClockRUN
+                0x00003850        0x8 ./board/clock_config.o
+                0x00003850                mcgliteConfig_BOARD_BootClockRUN
  .rodata.simConfig_BOARD_BootClockRUN
-                0x000037f4        0x8 ./board/clock_config.o
-                0x000037f4                simConfig_BOARD_BootClockRUN
+                0x00003858        0x8 ./board/clock_config.o
+                0x00003858                simConfig_BOARD_BootClockRUN
  .rodata.__func__.4870
-                0x000037fc       0x14 ./board/pin_mux.o
+                0x00003860       0x14 ./board/pin_mux.o
  .rodata.str1.1
-                0x00003810        0x2 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-impure.o)
- *fill*         0x00003812        0x2 
+                0x00003874        0x2 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-impure.o)
+ *fill*         0x00003876        0x2 
  .rodata._global_impure_ptr
-                0x00003814        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-impure.o)
-                0x00003814                _global_impure_ptr
+                0x00003878        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-impure.o)
+                0x00003878                _global_impure_ptr
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x00003818        0x0 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+ .eh_frame      0x0000387c        0x0 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
  *(.init)
- .init          0x00003818        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
-                0x00003818                _init
- .init          0x0000381c        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
+ .init          0x0000387c        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
+                0x0000387c                _init
+ .init          0x00003880        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
  *(.fini)
- .fini          0x00003824        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
-                0x00003824                _fini
- .fini          0x00003828        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
-                0x00003830                . = ALIGN (0x4)
+ .fini          0x00003888        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
+                0x00003888                _fini
+ .fini          0x0000388c        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
+                0x00003894                . = ALIGN (0x4)
 
-.vfp11_veneer   0x00003830        0x0
+.vfp11_veneer   0x00003894        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x00003830        0x0
+.v4_bx          0x00003894        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00003830        0x0
+.iplt           0x00003894        0x0
  .iplt          0x00000000        0x0 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x00003830        0x8
-                0x00003830                __exidx_start = .
+.ARM            0x00003894        0x8
+                0x00003894                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x00003830        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m/crt0.o
-                0x00003838                __exidx_end = .
+ .ARM.exidx     0x00003894        0x8 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+                0x0000389c                __exidx_end = .
 
-.rel.dyn        0x00003838        0x0
+.rel.dyn        0x0000389c        0x0
  .rel.iplt      0x00000000        0x0 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
 
-.ctors          0x00003838        0x0
-                0x00003838                __CTOR_LIST__ = .
+.ctors          0x0000389c        0x0
+                0x0000389c                __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x00003838                __CTOR_END__ = .
+                0x0000389c                __CTOR_END__ = .
 
-.dtors          0x00003838        0x0
-                0x00003838                __DTOR_LIST__ = .
+.dtors          0x0000389c        0x0
+                0x0000389c                __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x00003838                __DTOR_END__ = .
+                0x0000389c                __DTOR_END__ = .
 
-.preinit_array  0x00003838        0x0
-                0x00003838                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x0000389c        0x0
+                0x0000389c                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x00003838                PROVIDE (__preinit_array_end, .)
+                0x0000389c                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x00003838        0x4
-                0x00003838                PROVIDE (__init_array_start, .)
+.init_array     0x0000389c        0x4
+                0x0000389c                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
- .init_array    0x00003838        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
-                0x0000383c                PROVIDE (__init_array_end, .)
+ .init_array    0x0000389c        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+                0x000038a0                PROVIDE (__init_array_end, .)
 
-.fini_array     0x0000383c        0x4
-                0x0000383c                PROVIDE (__fini_array_start, .)
+.fini_array     0x000038a0        0x4
+                0x000038a0                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x0000383c        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
-                0x00003840                PROVIDE (__fini_array_end, .)
-                0x00003840                __etext = .
-                0x00003840                __DATA_ROM = .
+ .fini_array    0x000038a0        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+                0x000038a4                PROVIDE (__fini_array_end, .)
+                0x000038a4                __etext = .
+                0x000038a4                __DATA_ROM = .
 
 .mtb            0x1ffffe00        0x0
                 0x1ffffe00                . = ALIGN (0x8)
@@ -1171,7 +1171,7 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
                 0x1ffffe00                . = ALIGN (0x8)
                 0x1ffffe00                _mtb_end = .
 
-.data           0x1ffffe00       0x6c load address 0x00003840
+.data           0x1ffffe00       0x6c load address 0x000038a4
                 0x1ffffe00                . = ALIGN (0x4)
                 0x1ffffe00                __DATA_RAM = .
                 0x1ffffe00                __data_start__ = .
@@ -1191,14 +1191,14 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
  .jcr           0x1ffffe68        0x4 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtend.o
                 0x1ffffe6c                . = ALIGN (0x4)
                 0x1ffffe6c                __data_end__ = .
-                0x000038ac                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x00003910                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
                 0x00008000                text_end = (ORIGIN (m_text) + 0x7bf0)
                 0x00000001                ASSERT ((__DATA_END <= text_end), region m_text overflowed with text and data)
 
-.igot.plt       0x1ffffe6c        0x0 load address 0x000038ac
+.igot.plt       0x1ffffe6c        0x0 load address 0x00003910
  .igot.plt      0x00000000        0x0 f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
 
-.bss            0x1ffffe6c       0x44 load address 0x000038ac
+.bss            0x1ffffe6c       0x44 load address 0x00003910
                 0x1ffffe6c                . = ALIGN (0x4)
                 0x1ffffe6c                __START_BSS = .
                 0x1ffffe6c                __bss_start__ = .
@@ -1230,7 +1230,7 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
                 0x1ffffeb0                __bss_end__ = .
                 0x1ffffeb0                __END_BSS = .
 
-.heap           0x1ffffeb0      0x200 load address 0x000038f0
+.heap           0x1ffffeb0      0x200 load address 0x00003954
                 0x1ffffeb0                . = ALIGN (0x8)
                 0x1ffffeb0                __end__ = .
                 0x1ffffeb0                PROVIDE (end, .)
@@ -1240,7 +1240,7 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
                 0x200000b0                __HeapLimit = .
                 0x200000b0                __heap_limit = .
 
-.stack          0x200000b0       0x50 load address 0x00003af0
+.stack          0x200000b0       0x50 load address 0x00003b54
                 0x200000b0                . = ALIGN (0x8)
                 0x20000100                . = (. + STACK_SIZE)
  *fill*         0x200000b0       0x50 
@@ -1316,7 +1316,7 @@ LOAD f:/other_software/kinetisdesignstudio/toolchain/bin/../lib/gcc/arm-none-eab
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region m_data overflowed with stack and heap)
 OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x87ef
+.debug_info     0x00000000     0x87fe
  .debug_info    0x00000000       0xfb ./utilities/fsl_assert.o
  .debug_info    0x000000fb      0x3eb ./utilities/fsl_debug_console.o
  .debug_info    0x000004e6      0x6c0 ./utilities/fsl_io.o
@@ -1324,16 +1324,16 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_info    0x00000f04      0x4dd ./utilities/fsl_str.o
  .debug_info    0x000013e1       0xf1 ./startup/startup_MKL03Z4.o
  .debug_info    0x000014d2      0x3a3 ./startup/system_MKL03Z4.o
- .debug_info    0x00001875     0x1ee4 ./source/power_mode_switch.o
- .debug_info    0x00003759      0xb6c ./drivers/fsl_adc16.o
- .debug_info    0x000042c5      0xb7a ./drivers/fsl_clock.o
- .debug_info    0x00004e3f      0x835 ./drivers/fsl_gpio.o
- .debug_info    0x00005674      0x38b ./drivers/fsl_llwu.o
- .debug_info    0x000059ff      0x6d1 ./drivers/fsl_lptmr.o
- .debug_info    0x000060d0     0x1676 ./drivers/fsl_lpuart.o
- .debug_info    0x00007746      0x29c ./drivers/fsl_pmc.o
- .debug_info    0x000079e2      0x7f3 ./board/clock_config.o
- .debug_info    0x000081d5      0x61a ./board/pin_mux.o
+ .debug_info    0x00001875     0x1ef3 ./source/power_mode_switch.o
+ .debug_info    0x00003768      0xb6c ./drivers/fsl_adc16.o
+ .debug_info    0x000042d4      0xb7a ./drivers/fsl_clock.o
+ .debug_info    0x00004e4e      0x835 ./drivers/fsl_gpio.o
+ .debug_info    0x00005683      0x38b ./drivers/fsl_llwu.o
+ .debug_info    0x00005a0e      0x6d1 ./drivers/fsl_lptmr.o
+ .debug_info    0x000060df     0x1676 ./drivers/fsl_lpuart.o
+ .debug_info    0x00007755      0x29c ./drivers/fsl_pmc.o
+ .debug_info    0x000079f1      0x7f3 ./board/clock_config.o
+ .debug_info    0x000081e4      0x61a ./board/pin_mux.o
 
 .debug_abbrev   0x00000000     0x1a7e
  .debug_abbrev  0x00000000       0x81 ./utilities/fsl_assert.o
@@ -1408,7 +1408,7 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_ranges  0x000005a8       0x30 ./board/clock_config.o
  .debug_ranges  0x000005d8       0x28 ./board/pin_mux.o
 
-.debug_line     0x00000000     0x2ec5
+.debug_line     0x00000000     0x2eda
  .debug_line    0x00000000      0x186 ./utilities/fsl_assert.o
  .debug_line    0x00000186      0x232 ./utilities/fsl_debug_console.o
  .debug_line    0x000003b8      0x239 ./utilities/fsl_io.o
@@ -1416,18 +1416,18 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
  .debug_line    0x00000843      0x3f6 ./utilities/fsl_str.o
  .debug_line    0x00000c39       0xec ./startup/startup_MKL03Z4.o
  .debug_line    0x00000d25      0x116 ./startup/system_MKL03Z4.o
- .debug_line    0x00000e3b      0x757 ./source/power_mode_switch.o
- .debug_line    0x00001592      0x31f ./drivers/fsl_adc16.o
- .debug_line    0x000018b1      0x371 ./drivers/fsl_clock.o
- .debug_line    0x00001c22      0x269 ./drivers/fsl_gpio.o
- .debug_line    0x00001e8b      0x1df ./drivers/fsl_llwu.o
- .debug_line    0x0000206a      0x20f ./drivers/fsl_lptmr.o
- .debug_line    0x00002279      0x6da ./drivers/fsl_lpuart.o
- .debug_line    0x00002953      0x166 ./drivers/fsl_pmc.o
- .debug_line    0x00002ab9      0x215 ./board/clock_config.o
- .debug_line    0x00002cce      0x1f7 ./board/pin_mux.o
+ .debug_line    0x00000e3b      0x76b ./source/power_mode_switch.o
+ .debug_line    0x000015a6      0x31f ./drivers/fsl_adc16.o
+ .debug_line    0x000018c5      0x371 ./drivers/fsl_clock.o
+ .debug_line    0x00001c36      0x269 ./drivers/fsl_gpio.o
+ .debug_line    0x00001e9f      0x1df ./drivers/fsl_llwu.o
+ .debug_line    0x0000207e      0x20f ./drivers/fsl_lptmr.o
+ .debug_line    0x0000228d      0x6da ./drivers/fsl_lpuart.o
+ .debug_line    0x00002967      0x166 ./drivers/fsl_pmc.o
+ .debug_line    0x00002acd      0x215 ./board/clock_config.o
+ .debug_line    0x00002ce2      0x1f8 ./board/pin_mux.o
 
-.debug_str      0x00000000     0x4fab
+.debug_str      0x00000000     0x4fb5
  .debug_str     0x00000000      0x26a ./utilities/fsl_assert.o
                                 0x2a8 (size before relaxing)
  .debug_str     0x0000026a      0x23d ./utilities/fsl_debug_console.o
@@ -1440,25 +1440,25 @@ OUTPUT(power_mode_switch_frdmkl03z.elf elf32-littlearm)
                                 0x486 (size before relaxing)
  .debug_str     0x0000121e      0x195 ./startup/system_MKL03Z4.o
                                 0x3a4 (size before relaxing)
- .debug_str     0x000013b3     0x1fbb ./source/power_mode_switch.o
-                               0x2a84 (size before relaxing)
- .debug_str     0x0000336e      0x3be ./drivers/fsl_adc16.o
+ .debug_str     0x000013b3     0x1fc5 ./source/power_mode_switch.o
+                               0x2a8e (size before relaxing)
+ .debug_str     0x00003378      0x3be ./drivers/fsl_adc16.o
                                0x1260 (size before relaxing)
- .debug_str     0x0000372c      0x55e ./drivers/fsl_clock.o
+ .debug_str     0x00003736      0x55e ./drivers/fsl_clock.o
                                 0xf4f (size before relaxing)
- .debug_str     0x00003c8a      0x110 ./drivers/fsl_gpio.o
+ .debug_str     0x00003c94      0x110 ./drivers/fsl_gpio.o
                                 0x9f9 (size before relaxing)
- .debug_str     0x00003d9a      0x21b ./drivers/fsl_llwu.o
+ .debug_str     0x00003da4      0x21b ./drivers/fsl_llwu.o
                                 0x4e5 (size before relaxing)
- .debug_str     0x00003fb5       0xde ./drivers/fsl_lptmr.o
+ .debug_str     0x00003fbf       0xde ./drivers/fsl_lptmr.o
                                 0xdc9 (size before relaxing)
- .debug_str     0x00004093      0x8ce ./drivers/fsl_lpuart.o
+ .debug_str     0x0000409d      0x8ce ./drivers/fsl_lpuart.o
                                0x1943 (size before relaxing)
- .debug_str     0x00004961      0x26b ./drivers/fsl_pmc.o
+ .debug_str     0x0000496b      0x26b ./drivers/fsl_pmc.o
                                 0x512 (size before relaxing)
- .debug_str     0x00004bcc      0x1b3 ./board/clock_config.o
+ .debug_str     0x00004bd6      0x1b3 ./board/clock_config.o
                                 0xe78 (size before relaxing)
- .debug_str     0x00004d7f      0x22c ./board/pin_mux.o
+ .debug_str     0x00004d89      0x22c ./board/pin_mux.o
                                 0x795 (size before relaxing)
 
 .comment        0x00000000       0x70

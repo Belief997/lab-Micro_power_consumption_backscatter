@@ -102,6 +102,7 @@
 /*  ADC & LPTMR  */
 #define DEMO_ADC16_BASEADDR ADC0
 #define DEMO_ADC16_CHANNEL_GROUP 0U
+#define DEMO_ADC16_USER_CHANNEL 8U
 // tmp
 #define kAdcChannelTemperature (26U) /*! ADC channel of temperature sensor */
 #define kAdcChannelBandgap (27U)     /*! ADC channel of BANDGAP */
@@ -859,7 +860,8 @@ static bool ADC16_InitHardwareTrigger(ADC_Type *base)
 #endif
     ADC16_Init(base, &adcUserConfig);
 
-    adcChnConfig.channelNumber = kAdcChannelTemperature;
+//    adcChnConfig.channelNumber = kAdcChannelTemperature;
+    adcChnConfig.channelNumber = DEMO_ADC16_USER_CHANNEL;
 #if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
     adcChnConfig.enableDifferentialConversion = false;
 #endif
@@ -1187,6 +1189,7 @@ int main(void)
 //    }
 
         uint8_t cnt = 0;
+        uint32_t adc_Value = 0;
         while (1)
         {
     //        smc_power_state_t curPowerState;
@@ -1206,6 +1209,17 @@ int main(void)
     //
     ////        PRINTF("*-");
     //
+            if(adcValue > adc_Value && adcValue > adc_Value + 10)
+            {
+                PRINTF("%d", adcValue);
+            }
+            else if(adcValue < adc_Value && adcValue  + 10 < adc_Value)
+            {
+                PRINTF("%d", adcValue);
+            }
+            adc_Value = adcValue;
+
+            
             if(cnt&0x01)
             {
                 LED1_ON();

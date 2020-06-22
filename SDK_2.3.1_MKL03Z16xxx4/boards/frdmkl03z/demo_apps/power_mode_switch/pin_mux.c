@@ -103,9 +103,9 @@ void BOARD_InitPins(void)
     // ctrl
     PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
 
+    //ad
+    PORT_SetPinMux(PORTB, 1U, kPORT_PinDisabledOrAnalog);
 
-
-    
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
 //    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
     PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt3);
