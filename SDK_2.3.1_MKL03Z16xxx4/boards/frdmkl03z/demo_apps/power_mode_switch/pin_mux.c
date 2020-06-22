@@ -99,6 +99,12 @@ void BOARD_InitPins(void)
     // TPM CH0
     PORT_SetPinMux(PORTA, 6U, kPORT_MuxAlt2);
     PORT_SetPinMux(PORTA, 5U, kPORT_MuxAlt2);
+
+    // ctrl
+    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
+
+
+
     
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
 //    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);

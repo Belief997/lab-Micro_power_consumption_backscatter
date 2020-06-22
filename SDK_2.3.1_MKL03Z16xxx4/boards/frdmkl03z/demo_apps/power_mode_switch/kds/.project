@@ -97,6 +97,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/readme.txt</locationURI>
 		</link>
 		<link>
+			<name>drivers/fsl_adc16.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_adc16.c</locationURI>
+		</link>
+		<link>
+			<name>drivers/fsl_adc16.h</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_adc16.h</locationURI>
+		</link>
+		<link>
 			<name>drivers/fsl_clock.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_clock.c</locationURI>

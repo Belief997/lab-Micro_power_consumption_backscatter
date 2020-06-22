@@ -39,6 +39,7 @@
 #include "fsl_lptmr.h"
 #include "fsl_port.h"
 #include "power_mode_switch.h"
+#include "fsl_adc16.h"
 #include "board.h"
 #include "fsl_debug_console.h"
 
@@ -97,6 +98,46 @@
 #define DEBUG_CONSOLE_TX_PINMUX kPORT_MuxAlt2
 #define CORE_CLK_FREQ CLOCK_GetFreq(kCLOCK_CoreSysClk)
 
+
+/*  ADC & LPTMR  */
+#define DEMO_ADC16_BASEADDR ADC0
+#define DEMO_ADC16_CHANNEL_GROUP 0U
+// tmp
+#define kAdcChannelTemperature (26U) /*! ADC channel of temperature sensor */
+#define kAdcChannelBandgap (27U)     /*! ADC channel of BANDGAP */
+
+#define DEMO_ADC16_IRQ_ID ADC0_IRQn
+#define DEMO_ADC16_IRQ_HANDLER_FUNC ADC0_IRQHandler
+
+#define DEMO_LPTMR_BASE LPTMR0
+#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+
+
+/*
+ * These values are used to get the temperature. DO NOT MODIFY
+ * The method used in this demo to calculate temperature of chip is mapped to
+ * Temperature Sensor for the HCS08 Microcontroller Family document (Document Number: AN3031)
+ */
+#define ADCR_VDD (65535U) /* Maximum value when use 16b resolution */
+#define V_BG (1000U)      /* BANDGAP voltage in mV (trim to 1.0V) */
+#define V_TEMP25 (716U)   /* Typical VTEMP25 in mV */
+#define M (1620U)         /* Typical slope: (mV x 1000)/oC */
+#define STANDARD_TEMP (25U)
+
+#define LED1_INIT() LED_RED_INIT(LOGIC_LED_OFF)
+#define LED1_ON() LED_RED_ON()
+#define LED1_OFF() LED_RED_OFF()
+
+#define UPDATE_BOUNDARIES_TIME                                                         \
+    (20U) /*! This value indicates the number of cycles needed to update boundaries. \ \
+              To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
+
+//#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
+#define LPTMR_COMPARE_VALUE (500U) // 8k
+
+
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -123,6 +164,40 @@ extern void APP_PowerPreSwitchHook(smc_power_state_t originPowerState, app_power
  */
 extern void APP_PowerPostSwitchHook(smc_power_state_t originPowerState, app_power_mode_t targetMode);
 
+
+/*  ADC & LPTMR  */
+void BOARD_ConfigTriggerSource(void);
+/*!
+ * @brief ADC stop conversion
+ *
+ * @param base The ADC instance number
+ */
+static void ADC16_PauseConversion(ADC_Type *base);
+
+/*!
+ * @brief calibrate parameters: VDD and ADCR_TEMP25
+ *
+ * @param base The ADC instance number
+ */
+static void ADC16_CalibrateParams(ADC_Type *base);
+
+/*!
+ * @brief User-defined function to init trigger source  of LPTimer
+ *
+ * @param base The LPTMR instance number
+ */
+static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base);
+
+/*!
+ * @brief Initialize the ADCx for HW trigger.
+ *
+ * @param base The ADC instance number
+ *
+ * @return true if success
+ */
+static bool ADC16_InitHardwareTrigger(ADC_Type *base);
+
+
 /*******************************************************************************
  * Variables
  ******************************************************************************/
@@ -143,6 +218,13 @@ volatile bool brightnessUp = true; /* Indicate LED is brighter or dimmer */
 volatile uint8_t updatedDutycycle = 50U;
 volatile uint8_t getCharValue = 0U;
 
+
+// adc & lptmr
+volatile static uint32_t adcValue = 0; /*! ADC value */
+static uint32_t adcrTemp25 = 0;        /*! Calibrated ADCR_TEMP25 */
+static uint32_t adcr100m = 0;
+
+volatile bool conversionCompleted = false; /*! Conversion is completed Flag */
 
 
 void user_showFreqList()
@@ -270,15 +352,15 @@ void LLWU_IRQHandler(void)
     }
 }
 
-void LPTMR0_IRQHandler(void)
-{
-    if (kLPTMR_TimerInterruptEnable & LPTMR_GetEnabledInterrupts(LPTMR0))
-    {
-        LPTMR_DisableInterrupts(LPTMR0, kLPTMR_TimerInterruptEnable);
-        LPTMR_ClearStatusFlags(LPTMR0, kLPTMR_TimerCompareFlag);
-        LPTMR_StopTimer(LPTMR0);
-    }
-}
+//void LPTMR0_IRQHandler(void)
+//{
+//    if (kLPTMR_TimerInterruptEnable & LPTMR_GetEnabledInterrupts(LPTMR0))
+//    {
+//        LPTMR_DisableInterrupts(LPTMR0, kLPTMR_TimerInterruptEnable);
+//        LPTMR_ClearStatusFlags(LPTMR0, kLPTMR_TimerCompareFlag);
+//        LPTMR_StopTimer(LPTMR0);
+//    }
+//}
 
 void APP_WAKEUP_BUTTON_IRQ_HANDLER(void)
 {
@@ -572,6 +654,272 @@ void delay(void)
     }
 }
 
+
+void BOARD_ConfigTriggerSource(void)
+{
+    /* Configure SIM for ADC hw trigger source selection */
+    SIM->SOPT7 |= 0x0000008EU;
+}
+/* Enable the trigger source of LPTimer */
+static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base)
+{
+    lptmr_config_t lptmrUserConfig;
+
+    /*
+     * lptmrUserConfig.timerMode = kLPTMR_TimerModeTimeCounter;
+     * lptmrUserConfig.pinSelect = kLPTMR_PinSelectInput_0;
+     * lptmrUserConfig.pinPolarity = kLPTMR_PinPolarityActiveHigh;
+     * lptmrUserConfig.enableFreeRunning = false;
+     * lptmrUserConfig.bypassPrescaler = true;
+     * lptmrUserConfig.prescalerClockSource = kLPTMR_PrescalerClock_1;
+     * lptmrUserConfig.value = kLPTMR_Prescale_Glitch_0;
+     */
+    LPTMR_GetDefaultConfig(&lptmrUserConfig);
+    /* Init LPTimer driver */
+    LPTMR_Init(base, &lptmrUserConfig);
+
+    /* Set the LPTimer period */
+    LPTMR_SetTimerPeriod(base, LPTMR_COMPARE_VALUE);
+
+    /* Start the LPTimer */
+    LPTMR_StartTimer(base);
+
+    /* Configure SIM for ADC hw trigger source selection */
+    BOARD_ConfigTriggerSource();
+}   
+/*!
+ * @brief ADC stop conversion
+ */
+static void ADC16_PauseConversion(ADC_Type *base)
+{
+    adc16_channel_config_t adcChnConfig;
+
+    adcChnConfig.channelNumber = 31U; /*!< AD31 channel */
+    adcChnConfig.enableInterruptOnConversionCompleted = false;
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+    adcChnConfig.enableDifferentialConversion = false;
+#endif
+    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+}
+
+/*!
+ * @brief calibrate parameters: VDD and ADCR_TEMP25
+ */
+static void ADC16_CalibrateParams(ADC_Type *base)
+{
+    uint32_t bandgapValue = 0; /*! ADC value of BANDGAP */
+    uint32_t vdd = 0;          /*! VDD in mV */
+
+    adc16_config_t adcUserConfig;
+    adc16_channel_config_t adcChnConfig;
+    pmc_bandgap_buffer_config_t pmcBandgapConfig;
+
+    pmcBandgapConfig.enable = true;
+
+#if (defined(FSL_FEATURE_PMC_HAS_BGEN) && FSL_FEATURE_PMC_HAS_BGEN)
+    pmcBandgapConfig.enableInLowPowerMode = false;
+#endif
+#if (defined(FSL_FEATURE_PMC_HAS_BGBDS) && FSL_FEATURE_PMC_HAS_BGBDS)
+    pmcBandgapConfig.drive = kPmcBandgapBufferDriveLow;
+#endif
+    /* Enable BANDGAP reference voltage */
+    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
+
+    /*
+    * Initialization ADC for
+    * 16bit resolution, interrupt mode, hw trigger disabled.
+    * normal convert speed, VREFH/L as reference,
+    * disable continuous convert mode
+    */
+    /*
+     * adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
+     * adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+     * adcUserConfig.enableAsynchronousClock = true;
+     * adcUserConfig.clockDivider = kADC16_ClockDivider8;
+     * adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+     * adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+     * adcUserConfig.enableHighSpeed = false;
+     * adcUserConfig.enableLowPower = false;
+     * adcUserConfig.enableContinuousConversion = false;
+     */
+    ADC16_GetDefaultConfig(&adcUserConfig);
+#if defined(FSL_FEATURE_ADC16_MAX_RESOLUTION) && (FSL_FEATURE_ADC16_MAX_RESOLUTION >= 16U)
+    adcUserConfig.resolution = kADC16_Resolution16Bit;
+#else
+    adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+#endif
+    adcUserConfig.enableContinuousConversion = false;
+    adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+    adcUserConfig.enableLowPower = 1;
+    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+#ifdef BOARD_ADC_USE_ALT_VREF
+    adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceValt;
+#endif
+    ADC16_Init(base, &adcUserConfig);
+
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    /* Auto calibration */
+    if (kStatus_Success == ADC16_DoAutoCalibration(base))
+    {
+        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
+    }
+    else
+    {
+        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
+    }
+#endif
+
+#if defined(FSL_FEATURE_ADC16_HAS_HW_AVERAGE) && FSL_FEATURE_ADC16_HAS_HW_AVERAGE
+    /* Use hardware average to increase stability of the measurement  */
+    ADC16_SetHardwareAverage(base, kADC16_HardwareAverageCount32);
+#endif /* FSL_FEATURE_ADC16_HAS_HW_AVERAGE */
+
+    adcChnConfig.channelNumber = kAdcChannelBandgap;
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+    adcChnConfig.enableDifferentialConversion = false;
+#endif
+    adcChnConfig.enableInterruptOnConversionCompleted = false;
+    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+
+    /* Wait for the conversion to be done */
+    while (!ADC16_GetChannelStatusFlags(base, DEMO_ADC16_CHANNEL_GROUP))
+    {
+    }
+
+    /* Get current ADC BANDGAP value */
+    bandgapValue = ADC16_GetChannelConversionValue(base, DEMO_ADC16_CHANNEL_GROUP);
+
+    ADC16_PauseConversion(base);
+
+    /* Get VDD value measured in mV: VDD = (ADCR_VDD x V_BG) / ADCR_BG */
+    vdd = ADCR_VDD * V_BG / bandgapValue;
+    /* Calibrate ADCR_TEMP25: ADCR_TEMP25 = ADCR_VDD x V_TEMP25 / VDD */
+    adcrTemp25 = ADCR_VDD * V_TEMP25 / vdd;
+    /* ADCR_100M = ADCR_VDD x M x 100 / VDD */
+    adcr100m = (ADCR_VDD * M) / (vdd * 10);
+
+    /* Disable BANDGAP reference voltage */
+    pmcBandgapConfig.enable = false;
+    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
+}
+
+/*!
+ * @brief Initialize the ADCx for Hardware trigger.
+ */
+static bool ADC16_InitHardwareTrigger(ADC_Type *base)
+{
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    uint16_t offsetValue = 0; /*!< Offset error from correction value. */
+#endif
+    adc16_config_t adcUserConfig;
+    adc16_channel_config_t adcChnConfig;
+
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    /* Auto calibration */
+    if (kStatus_Success != ADC16_DoAutoCalibration(base))
+    {
+        return false;
+    }
+    offsetValue = base->OFS;
+    ADC16_SetOffsetValue(base, offsetValue);
+#endif
+    /*
+    * Initialization ADC for
+    * 16bit resolution, interrupt mode, hw trigger enabled.
+    * normal convert speed, VREFH/L as reference,
+    * disable continuous convert mode.
+    */
+    /*
+     * adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
+     * adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+     * adcUserConfig.enableAsynchronousClock = true;
+     * adcUserConfig.clockDivider = kADC16_ClockDivider8;
+     * adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+     * adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+     * adcUserConfig.enableHighSpeed = false;
+     * adcUserConfig.enableLowPower = false;
+     * adcUserConfig.enableContinuousConversion = false;
+     */
+    ADC16_GetDefaultConfig(&adcUserConfig);
+#if defined(FSL_FEATURE_ADC16_MAX_RESOLUTION) && (FSL_FEATURE_ADC16_MAX_RESOLUTION >= 16U)
+    adcUserConfig.resolution = kADC16_Resolution16Bit;
+#else
+    adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+#endif
+    /* enabled hardware trigger  */
+    ADC16_EnableHardwareTrigger(base, true);
+    adcUserConfig.enableContinuousConversion = false;
+    adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+
+//    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+    adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+    adcUserConfig.enableLowPower = 1;
+#if ((defined BOARD_ADC_USE_ALT_VREF) && BOARD_ADC_USE_ALT_VREF)
+    adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceValt;
+#endif
+    ADC16_Init(base, &adcUserConfig);
+
+    adcChnConfig.channelNumber = kAdcChannelTemperature;
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+    adcChnConfig.enableDifferentialConversion = false;
+#endif
+    adcChnConfig.enableInterruptOnConversionCompleted = true;
+    /* Configure channel 0 */
+    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+    return true;
+}
+
+
+void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
+{
+    /* Get current ADC value */
+    adcValue = ADC16_GetChannelConversionValue(DEMO_ADC16_BASEADDR, DEMO_ADC16_CHANNEL_GROUP);
+    /* Set conversionCompleted flag. This prevents an wrong conversion in main function */
+    conversionCompleted = true;
+/* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
+  exception return operation might vector to incorrect interrupt */
+#if defined __CORTEX_M && (__CORTEX_M == 4U)
+    __DSB();
+#endif
+}
+
+
+/*!
+ * @brief main function
+ */
+//#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+//void LPTMR_LED_HANDLER(void)
+////void LPTMR0_IRQHandler(void)
+//{
+//    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
+////    lptmrCounter++;
+////    LED_TOGGLE();
+
+//    static uint8_t cnt = 0;
+
+//        if(cnt&0x01)
+//        {
+//        	LED1_ON();
+//        }
+//        else
+//        {
+//        	LED1_OFF();
+//        }
+//        cnt++;
+
+//    /*
+//     * Workaround for TWR-KV58: because write buffer is enabled, adding
+//     * memory barrier instructions to make sure clearing interrupt flag completed
+//     * before go out ISR
+//     */
+//    __DSB();
+//    __ISB();
+//}
+
+
+
+
 #define USER_PWM_NUM  2
 /*!
  * @brief main demo function.
@@ -593,11 +941,11 @@ int main(void)
         NVIC_ClearPendingIRQ(LLWU_IRQn);
     }
 
-    /*******************************************************************************
-     *
-     *  pwm init
-     *
-     *  *******************************************************************************/
+/*******************************************************************************
+ *
+ *  pwm init
+ *
+ *  *******************************************************************************/
     // tpm config init
 #ifndef TPM_LED_ON_LEVEL
 #define TPM_LED_ON_LEVEL kTPM_LowTrue
@@ -638,6 +986,8 @@ int main(void)
 
 /******************************************************************************/
 
+
+
     /* Define the init structure for the output ENABLE pin*/
     gpio_pin_config_t enable_config = {
         kGPIO_DigitalOutput, 0,
@@ -654,13 +1004,6 @@ int main(void)
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
-    /* Setup LPTMR. */
-//    LPTMR_GetDefaultConfig(&lptmrConfig);
-//    lptmrConfig.prescalerClockSource = kLPTMR_PrescalerClock_1; /* Use LPO as clock source. */
-//    lptmrConfig.bypassPrescaler = true;
-//
-//    LPTMR_Init(LPTMR0, &lptmrConfig);
-
     NVIC_EnableIRQ(LLWU_IRQn);
 //    NVIC_EnableIRQ(LPTMR0_IRQn);
 
@@ -675,8 +1018,37 @@ int main(void)
 //    user_showFreqList();
     // mode now is run 48 MHz
 
+/*******************************************************************************
+ *
+ *  adc & lptmr init
+ *
+ *  *******************************************************************************/
+    LED1_INIT();
 
-//    while (0)
+    /* Calibrate param Temperature sensor */
+    ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
+        
+    /* Initialize Demo ADC */
+  if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
+  {
+      PRINTF("Failed to do the ADC init\r\n");
+      return -1;
+  }
+    LPTMR_InitTriggerSourceOfAdc(DEMO_LPTMR_BASE);
+    NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
+
+
+    // timer test
+    /* Enable timer interrupt */
+//    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+
+//    /* Enable at the NVIC */
+//    EnableIRQ(DEMO_LPTMR_IRQn);
+//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+
+/******************************************************************************/
+
+    while (0)
     {
         curPowerState = SMC_GetPowerModeState(SMC);
 
@@ -784,42 +1156,89 @@ int main(void)
 
 //    user_showFreqList();
 
-    // init and run pwm here
+
+/*******************************************************************************
+ *
+ *  init and run pwm here
+ *
+ *  *******************************************************************************/
     /* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
 //    CLOCK_SetTpmClock(1U);
-    CLOCK_SetTpmClock(3U);
+//    CLOCK_SetTpmClock(3U);
 
-    TPM_GetDefaultConfig(&tpmInfo);
-    /* Initialize TPM module */
-    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+//    TPM_GetDefaultConfig(&tpmInfo);
+//    /* Initialize TPM module */
+//    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
+////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
 
-    // redefine ch number by micro
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
-    
-    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+//    // redefine ch number by micro
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
+//    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+/******************************************************************************/
 
     // hold output for about 120 sec
-    uint8_t i_delay = 0;
-    while(i_delay++ < 120)// about 120s
-    {
-        delay();
-        PRINTF(". ");
-    }
+//    uint8_t i_delay = 0;
+//    while(i_delay++ < 120)// about 120s
+//    {
+//        delay();
+//        PRINTF(". ");
+//    }
+
+        uint8_t cnt = 0;
+        while (1)
+        {
+    //        smc_power_state_t curPowerState;
+    //        curPowerState = SMC_GetPowerModeState(SMC);
+    //
+    //        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+    //        PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+    //        APP_ShowPowerMode(curPowerState);
+    
+    
+    
+    
+            /* Prevents the use of wrong values */
+            while (!conversionCompleted)
+            {
+            }
+    //
+    ////        PRINTF("*-");
+    //
+            if(cnt&0x01)
+            {
+                LED1_ON();
+            }
+            else
+            {
+                LED1_OFF();
+            }
+            cnt++;
+
+            conversionCompleted = false;
+
+
+        }
+        
+
+
+
+
+
+
 
     // enter vlls3 mode
-    {
-        curPowerState = kSMC_PowerStateVlpr;
-        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
-        //needSetWakeup = true;
-        APP_GetWakeupConfig(targetPowerMode);
-        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-        APP_SetWakeupConfig(targetPowerMode);
-        APP_PowerModeSwitch(curPowerState, targetPowerMode);
-        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-    }
+//    {
+//        curPowerState = kSMC_PowerStateVlpr;
+//        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+//        //needSetWakeup = true;
+//        APP_GetWakeupConfig(targetPowerMode);
+//        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+//        APP_SetWakeupConfig(targetPowerMode);
+//        APP_PowerModeSwitch(curPowerState, targetPowerMode);
+//        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+//    }
 
     return 0;
 }

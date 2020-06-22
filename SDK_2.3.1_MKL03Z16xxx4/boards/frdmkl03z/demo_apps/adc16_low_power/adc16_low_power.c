@@ -51,7 +51,8 @@
 #define DEMO_ADC16_IRQ_HANDLER_FUNC ADC0_IRQHandler
 
 #define DEMO_LPTMR_BASE LPTMR0
-
+#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
 /*
  * These values are used to get the temperature. DO NOT MODIFY
  * The method used in this demo to calculate temperature of chip is mapped to
@@ -543,7 +544,7 @@ int main(void)
 //    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
 //
 //    /* Enable at the NVIC */
-//    EnableIRQ(DEMO_LPTMR_IRQn);
+    EnableIRQ(DEMO_LPTMR_IRQn);
 //    LPTMR_StartTimer(DEMO_LPTMR_BASE);
 /////////////////////////////////////////////////////////////////////
     uint8_t cnt = 0;
