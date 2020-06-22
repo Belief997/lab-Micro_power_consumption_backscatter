@@ -104,8 +104,8 @@
 #define DEMO_ADC16_CHANNEL_GROUP 0U
 #define DEMO_ADC16_USER_CHANNEL 8U
 // tmp
-#define kAdcChannelTemperature (26U) /*! ADC channel of temperature sensor */
-#define kAdcChannelBandgap (27U)     /*! ADC channel of BANDGAP */
+//#define kAdcChannelTemperature (26U) /*! ADC channel of temperature sensor */
+//#define kAdcChannelBandgap (27U)     /*! ADC channel of BANDGAP */
 
 #define DEMO_ADC16_IRQ_ID ADC0_IRQn
 #define DEMO_ADC16_IRQ_HANDLER_FUNC ADC0_IRQHandler
@@ -120,19 +120,19 @@
  * The method used in this demo to calculate temperature of chip is mapped to
  * Temperature Sensor for the HCS08 Microcontroller Family document (Document Number: AN3031)
  */
-#define ADCR_VDD (65535U) /* Maximum value when use 16b resolution */
-#define V_BG (1000U)      /* BANDGAP voltage in mV (trim to 1.0V) */
-#define V_TEMP25 (716U)   /* Typical VTEMP25 in mV */
-#define M (1620U)         /* Typical slope: (mV x 1000)/oC */
-#define STANDARD_TEMP (25U)
+//#define ADCR_VDD (65535U) /* Maximum value when use 16b resolution */
+//#define V_BG (1000U)      /* BANDGAP voltage in mV (trim to 1.0V) */
+//#define V_TEMP25 (716U)   /* Typical VTEMP25 in mV */
+//#define M (1620U)         /* Typical slope: (mV x 1000)/oC */
+//#define STANDARD_TEMP (25U)
 
 #define LED1_INIT() LED_RED_INIT(LOGIC_LED_OFF)
 #define LED1_ON() LED_RED_ON()
 #define LED1_OFF() LED_RED_OFF()
 
-#define UPDATE_BOUNDARIES_TIME                                                         \
-    (20U) /*! This value indicates the number of cycles needed to update boundaries. \ \
-              To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
+//#define UPDATE_BOUNDARIES_TIME                                                         \
+//    (20U) /*! This value indicates the number of cycles needed to update boundaries. \ \
+//              To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
 
 //#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
 #define LPTMR_COMPARE_VALUE (500U) // 8k
@@ -173,7 +173,7 @@ void BOARD_ConfigTriggerSource(void);
  *
  * @param base The ADC instance number
  */
-static void ADC16_PauseConversion(ADC_Type *base);
+//static void ADC16_PauseConversion(ADC_Type *base);
 
 /*!
  * @brief calibrate parameters: VDD and ADCR_TEMP25
@@ -222,8 +222,8 @@ volatile uint8_t getCharValue = 0U;
 
 // adc & lptmr
 volatile static uint32_t adcValue = 0; /*! ADC value */
-static uint32_t adcrTemp25 = 0;        /*! Calibrated ADCR_TEMP25 */
-static uint32_t adcr100m = 0;
+//static uint32_t adcrTemp25 = 0;        /*! Calibrated ADCR_TEMP25 */
+//static uint32_t adcr100m = 0;
 
 volatile bool conversionCompleted = false; /*! Conversion is completed Flag */
 
@@ -691,17 +691,17 @@ static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base)
 /*!
  * @brief ADC stop conversion
  */
-static void ADC16_PauseConversion(ADC_Type *base)
-{
-    adc16_channel_config_t adcChnConfig;
+//static void ADC16_PauseConversion(ADC_Type *base)
+//{
+//    adc16_channel_config_t adcChnConfig;
 
-    adcChnConfig.channelNumber = 31U; /*!< AD31 channel */
-    adcChnConfig.enableInterruptOnConversionCompleted = false;
-#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
-    adcChnConfig.enableDifferentialConversion = false;
-#endif
-    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
-}
+//    adcChnConfig.channelNumber = 31U; /*!< AD31 channel */
+//    adcChnConfig.enableInterruptOnConversionCompleted = false;
+//#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+//    adcChnConfig.enableDifferentialConversion = false;
+//#endif
+//    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+//}
 
 /*!
  * @brief calibrate parameters: VDD and ADCR_TEMP25
@@ -775,33 +775,33 @@ static void ADC16_CalibrateParams(ADC_Type *base)
     ADC16_SetHardwareAverage(base, kADC16_HardwareAverageCount32);
 #endif /* FSL_FEATURE_ADC16_HAS_HW_AVERAGE */
 
-    adcChnConfig.channelNumber = kAdcChannelBandgap;
-#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
-    adcChnConfig.enableDifferentialConversion = false;
-#endif
-    adcChnConfig.enableInterruptOnConversionCompleted = false;
-    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+//    adcChnConfig.channelNumber = kAdcChannelBandgap;
+//#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+//    adcChnConfig.enableDifferentialConversion = false;
+//#endif
+//    adcChnConfig.enableInterruptOnConversionCompleted = false;
+//    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
 
-    /* Wait for the conversion to be done */
-    while (!ADC16_GetChannelStatusFlags(base, DEMO_ADC16_CHANNEL_GROUP))
-    {
-    }
+//    /* Wait for the conversion to be done */
+//    while (!ADC16_GetChannelStatusFlags(base, DEMO_ADC16_CHANNEL_GROUP))
+//    {
+//    }
 
-    /* Get current ADC BANDGAP value */
-    bandgapValue = ADC16_GetChannelConversionValue(base, DEMO_ADC16_CHANNEL_GROUP);
+//    /* Get current ADC BANDGAP value */
+//    bandgapValue = ADC16_GetChannelConversionValue(base, DEMO_ADC16_CHANNEL_GROUP);
 
-    ADC16_PauseConversion(base);
+//    ADC16_PauseConversion(base);
 
-    /* Get VDD value measured in mV: VDD = (ADCR_VDD x V_BG) / ADCR_BG */
-    vdd = ADCR_VDD * V_BG / bandgapValue;
-    /* Calibrate ADCR_TEMP25: ADCR_TEMP25 = ADCR_VDD x V_TEMP25 / VDD */
-    adcrTemp25 = ADCR_VDD * V_TEMP25 / vdd;
-    /* ADCR_100M = ADCR_VDD x M x 100 / VDD */
-    adcr100m = (ADCR_VDD * M) / (vdd * 10);
+//    /* Get VDD value measured in mV: VDD = (ADCR_VDD x V_BG) / ADCR_BG */
+//    vdd = ADCR_VDD * V_BG / bandgapValue;
+//    /* Calibrate ADCR_TEMP25: ADCR_TEMP25 = ADCR_VDD x V_TEMP25 / VDD */
+//    adcrTemp25 = ADCR_VDD * V_TEMP25 / vdd;
+//    /* ADCR_100M = ADCR_VDD x M x 100 / VDD */
+//    adcr100m = (ADCR_VDD * M) / (vdd * 10);
 
-    /* Disable BANDGAP reference voltage */
-    pmcBandgapConfig.enable = false;
-    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
+//    /* Disable BANDGAP reference voltage */
+//    pmcBandgapConfig.enable = false;
+//    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
 }
 
 /*!
