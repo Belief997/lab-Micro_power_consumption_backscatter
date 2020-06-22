@@ -673,22 +673,7 @@ int main(void)
 
 
 //    user_showFreqList();
-
     // mode now is run 48 MHz
-
-
-    // update duty
-//    updatedDutycycle = 5 * 10U;
-//
-//    /* Disable channel output before updating the dutycycle */
-//    TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0U);
-//
-//    /* Update PWM duty cycle */
-//    TPM_UpdatePwmDutycycle(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, kTPM_CenterAlignedPwm,
-//                           updatedDutycycle);
-//
-//    /* Start channel output with updated dutycycle */
-//    TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, TPM_LED_ON_LEVEL);
 
 
 //    while (0)
@@ -788,17 +773,13 @@ int main(void)
 
     };
 
-    // show state
+    // show state for check
 //    {
 //        curPowerState = SMC_GetPowerModeState(SMC);
-
 //        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
-
 //        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
 //        PRINTF("    Core Clock = %dHz \r\n", freq);
-
 //        APP_ShowPowerMode(curPowerState);
-
 //    }
 
 //    user_showFreqList();
@@ -814,10 +795,13 @@ int main(void)
 
 //    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
 //    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+
+    // redefine ch number by micro
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
     
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
+    // hold output for about 120 sec
     uint8_t i_delay = 0;
     while(i_delay++ < 120)// about 120s
     {
@@ -825,6 +809,7 @@ int main(void)
         PRINTF(". ");
     }
 
+    // enter vlls3 mode
     {
         curPowerState = kSMC_PowerStateVlpr;
         targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;

@@ -483,7 +483,7 @@ int main(void)
 
     /* Wait for user input before beginning demo */
     PRINTF("\r Enter any character to begin...\n");
-    GETCHAR();
+//    GETCHAR();
     PRINTF("\r ---> OK! Main process is running...!\n");
 
     while (1)

@@ -78,7 +78,8 @@ void BOARD_InitPins(void)
     CLOCK_EnableClock(kCLOCK_PortB);
 
     /* PORTA9 (pin 16) is configured as ADC0_SE2 */
-    PORT_SetPinMux(PORTA, 9U, kPORT_PinDisabledOrAnalog);
+//    PORT_SetPinMux(PORTA, 9U, kPORT_PinDisabledOrAnalog);
+    PORT_SetPinMux(PORTB, 5U, kPORT_PinDisabledOrAnalog);
 
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
     PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
