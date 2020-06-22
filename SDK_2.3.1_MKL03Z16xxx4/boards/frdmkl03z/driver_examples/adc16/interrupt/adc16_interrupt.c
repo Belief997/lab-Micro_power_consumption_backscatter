@@ -43,7 +43,8 @@
  ******************************************************************************/
 #define DEMO_ADC16_BASE ADC0
 #define DEMO_ADC16_CHANNEL_GROUP 0U
-#define DEMO_ADC16_USER_CHANNEL 2U /* PTA9, ADC0_SE2 */
+//#define DEMO_ADC16_USER_CHANNEL 2U /* PTA9, ADC0_SE2 */
+#define DEMO_ADC16_USER_CHANNEL 8U /* PTA9, ADC0_SE8 */
 
 #define DEMO_ADC16_IRQn ADC0_IRQn
 #define DEMO_ADC16_IRQ_HANDLER_FUNC ADC0_IRQHandler
@@ -80,6 +81,7 @@ void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 /*!
  * @brief Main function
  */
+
 int main(void)
 {
     adc16_config_t adc16ConfigStruct;

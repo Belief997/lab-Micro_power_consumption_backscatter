@@ -81,7 +81,8 @@
     (20U) /*! This value indicates the number of cycles needed to update boundaries. \ \
               To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
 
-#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
+//#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
+#define LPTMR_COMPARE_VALUE (500U) // 8k
 
 /*!
 * @brief Boundaries struct
@@ -353,7 +354,8 @@ static bool ADC16_InitHardwareTrigger(ADC_Type *base)
     adcUserConfig.enableContinuousConversion = false;
     adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
 
-    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+//    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+    adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
     adcUserConfig.enableLowPower = 1;
 #if ((defined BOARD_ADC_USE_ALT_VREF) && BOARD_ADC_USE_ALT_VREF)
     adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceValt;
@@ -404,6 +406,25 @@ static lowPowerAdcBoundaries_t TempSensorCalibration(uint32_t updateBoundariesCo
  *
  * Get current ADC value and set conversionCompleted flag.
  */
+void APP_ShowPowerMode(smc_power_state_t powerMode)
+{
+    switch (powerMode)
+    {
+        case kSMC_PowerStateRun:
+            PRINTF("    Power mode: RUN\r\n");
+            break;
+        case kSMC_PowerStateVlpr:
+            PRINTF("    Power mode: VLPR\r\n");
+            break;
+        case kSMC_PowerStateVlps:
+            PRINTF("    Power mode: VLPS\r\n");
+            break;
+        default:
+            PRINTF("    Power mode wrong\r\n");
+            break;
+    }
+}
+
 void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 {
     /* Get current ADC value */
@@ -420,6 +441,34 @@ void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 /*!
  * @brief main function
  */
+//#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+//void LPTMR_LED_HANDLER(void)
+//{
+//    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
+////    lptmrCounter++;
+////    LED_TOGGLE();
+//
+//    static uint8_t cnt = 0;
+//
+//        if(cnt&0x01)
+//        {
+//        	LED1_ON();
+//        }
+//        else
+//        {
+//        	LED1_OFF();
+//        }
+//        cnt++;
+//
+//    /*
+//     * Workaround for TWR-KV58: because write buffer is enabled, adding
+//     * memory barrier instructions to make sure clearing interrupt flag completed
+//     * before go out ISR
+//     */
+//    __DSB();
+//    __ISB();
+//}
 int main(void)
 {
     int32_t currentTemperature = 0;
@@ -433,7 +482,7 @@ int main(void)
     BOARD_InitDebugConsole();
     /* Init using Led in Demo app */
     LED1_INIT();
-    LED2_INIT();
+//    LED2_INIT();
 
     /* Set to allow entering vlps mode */
     SMC_SetPowerModeProtection(SMC, kSMC_AllowPowerModeVlp);
@@ -449,11 +498,11 @@ int main(void)
     }
 
     PRINTF("\n\r ADC LOW POWER DEMO\n");
-    PRINTF("\r The Low Power ADC project is designed to work with the Tower System or in a stand alone setting\n\n");
-    PRINTF("\r 1. Set your target board in a place where the temperature is constant.\n");
-    PRINTF("\r 2. Wait until two Led light turns on.\n");
-    PRINTF("\r 3. Increment or decrement the temperature to see the changes.\n");
-    PRINTF("\r Wait two led on...\n\r");
+//    PRINTF("\r The Low Power ADC project is designed to work with the Tower System or in a stand alone setting\n\n");
+//    PRINTF("\r 1. Set your target board in a place where the temperature is constant.\n");
+//    PRINTF("\r 2. Wait until two Led light turns on.\n");
+//    PRINTF("\r 3. Increment or decrement the temperature to see the changes.\n");
+//    PRINTF("\r Wait two led on...\n\r");
 
     /* setup the HW trigger source */
     LPTMR_InitTriggerSourceOfAdc(DEMO_LPTMR_BASE);
@@ -462,73 +511,126 @@ int main(void)
 #endif
     NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
     /* Warm up microcontroller and allow to set first boundaries */
-    while (updateBoundariesCounter < (UPDATE_BOUNDARIES_TIME * 2))
-    {
-        while (!conversionCompleted)
-        {
-        }
-        currentTemperature = GetCurrentTempValue();
-        tempArray[updateBoundariesCounter] = currentTemperature;
-        updateBoundariesCounter++;
-        conversionCompleted = false;
-    }
+//    while (updateBoundariesCounter < (UPDATE_BOUNDARIES_TIME * 2))
+//    {
+//        while (!conversionCompleted)
+//        {
+//        }
+//        currentTemperature = GetCurrentTempValue();
+//        tempArray[updateBoundariesCounter] = currentTemperature;
+//        updateBoundariesCounter++;
+//        conversionCompleted = false;
+//    }
 
     /* Temp Sensor Calibration */
-    boundaries = TempSensorCalibration(updateBoundariesCounter, tempArray);
+//    boundaries = TempSensorCalibration(updateBoundariesCounter, tempArray);
     updateBoundariesCounter = 0;
 
     /* Two LED is turned on indicating calibration is done */
-    LED1_ON();
-    LED2_ON();
+//    LED1_ON();
+//    LED2_ON();
+//    PRINTF("\r calibration is done\n");
 
     /* Wait for user input before beginning demo */
-    PRINTF("\r Enter any character to begin...\n");
+//    PRINTF("\r Enter any character to begin...\n");
 //    GETCHAR();
     PRINTF("\r ---> OK! Main process is running...!\n");
 
+
+////////////////////////////////////////////////////////////////////////
+//    // timer test
+//    /* Enable timer interrupt */
+//    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+//
+//    /* Enable at the NVIC */
+//    EnableIRQ(DEMO_LPTMR_IRQn);
+//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+/////////////////////////////////////////////////////////////////////
+    uint8_t cnt = 0;
     while (1)
     {
+//        smc_power_state_t curPowerState;
+//        curPowerState = SMC_GetPowerModeState(SMC);
+//
+//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//        PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+//        APP_ShowPowerMode(curPowerState);
+
+
+
+
         /* Prevents the use of wrong values */
         while (!conversionCompleted)
         {
         }
-
-        /* Get current Temperature Value */
-        currentTemperature = GetCurrentTempValue();
-        /* Store temperature values that are going to be use to calculate average temperature */
-        tempArray[updateBoundariesCounter] = currentTemperature;
-
-        if (currentTemperature > boundaries.upperBoundary)
+//
+////        PRINTF("*-");
+//
+        if(cnt&0x01)
         {
-            LED2_OFF();
-            LED1_ON();
-        }
-        else if (currentTemperature < boundaries.lowerBoundary)
-        {
-            LED2_ON();
-            LED1_OFF();
+        	LED1_ON();
         }
         else
         {
-            LED2_ON();
-            LED1_ON();
+        	LED1_OFF();
         }
+        cnt++;
 
-        /* Call update function */
-        if (updateBoundariesCounter >= (UPDATE_BOUNDARIES_TIME))
-        {
-            boundaries = TempSensorCalibration(updateBoundariesCounter, tempArray);
-            updateBoundariesCounter = 0;
-        }
-        else
-        {
-            updateBoundariesCounter++;
-        }
+
+
+
+
+
+//        /* Get current Temperature Value */
+//        currentTemperature = GetCurrentTempValue();
+//        /* Store temperature values that are going to be use to calculate average temperature */
+//        tempArray[updateBoundariesCounter] = currentTemperature;
+//
+//        if (currentTemperature > boundaries.upperBoundary)
+//        {
+////            LED2_OFF();
+////            LED1_ON();
+//            PRINTF("\r upperBoundary\n");
+//        }
+//        else if (currentTemperature < boundaries.lowerBoundary)
+//        {
+////            LED2_ON();
+////            LED1_OFF();
+//            PRINTF("\r lowerBoundary\n");
+//        }
+//        else
+//        {
+////            LED2_ON();
+////            LED1_ON();
+//            PRINTF("\r rightBoundary\n");
+//        }
+//
+//        /* Call update function */
+//        if (updateBoundariesCounter >= (UPDATE_BOUNDARIES_TIME))
+//        {
+//            boundaries = TempSensorCalibration(updateBoundariesCounter, tempArray);
+//            updateBoundariesCounter = 0;
+//        }
+//        else
+//        {
+//            updateBoundariesCounter++;
+//        }
 
         /* Clear conversionCompleted flag */
         conversionCompleted = false;
 
         /* Enter to Very Low Power Stop Mode */
-        SMC_SetPowerModeVlps(SMC);
+//        SMC_SetPowerModeVlps(SMC);
+
+//        {
+//			smc_power_state_t curPowerState;
+//			curPowerState = SMC_GetPowerModeState(SMC);
+//
+//			PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//			PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+//			APP_ShowPowerMode(curPowerState);
+//        }
+
+
     }
 }

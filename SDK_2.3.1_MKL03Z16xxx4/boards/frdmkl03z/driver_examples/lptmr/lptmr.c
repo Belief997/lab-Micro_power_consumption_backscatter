@@ -49,7 +49,9 @@
 /* Get source clock for LPTMR driver */
 #define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
 /* Define LPTMR microseconds counts value */
-#define LPTMR_USEC_COUNT 1000000U
+//#define LPTMR_USEC_COUNT 1000000U
+#define LPTMR_USEC_COUNT 250000U
+
 #define LED_INIT() LED_RED_INIT(LOGIC_LED_ON)
 #define LED_TOGGLE() LED_RED_TOGGLE()
 
@@ -128,10 +130,10 @@ int main(void)
     LPTMR_StartTimer(DEMO_LPTMR_BASE);
     while (1)
     {
-        if (currentCounter != lptmrCounter)
-        {
-            currentCounter = lptmrCounter;
-            PRINTF("LPTMR interrupt No.%d \r\n", currentCounter);
-        }
+//        if (currentCounter != lptmrCounter)
+//        {
+//            currentCounter = lptmrCounter;
+//            PRINTF("LPTMR interrupt No.%d \r\n", currentCounter);
+//        }
     }
 }
