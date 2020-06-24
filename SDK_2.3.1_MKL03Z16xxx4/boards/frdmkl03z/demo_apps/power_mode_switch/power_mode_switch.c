@@ -949,42 +949,42 @@ int main(void)
  *
  *  *******************************************************************************/
     // tpm config init
-#ifndef TPM_LED_ON_LEVEL
-#define TPM_LED_ON_LEVEL kTPM_LowTrue
-#endif
-#if USER_PWM_NUM == 1
-    tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam;
+//#ifndef TPM_LED_ON_LEVEL
+//#define TPM_LED_ON_LEVEL kTPM_LowTrue
+//#endif
+//#if USER_PWM_NUM == 1
+//    tpm_config_t tpmInfo;
+//    tpm_chnl_pwm_signal_param_t tpmParam;
 
 
 
-    /* Configure tpm params with frequency 24kHZ */
-    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
-    tpmParam.level = TPM_LED_ON_LEVEL;
-    tpmParam.dutyCyclePercent = updatedDutycycle;
-    
-#elif USER_PWM_NUM == 2
-    tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam[2];
+//    /* Configure tpm params with frequency 24kHZ */
+//    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
+//    tpmParam.level = TPM_LED_ON_LEVEL;
+//    tpmParam.dutyCyclePercent = updatedDutycycle;
+//    
+//#elif USER_PWM_NUM == 2
+//    tpm_config_t tpmInfo;
+//    tpm_chnl_pwm_signal_param_t tpmParam[2];
 
-#ifndef TPM_LED_ON_LEVEL  
-      #define TPM_LED_ON_LEVEL kTPM_LowTrue
-#endif    
-#define BOARD_FIRST_TPM_CHANNEL 0U
-#define BOARD_SECOND_TPM_CHANNEL 1U
+//#ifndef TPM_LED_ON_LEVEL  
+//      #define TPM_LED_ON_LEVEL kTPM_LowTrue
+//#endif    
+//#define BOARD_FIRST_TPM_CHANNEL 0U
+//#define BOARD_SECOND_TPM_CHANNEL 1U
 
-    /* Configure tpm params with frequency 24kHZ */
-    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
-    tpmParam[0].level = TPM_LED_ON_LEVEL;
-    tpmParam[0].dutyCyclePercent = updatedDutycycle;
+//    /* Configure tpm params with frequency 24kHZ */
+//    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
+//    tpmParam[0].level = TPM_LED_ON_LEVEL;
+//    tpmParam[0].dutyCyclePercent = updatedDutycycle;
 
-    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
-    tpmParam[1].level = TPM_LED_ON_LEVEL;
-    tpmParam[1].dutyCyclePercent = updatedDutycycle;
+//    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
+//    tpmParam[1].level = TPM_LED_ON_LEVEL;
+//    tpmParam[1].dutyCyclePercent = updatedDutycycle;
 
-#else
-    #error "pwm num set err!"
-#endif
+//#else
+//    #error "pwm num set err!"
+//#endif
 
 /******************************************************************************/
 
@@ -1050,16 +1050,16 @@ int main(void)
 
 /******************************************************************************/
 
-    while (0)
+//    while (0)
     {
-        curPowerState = SMC_GetPowerModeState(SMC);
+//        curPowerState = SMC_GetPowerModeState(SMC);
 
-        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+//        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 
-        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-        PRINTF("    Core Clock = %dHz \r\n", freq);
+//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//        PRINTF("    Core Clock = %dHz \r\n", freq);
 
-        APP_ShowPowerMode(curPowerState);
+//        APP_ShowPowerMode(curPowerState);
 
 //        PRINTF("\r\nSelect the desired operation \n\r\n");
 //        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
@@ -1094,18 +1094,18 @@ int main(void)
         }
         else
         {
-        	ch = GETCHAR();
-        	if(ch == '3')
-        	{
-        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
-        	}
-        	else
-        	{
+//        	ch = GETCHAR();
+//        	if(ch == '3')
+//        	{
+//        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+//        	}
+//        	else
+//        	{
         		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-        	}
+//        	}
         }
         // A:run, D:vlpr, I:vlls3
-        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
+//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
 
 		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
 		{
@@ -1189,7 +1189,7 @@ int main(void)
 //    }
 
         uint8_t cnt = 0;
-        uint32_t adc_Value = 0;
+//        uint32_t adc_Value = 0;
         while (1)
         {
     //        smc_power_state_t curPowerState;
@@ -1209,15 +1209,15 @@ int main(void)
     //
     ////        PRINTF("*-");
     //
-            if(adcValue > adc_Value && adcValue > adc_Value + 10)
-            {
-                PRINTF("%d", adcValue);
-            }
-            else if(adcValue < adc_Value && adcValue  + 10 < adc_Value)
-            {
-                PRINTF("%d", adcValue);
-            }
-            adc_Value = adcValue;
+//            if(adcValue > adc_Value && adcValue > adc_Value + 10)
+//            {
+//                PRINTF("%d", adcValue);
+//            }
+//            else if(adcValue < adc_Value && adcValue  + 10 < adc_Value)
+//            {
+//                PRINTF("%d", adcValue);
+//            }
+//            adc_Value = adcValue;
 
             
             if(cnt&0x01)
