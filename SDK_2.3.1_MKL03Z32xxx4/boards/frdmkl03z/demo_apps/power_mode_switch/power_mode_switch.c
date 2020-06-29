@@ -39,12 +39,26 @@
 #include "fsl_lptmr.h"
 #include "fsl_port.h"
 #include "power_mode_switch.h"
+#include "fsl_adc16.h"
 #include "board.h"
 #include "fsl_debug_console.h"
 
 #include "pin_mux.h"
 #include "fsl_lpuart.h"
 #include "fsl_pmc.h"
+
+#include "fsl_tpm.h"
+
+
+
+
+
+
+
+
+
+
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -60,7 +74,8 @@
 
 #define LLWU_LPTMR_IDX 0U      /* LLWU_M0IF */
 #define LLWU_WAKEUP_PIN_IDX 4U /* LLWU_P4 */
-#define LLWU_WAKEUP_PIN_TYPE kLLWU_ExternalPinFallingEdge
+//#define LLWU_WAKEUP_PIN_TYPE kLLWU_ExternalPinFallingEdge
+#define LLWU_WAKEUP_PIN_TYPE kLLWU_ExternalPinRisingEdge
 
 #define APP_WAKEUP_BUTTON_GPIO BOARD_SW2_GPIO
 #define APP_WAKEUP_BUTTON_PORT BOARD_SW2_PORT
@@ -68,7 +83,8 @@
 #define APP_WAKEUP_BUTTON_IRQ BOARD_SW2_IRQ
 #define APP_WAKEUP_BUTTON_IRQ_HANDLER BOARD_SW2_IRQ_HANDLER
 #define APP_WAKEUP_BUTTON_NAME BOARD_SW2_NAME
-#define APP_WAKEUP_BUTTON_IRQ_TYPE kPORT_InterruptFallingEdge
+//#define APP_WAKEUP_BUTTON_IRQ_TYPE kPORT_InterruptFallingEdge
+#define APP_WAKEUP_BUTTON_IRQ_TYPE kPORT_InterruptRisingEdge
 
 /* Debug console RX pin: PORTB1 MUX: 2 */
 #define DEBUG_CONSOLE_RX_PORT PORTB
@@ -81,6 +97,47 @@
 #define DEBUG_CONSOLE_TX_PIN 2
 #define DEBUG_CONSOLE_TX_PINMUX kPORT_MuxAlt2
 #define CORE_CLK_FREQ CLOCK_GetFreq(kCLOCK_CoreSysClk)
+
+
+/*  ADC & LPTMR  */
+#define DEMO_ADC16_BASEADDR ADC0
+#define DEMO_ADC16_CHANNEL_GROUP 0U
+#define DEMO_ADC16_USER_CHANNEL 8U
+// tmp
+//#define kAdcChannelTemperature (26U) /*! ADC channel of temperature sensor */
+//#define kAdcChannelBandgap (27U)     /*! ADC channel of BANDGAP */
+
+#define DEMO_ADC16_IRQ_ID ADC0_IRQn
+#define DEMO_ADC16_IRQ_HANDLER_FUNC ADC0_IRQHandler
+
+#define DEMO_LPTMR_BASE LPTMR0
+#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+
+
+/*
+ * These values are used to get the temperature. DO NOT MODIFY
+ * The method used in this demo to calculate temperature of chip is mapped to
+ * Temperature Sensor for the HCS08 Microcontroller Family document (Document Number: AN3031)
+ */
+//#define ADCR_VDD (65535U) /* Maximum value when use 16b resolution */
+//#define V_BG (1000U)      /* BANDGAP voltage in mV (trim to 1.0V) */
+//#define V_TEMP25 (716U)   /* Typical VTEMP25 in mV */
+//#define M (1620U)         /* Typical slope: (mV x 1000)/oC */
+//#define STANDARD_TEMP (25U)
+
+#define LED1_INIT() LED_RED_INIT(LOGIC_LED_OFF)
+#define LED1_ON() LED_RED_ON()
+#define LED1_OFF() LED_RED_OFF()
+
+//#define UPDATE_BOUNDARIES_TIME                                                         \
+//    (20U) /*! This value indicates the number of cycles needed to update boundaries. \ \
+//              To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
+
+//#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
+#define LPTMR_COMPARE_VALUE (500U) // 8k
+
+
 
 /*******************************************************************************
  * Prototypes
@@ -108,11 +165,99 @@ extern void APP_PowerPreSwitchHook(smc_power_state_t originPowerState, app_power
  */
 extern void APP_PowerPostSwitchHook(smc_power_state_t originPowerState, app_power_mode_t targetMode);
 
+
+/*  ADC & LPTMR  */
+void BOARD_ConfigTriggerSource(void);
+/*!
+ * @brief ADC stop conversion
+ *
+ * @param base The ADC instance number
+ */
+//static void ADC16_PauseConversion(ADC_Type *base);
+
+/*!
+ * @brief calibrate parameters: VDD and ADCR_TEMP25
+ *
+ * @param base The ADC instance number
+ */
+static void ADC16_CalibrateParams(ADC_Type *base);
+
+/*!
+ * @brief User-defined function to init trigger source  of LPTimer
+ *
+ * @param base The LPTMR instance number
+ */
+static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base);
+
+/*!
+ * @brief Initialize the ADCx for HW trigger.
+ *
+ * @param base The ADC instance number
+ *
+ * @return true if success
+ */
+static bool ADC16_InitHardwareTrigger(ADC_Type *base);
+
+
 /*******************************************************************************
  * Variables
  ******************************************************************************/
 static uint8_t s_wakeupTimeout;            /* Wakeup timeout. (Unit: Second) */
 static app_wakeup_source_t s_wakeupSource; /* Wakeup source.                 */
+
+
+
+// pwm setting
+
+/* Get source clock for TPM driver */
+#define TPM_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgIrc48MClk)
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+volatile bool brightnessUp = true; /* Indicate LED is brighter or dimmer */
+volatile uint8_t updatedDutycycle = 50U;
+volatile uint8_t getCharValue = 0U;
+
+
+// adc & lptmr
+volatile static uint32_t adcValue = 0; /*! ADC value */
+//static uint32_t adcrTemp25 = 0;        /*! Calibrated ADCR_TEMP25 */
+//static uint32_t adcr100m = 0;
+
+volatile bool conversionCompleted = false; /*! Conversion is completed Flag */
+
+
+void user_showFreqList()
+{
+    PRINTF("kCLOCK_CoreSysClk %d.\r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+    PRINTF("kCLOCK_PlatClk %d.\r\n", CLOCK_GetFreq(kCLOCK_PlatClk));
+    PRINTF("kCLOCK_BusClk %d.\r\n", CLOCK_GetFreq(kCLOCK_BusClk));
+    PRINTF("kCLOCK_FlashClk %d.\r\n", CLOCK_GetFreq(kCLOCK_FlashClk));
+    PRINTF("kCLOCK_Er32kClk %d.\r\n", CLOCK_GetFreq(kCLOCK_Er32kClk));
+    PRINTF("kCLOCK_Osc0ErClk %d.\r\n", CLOCK_GetFreq(kCLOCK_Osc0ErClk));
+    PRINTF("kCLOCK_McgInternalRefClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgInternalRefClk));
+    PRINTF("kCLOCK_McgPeriphClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgPeriphClk));
+    PRINTF("kCLOCK_McgIrc48MClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgIrc48MClk));
+    PRINTF("kCLOCK_LpoClk %d.\r\n", CLOCK_GetFreq(kCLOCK_LpoClk));
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*******************************************************************************
  * Code
@@ -208,15 +353,15 @@ void LLWU_IRQHandler(void)
     }
 }
 
-void LPTMR0_IRQHandler(void)
-{
-    if (kLPTMR_TimerInterruptEnable & LPTMR_GetEnabledInterrupts(LPTMR0))
-    {
-        LPTMR_DisableInterrupts(LPTMR0, kLPTMR_TimerInterruptEnable);
-        LPTMR_ClearStatusFlags(LPTMR0, kLPTMR_TimerCompareFlag);
-        LPTMR_StopTimer(LPTMR0);
-    }
-}
+//void LPTMR0_IRQHandler(void)
+//{
+//    if (kLPTMR_TimerInterruptEnable & LPTMR_GetEnabledInterrupts(LPTMR0))
+//    {
+//        LPTMR_DisableInterrupts(LPTMR0, kLPTMR_TimerInterruptEnable);
+//        LPTMR_ClearStatusFlags(LPTMR0, kLPTMR_TimerCompareFlag);
+//        LPTMR_StopTimer(LPTMR0);
+//    }
+//}
 
 void APP_WAKEUP_BUTTON_IRQ_HANDLER(void)
 {
@@ -449,48 +594,49 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
             }
             break;
 
-        case kAPP_PowerModeWait:
-            SMC_PreEnterWaitModes();
-            SMC_SetPowerModeWait(SMC);
-            SMC_PostExitWaitModes();
-            break;
+//        case kAPP_PowerModeWait:
+//            SMC_PreEnterWaitModes();
+//            SMC_SetPowerModeWait(SMC);
+//            SMC_PostExitWaitModes();
+//            break;
 
-        case kAPP_PowerModeStop:
-            SMC_PreEnterStopModes();
-            SMC_SetPowerModeStop(SMC, kSMC_PartialStop);
-            SMC_PostExitStopModes();
-            break;
+//        case kAPP_PowerModeStop:
+//            SMC_PreEnterStopModes();
+//            SMC_SetPowerModeStop(SMC, kSMC_PartialStop);
+//            SMC_PostExitStopModes();
+//            break;
 
-        case kAPP_PowerModeVlpw:
-            SMC_PreEnterWaitModes();
-            SMC_SetPowerModeVlpw(SMC);
-            SMC_PostExitWaitModes();
-            break;
+//        case kAPP_PowerModeVlpw:
+//            SMC_PreEnterWaitModes();
+//            SMC_SetPowerModeVlpw(SMC);
+//            SMC_PostExitWaitModes();
+//            break;
 
-        case kAPP_PowerModeVlps:
-            SMC_PreEnterStopModes();
-            SMC_SetPowerModeVlps(SMC);
-            SMC_PostExitStopModes();
-            break;
+//        case kAPP_PowerModeVlps:
+//            SMC_PreEnterStopModes();
+//            SMC_SetPowerModeVlps(SMC);
+//            SMC_PostExitStopModes();
+//            break;
 
-        case kAPP_PowerModeVlls0:
-            vlls_config.subMode = kSMC_StopSub0;
-            SMC_PreEnterStopModes();
-            SMC_SetPowerModeVlls(SMC, &vlls_config);
-            SMC_PostExitStopModes();
-            break;
+//        case kAPP_PowerModeVlls0:
+//            vlls_config.subMode = kSMC_StopSub0;
+//            SMC_PreEnterStopModes();
+//            SMC_SetPowerModeVlls(SMC, &vlls_config);
+//            SMC_PostExitStopModes();
+//            break;
 
-        case kAPP_PowerModeVlls1:
-            vlls_config.subMode = kSMC_StopSub1;
-            SMC_PreEnterStopModes();
-            SMC_SetPowerModeVlls(SMC, &vlls_config);
-            SMC_PostExitStopModes();
-            break;
+//        case kAPP_PowerModeVlls1:
+//            vlls_config.subMode = kSMC_StopSub1;
+//            SMC_PreEnterStopModes();
+//            SMC_SetPowerModeVlls(SMC, &vlls_config);
+//            SMC_PostExitStopModes();
+//            break;
 
         case kAPP_PowerModeVlls3:
             vlls_config.subMode = kSMC_StopSub3;
             SMC_PreEnterStopModes();
             SMC_SetPowerModeVlls(SMC, &vlls_config);
+
             SMC_PostExitStopModes();
             break;
 
@@ -500,6 +646,283 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
     }
 }
 
+void delay(void)
+{
+    volatile uint32_t i = 0;
+    for (i = 0; i < 90000; ++i)
+    {
+        __asm("NOP"); /* delay */
+    }
+}
+
+
+void BOARD_ConfigTriggerSource(void)
+{
+    /* Configure SIM for ADC hw trigger source selection */
+    SIM->SOPT7 |= 0x0000008EU;
+}
+/* Enable the trigger source of LPTimer */
+static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base)
+{
+    lptmr_config_t lptmrUserConfig;
+
+    /*
+     * lptmrUserConfig.timerMode = kLPTMR_TimerModeTimeCounter;
+     * lptmrUserConfig.pinSelect = kLPTMR_PinSelectInput_0;
+     * lptmrUserConfig.pinPolarity = kLPTMR_PinPolarityActiveHigh;
+     * lptmrUserConfig.enableFreeRunning = false;
+     * lptmrUserConfig.bypassPrescaler = true;
+     * lptmrUserConfig.prescalerClockSource = kLPTMR_PrescalerClock_1;
+     * lptmrUserConfig.value = kLPTMR_Prescale_Glitch_0;
+     */
+    LPTMR_GetDefaultConfig(&lptmrUserConfig);
+    /* Init LPTimer driver */
+    LPTMR_Init(base, &lptmrUserConfig);
+
+    /* Set the LPTimer period */
+    LPTMR_SetTimerPeriod(base, LPTMR_COMPARE_VALUE);
+
+    /* Start the LPTimer */
+    LPTMR_StartTimer(base);
+
+    /* Configure SIM for ADC hw trigger source selection */
+    BOARD_ConfigTriggerSource();
+}
+/*!
+ * @brief ADC stop conversion
+ */
+//static void ADC16_PauseConversion(ADC_Type *base)
+//{
+//    adc16_channel_config_t adcChnConfig;
+
+//    adcChnConfig.channelNumber = 31U; /*!< AD31 channel */
+//    adcChnConfig.enableInterruptOnConversionCompleted = false;
+//#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+//    adcChnConfig.enableDifferentialConversion = false;
+//#endif
+//    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+//}
+
+/*!
+ * @brief calibrate parameters: VDD and ADCR_TEMP25
+ */
+static void ADC16_CalibrateParams(ADC_Type *base)
+{
+    uint32_t bandgapValue = 0; /*! ADC value of BANDGAP */
+    uint32_t vdd = 0;          /*! VDD in mV */
+
+    adc16_config_t adcUserConfig;
+    adc16_channel_config_t adcChnConfig;
+    pmc_bandgap_buffer_config_t pmcBandgapConfig;
+
+    pmcBandgapConfig.enable = true;
+
+#if (defined(FSL_FEATURE_PMC_HAS_BGEN) && FSL_FEATURE_PMC_HAS_BGEN)
+    pmcBandgapConfig.enableInLowPowerMode = false;
+#endif
+#if (defined(FSL_FEATURE_PMC_HAS_BGBDS) && FSL_FEATURE_PMC_HAS_BGBDS)
+    pmcBandgapConfig.drive = kPmcBandgapBufferDriveLow;
+#endif
+    /* Enable BANDGAP reference voltage */
+    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
+
+    /*
+    * Initialization ADC for
+    * 16bit resolution, interrupt mode, hw trigger disabled.
+    * normal convert speed, VREFH/L as reference,
+    * disable continuous convert mode
+    */
+    /*
+     * adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
+     * adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+     * adcUserConfig.enableAsynchronousClock = true;
+     * adcUserConfig.clockDivider = kADC16_ClockDivider8;
+     * adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+     * adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+     * adcUserConfig.enableHighSpeed = false;
+     * adcUserConfig.enableLowPower = false;
+     * adcUserConfig.enableContinuousConversion = false;
+     */
+    ADC16_GetDefaultConfig(&adcUserConfig);
+#if defined(FSL_FEATURE_ADC16_MAX_RESOLUTION) && (FSL_FEATURE_ADC16_MAX_RESOLUTION >= 16U)
+    adcUserConfig.resolution = kADC16_Resolution16Bit;
+#else
+    adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+#endif
+    adcUserConfig.enableContinuousConversion = false;
+    adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+    adcUserConfig.enableLowPower = 1;
+    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+#ifdef BOARD_ADC_USE_ALT_VREF
+    adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceValt;
+#endif
+    ADC16_Init(base, &adcUserConfig);
+
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    /* Auto calibration */
+    if (kStatus_Success == ADC16_DoAutoCalibration(base))
+    {
+        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
+    }
+    else
+    {
+        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
+    }
+#endif
+
+#if defined(FSL_FEATURE_ADC16_HAS_HW_AVERAGE) && FSL_FEATURE_ADC16_HAS_HW_AVERAGE
+    /* Use hardware average to increase stability of the measurement  */
+    ADC16_SetHardwareAverage(base, kADC16_HardwareAverageCount32);
+#endif /* FSL_FEATURE_ADC16_HAS_HW_AVERAGE */
+
+//    adcChnConfig.channelNumber = kAdcChannelBandgap;
+//#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+//    adcChnConfig.enableDifferentialConversion = false;
+//#endif
+//    adcChnConfig.enableInterruptOnConversionCompleted = false;
+//    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+
+//    /* Wait for the conversion to be done */
+//    while (!ADC16_GetChannelStatusFlags(base, DEMO_ADC16_CHANNEL_GROUP))
+//    {
+//    }
+
+//    /* Get current ADC BANDGAP value */
+//    bandgapValue = ADC16_GetChannelConversionValue(base, DEMO_ADC16_CHANNEL_GROUP);
+
+//    ADC16_PauseConversion(base);
+
+//    /* Get VDD value measured in mV: VDD = (ADCR_VDD x V_BG) / ADCR_BG */
+//    vdd = ADCR_VDD * V_BG / bandgapValue;
+//    /* Calibrate ADCR_TEMP25: ADCR_TEMP25 = ADCR_VDD x V_TEMP25 / VDD */
+//    adcrTemp25 = ADCR_VDD * V_TEMP25 / vdd;
+//    /* ADCR_100M = ADCR_VDD x M x 100 / VDD */
+//    adcr100m = (ADCR_VDD * M) / (vdd * 10);
+
+//    /* Disable BANDGAP reference voltage */
+//    pmcBandgapConfig.enable = false;
+//    PMC_ConfigureBandgapBuffer(PMC, &pmcBandgapConfig);
+}
+
+/*!
+ * @brief Initialize the ADCx for Hardware trigger.
+ */
+static bool ADC16_InitHardwareTrigger(ADC_Type *base)
+{
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    uint16_t offsetValue = 0; /*!< Offset error from correction value. */
+#endif
+    adc16_config_t adcUserConfig;
+    adc16_channel_config_t adcChnConfig;
+
+#if defined(FSL_FEATURE_ADC16_HAS_CALIBRATION) && FSL_FEATURE_ADC16_HAS_CALIBRATION
+    /* Auto calibration */
+    if (kStatus_Success != ADC16_DoAutoCalibration(base))
+    {
+        return false;
+    }
+    offsetValue = base->OFS;
+    ADC16_SetOffsetValue(base, offsetValue);
+#endif
+    /*
+    * Initialization ADC for
+    * 16bit resolution, interrupt mode, hw trigger enabled.
+    * normal convert speed, VREFH/L as reference,
+    * disable continuous convert mode.
+    */
+    /*
+     * adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceVref;
+     * adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+     * adcUserConfig.enableAsynchronousClock = true;
+     * adcUserConfig.clockDivider = kADC16_ClockDivider8;
+     * adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+     * adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+     * adcUserConfig.enableHighSpeed = false;
+     * adcUserConfig.enableLowPower = false;
+     * adcUserConfig.enableContinuousConversion = false;
+     */
+    ADC16_GetDefaultConfig(&adcUserConfig);
+#if defined(FSL_FEATURE_ADC16_MAX_RESOLUTION) && (FSL_FEATURE_ADC16_MAX_RESOLUTION >= 16U)
+    adcUserConfig.resolution = kADC16_Resolution16Bit;
+#else
+    adcUserConfig.resolution = kADC16_ResolutionSE12Bit;
+#endif
+    /* enabled hardware trigger  */
+    ADC16_EnableHardwareTrigger(base, true);
+    adcUserConfig.enableContinuousConversion = false;
+    adcUserConfig.clockSource = kADC16_ClockSourceAsynchronousClock;
+
+//    adcUserConfig.longSampleMode = kADC16_LongSampleCycle24;
+    adcUserConfig.longSampleMode = kADC16_LongSampleDisabled;
+    adcUserConfig.enableLowPower = 1;
+#if ((defined BOARD_ADC_USE_ALT_VREF) && BOARD_ADC_USE_ALT_VREF)
+    adcUserConfig.referenceVoltageSource = kADC16_ReferenceVoltageSourceValt;
+#endif
+    ADC16_Init(base, &adcUserConfig);
+
+//    adcChnConfig.channelNumber = kAdcChannelTemperature;
+    adcChnConfig.channelNumber = DEMO_ADC16_USER_CHANNEL;
+#if defined(FSL_FEATURE_ADC16_HAS_DIFF_MODE) && FSL_FEATURE_ADC16_HAS_DIFF_MODE
+    adcChnConfig.enableDifferentialConversion = false;
+#endif
+    adcChnConfig.enableInterruptOnConversionCompleted = true;
+    /* Configure channel 0 */
+    ADC16_SetChannelConfig(base, DEMO_ADC16_CHANNEL_GROUP, &adcChnConfig);
+    return true;
+}
+
+
+void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
+{
+    /* Get current ADC value */
+    adcValue = ADC16_GetChannelConversionValue(DEMO_ADC16_BASEADDR, DEMO_ADC16_CHANNEL_GROUP);
+    /* Set conversionCompleted flag. This prevents an wrong conversion in main function */
+    conversionCompleted = true;
+/* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
+  exception return operation might vector to incorrect interrupt */
+#if defined __CORTEX_M && (__CORTEX_M == 4U)
+    __DSB();
+#endif
+}
+
+
+/*!
+ * @brief main function
+ */
+//#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+//void LPTMR_LED_HANDLER(void)
+////void LPTMR0_IRQHandler(void)
+//{
+//    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
+////    lptmrCounter++;
+////    LED_TOGGLE();
+
+//    static uint8_t cnt = 0;
+
+//        if(cnt&0x01)
+//        {
+//        	LED1_ON();
+//        }
+//        else
+//        {
+//        	LED1_OFF();
+//        }
+//        cnt++;
+
+//    /*
+//     * Workaround for TWR-KV58: because write buffer is enabled, adding
+//     * memory barrier instructions to make sure clearing interrupt flag completed
+//     * before go out ISR
+//     */
+//    __DSB();
+//    __ISB();
+//}
+
+
+
+
+#define USER_PWM_NUM  2
 /*!
  * @brief main demo function.
  */
@@ -520,19 +943,72 @@ int main(void)
         NVIC_ClearPendingIRQ(LLWU_IRQn);
     }
 
+/*******************************************************************************
+ *
+ *  pwm init
+ *
+ *  *******************************************************************************/
+////     tpm config init
+//#ifndef TPM_LED_ON_LEVEL
+//#define TPM_LED_ON_LEVEL kTPM_LowTrue
+//#endif
+//#if USER_PWM_NUM == 1
+//    tpm_config_t tpmInfo;
+//    tpm_chnl_pwm_signal_param_t tpmParam;
+//
+//
+//
+//    /* Configure tpm params with frequency 24kHZ */
+//    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
+//    tpmParam.level = TPM_LED_ON_LEVEL;
+//    tpmParam.dutyCyclePercent = updatedDutycycle;
+//
+//#elif USER_PWM_NUM == 2
+//    tpm_config_t tpmInfo;
+//    tpm_chnl_pwm_signal_param_t tpmParam[2];
+//
+//#ifndef TPM_LED_ON_LEVEL
+//      #define TPM_LED_ON_LEVEL kTPM_LowTrue
+//#endif
+//#define BOARD_FIRST_TPM_CHANNEL 0U
+//#define BOARD_SECOND_TPM_CHANNEL 1U
+//
+//    /* Configure tpm params with frequency 24kHZ */
+//    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
+//    tpmParam[0].level = TPM_LED_ON_LEVEL;
+//    tpmParam[0].dutyCyclePercent = updatedDutycycle;
+//
+//    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
+//    tpmParam[1].level = TPM_LED_ON_LEVEL;
+//    tpmParam[1].dutyCyclePercent = updatedDutycycle;
+//
+//#else
+//    #error "pwm num set err!"
+//#endif
+
+/******************************************************************************/
+
+
+
+    /* Define the init structure for the output ENABLE pin*/
+    gpio_pin_config_t enable_config = {
+        kGPIO_DigitalOutput, 0,
+    };
     BOARD_InitPins();
+    /* Init output ENABLE GPIO. */
+    GPIO_PinInit(GPIOA, 7U, &enable_config);
+//    GPIO_PinInit(GPIOB, 3U, &enable_config);
+
+    // api to write gpio value
+//    GPIO_WritePinOutput(GPIOA, 7U, 1);
+//    GPIO_WritePinOutput(GPIOA, 7U, 0);
+
+
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
-    /* Setup LPTMR. */
-    LPTMR_GetDefaultConfig(&lptmrConfig);
-    lptmrConfig.prescalerClockSource = kLPTMR_PrescalerClock_1; /* Use LPO as clock source. */
-    lptmrConfig.bypassPrescaler = true;
-
-    LPTMR_Init(LPTMR0, &lptmrConfig);
-
     NVIC_EnableIRQ(LLWU_IRQn);
-    NVIC_EnableIRQ(LPTMR0_IRQn);
+//    NVIC_EnableIRQ(LPTMR0_IRQn);
 
     NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
@@ -540,75 +1016,247 @@ int main(void)
     {
         PRINTF("\r\nMCU wakeup from VLLS modes...\r\n");
     }
-    while (1)
+
+
+//    user_showFreqList();
+    // mode now is run 48 MHz
+
+/*******************************************************************************
+ *
+ *  adc & lptmr init
+ *
+ *  *******************************************************************************/
+    LED1_INIT();
+	GPIO_WritePinOutput(GPIOB, 3U, 1);
+	GPIO_WritePinOutput(GPIOB, 3U, 0);
+
+    /* Calibrate param Temperature sensor */
+    ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
+
+    /* Initialize Demo ADC */
+  if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
+  {
+      PRINTF("Failed to do the ADC init\r\n");
+      return -1;
+  }
+    LPTMR_InitTriggerSourceOfAdc(DEMO_LPTMR_BASE);
+    NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
+
+
+    // timer test
+    /* Enable timer interrupt */
+//    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+
+//    /* Enable at the NVIC */
+//    EnableIRQ(DEMO_LPTMR_IRQn);
+//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+
+/******************************************************************************/
+
+    while (0)
     {
-        curPowerState = SMC_GetPowerModeState(SMC);
+//        curPowerState = SMC_GetPowerModeState(SMC);
 
-        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+//        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 
-        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-        PRINTF("    Core Clock = %dHz \r\n", freq);
+//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//        PRINTF("    Core Clock = %dHz \r\n", freq);
 
-        APP_ShowPowerMode(curPowerState);
+//        APP_ShowPowerMode(curPowerState);
 
-        PRINTF("\r\nSelect the desired operation \n\r\n");
-        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
-        PRINTF("Press  %c for enter: WAIT     - Wait mode\r\n", kAPP_PowerModeWait);
-        PRINTF("Press  %c for enter: STOP     - Stop mode\r\n", kAPP_PowerModeStop);
-        PRINTF("Press  %c for enter: VLPR     - Very Low Power Run mode\r\n", kAPP_PowerModeVlpr);
-        PRINTF("Press  %c for enter: VLPW     - Very Low Power Wait mode\r\n", kAPP_PowerModeVlpw);
-        PRINTF("Press  %c for enter: VLPS     - Very Low Power Stop mode\r\n", kAPP_PowerModeVlps);
-        PRINTF("Press  %c for enter: VLLS0    - Very Low Leakage Stop 0 mode\r\n", kAPP_PowerModeVlls0);
-        PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
-        PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
-
-        PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
+//        PRINTF("\r\nSelect the desired operation \n\r\n");
+//        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
+//        PRINTF("Press  %c for enter: WAIT     - Wait mode\r\n", kAPP_PowerModeWait);
+//        PRINTF("Press  %c for enter: STOP     - Stop mode\r\n", kAPP_PowerModeStop);
+//        PRINTF("Press  %c for enter: VLPR     - Very Low Power Run mode\r\n", kAPP_PowerModeVlpr);
+//        PRINTF("Press  %c for enter: VLPW     - Very Low Power Wait mode\r\n", kAPP_PowerModeVlpw);
+//        PRINTF("Press  %c for enter: VLPS     - Very Low Power Stop mode\r\n", kAPP_PowerModeVlps);
+//        PRINTF("Press  %c for enter: VLLS0    - Very Low Leakage Stop 0 mode\r\n", kAPP_PowerModeVlls0);
+//        PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
+//        PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
+//
+//        PRINTF("1\r\n");
+//        PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
 
         /* Wait for user response */
-        ch = GETCHAR();
 
-        if ((ch >= 'a') && (ch <= 'z'))
+//        ch = GETCHAR();
+//
+//        if ((ch >= 'a') && (ch <= 'z'))
+//        {
+//            ch -= 'a' - 'A';
+//        }
+
+//        targetPowerMode = (app_power_mode_t)ch;
+
+        // set default powermode as vlpr
+
+        if(curPowerState != kSMC_PowerStateVlpr)
         {
-            ch -= 'a' - 'A';
+			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
         }
-
-        targetPowerMode = (app_power_mode_t)ch;
-
-        if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
+        else
         {
-            /* If could not set the target power mode, loop continue. */
-            if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
-            {
-                continue;
-            }
+//        	ch = GETCHAR();
+//        	if(ch == '3')
+//        	{
+//        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+//        	}
+//        	else
+//        	{
+        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+//        	}
+        }
+        // A:run, D:vlpr, I:vlls3
+//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
 
-            /* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
-            if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
-            {
-                needSetWakeup = false;
-            }
+		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
+		{
+			/* If could not set the target power mode, loop continue. */
+			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
+			{
+//				continue;
+//				break;
+			}
 
+			/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
+			if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
+			{
+				needSetWakeup = false;
+			}
+
+			else
+			{
+				needSetWakeup = true;
+			}
+
+			if (needSetWakeup)
+			{
+				APP_GetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+
+			if (needSetWakeup)
+			{
+				APP_SetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerModeSwitch(curPowerState, targetPowerMode);
+			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+
+//			PRINTF("\r\nNext loop\r\n");
+		}
+
+    };
+
+    // show state for check
+//    {
+//        curPowerState = SMC_GetPowerModeState(SMC);
+//        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+//        PRINTF("    Core Clock = %dHz \r\n", freq);
+//        APP_ShowPowerMode(curPowerState);
+//    }
+
+//    user_showFreqList();
+
+
+/*******************************************************************************
+ *
+ *  init and run pwm here
+ *
+ *  *******************************************************************************/
+    /* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
+//    CLOCK_SetTpmClock(1U);
+//    CLOCK_SetTpmClock(3U);
+//
+//    TPM_GetDefaultConfig(&tpmInfo);
+//    /* Initialize TPM module */
+//    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+//
+////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
+////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+//
+//    // redefine ch number by micro
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
+//    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+/******************************************************************************/
+
+    // hold output for about 120 sec
+//    uint8_t i_delay = 0;
+//    while(i_delay++ < 120)// about 120s
+//    {
+//        delay();
+//        PRINTF(". ");
+//    }
+
+        uint8_t cnt = 0;
+//        uint32_t adc_Value = 0;
+        while (1)
+        {
+    //        smc_power_state_t curPowerState;
+    //        curPowerState = SMC_GetPowerModeState(SMC);
+    //
+    //        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
+    //        PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+    //        APP_ShowPowerMode(curPowerState);
+
+
+
+
+            /* Prevents the use of wrong values */
+            while (!conversionCompleted)
+            {
+            }
+    //
+    ////        PRINTF("*-");
+    //
+//            if(adcValue > adc_Value && adcValue > adc_Value + 10)
+//            {
+//                PRINTF("%d\n\r", adcValue);
+//            }
+//            else if(adcValue < adc_Value && adcValue  + 10 < adc_Value)
+//            {
+//                PRINTF("%d\n\r", adcValue);
+//            }
+//            adc_Value = adcValue;
+
+
+            if(cnt&0x01)
+            {
+                LED1_ON();
+            }
             else
             {
-                needSetWakeup = true;
+                LED1_OFF();
             }
+            cnt++;
 
-            if (needSetWakeup)
-            {
-                APP_GetWakeupConfig(targetPowerMode);
-            }
+            conversionCompleted = false;
 
-            APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
 
-            if (needSetWakeup)
-            {
-                APP_SetWakeupConfig(targetPowerMode);
-            }
-
-            APP_PowerModeSwitch(curPowerState, targetPowerMode);
-            APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-
-            PRINTF("\r\nNext loop\r\n");
         }
-    }
+
+
+
+
+
+
+
+
+    // enter vlls3 mode
+//    {
+//        curPowerState = kSMC_PowerStateVlpr;
+//        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+//        //needSetWakeup = true;
+//        APP_GetWakeupConfig(targetPowerMode);
+//        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+//        APP_SetWakeupConfig(targetPowerMode);
+//        APP_PowerModeSwitch(curPowerState, targetPowerMode);
+//        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+//    }
+
+    return 0;
 }
+

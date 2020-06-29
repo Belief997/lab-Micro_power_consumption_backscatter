@@ -152,7 +152,8 @@ void LPTMR_GetDefaultConfig(lptmr_config_t *config)
     /* Bypass the prescaler */
     config->bypassPrescaler = true;
     /* LPTMR clock source */
-    config->prescalerClockSource = kLPTMR_PrescalerClock_1;
+    //    config->prescalerClockSource = kLPTMR_PrescalerClock_1;
+        config->prescalerClockSource = kLPTMR_PrescalerClock_0;
     /* Divide the prescaler clock by 2 */
     config->value = kLPTMR_Prescale_Glitch_0;
 }

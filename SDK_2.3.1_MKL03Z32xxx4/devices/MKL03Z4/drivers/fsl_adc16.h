@@ -138,7 +138,8 @@ typedef enum _adc16_clock_source
     kADC16_ClockSourceAlt3 = 3U, /*!< Selection 3 of the clock source. */
 
     /* Chip defined clock source */
-    kADC16_ClockSourceAsynchronousClock = kADC16_ClockSourceAlt3, /*!< Using internal asynchronous clock. */
+//    kADC16_ClockSourceAsynchronousClock = kADC16_ClockSourceAlt3, /*!< Using internal asynchronous clock. */
+	kADC16_ClockSourceAsynchronousClock = kADC16_ClockSourceAlt0, /*!< Using internal asynchronous clock. */
 } adc16_clock_source_t;
 
 /*!

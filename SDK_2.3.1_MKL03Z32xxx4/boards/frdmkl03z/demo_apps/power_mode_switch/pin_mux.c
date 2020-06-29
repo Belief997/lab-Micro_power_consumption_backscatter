@@ -75,9 +75,11 @@ void BOARD_InitPins(void)
 {
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
+    CLOCK_EnableClock(kCLOCK_PortA);
 
     const port_pin_config_t portb0_pin12_config = {/* Internal pull-up resistor is enabled */
-                                                   kPORT_PullUp,
+                                                   /*kPORT_PullUp,*/
+												   kPORT_PullDown,
                                                    /* Fast slew rate is configured */
                                                    kPORT_FastSlewRate,
                                                    /* Passive filter is disabled */
@@ -87,13 +89,31 @@ void BOARD_InitPins(void)
                                                    /* Pin is configured as PTB0 */
                                                    kPORT_MuxAsGpio};
     /* PORTB0 (pin 12) is configured as PTB0 */
+    // llwu
     PORT_SetPinConfig(PORTB, 0U, &portb0_pin12_config);
 
+    // set gpio: pin enble PTA7
+    PORT_SetPinMux(PORTA, 7U, kPORT_MuxAsGpio);
+//    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
+
+    // TPM CH0
+    PORT_SetPinMux(PORTA, 6U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTA, 5U, kPORT_MuxAlt2);
+
+    // ctrl
+    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
+
+    //ad
+    PORT_SetPinMux(PORTB, 1U, kPORT_PinDisabledOrAnalog);
+
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
-    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt3);
+
 
     /* PORTB2 (pin 14) is configured as LPUART0_RX */
-    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTB, 4U, kPORT_MuxAlt3);
 
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */
