@@ -237,6 +237,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/power_mode_switch.h</locationURI>
 		</link>
 		<link>
+			<name>source/user.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/user.c</locationURI>
+		</link>
+		<link>
+			<name>source/user.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/user.h</locationURI>
+		</link>
+		<link>
 			<name>startup/startup_MKL03Z4.S</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/devices/MKL03Z4/gcc/startup_MKL03Z4.S</locationURI>

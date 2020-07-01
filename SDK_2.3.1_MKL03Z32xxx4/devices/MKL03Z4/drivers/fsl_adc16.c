@@ -148,8 +148,9 @@ void ADC16_GetDefaultConfig(adc16_config_t *config)
     config->clockSource = kADC16_ClockSourceAsynchronousClock;
     config->enableAsynchronousClock = true;
 //    config->clockDivider = kADC16_ClockDivider8;
-	config->clockDivider = kADC16_ClockDivider2;
+	config->clockDivider = kADC16_ClockDivider1;
     config->resolution = kADC16_ResolutionSE12Bit;
+//    config->resolution = kADC16_ResolutionSE8Bit;
     config->longSampleMode = kADC16_LongSampleDisabled;
     config->enableHighSpeed = false;
     config->enableLowPower = false;

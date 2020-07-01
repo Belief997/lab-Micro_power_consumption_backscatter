@@ -92,7 +92,7 @@ void APP_SetClockVlpr(void)
 	//        .ircs = kMCGLITE_Lirc2M,
 	        .ircs = kMCGLITE_Lirc8M,
 	        .fcrdiv = kMCGLITE_LircDivBy4,  // 内核时钟分频系数，当频率小于或等于 2M 时才能进入 VLPR
-	        .lircDiv2 = kMCGLITE_LircDivBy1, //
+	        .lircDiv2 = kMCGLITE_LircDivBy2, //
 	        .hircEnableInNotHircMode = false,
 	    };
 

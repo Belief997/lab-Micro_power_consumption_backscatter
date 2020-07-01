@@ -49,7 +49,7 @@
 
 #include "fsl_tpm.h"
 
-
+#include "user.h"
 
 
 
@@ -876,6 +876,16 @@ void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 {
     /* Get current ADC value */
     adcValue = ADC16_GetChannelConversionValue(DEMO_ADC16_BASEADDR, DEMO_ADC16_CHANNEL_GROUP);
+
+    {
+    	ADC_DATA adc_data = {0};
+    	adc_data.adcValue = adcValue;
+    	data_enqueueadc(&adc_data);
+
+    }
+
+//    GPIO_PortToggle(GPIOA, 1u << 5U);
+//    GPIO_PortToggle(GPIOB, 1u << 3U);
     /* Set conversionCompleted flag. This prevents an wrong conversion in main function */
     conversionCompleted = true;
 /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
@@ -889,35 +899,36 @@ void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 /*!
  * @brief main function
  */
-//#define DEMO_LPTMR_IRQn LPTMR0_IRQn
-//#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
-//void LPTMR_LED_HANDLER(void)
-////void LPTMR0_IRQHandler(void)
-//{
-//    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
-////    lptmrCounter++;
-////    LED_TOGGLE();
 
-//    static uint8_t cnt = 0;
+#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+#define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+void LPTMR_LED_HANDLER(void)
+//void LPTMR0_IRQHandler(void)
+{
+    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
+//    lptmrCounter++;
+//    LED_TOGGLE();
 
-//        if(cnt&0x01)
-//        {
-//        	LED1_ON();
-//        }
-//        else
-//        {
-//        	LED1_OFF();
-//        }
-//        cnt++;
+    static uint8_t cnt = 0;
 
-//    /*
-//     * Workaround for TWR-KV58: because write buffer is enabled, adding
-//     * memory barrier instructions to make sure clearing interrupt flag completed
-//     * before go out ISR
-//     */
-//    __DSB();
-//    __ISB();
-//}
+        if(cnt&0x01)
+        {
+        	LED1_ON();
+        }
+        else
+        {
+        	LED1_OFF();
+        }
+        cnt++;
+
+    /*
+     * Workaround for TWR-KV58: because write buffer is enabled, adding
+     * memory barrier instructions to make sure clearing interrupt flag completed
+     * before go out ISR
+     */
+    __DSB();
+    __ISB();
+}
 
 
 
@@ -998,6 +1009,7 @@ int main(void)
     /* Init output ENABLE GPIO. */
     GPIO_PinInit(GPIOA, 7U, &enable_config);
 //    GPIO_PinInit(GPIOB, 3U, &enable_config);
+    GPIO_PinInit(GPIOA, 5U, &enable_config);
 
     // api to write gpio value
 //    GPIO_WritePinOutput(GPIOA, 7U, 1);
@@ -1047,13 +1059,13 @@ int main(void)
     /* Enable timer interrupt */
 //    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
 
-//    /* Enable at the NVIC */
+    /* Enable at the NVIC */
 //    EnableIRQ(DEMO_LPTMR_IRQn);
 //    LPTMR_StartTimer(DEMO_LPTMR_BASE);
 
 /******************************************************************************/
 
-    while (0)
+//    while (0)
     {
 //        curPowerState = SMC_GetPowerModeState(SMC);
 
@@ -1191,8 +1203,9 @@ int main(void)
 //        PRINTF(". ");
 //    }
 
-        uint8_t cnt = 0;
+//        uint8_t cnt = 0;
 //        uint32_t adc_Value = 0;
+    	static u8 cnt = 0;
         while (1)
         {
     //        smc_power_state_t curPowerState;
@@ -1202,39 +1215,58 @@ int main(void)
     //        PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
     //        APP_ShowPowerMode(curPowerState);
 
-
-
-
             /* Prevents the use of wrong values */
             while (!conversionCompleted)
             {
             }
-    //
-    ////        PRINTF("*-");
-    //
-//            if(adcValue > adc_Value && adcValue > adc_Value + 10)
-//            {
-//                PRINTF("%d\n\r", adcValue);
-//            }
-//            else if(adcValue < adc_Value && adcValue  + 10 < adc_Value)
-//            {
-//                PRINTF("%d\n\r", adcValue);
-//            }
-//            adc_Value = adcValue;
+            GPIO_PortToggle(GPIOA, 1u << 5U);
+//            GPIO_PortToggle(GPIOB, 1u << 3U);
 
-
-            if(cnt&0x01)
             {
-                LED1_ON();
-            }
-            else
-            {
-                LED1_OFF();
-            }
-            cnt++;
+            	static ADC_PACK adc_pack = {0};
+            	static u32 adc_sum = 0;
 
+            	ADC_DATA adc = {0};
+
+            	data_dequeueadc(&adc);
+            	adc_sum += adc.adcValue;
+
+            	// 第一次发或发完一帧
+            	if(cnt % ADC_PACK_LEN == 0)
+            	{
+            		adc_pack.header = ADC_HEADER;
+//            		adc_pack.data = cnt ? adc_sum / ADC_PACK_LEN : adc_sum ;
+            		adc_pack.data = 1;
+            		adc_sum = 0;
+
+            		cnt = 0;
+            	}
+
+            	// send header
+            	if(cnt < ADC_HEADER_LEN)
+            	{
+            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cnt - 1)) & 0x01);
+            		adc_pack.check = 0;
+            	}
+            	else if(cnt < ADC_HEADER_LEN + ADC_DATA_LEN)
+            	{
+            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cnt - 1)) & 0x01;
+            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
+            		adc_pack.check ^= sendBit & 0x01;
+            	}
+            	else
+            	{
+//            		adc_pack.check = 0;
+
+            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
+//            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
+            	}
+
+            	cnt ++;
+//            	PRINTF("%d\n\r", cnt);
+//            	GPIO_WritePinOutput(GPIOB, 3U, (adc.adcValue >> (11 - cnt)) & 0x01);
+            }
             conversionCompleted = false;
-
 
         }
 
