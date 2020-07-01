@@ -959,43 +959,43 @@ int main(void)
  *  pwm init
  *
  *  *******************************************************************************/
-////     tpm config init
-//#ifndef TPM_LED_ON_LEVEL
-//#define TPM_LED_ON_LEVEL kTPM_LowTrue
-//#endif
-//#if USER_PWM_NUM == 1
-//    tpm_config_t tpmInfo;
-//    tpm_chnl_pwm_signal_param_t tpmParam;
-//
-//
-//
-//    /* Configure tpm params with frequency 24kHZ */
-//    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
-//    tpmParam.level = TPM_LED_ON_LEVEL;
-//    tpmParam.dutyCyclePercent = updatedDutycycle;
-//
-//#elif USER_PWM_NUM == 2
-//    tpm_config_t tpmInfo;
-//    tpm_chnl_pwm_signal_param_t tpmParam[2];
-//
-//#ifndef TPM_LED_ON_LEVEL
-//      #define TPM_LED_ON_LEVEL kTPM_LowTrue
-//#endif
-//#define BOARD_FIRST_TPM_CHANNEL 0U
-//#define BOARD_SECOND_TPM_CHANNEL 1U
-//
-//    /* Configure tpm params with frequency 24kHZ */
-//    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
-//    tpmParam[0].level = TPM_LED_ON_LEVEL;
-//    tpmParam[0].dutyCyclePercent = updatedDutycycle;
-//
-//    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
-//    tpmParam[1].level = TPM_LED_ON_LEVEL;
-//    tpmParam[1].dutyCyclePercent = updatedDutycycle;
-//
-//#else
-//    #error "pwm num set err!"
-//#endif
+//     tpm config init
+#ifndef TPM_LED_ON_LEVEL
+#define TPM_LED_ON_LEVEL kTPM_LowTrue
+#endif
+#if USER_PWM_NUM == 1
+    tpm_config_t tpmInfo;
+    tpm_chnl_pwm_signal_param_t tpmParam;
+
+
+
+    /* Configure tpm params with frequency 24kHZ */
+    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
+    tpmParam.level = TPM_LED_ON_LEVEL;
+    tpmParam.dutyCyclePercent = updatedDutycycle;
+
+#elif USER_PWM_NUM == 2
+    tpm_config_t tpmInfo;
+    tpm_chnl_pwm_signal_param_t tpmParam[2];
+
+#ifndef TPM_LED_ON_LEVEL
+      #define TPM_LED_ON_LEVEL kTPM_LowTrue
+#endif
+#define BOARD_FIRST_TPM_CHANNEL 0U
+#define BOARD_SECOND_TPM_CHANNEL 1U
+
+    /* Configure tpm params with frequency 24kHZ */
+    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
+    tpmParam[0].level = TPM_LED_ON_LEVEL;
+    tpmParam[0].dutyCyclePercent = updatedDutycycle;
+
+    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
+    tpmParam[1].level = TPM_LED_ON_LEVEL;
+    tpmParam[1].dutyCyclePercent = updatedDutycycle;
+
+#else
+    #error "pwm num set err!"
+#endif
 
 /******************************************************************************/
 
@@ -1009,7 +1009,7 @@ int main(void)
     /* Init output ENABLE GPIO. */
     GPIO_PinInit(GPIOA, 7U, &enable_config);
 //    GPIO_PinInit(GPIOB, 3U, &enable_config);
-    GPIO_PinInit(GPIOA, 5U, &enable_config);
+//    GPIO_PinInit(GPIOA, 5U, &enable_config);
 
     // api to write gpio value
 //    GPIO_WritePinOutput(GPIOA, 7U, 1);
@@ -1029,9 +1029,6 @@ int main(void)
         PRINTF("\r\nMCU wakeup from VLLS modes...\r\n");
     }
 
-
-//    user_showFreqList();
-    // mode now is run 48 MHz
 
 /*******************************************************************************
  *
@@ -1067,42 +1064,12 @@ int main(void)
 
 //    while (0)
     {
-//        curPowerState = SMC_GetPowerModeState(SMC);
-
-//        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
-
-//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-//        PRINTF("    Core Clock = %dHz \r\n", freq);
+        curPowerState = SMC_GetPowerModeState(SMC);
 
 //        APP_ShowPowerMode(curPowerState);
-
-//        PRINTF("\r\nSelect the desired operation \n\r\n");
-//        PRINTF("Press  %c for enter: RUN      - Normal RUN mode\r\n", kAPP_PowerModeRun);
-//        PRINTF("Press  %c for enter: WAIT     - Wait mode\r\n", kAPP_PowerModeWait);
-//        PRINTF("Press  %c for enter: STOP     - Stop mode\r\n", kAPP_PowerModeStop);
-//        PRINTF("Press  %c for enter: VLPR     - Very Low Power Run mode\r\n", kAPP_PowerModeVlpr);
-//        PRINTF("Press  %c for enter: VLPW     - Very Low Power Wait mode\r\n", kAPP_PowerModeVlpw);
-//        PRINTF("Press  %c for enter: VLPS     - Very Low Power Stop mode\r\n", kAPP_PowerModeVlps);
-//        PRINTF("Press  %c for enter: VLLS0    - Very Low Leakage Stop 0 mode\r\n", kAPP_PowerModeVlls0);
-//        PRINTF("Press  %c for enter: VLLS1    - Very Low Leakage Stop 1 mode\r\n", kAPP_PowerModeVlls1);
-//        PRINTF("Press  %c for enter: VLLS3    - Very Low Leakage Stop 3 mode\r\n", kAPP_PowerModeVlls3);
-//
-//        PRINTF("1\r\n");
-//        PRINTF("\r\nWaiting for power mode select..\r\n\r\n");
-
-        /* Wait for user response */
-
-//        ch = GETCHAR();
-//
-//        if ((ch >= 'a') && (ch <= 'z'))
-//        {
-//            ch -= 'a' - 'A';
-//        }
-
-//        targetPowerMode = (app_power_mode_t)ch;
+        //    user_showFreqList();
 
         // set default powermode as vlpr
-
         if(curPowerState != kSMC_PowerStateVlpr)
         {
 			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
@@ -1127,6 +1094,7 @@ int main(void)
 			/* If could not set the target power mode, loop continue. */
 			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
 			{
+//				PRINTF("\r\n curPowerState %x \r\n", curPowerState);
 //				continue;
 //				break;
 			}
@@ -1166,12 +1134,9 @@ int main(void)
 //    {
 //        curPowerState = SMC_GetPowerModeState(SMC);
 //        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
-//        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-//        PRINTF("    Core Clock = %dHz \r\n", freq);
 //        APP_ShowPowerMode(curPowerState);
+//    	  user_showFreqList();
 //    }
-
-//    user_showFreqList();
 
 
 /*******************************************************************************
@@ -1181,18 +1146,18 @@ int main(void)
  *  *******************************************************************************/
     /* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
 //    CLOCK_SetTpmClock(1U);
-//    CLOCK_SetTpmClock(3U);
-//
-//    TPM_GetDefaultConfig(&tpmInfo);
-//    /* Initialize TPM module */
-//    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
-//
-////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
-////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
-//
-//    // redefine ch number by micro
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
-//    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+    CLOCK_SetTpmClock(3U);
+
+    TPM_GetDefaultConfig(&tpmInfo);
+    /* Initialize TPM module */
+    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
+
+    // redefine ch number by micro
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 1000000); // 1M   2M
+    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 /******************************************************************************/
 
     // hold output for about 120 sec
@@ -1206,21 +1171,21 @@ int main(void)
 //        uint8_t cnt = 0;
 //        uint32_t adc_Value = 0;
     	static u8 cnt = 0;
+    	u16 debug_cnt = 0;
         while (1)
         {
-    //        smc_power_state_t curPowerState;
-    //        curPowerState = SMC_GetPowerModeState(SMC);
-    //
-    //        PRINTF("\r\n####################  Power Mode Switch Demo ####################\n\r\n");
-    //        PRINTF("    Core Clock = %dHz \r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
-    //        APP_ShowPowerMode(curPowerState);
-
             /* Prevents the use of wrong values */
             while (!conversionCompleted)
             {
             }
-            GPIO_PortToggle(GPIOA, 1u << 5U);
+//            GPIO_PortToggle(GPIOA, 1u << 5U);
 //            GPIO_PortToggle(GPIOB, 1u << 3U);
+            if(debug_cnt++ > 10000)
+            {
+            	debug_cnt = 0;
+            	PRINTF("    SLEEP \r\n");
+            	break;
+            }
 
             {
             	static ADC_PACK adc_pack = {0};
@@ -1235,8 +1200,7 @@ int main(void)
             	if(cnt % ADC_PACK_LEN == 0)
             	{
             		adc_pack.header = ADC_HEADER;
-//            		adc_pack.data = cnt ? adc_sum / ADC_PACK_LEN : adc_sum ;
-            		adc_pack.data = 1;
+            		adc_pack.data = cnt ? adc_sum / ADC_PACK_LEN : adc_sum ;
             		adc_sum = 0;
 
             		cnt = 0;
@@ -1256,38 +1220,29 @@ int main(void)
             	}
             	else
             	{
-//            		adc_pack.check = 0;
-
             		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
 //            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
             	}
 
             	cnt ++;
 //            	PRINTF("%d\n\r", cnt);
-//            	GPIO_WritePinOutput(GPIOB, 3U, (adc.adcValue >> (11 - cnt)) & 0x01);
             }
             conversionCompleted = false;
 
         }
 
 
-
-
-
-
-
-
     // enter vlls3 mode
-//    {
-//        curPowerState = kSMC_PowerStateVlpr;
-//        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
-//        //needSetWakeup = true;
-//        APP_GetWakeupConfig(targetPowerMode);
-//        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-//        APP_SetWakeupConfig(targetPowerMode);
-//        APP_PowerModeSwitch(curPowerState, targetPowerMode);
-//        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-//    }
+    {
+        curPowerState = kSMC_PowerStateVlpr;
+        targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
+        //needSetWakeup = true;
+        APP_GetWakeupConfig(targetPowerMode);
+        APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+        APP_SetWakeupConfig(targetPowerMode);
+        APP_PowerModeSwitch(curPowerState, targetPowerMode);
+        APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+    }
 
     return 0;
 }
