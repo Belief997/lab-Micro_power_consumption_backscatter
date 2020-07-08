@@ -77,6 +77,7 @@ void BOARD_InitPins(void)
     CLOCK_EnableClock(kCLOCK_PortB);
     CLOCK_EnableClock(kCLOCK_PortA);
 
+    // ptb0:llwu, pulldown default
     const port_pin_config_t portb0_pin12_config = {/* Internal pull-up resistor is enabled */
                                                    /*kPORT_PullUp,*/
 												   kPORT_PullDown,
@@ -104,7 +105,7 @@ void BOARD_InitPins(void)
     // ctrl
     PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio);
 
-    //ad
+    //adc
     PORT_SetPinMux(PORTB, 1U, kPORT_PinDisabledOrAnalog);
 
     /* PORTB1 (pin 13) is configured as LPUART0_TX */

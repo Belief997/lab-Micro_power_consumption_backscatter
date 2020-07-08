@@ -1168,16 +1168,16 @@ int main(void)
 //    CLOCK_SetTpmClock(1U);
 //    CLOCK_SetTpmClock(3U);
 
-//    TPM_GetDefaultConfig(&tpmInfo);
+    TPM_GetDefaultConfig(&tpmInfo);
 //    /* Initialize TPM module */
-//    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
 ////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
 ////    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
 
-//    // redefine ch number by micro
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
-//    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+    // redefine ch number by micro
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 2000000); // 2M
+    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 /******************************************************************************/
 
     // hold output for about 120 sec

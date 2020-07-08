@@ -135,7 +135,8 @@
 //              To know the Time it will take, multiply this value times LPTMR_COMPARE_VALUE*/
 
 //#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
-#define LPTMR_COMPARE_VALUE (500U) // 8k
+//#define LPTMR_COMPARE_VALUE (500U) // 8k square  @8M clk
+#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
 
 
 
@@ -228,8 +229,11 @@ volatile static uint32_t adcValue = 0; /*! ADC value */
 volatile bool conversionCompleted = false; /*! Conversion is completed Flag */
 
 
-void user_showFreqList()
+
+  // user defined func
+void user_showFreqList(void)
 {
+	PRINTF("\r\n--------------------------\r\n");
     PRINTF("kCLOCK_CoreSysClk %d.\r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
     PRINTF("kCLOCK_PlatClk %d.\r\n", CLOCK_GetFreq(kCLOCK_PlatClk));
     PRINTF("kCLOCK_BusClk %d.\r\n", CLOCK_GetFreq(kCLOCK_BusClk));
@@ -240,7 +244,6 @@ void user_showFreqList()
     PRINTF("kCLOCK_McgPeriphClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgPeriphClk));
     PRINTF("kCLOCK_McgIrc48MClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgIrc48MClk));
     PRINTF("kCLOCK_LpoClk %d.\r\n", CLOCK_GetFreq(kCLOCK_LpoClk));
-
 
 }
 
@@ -440,7 +443,7 @@ void APP_GetWakeupConfig(app_power_mode_t targetMode)
         (targetMode == kAPP_PowerModeVlls3))
     {
         /* In VLLS0 mode, the LPO is disabled, LPTMR could not work. */
-        PRINTF("Not support LPTMR wakeup because LPO is disabled in VLLS0 mode.\r\n");
+//        PRINTF("Not support LPTMR wakeup because LPO is disabled in VLLS0 mode.\r\n");
         s_wakeupSource = kAPP_WakeupSourcePin;
     }
     else
@@ -457,7 +460,8 @@ void APP_GetWakeupConfig(app_power_mode_t targetMode)
     }
     else
     {
-        PRINTF("Press %s to wake up.\r\n", APP_WAKEUP_BUTTON_NAME);
+//        PRINTF("Press %s to wake up.\r\n", APP_WAKEUP_BUTTON_NAME);
+    	PRINTF("Pull up PTB0 to wake up.\r\n");
     }
 }
 
@@ -762,11 +766,13 @@ static void ADC16_CalibrateParams(ADC_Type *base)
     /* Auto calibration */
     if (kStatus_Success == ADC16_DoAutoCalibration(base))
     {
-        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
+//        PRINTF("ADC16_DoAutoCalibration() Done.\r\n");
+        PRINTF("ADC16_DoAutoCalibration Done.\r\n");
     }
     else
     {
-        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
+//        PRINTF("ADC16_DoAutoCalibration() Failed.\r\n");
+        PRINTF("ADC16_DoAutoCalibration Failed.\r\n");
     }
 #endif
 
@@ -826,7 +832,7 @@ static bool ADC16_InitHardwareTrigger(ADC_Type *base)
 #endif
     /*
     * Initialization ADC for
-    * 16bit resolution, interrupt mode, hw trigger enabled.
+    * 12bit resolution, interrupt mode, hw trigger enabled.
     * normal convert speed, VREFH/L as reference,
     * disable continuous convert mode.
     */
@@ -906,20 +912,9 @@ void LPTMR_LED_HANDLER(void)
 //void LPTMR0_IRQHandler(void)
 {
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
-//    lptmrCounter++;
-//    LED_TOGGLE();
 
-    static uint8_t cnt = 0;
-
-        if(cnt&0x01)
-        {
-        	LED1_ON();
-        }
-        else
-        {
-        	LED1_OFF();
-        }
-        cnt++;
+    // debug
+//    GPIO_PortToggle(GPIOB, 1u << 3U);
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
@@ -934,13 +929,12 @@ void LPTMR_LED_HANDLER(void)
 
 
 #define USER_PWM_NUM  2
+#define WAKEUP_ENABLE 1
 /*!
  * @brief main demo function.
  */
 int main(void)
 {
-    uint32_t freq = 0;
-    uint8_t ch;
     smc_power_state_t curPowerState;
     app_power_mode_t targetPowerMode;
     bool needSetWakeup; /* Need to set wakeup. */
@@ -967,9 +961,6 @@ int main(void)
     tpm_config_t tpmInfo;
     tpm_chnl_pwm_signal_param_t tpmParam;
 
-
-
-    /* Configure tpm params with frequency 24kHZ */
     tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
     tpmParam.level = TPM_LED_ON_LEVEL;
     tpmParam.dutyCyclePercent = updatedDutycycle;
@@ -984,7 +975,6 @@ int main(void)
 #define BOARD_FIRST_TPM_CHANNEL 0U
 #define BOARD_SECOND_TPM_CHANNEL 1U
 
-    /* Configure tpm params with frequency 24kHZ */
     tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
     tpmParam[0].level = TPM_LED_ON_LEVEL;
     tpmParam[0].dutyCyclePercent = updatedDutycycle;
@@ -999,29 +989,23 @@ int main(void)
 
 /******************************************************************************/
 
-
-
     /* Define the init structure for the output ENABLE pin*/
     gpio_pin_config_t enable_config = {
         kGPIO_DigitalOutput, 0,
     };
     BOARD_InitPins();
+
     /* Init output ENABLE GPIO. */
     GPIO_PinInit(GPIOA, 7U, &enable_config);
-//    GPIO_PinInit(GPIOB, 3U, &enable_config);
-//    GPIO_PinInit(GPIOA, 5U, &enable_config);
 
     // api to write gpio value
 //    GPIO_WritePinOutput(GPIOA, 7U, 1);
 //    GPIO_WritePinOutput(GPIOA, 7U, 0);
 
-
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
     NVIC_EnableIRQ(LLWU_IRQn);
-//    NVIC_EnableIRQ(LPTMR0_IRQn);
-
     NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
     if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
@@ -1029,20 +1013,20 @@ int main(void)
         PRINTF("\r\nMCU wakeup from VLLS modes...\r\n");
     }
 
-
 /*******************************************************************************
  *
  *  adc & lptmr init
  *
  *  *******************************************************************************/
+    // ptb3 init gpio
     LED1_INIT();
-	GPIO_WritePinOutput(GPIOB, 3U, 1);
-	GPIO_WritePinOutput(GPIOB, 3U, 0);
+//	GPIO_WritePinOutput(GPIOB, 3U, 1);
+//	GPIO_WritePinOutput(GPIOB, 3U, 0);
 
     /* Calibrate param Temperature sensor */
     ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
 
-    /* Initialize Demo ADC */
+    /* Initialize ADC */
   if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
   {
       PRINTF("Failed to do the ADC init\r\n");
@@ -1052,7 +1036,7 @@ int main(void)
     NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
 
 
-    // timer test
+    // debug timer test
     /* Enable timer interrupt */
 //    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
 
@@ -1061,13 +1045,13 @@ int main(void)
 //    LPTMR_StartTimer(DEMO_LPTMR_BASE);
 
 /******************************************************************************/
-
+    // debug
 //    while (0)
     {
         curPowerState = SMC_GetPowerModeState(SMC);
 
 //        APP_ShowPowerMode(curPowerState);
-        //    user_showFreqList();
+//        user_showFreqList();
 
         // set default powermode as vlpr
         if(curPowerState != kSMC_PowerStateVlpr)
@@ -1124,20 +1108,18 @@ int main(void)
 
 			APP_PowerModeSwitch(curPowerState, targetPowerMode);
 			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-
-//			PRINTF("\r\nNext loop\r\n");
 		}
 
     };
 
-    // show state for check
+    // debug: show state to check
 //    {
 //        curPowerState = SMC_GetPowerModeState(SMC);
 //        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 //        APP_ShowPowerMode(curPowerState);
+
 //    	  user_showFreqList();
 //    }
-
 
 /*******************************************************************************
  *
@@ -1152,26 +1134,20 @@ int main(void)
     /* Initialize TPM module */
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 1000000U, TPM_SOURCE_CLOCK);
-//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 250000U, 2000000); // 2M
-
-    // redefine ch number by micro
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 32000U, 1000000); // 1M   2M
+    // redefine ch number by micro, set freq divider here
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 500000U, 2000000); //  2M clock source @VLPR
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+
 /******************************************************************************/
 
-    // hold output for about 120 sec
-//    uint8_t i_delay = 0;
-//    while(i_delay++ < 120)// about 120s
-//    {
-//        delay();
-//        PRINTF(". ");
-//    }
+    // debug
+//    user_showFreqList();
 
-//        uint8_t cnt = 0;
-//        uint32_t adc_Value = 0;
-    	static u8 cnt = 0;
-    	u16 debug_cnt = 0;
+#if WAKEUP_ENABLE
+#define SLEEP_CNT 90000
+    	u32 debug_cnt = 0;
+#endif
+    	u8 cntBit = 0;
         while (1)
         {
             /* Prevents the use of wrong values */
@@ -1180,13 +1156,25 @@ int main(void)
             }
 //            GPIO_PortToggle(GPIOA, 1u << 5U);
 //            GPIO_PortToggle(GPIOB, 1u << 3U);
-            if(debug_cnt++ > 10000)
-            {
-            	debug_cnt = 0;
-            	PRINTF("    SLEEP \r\n");
-            	break;
+
+#if WAKEUP_ENABLE
+            // hold output for about xxx sec
+
+			if(debug_cnt++ > SLEEP_CNT)
+			{
+				debug_cnt = 0;
+				PRINTF("  SLEEP.. \r\n");
+				break;
+			}
+			else if(debug_cnt++ == SLEEP_CNT/2)
+			{
+				PRINTF("  SLEEP half time pass... \r\n");
             }
 
+#endif
+
+            // debug
+//            if(0)
             {
             	static ADC_PACK adc_pack = {0};
             	static u32 adc_sum = 0;
@@ -1197,24 +1185,24 @@ int main(void)
             	adc_sum += adc.adcValue;
 
             	// 第一次发或发完一帧
-            	if(cnt % ADC_PACK_LEN == 0)
+            	if(cntBit % ADC_PACK_LEN == 0)
             	{
             		adc_pack.header = ADC_HEADER;
-            		adc_pack.data = cnt ? adc_sum / ADC_PACK_LEN : adc_sum ;
+            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
             		adc_sum = 0;
 
-            		cnt = 0;
+            		cntBit = 0;
             	}
 
             	// send header
-            	if(cnt < ADC_HEADER_LEN)
+            	if(cntBit < ADC_HEADER_LEN)
             	{
-            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cnt - 1)) & 0x01);
+            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
             		adc_pack.check = 0;
             	}
-            	else if(cnt < ADC_HEADER_LEN + ADC_DATA_LEN)
+            	else if(cntBit < ADC_HEADER_LEN + ADC_DATA_LEN)
             	{
-            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cnt - 1)) & 0x01;
+            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cntBit - 1)) & 0x01;
             		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
             		adc_pack.check ^= sendBit & 0x01;
             	}
@@ -1224,14 +1212,14 @@ int main(void)
 //            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
             	}
 
-            	cnt ++;
-//            	PRINTF("%d\n\r", cnt);
+            	cntBit ++;
+//            	PRINTF("%d\n\r", cntBit);
             }
             conversionCompleted = false;
 
         }
 
-
+#if WAKEUP_ENABLE
     // enter vlls3 mode
     {
         curPowerState = kSMC_PowerStateVlpr;
@@ -1243,6 +1231,7 @@ int main(void)
         APP_PowerModeSwitch(curPowerState, targetPowerMode);
         APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
     }
+#endif
 
     return 0;
 }
