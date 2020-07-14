@@ -1060,15 +1060,7 @@ int main(void)
         }
         else
         {
-//        	ch = GETCHAR();
-//        	if(ch == '3')
-//        	{
-//        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlls3;
-//        	}
-//        	else
-//        	{
         		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-//        	}
         }
         // A:run, D:vlpr, I:vlls3
 //        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
