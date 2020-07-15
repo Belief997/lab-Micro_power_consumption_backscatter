@@ -73,12 +73,15 @@ void BOARD_InitPins(void)
 {
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
+    CLOCK_EnableClock(kCLOCK_PortA);
 
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
-    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAlt3);
 
     /* PORTB2 (pin 14) is configured as LPUART0_RX */
-    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTB, 4U, kPORT_MuxAlt3);
 
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */
