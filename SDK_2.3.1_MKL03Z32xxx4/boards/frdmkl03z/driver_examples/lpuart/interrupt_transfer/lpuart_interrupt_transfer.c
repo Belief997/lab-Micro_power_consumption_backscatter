@@ -70,6 +70,14 @@ int main(void)
     BOARD_BootClockRUN();
     CLOCK_SetLpuart0Clock(0x1U);
 
+    dac_init();
+    dac_test();
+
+
+
+
+
+
     /*
      * config.baudRate_Bps = 115200U;
      * config.parityMode = kLPUART_ParityDisabled;

@@ -29,7 +29,25 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 
 
 // dac
+// PIN
+#define PIN_DOUT  (5)
+#define PIN_CS    (6)
+#define PIN_CLK   (7)
+#define PIN_DIN   (0)
 
+
+
+typedef enum{
+	GPIO_L = 0,
+	GPIO_H = 1,
+
+};
+
+
+void dac_init(void);
+void dac_test(void);
+void dac_send(u16 data);
+void dac_setVol(float Vol_mV);
 
 
 

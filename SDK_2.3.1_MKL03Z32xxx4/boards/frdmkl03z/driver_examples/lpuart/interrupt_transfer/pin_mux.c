@@ -83,6 +83,15 @@ void BOARD_InitPins(void)
 //    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
     PORT_SetPinMux(PORTB, 4U, kPORT_MuxAlt3);
 
+
+    // initial dac ports
+    PORT_SetPinMux(PORTA, 5U, kPORT_MuxAsGpio); // DOUT
+    PORT_SetPinMux(PORTA, 6U, kPORT_MuxAsGpio); // CS
+    PORT_SetPinMux(PORTA, 7U, kPORT_MuxAsGpio); // CLK
+    PORT_SetPinMux(PORTB, 0U, kPORT_MuxAsGpio); // DIN
+
+
+
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */
                    (~(SIM_SOPT5_LPUART0RXSRC_MASK)))
