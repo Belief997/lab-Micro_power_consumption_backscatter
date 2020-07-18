@@ -24,7 +24,6 @@ void delay_n(u32 n)
     }
 }
 
-/*******************************************************************************/
 // Uart
 
 lpuart_handle_t g_lpuartHandle;
@@ -39,7 +38,9 @@ volatile bool txBufferFull = false;
 volatile bool txOnGoing = false;
 volatile bool rxOnGoing = false;
 
-
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
 /* LPUART user callback */
 void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData)
 {
@@ -58,8 +59,6 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
     }
 }
 
-
-/*******************************************************************************/
 // DAC
 //#define CS_SET {GPIO_PortSet(GPIOA, PIN_CS);}
 //#define CS_CLR {GPIO_PortClear(GPIOA, PIN_CS);}
@@ -123,7 +122,7 @@ void dac_send(u16 data)
 	for(i=0; i < 12; i++)
 	{
 		CLK_CLR;
-		// send bit
+		//
 		if( (data >> (11 - i)) & 0x01)
 		{
 			DIN_SET;
