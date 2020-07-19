@@ -177,13 +177,23 @@ void dac_test(void)
 
 	DIN_SET;
 
-	dac_send(0xa5);
-	dac_send(0x1a5);
-	dac_send(0x2a5);
-	dac_send(0x3a5);
+//	while(1)
+	{
+		dac_send(0xa5);
+//		delay_n(20);
+
+
+		dac_send(0x1a5);
+		dac_send(0x2a5);
+		dac_send(0x3a5);
+	}
 
 	// 677
-	dac_setVol(2708);
+	while(1)
+	{
+		dac_setVol(2708);
+		delay_n(20);
+	}
 	dac_setVol(2708);
 	dac_setVol(2708);
 	dac_setVol(2708);
