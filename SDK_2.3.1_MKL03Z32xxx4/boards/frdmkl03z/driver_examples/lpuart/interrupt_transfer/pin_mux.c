@@ -90,7 +90,7 @@ void BOARD_InitPins(void)
     PORT_SetPinMux(PORTA, 7U, kPORT_MuxAsGpio); // CLK
     PORT_SetPinMux(PORTB, 0U, kPORT_MuxAsGpio); // DIN
 
-
+    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAsGpio);
 
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */

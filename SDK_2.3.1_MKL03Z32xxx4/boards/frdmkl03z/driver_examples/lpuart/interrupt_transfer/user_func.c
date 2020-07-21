@@ -3,8 +3,13 @@
 
 //#include "fsl_lpuart.h"
 #include "fsl_gpio.h"
-
+#include "board.h"
+#include "fsl_lptmr.h"
 // Common
+extern volatile float adc_high;
+extern volatile float adc_low;
+extern volatile float adc_value;
+
 
 void delay(void)
 {
@@ -77,6 +82,13 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 void dac_init(void)
 {
     gpio_pin_config_t config = {0};
+
+    {
+        config.pinDirection = kGPIO_DigitalOutput;
+        config.outputLogic = GPIO_L;
+        GPIO_PinInit(GPIOB, 1, &config);
+    }
+
 
     // DOUT
     config.pinDirection = kGPIO_DigitalInput;
@@ -199,3 +211,84 @@ void dac_test(void)
 	dac_setVol(2708);
 }
 
+// Timer
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+#define DEMO_LPTMR_BASE LPTMR0
+#define DEMO_LPTMR_IRQn LPTMR0_IRQn
+#define LPTMR_HANDLER LPTMR0_IRQHandler
+/* Get source clock for LPTMR driver */
+#define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
+/* Define LPTMR microseconds counts value */
+#define LPTMR_USEC_COUNT 125000U
+
+#define LED_INIT() LED_RED_INIT(LOGIC_LED_ON)
+#define LED_TOGGLE() LED_RED_TOGGLE()
+
+void LPTMR_HANDLER(void)
+{
+    LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
+
+    static u8 cnt = 0;
+//    LED_TOGGLE();
+//    if()
+    if(++cnt % 2 == 0)
+    {
+//    	LED_TOGGLE();
+    	adc_value = adc_low;
+    	if(cnt % 4 == 0)
+    	{
+    		LED_TOGGLE();
+    		adc_value = adc_high;
+    	}
+    }
+
+
+    /*
+     * Workaround for TWR-KV58: because write buffer is enabled, adding
+     * memory barrier instructions to make sure clearing interrupt flag completed
+     * before go out ISR
+     */
+    __DSB();
+    __ISB();
+}
+
+void timer_init(void)
+{
+
+    lptmr_config_t lptmrConfig;
+
+    LED_INIT();
+
+    /* Configure LPTMR */
+    /*
+     * lptmrConfig.timerMode = kLPTMR_TimerModeTimeCounter;
+     * lptmrConfig.pinSelect = kLPTMR_PinSelectInput_0;
+     * lptmrConfig.pinPolarity = kLPTMR_PinPolarityActiveHigh;
+     * lptmrConfig.enableFreeRunning = false;
+     * lptmrConfig.bypassPrescaler = true;
+     * lptmrConfig.prescalerClockSource = kLPTMR_PrescalerClock_1;
+     * lptmrConfig.value = kLPTMR_Prescale_Glitch_0;
+     */
+    LPTMR_GetDefaultConfig(&lptmrConfig);
+//    lptmrConfig¡£prescalerClockSource = kLPTMR_PrescalerClock_0;
+
+    /* Initialize the LPTMR */
+    LPTMR_Init(DEMO_LPTMR_BASE, &lptmrConfig);
+
+    /*
+     * Set timer period.
+     * Note : the parameter "ticks" of LPTMR_SetTimerPeriod should be equal or greater than 1.
+    */
+    LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
+
+    /* Enable timer interrupt */
+    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+
+    /* Enable at the NVIC */
+    EnableIRQ(DEMO_LPTMR_IRQn);
+
+    /* Start counting */
+    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+}

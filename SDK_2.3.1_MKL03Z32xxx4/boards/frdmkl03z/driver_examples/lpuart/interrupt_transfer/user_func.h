@@ -49,7 +49,7 @@ void dac_test(void);
 void dac_send(u16 data);
 void dac_setVol(float Vol_mV);
 
-
+void timer_init(void);
 
 #endif /* _USER__FUNC__H_ */
 
