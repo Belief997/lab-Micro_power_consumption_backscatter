@@ -137,6 +137,16 @@
 			<locationURI>PARENT-6-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_gpio.h</locationURI>
 		</link>
 		<link>
+			<name>drivers/fsl_lptmr.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_lptmr.c</locationURI>
+		</link>
+		<link>
+			<name>drivers/fsl_lptmr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_lptmr.h</locationURI>
+		</link>
+		<link>
 			<name>drivers/fsl_lpuart.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/devices/MKL03Z4/drivers/fsl_lpuart.c</locationURI>
