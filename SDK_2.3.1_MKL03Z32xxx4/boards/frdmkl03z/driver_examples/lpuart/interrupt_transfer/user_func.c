@@ -87,6 +87,10 @@ void dac_init(void)
         config.pinDirection = kGPIO_DigitalOutput;
         config.outputLogic = GPIO_L;
         GPIO_PinInit(GPIOB, 1, &config);
+
+        config.pinDirection = kGPIO_DigitalInput;
+        config.outputLogic = GPIO_L;
+        GPIO_PinInit(GPIOB, 2, &config);
     }
 
 
@@ -232,18 +236,24 @@ void LPTMR_HANDLER(void)
 
     static u8 cnt = 0;
 //    LED_TOGGLE();
-//    if()
-    if(++cnt % 2 == 0)
+    // input high: output square, input low: output power
+    if(GPIO_PinRead(GPIOB, 2))
     {
-//    	LED_TOGGLE();
-    	adc_value = adc_low;
-    	if(cnt % 4 == 0)
-    	{
-    		LED_TOGGLE();
-    		adc_value = adc_high;
-    	}
+		if(++cnt % 2 == 0)
+		{
+	//    	LED_TOGGLE();
+			adc_value = adc_low;
+			if(cnt % 4 == 0)
+			{
+				LED_TOGGLE();
+				adc_value = adc_high;
+			}
+		}
     }
-
+    else
+    {
+    	adc_value = adc_value;
+    }
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
