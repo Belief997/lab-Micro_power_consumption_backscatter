@@ -4,6 +4,9 @@
 #include "fsl_common.h"
 #include "fsl_lpuart.h"
 
+
+
+
 // common
 
 typedef uint8_t  u8;
@@ -15,6 +18,7 @@ typedef uint32_t u32;
 
 
 // uart
+//#define EN_UART
 #define DEMO_LPUART LPUART0
 #define DEMO_LPUART_CLKSRC SYS_CLK
 #define DEMO_LPUART_CLK_FREQ CLOCK_GetFreq(SYS_CLK)
@@ -34,7 +38,7 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 #define PIN_CS    (6)
 #define PIN_CLK   (7)
 #define PIN_DIN   (0)
-
+#define PIN_MOD   (3)
 
 
 typedef enum{
@@ -47,7 +51,7 @@ typedef enum{
 void dac_init(void);
 void dac_test(void);
 void dac_send(u16 data);
-void dac_setVol(float Vol_mV);
+void dac_setVol(float Vol_mV, float shift);
 
 void timer_init(void);
 

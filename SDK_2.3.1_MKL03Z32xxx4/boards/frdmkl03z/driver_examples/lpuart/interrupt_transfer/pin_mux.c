@@ -75,13 +75,13 @@ void BOARD_InitPins(void)
     CLOCK_EnableClock(kCLOCK_PortB);
     CLOCK_EnableClock(kCLOCK_PortA);
 
-    /* PORTB1 (pin 13) is configured as LPUART0_TX */
-//    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
-    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAlt3);
-
-    /* PORTB2 (pin 14) is configured as LPUART0_RX */
-//    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
-    PORT_SetPinMux(PORTB, 4U, kPORT_MuxAlt3);
+//    /* PORTB1 (pin 13) is configured as LPUART0_TX */
+////    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAlt3);
+//
+//    /* PORTB2 (pin 14) is configured as LPUART0_RX */
+////    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 4U, kPORT_MuxAlt3);
 
 
     // initial dac ports
@@ -90,8 +90,10 @@ void BOARD_InitPins(void)
     PORT_SetPinMux(PORTA, 7U, kPORT_MuxAsGpio); // CLK
     PORT_SetPinMux(PORTB, 0U, kPORT_MuxAsGpio); // DIN
 
-    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAsGpio);
-    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio); // MOD
+
+//    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAsGpio);
+//    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAsGpio);
 
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */

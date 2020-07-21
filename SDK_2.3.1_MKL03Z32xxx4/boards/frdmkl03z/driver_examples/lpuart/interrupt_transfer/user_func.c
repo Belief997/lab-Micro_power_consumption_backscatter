@@ -29,6 +29,8 @@ void delay_n(u32 n)
     }
 }
 
+
+#ifdef EN_UART
 // Uart
 
 lpuart_handle_t g_lpuartHandle;
@@ -63,6 +65,8 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
         rxOnGoing = false;
     }
 }
+#endif
+
 
 // DAC
 //#define CS_SET {GPIO_PortSet(GPIOA, PIN_CS);}
@@ -82,17 +86,6 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 void dac_init(void)
 {
     gpio_pin_config_t config = {0};
-
-    {
-        config.pinDirection = kGPIO_DigitalOutput;
-        config.outputLogic = GPIO_L;
-        GPIO_PinInit(GPIOB, 1, &config);
-
-        config.pinDirection = kGPIO_DigitalInput;
-        config.outputLogic = GPIO_L;
-        GPIO_PinInit(GPIOB, 2, &config);
-    }
-
 
     // DOUT
     config.pinDirection = kGPIO_DigitalInput;
@@ -114,6 +107,10 @@ void dac_init(void)
     config.outputLogic = GPIO_H;
     GPIO_PinInit(GPIOB, PIN_DIN, &config);
 
+    // MOD CTRL
+    config.pinDirection = kGPIO_DigitalInput;
+	config.outputLogic = GPIO_L;
+	GPIO_PinInit(GPIOB, PIN_MOD, &config);
 }
 
 // 10 bit data, send 12 bit, MSB first
@@ -158,11 +155,13 @@ void dac_send(u16 data)
 	DIN_SET;
 }
 
-void dac_setVol(float Vol_mV)
+//
+void dac_setVol(float Vol_mV, float shift)
 {
 	float Vref_mV = 2048.f;
 	u16 daData = 0;
 
+	Vol_mV += shift;
 	if(Vol_mV > 2 * Vref_mV)
 	{
 		daData = 1024 - 1; // 1023 10bit 0x03ff
@@ -178,9 +177,6 @@ void dac_setVol(float Vol_mV)
 
 	dac_send(daData);
 }
-
-
-
 
 void dac_test(void)
 {
@@ -205,20 +201,19 @@ void dac_test(void)
 	}
 
 	// 677
-	while(1)
-	{
-		dac_setVol(2708);
-		delay_n(20);
-	}
-	dac_setVol(2708);
-	dac_setVol(2708);
-	dac_setVol(2708);
+//	while(1)
+//	{
+//		dac_setVol(2708);
+//		delay_n(20);
+//	}
+//	dac_setVol(2708);
+//	dac_setVol(2708);
+//	dac_setVol(2708);
 }
 
 // Timer
-/*******************************************************************************
- * Definitions
- ******************************************************************************/
+
+//#define TIMER_DEBUG
 #define DEMO_LPTMR_BASE LPTMR0
 #define DEMO_LPTMR_IRQn LPTMR0_IRQn
 #define LPTMR_HANDLER LPTMR0_IRQHandler
@@ -227,8 +222,10 @@ void dac_test(void)
 /* Define LPTMR microseconds counts value */
 #define LPTMR_USEC_COUNT 125000U
 
+#ifdef TIMER_DEBUG
 #define LED_INIT() LED_RED_INIT(LOGIC_LED_ON)
 #define LED_TOGGLE() LED_RED_TOGGLE()
+#endif
 
 void LPTMR_HANDLER(void)
 {
@@ -237,7 +234,7 @@ void LPTMR_HANDLER(void)
     static u8 cnt = 0;
 //    LED_TOGGLE();
     // input high: output square, input low: output power
-    if(GPIO_PinRead(GPIOB, 2))
+    if(GPIO_PinRead(GPIOB, PIN_MOD))
     {
 		if(++cnt % 2 == 0)
 		{
@@ -245,14 +242,14 @@ void LPTMR_HANDLER(void)
 			adc_value = adc_low;
 			if(cnt % 4 == 0)
 			{
-				LED_TOGGLE();
+//				LED_TOGGLE();
 				adc_value = adc_high;
 			}
 		}
     }
     else
     {
-    	adc_value = adc_value;
+    	adc_value = adc_high;
     }
 
     /*
@@ -269,7 +266,7 @@ void timer_init(void)
 
     lptmr_config_t lptmrConfig;
 
-    LED_INIT();
+//    LED_INIT();
 
     /* Configure LPTMR */
     /*
