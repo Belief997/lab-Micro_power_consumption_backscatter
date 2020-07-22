@@ -87,6 +87,14 @@ void dac_init(void)
 {
     gpio_pin_config_t config = {0};
 
+
+//    {
+//        //
+//        config.pinDirection = kGPIO_DigitalOutput;
+//        config.outputLogic = GPIO_H;
+//        GPIO_PinInit(GPIOB, 1, &config);
+//    }
+
     // DOUT
     config.pinDirection = kGPIO_DigitalInput;
     config.outputLogic = GPIO_L;
@@ -114,6 +122,7 @@ void dac_init(void)
 }
 
 // 10 bit data, send 12 bit, MSB first
+#define DAC_BIT_NUM 16
 #define DAC_MASK 0X03FF  // 10 bit
 void dac_send(u16 data)
 {
@@ -132,6 +141,7 @@ void dac_send(u16 data)
 
 	//
 	CS_CLR;
+#if DAC_BIT_NUM == 12
 	for(i=0; i < 12; i++)
 	{
 		CLK_CLR;
@@ -148,6 +158,26 @@ void dac_send(u16 data)
 		CLK_SET;
 		delay_n(1);
 	}
+#elif DAC_BIT_NUM == 16
+	for(i=0; i < 16; i++)
+	{
+		CLK_CLR;
+		//
+		if( (data >> (15 - i)) & 0x01)
+		{
+			DIN_SET;
+		}
+		else
+		{
+			DIN_CLR;
+		}
+		delay_n(1);
+		CLK_SET;
+		delay_n(1);
+	}
+#else
+#error "dac_bit_num"
+#endif
 	CLK_CLR;
 	CS_SET;
 	delay_n(1);
@@ -168,7 +198,7 @@ void dac_setVol(float Vol_mV, float shift)
 	}
 	else if(Vol_mV > 0)
 	{
-		daData = Vol_mV  * 1024 / (2 * Vref_mV);
+		daData = Vol_mV  * 1024.f / (2.f * Vref_mV);
 	}
 	else
 	{
@@ -220,8 +250,9 @@ void dac_test(void)
 /* Get source clock for LPTMR driver */
 #define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
 /* Define LPTMR microseconds counts value */
-#define LPTMR_USEC_COUNT 125000U
+#define LPTMR_USEC_COUNT 250000U
 
+//#define TIMER_DEBUG
 #ifdef TIMER_DEBUG
 #define LED_INIT() LED_RED_INIT(LOGIC_LED_ON)
 #define LED_TOGGLE() LED_RED_TOGGLE()
@@ -238,7 +269,7 @@ void LPTMR_HANDLER(void)
     {
 		if(++cnt % 2 == 0)
 		{
-	//    	LED_TOGGLE();
+//	    	LED_TOGGLE();
 			adc_value = adc_low;
 			if(cnt % 4 == 0)
 			{
