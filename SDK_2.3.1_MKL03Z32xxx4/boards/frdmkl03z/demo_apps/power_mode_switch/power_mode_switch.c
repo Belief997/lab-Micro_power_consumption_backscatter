@@ -652,13 +652,21 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
 
 void delay(void)
 {
-    volatile uint32_t i = 0;
-    for (i = 0; i < 90000; ++i)
-    {
-        __asm("NOP"); /* delay */
-    }
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
 }
 
+void delay_n(uint32_t time)
+{
+    volatile uint32_t i = 0;
+    for (i = 0; i < time; ++i)
+    {
+    	delay();
+    }
+}
 
 void BOARD_ConfigTriggerSource(void)
 {
@@ -929,7 +937,7 @@ void LPTMR_LED_HANDLER(void)
 
 
 #define USER_PWM_NUM  2
-#define WAKEUP_ENABLE 1
+#define WAKEUP_ENABLE 0
 /*!
  * @brief main demo function.
  */
@@ -1129,6 +1137,34 @@ int main(void)
     // redefine ch number by micro, set freq divider here
     TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 500000U, 2000000); //  2M clock source @VLPR
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+
+    uint16_t frq_pwm = 1000;
+    uint16_t last_frq_pwm = 1000;
+    while(1)
+    {
+    	delay_n(500000);
+    	if(frq_pwm >= 150000)
+    	{
+    		frq_pwm = 1000;
+    	}
+    	else
+    	{
+    		frq_pwm += 15000;
+    	}
+    	if(last_frq_pwm != frq_pwm)
+    	{
+    		TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, frq_pwm, 2000000); //  2M clock source @VLPR
+        	PRINTF("  %d \r\n", frq_pwm);
+        	last_frq_pwm = frq_pwm;
+    	}
+
+    }
+
+
+
+
+
+
 
 /******************************************************************************/
 
