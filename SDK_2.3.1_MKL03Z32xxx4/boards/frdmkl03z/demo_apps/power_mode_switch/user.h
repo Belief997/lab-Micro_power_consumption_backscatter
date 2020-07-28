@@ -3,6 +3,9 @@
 #define ___USER__H
 
 #include "fsl_common.h"
+#include "fsl_lpuart.h"
+
+
 
 #define MAX_ADC_COUNT  (25)
 #define ADC_PACK_LEN   (20) // header(7) + payload(12) + check_bit(1) = 20
@@ -56,4 +59,25 @@ USER_BOOL data_enqueueadc(ADC_DATA* adc);
 USER_BOOL data_dequeueadc(ADC_DATA* adc);
 
 
+
+// uart
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+#define DEMO_LPUART LPUART0
+#define DEMO_LPUART_CLKSRC SYS_CLK
+#define DEMO_LPUART_CLK_FREQ CLOCK_GetFreq(SYS_CLK)
+
+#define RX_RING_BUFFER_SIZE 20U
+#define ECHO_BUFFER_SIZE 1U
+
+
+void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData);
+
+
+
+
+
 #endif
+
+

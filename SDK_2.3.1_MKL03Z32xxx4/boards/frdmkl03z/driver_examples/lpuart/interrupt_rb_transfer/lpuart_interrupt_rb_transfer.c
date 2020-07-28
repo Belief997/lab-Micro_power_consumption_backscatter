@@ -45,7 +45,7 @@
 #define DEMO_LPUART_CLK_FREQ CLOCK_GetFreq(SYS_CLK)
 
 #define RX_RING_BUFFER_SIZE 20U
-#define ECHO_BUFFER_SIZE 8U
+#define ECHO_BUFFER_SIZE 1U
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/

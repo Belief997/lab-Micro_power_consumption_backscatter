@@ -65,3 +65,56 @@ USER_BOOL data_dequeueadc(ADC_DATA* adc)
 
     return TRUE;
 }
+
+
+/*
+ * lpuart
+ */
+
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
+
+/* LPUART user callback */
+void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData);
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+//lpuart_handle_t g_lpuartHandle;
+//uint8_t g_tipString[] = "LPUART RX ring buffer example\r\nSend back received data\r\nEcho every 8 types\r\n";
+//uint8_t g_rxRingBuffer[RX_RING_BUFFER_SIZE] = {0}; /* RX ring buffer. */
+
+uint8_t g_rxBuffer[ECHO_BUFFER_SIZE] = {0}; /* Buffer for receive data to echo. */
+uint8_t g_txBuffer[ECHO_BUFFER_SIZE] = {0}; /* Buffer for send data to echo. */
+volatile bool rxBufferEmpty = true;
+volatile bool txBufferFull = false;
+volatile bool txOnGoing = false;
+volatile bool rxOnGoing = false;
+
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
+
+/* LPUART user callback */
+void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData)
+{
+    if (kStatus_LPUART_TxIdle == status)
+    {
+        txBufferFull = false;
+        txOnGoing = false;
+    }
+
+    if (kStatus_LPUART_RxIdle == status)
+    {
+        rxBufferEmpty = false;
+        rxOnGoing = false;
+    }
+}
+
+void uart_init()
+{
+
+
+}
+
