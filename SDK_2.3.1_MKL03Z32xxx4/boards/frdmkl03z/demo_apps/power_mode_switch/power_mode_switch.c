@@ -943,6 +943,43 @@ extern volatile bool rxOnGoing;
 /*!
  * @brief main demo function.
  */
+
+#include "string.h"
+void user_showFreq(void)
+{
+//	PRINTF("\r\n--------------------------\r\n");
+    PRINTF("kCLOCK_CoreSysClk %d.\r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+//    PRINTF("kCLOCK_PlatClk %d.\r\n", CLOCK_GetFreq(kCLOCK_PlatClk));
+//    PRINTF("kCLOCK_BusClk %d.\r\n", CLOCK_GetFreq(kCLOCK_BusClk));
+//    PRINTF("kCLOCK_FlashClk %d.\r\n", CLOCK_GetFreq(kCLOCK_FlashClk));
+//    PRINTF("kCLOCK_Er32kClk %d.\r\n", CLOCK_GetFreq(kCLOCK_Er32kClk));
+//    PRINTF("kCLOCK_Osc0ErClk %d.\r\n", CLOCK_GetFreq(kCLOCK_Osc0ErClk));
+//    PRINTF("kCLOCK_McgInternalRefClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgInternalRefClk));
+//    PRINTF("kCLOCK_McgPeriphClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgPeriphClk));
+//    PRINTF("kCLOCK_McgIrc48MClk %d.\r\n", CLOCK_GetFreq(kCLOCK_McgIrc48MClk));
+//    PRINTF("kCLOCK_LpoClk %d.\r\n", CLOCK_GetFreq(kCLOCK_LpoClk));
+
+
+    u32 freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
+    char buf[32] = "\0";
+
+    sprintf(buf, "%d\n", freq);
+
+
+    /* Send g_tipString out. */
+    lpuart_transfer_t xfer;
+    xfer.data = buf;
+    xfer.dataSize = strlen(buf);
+    txOnGoing = true;
+    LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &xfer);
+
+    /* Wait send finished */
+    while (txOnGoing)
+    {
+    }
+
+}
+
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -970,6 +1007,9 @@ int main(void)
     BOARD_BootClockRUN();
     CLOCK_SetLpuart0Clock(0x1U);
 
+
+
+
     /*
      * config.baudRate_Bps = 115200U;
      * config.parityMode = kLPUART_ParityDisabled;
@@ -988,6 +1028,71 @@ int main(void)
     LPUART_TransferCreateHandle(DEMO_LPUART, &g_lpuartHandle, LPUART_UserCallback, NULL);
     LPUART_TransferStartRingBuffer(DEMO_LPUART, &g_lpuartHandle, g_rxRingBuffer, RX_RING_BUFFER_SIZE);
 
+
+    NVIC_EnableIRQ(LLWU_IRQn);
+    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+
+
+    {
+        curPowerState = SMC_GetPowerModeState(SMC);
+
+//        APP_ShowPowerMode(curPowerState);
+//        user_showFreqList();
+
+        // set default powermode as vlpr
+        if(curPowerState != kSMC_PowerStateVlpr)
+        {
+			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+        }
+        else
+        {
+        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+        }
+        // A:run, D:vlpr, I:vlls3
+//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
+
+		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
+		{
+			/* If could not set the target power mode, loop continue. */
+			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
+			{
+//				PRINTF("\r\n curPowerState %x \r\n", curPowerState);
+//				continue;
+//				break;
+			}
+
+			/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
+			if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
+			{
+				needSetWakeup = false;
+			}
+
+			else
+			{
+				needSetWakeup = true;
+			}
+
+			if (needSetWakeup)
+			{
+				APP_GetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
+
+			if (needSetWakeup)
+			{
+				APP_SetWakeupConfig(targetPowerMode);
+			}
+
+			APP_PowerModeSwitch(curPowerState, targetPowerMode);
+			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
+		}
+
+    };
+
+
+
+
     /* Send g_tipString out. */
     xfer.data = g_tipString;
     xfer.dataSize = sizeof(g_tipString) - 1;
@@ -998,6 +1103,8 @@ int main(void)
     while (txOnGoing)
     {
     }
+
+    user_showFreq();
 
     /* Start to echo. */
     sendXfer.data = g_txBuffer;
