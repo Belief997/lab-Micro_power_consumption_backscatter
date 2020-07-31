@@ -1104,14 +1104,16 @@ int main(void)
     {
     }
 
-    user_showFreq();
-
     /* Start to echo. */
     sendXfer.data = g_txBuffer;
     sendXfer.dataSize = ECHO_BUFFER_SIZE;
     receiveXfer.data = g_rxBuffer;
     receiveXfer.dataSize = ECHO_BUFFER_SIZE;
 
+    u8 uart_rx[32] = "\0";
+    u8 cnt_rx = 0;
+    u8 cnt_rx_last = 0;
+    u8 cnt_uart_sample = 0;
     while (1)
     {
         /* If g_txBuffer is empty and g_rxBuffer is full, copy g_rxBuffer to g_txBuffer. */
@@ -1132,7 +1134,25 @@ int main(void)
                 rxBufferEmpty = false;
                 rxOnGoing = false;
             }
+            memcpy(uart_rx + cnt_rx, g_rxBuffer, 1);
+            cnt_rx++;
+
         }
+
+        if(cnt_uart_sample ++ >= 100)
+        {
+
+        	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
+            {
+        		if(0)
+        		{
+
+        		}
+
+            }
+        	cnt_rx_last = cnt_rx;
+        }
+
 
         /* If TX is idle and g_txBuffer is full, start to send data. */
         if ((!txOnGoing) && txBufferFull)
@@ -1148,18 +1168,6 @@ int main(void)
             __NOP();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
