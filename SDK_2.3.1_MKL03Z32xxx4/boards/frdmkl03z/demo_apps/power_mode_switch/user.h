@@ -13,7 +13,7 @@
 #define ADC_DATA_LEN   (12)
 
 #define ADC_HEADER  (0xAE >> 1)
-
+#define PAYLOAD_LENGTH 6 // 5 + 1
 
 typedef uint8_t  u8 ;
 typedef uint16_t u16;
@@ -23,6 +23,18 @@ typedef enum
 {
 	FALSE = 0,
 	TRUE,
+
+	GPIO_LOW = 0,
+	GPIO_HIGH ,
+
+//	STATUS_WAIT_TRIG,
+	STATUS_WAIT_TRIG,
+	STATUS_WAIT_REC,
+	STATUS_WAIT_SEND,
+
+	REC_STATUS_SUCCESS,
+	REC_STATUS_FAIL,
+	REC_STATUS_WAITING,
 }USER_BOOL;
 
 typedef struct
@@ -74,7 +86,7 @@ USER_BOOL data_dequeueadc(ADC_DATA* adc);
 
 void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData);
 
-
+void user_triger(void);
 
 
 

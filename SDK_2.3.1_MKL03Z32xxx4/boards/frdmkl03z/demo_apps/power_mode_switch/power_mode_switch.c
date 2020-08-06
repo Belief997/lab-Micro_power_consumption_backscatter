@@ -51,7 +51,7 @@
 
 #include "user.h"
 
-
+#include "string.h"
 
 
 
@@ -650,14 +650,7 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
     }
 }
 
-void delay(void)
-{
-    volatile uint32_t i = 0;
-    for (i = 0; i < 90000; ++i)
-    {
-        __asm("NOP"); /* delay */
-    }
-}
+
 
 
 void BOARD_ConfigTriggerSource(void)
@@ -914,8 +907,14 @@ void LPTMR_LED_HANDLER(void)
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
 
     // debug
-//    GPIO_PortToggle(GPIOB, 1u << 3U);
+    GPIO_PortToggle(GPIOB, 1u << 3U);
 
+    GPIO_WritePinOutput(GPIOB, 3U, GPIO_HIGH);
+	delay_n(10);
+	GPIO_WritePinOutput(GPIOB, 3U, GPIO_LOW);
+
+	GPIO_WritePinOutput(GPIOA, 7U, GPIO_HIGH);
+	GPIO_WritePinOutput(GPIOA, 7U, GPIO_LOW);
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
      * memory barrier instructions to make sure clearing interrupt flag completed
@@ -944,7 +943,7 @@ extern volatile bool rxOnGoing;
  * @brief main demo function.
  */
 
-#include "string.h"
+
 void user_showFreq(void)
 {
 //	PRINTF("\r\n--------------------------\r\n");
@@ -980,34 +979,51 @@ void user_showFreq(void)
 
 }
 
+
+u8 status = STATUS_WAIT_TRIG;
+u8 status_rec = REC_STATUS_WAITING;
+
+
+#define LED_INIT() LED_RED_INIT(LOGIC_LED_ON)
+#define LED_TOGGLE() LED_RED_TOGGLE()
+
 int main(void)
 {
-    smc_power_state_t curPowerState;
-    app_power_mode_t targetPowerMode;
-    bool needSetWakeup; /* Need to set wakeup. */
-    lptmr_config_t lptmrConfig;
+//    smc_power_state_t curPowerState;
+//    app_power_mode_t targetPowerMode;
+//    bool needSetWakeup; /* Need to set wakeup. */
+//    lptmr_config_t lptmrConfig;
 
     /* Power related. */
-    SMC_SetPowerModeProtection(SMC, kSMC_AllowPowerModeAll);
-    if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
-    {
-        PMC_ClearPeriphIOIsolationFlag(PMC);
-        NVIC_ClearPendingIRQ(LLWU_IRQn);
-    }
+//    SMC_SetPowerModeProtection(SMC, kSMC_AllowPowerModeAll);
+//    if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
+//    {
+//        PMC_ClearPeriphIOIsolationFlag(PMC);
+//        NVIC_ClearPendingIRQ(LLWU_IRQn);
+//    }
 
 
-    lpuart_config_t config;
-    lpuart_transfer_t xfer;
-    lpuart_transfer_t sendXfer;
-    lpuart_transfer_t receiveXfer;
-    size_t receivedBytes = 0U;
-    uint32_t i;
+//    lpuart_config_t config;
+//    lpuart_transfer_t xfer;
+//    lpuart_transfer_t sendXfer;
+//    lpuart_transfer_t receiveXfer;
+//    size_t receivedBytes = 0U;
+//    uint32_t i;
 
+	LED_INIT();
     BOARD_InitPins();
     BOARD_BootClockRUN();
     CLOCK_SetLpuart0Clock(0x1U);
 
+    GPIO_PinWrite(GPIOB, 3U, 1);
+	delay_n(10);
+	GPIO_PinWrite(GPIOB, 3U, 0);
 
+	GPIO_PinWrite(GPIOA, 7U, 1);
+	GPIO_PinWrite(GPIOA, 7U, 0);
+	LED_TOGGLE();
+	LED_TOGGLE();
+	LED_TOGGLE();
 
 
     /*
@@ -1019,18 +1035,60 @@ int main(void)
      * config.enableTx = false;
      * config.enableRx = false;
      */
-    LPUART_GetDefaultConfig(&config);
-    config.baudRate_Bps = BOARD_DEBUG_UART_BAUDRATE;
-    config.enableTx = true;
-    config.enableRx = true;
+//    LPUART_GetDefaultConfig(&config);
+//    config.baudRate_Bps = BOARD_DEBUG_UART_BAUDRATE;
+//    config.enableTx = true;
+//    config.enableRx = true;
+//
+//    LPUART_Init(DEMO_LPUART, &config, DEMO_LPUART_CLK_FREQ);
+//    LPUART_TransferCreateHandle(DEMO_LPUART, &g_lpuartHandle, LPUART_UserCallback, NULL);
+//    LPUART_TransferStartRingBuffer(DEMO_LPUART, &g_lpuartHandle, g_rxRingBuffer, RX_RING_BUFFER_SIZE);
+//
+//
+//    NVIC_EnableIRQ(LLWU_IRQn);
+//    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
-    LPUART_Init(DEMO_LPUART, &config, DEMO_LPUART_CLK_FREQ);
-    LPUART_TransferCreateHandle(DEMO_LPUART, &g_lpuartHandle, LPUART_UserCallback, NULL);
-    LPUART_TransferStartRingBuffer(DEMO_LPUART, &g_lpuartHandle, g_rxRingBuffer, RX_RING_BUFFER_SIZE);
 
 
-    NVIC_EnableIRQ(LLWU_IRQn);
-    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+    // lptimer init
+    /* Configure LPTMR */
+    /*
+     * lptmrConfig.timerMode = kLPTMR_TimerModeTimeCounter;
+     * lptmrConfig.pinSelect = kLPTMR_PinSelectInput_0;
+     * lptmrConfig.pinPolarity = kLPTMR_PinPolarityActiveHigh;
+     * lptmrConfig.enableFreeRunning = false;
+     * lptmrConfig.bypassPrescaler = true;
+     * lptmrConfig.prescalerClockSource = kLPTMR_PrescalerClock_1;
+     * lptmrConfig.value = kLPTMR_Prescale_Glitch_0;
+     */
+//    lptmrConfig.prescalerClockSource = kLPTMR_PrescalerClock_0;
+//    LPTMR_GetDefaultConfig(&lptmrConfig);
+//
+//    /* Initialize the LPTMR */
+//    LPTMR_Init(DEMO_LPTMR_BASE, &lptmrConfig);
+//
+//    /*
+//     * Set timer period.
+//     * Note : the parameter "ticks" of LPTMR_SetTimerPeriod should be equal or greater than 1.
+//    */
+//    LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, USEC_TO_COUNT(250000, 1000));
+//
+//    /* Enable timer interrupt */
+//    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+//
+//    /* Enable at the NVIC */
+//    EnableIRQ(DEMO_LPTMR_IRQn);
+//
+//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+
+
+while(1);
+
+
+#if 0
+
+
+
 
 
     {
@@ -1090,7 +1148,7 @@ int main(void)
 
     };
 
-
+//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
 
 
     /* Send g_tipString out. */
@@ -1141,14 +1199,22 @@ int main(void)
 
         if(cnt_uart_sample ++ >= 100)
         {
-
-        	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
+        	if(cnt_rx == 0)
+        	{
+        		status_rec = REC_STATUS_WAITING;
+        	}
+        	if(cnt_rx == cnt_rx_last)
             {
-//        		if(0)
+//        		if(cnt_rx % PAYLOAD_LENGTH == 0)
+				if(cnt_rx == PAYLOAD_LENGTH)
         		{
-
+        			status_rec = REC_STATUS_SUCCESS;
         		}
-
+        		else
+        		{
+        			status_rec = REC_STATUS_FAIL;
+        		}
+        		cnt_rx = 0;
             }
         	cnt_rx_last = cnt_rx;
         	cnt_uart_sample = 0;
@@ -1162,16 +1228,32 @@ int main(void)
             LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &sendXfer);
         }
 
-        /* Delay some time, simulate the app is processing other things, input data save to ring buffer. */
-        i = 0x10U;
-        while (i--)
+
+        // handle here
+        if(status == STATUS_WAIT_TRIG || (status == STATUS_WAIT_REC && status_rec == REC_STATUS_FAIL))
         {
-            __NOP();
+        	memset(uart_rx, 0, sizeof(uart_rx));
+        	cnt_rx = 0;
+
+        	user_triger();
+        	status = STATUS_WAIT_REC;
+        	status_rec = REC_STATUS_WAITING;
         }
+
+        if(status == STATUS_WAIT_REC && status_rec == REC_STATUS_SUCCESS)
+        {
+        	status = STATUS_WAIT_SEND;
+
+
+
+
+        }
+
+
     }
 
 
-
+#endif
 
 
 #ifdef DEBUG_END

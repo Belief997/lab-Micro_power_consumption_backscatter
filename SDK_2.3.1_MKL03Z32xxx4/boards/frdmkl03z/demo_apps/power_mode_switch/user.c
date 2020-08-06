@@ -1,7 +1,11 @@
 
-//#include "fsl_common.h"
+#include "fsl_common.h"
 #include <stdio.h>
 #include "user.h"
+#include "fsl_port.h"
+#include "pin_mux.h"
+#include "fsl_gpio.h"
+
 
 
 static DATA data;
@@ -117,4 +121,32 @@ void uart_init()
 
 
 }
+
+void delay(void)
+{
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+}
+
+void delay_n(u32 time)
+{
+    volatile uint32_t i = 0;
+    for (i = 0; i < time; ++i)
+    {
+    	delay();
+    }
+}
+
+void user_triger(void)
+{
+	GPIO_WritePinOutput(GPIOB, 3U, GPIO_HIGH);
+	delay_n(10);
+	GPIO_WritePinOutput(GPIOB, 3U, GPIO_LOW);
+//	delay_n(100);
+//	GPIO_WritePinOutput(GPIOB, 3U, GPIO_HIGH);
+
+}
+
 
