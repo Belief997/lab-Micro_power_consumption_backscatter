@@ -940,9 +940,6 @@ extern volatile bool rxOnGoing;
 
 #define USER_PWM_NUM  1
 #define WAKEUP_ENABLE 0
-/*!
- * @brief main demo function.
- */
 
 #include "string.h"
 void user_showFreq(void)
@@ -1048,7 +1045,6 @@ void user_pwmInit(void)
 	TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 }
 
-
 void user_VLPR(smc_power_state_t *pcurPowerState, app_power_mode_t *ptargetPowerMode,  bool *pneedSetWakeup)
 {
 	*pcurPowerState = SMC_GetPowerModeState(SMC);
@@ -1117,7 +1113,7 @@ void user_gpioInit(void)
     GPIO_PinInit(GPIOB, 3U, &config_output_L);
 }
 
-#define DEBUG_END
+//#define DEBUG_END
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -1228,7 +1224,7 @@ int main(void)
         		{
 
         		}
-
+        		cnt_rx = 0;
             }
         	cnt_rx_last = cnt_rx;
         }
@@ -1272,15 +1268,10 @@ int main(void)
         PRINTF("\r\nMCU wakeup from VLLS modes...\r\n");
     }
 
-/*******************************************************************************
- *
- *  adc & lptmr init
- *
- *  *******************************************************************************/
+// lptmr init
     user_timerInit();
 
-/******************************************************************************/
-    // enter vlpr
+ // enter vlpr
     user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
     // debug: show state to check
@@ -1293,11 +1284,7 @@ int main(void)
 //    	  user_showFreqList();
 //    }
 
-/*******************************************************************************
- *
- *  init and run pwm here
- *
- *  *******************************************************************************/
+// pwm init
     user_pwmInit();
 
     while(1);
@@ -1307,7 +1294,7 @@ int main(void)
 //    user_showFreqList();
 
 #if WAKEUP_ENABLE
-#define SLEEP_CNT 90000
+#define SLEEP_CNT 990000
     	u32 debug_cnt = 0;
 #endif
     	u8 cntBit = 0;
@@ -1317,8 +1304,6 @@ int main(void)
             while (!conversionCompleted)
             {
             }
-//            GPIO_PortToggle(GPIOA, 1u << 5U);
-//            GPIO_PortToggle(GPIOB, 1u << 3U);
 
 #if WAKEUP_ENABLE
             // hold output for about xxx sec
