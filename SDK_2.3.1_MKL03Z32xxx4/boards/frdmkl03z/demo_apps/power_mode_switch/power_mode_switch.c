@@ -999,6 +999,112 @@ void user_timerInit(void)
 	EnableIRQ(DEMO_LPTMR_IRQn);
 	LPTMR_StartTimer(DEMO_LPTMR_BASE);
 }
+void user_pwmInit(void)
+{
+	#ifndef TPM_LED_ON_LEVEL
+
+	#define TPM_LED_ON_LEVEL kTPM_LowTrue
+	#endif
+	#if USER_PWM_NUM == 1
+		tpm_config_t tpmInfo;
+		tpm_chnl_pwm_signal_param_t tpmParam;
+
+		tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
+		tpmParam.level = TPM_LED_ON_LEVEL;
+		tpmParam.dutyCyclePercent = updatedDutycycle;
+
+	#elif USER_PWM_NUM == 2
+		tpm_config_t tpmInfo;
+		tpm_chnl_pwm_signal_param_t tpmParam[2];
+
+	#ifndef TPM_LED_ON_LEVEL
+		  #define TPM_LED_ON_LEVEL kTPM_LowTrue
+	#endif
+	#define BOARD_FIRST_TPM_CHANNEL 0U
+	#define BOARD_SECOND_TPM_CHANNEL 1U
+
+		tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
+		tpmParam[0].level = TPM_LED_ON_LEVEL;
+		tpmParam[0].dutyCyclePercent = updatedDutycycle;
+
+		tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
+		tpmParam[1].level = TPM_LED_ON_LEVEL;
+		tpmParam[1].dutyCyclePercent = updatedDutycycle;
+
+	#else
+		#error "pwm num set err!"
+	#endif
+
+	/* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
+	//    CLOCK_SetTpmClock(1U);
+	CLOCK_SetTpmClock(3U);
+
+	TPM_GetDefaultConfig(&tpmInfo);
+	/* Initialize TPM module */
+	TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
+
+	// redefine ch number by micro, set freq divider here
+	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 500000U, 2000000); //  2M clock source @VLPR
+	TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
+}
+
+
+void user_VLPR(smc_power_state_t *pcurPowerState, app_power_mode_t *ptargetPowerMode,  bool *pneedSetWakeup)
+{
+	*pcurPowerState = SMC_GetPowerModeState(SMC);
+
+//        APP_ShowPowerMode(curPowerState);
+//        user_showFreqList();
+
+    // set default powermode as vlpr
+    if(*pcurPowerState != kSMC_PowerStateVlpr)
+    {
+    	*ptargetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+    }
+    else
+    {
+    	*ptargetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
+    }
+    // A:run, D:vlpr, I:vlls3
+//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
+
+	if ((*ptargetPowerMode > kAPP_PowerModeMin) && (*ptargetPowerMode < kAPP_PowerModeMax))
+	{
+		/* If could not set the target power mode, loop continue. */
+		if (!APP_CheckPowerMode(*pcurPowerState, *ptargetPowerMode))
+		{
+//				PRINTF("\r\n curPowerState %x \r\n", curPowerState);
+//				continue;
+//				break;
+		}
+
+		/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
+		if ((kAPP_PowerModeRun == *ptargetPowerMode) || (kAPP_PowerModeVlpr == *ptargetPowerMode))
+		{
+			*pneedSetWakeup = false;
+		}
+		else
+		{
+			*pneedSetWakeup = true;
+		}
+
+		if (*pneedSetWakeup)
+		{
+			APP_GetWakeupConfig(*ptargetPowerMode);
+		}
+
+		APP_PowerPreSwitchHook(*pcurPowerState, *ptargetPowerMode);
+
+		if (*pneedSetWakeup)
+		{
+			APP_SetWakeupConfig(*ptargetPowerMode);
+		}
+
+		APP_PowerModeSwitch(*pcurPowerState, *ptargetPowerMode);
+		APP_PowerPostSwitchHook(*pcurPowerState, *ptargetPowerMode);
+	}
+
+}
 
 
 #define DEBUG_END
@@ -1054,66 +1160,8 @@ int main(void)
     NVIC_EnableIRQ(LLWU_IRQn);
     NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
-
-    {
-        curPowerState = SMC_GetPowerModeState(SMC);
-
-//        APP_ShowPowerMode(curPowerState);
-//        user_showFreqList();
-
-        // set default powermode as vlpr
-        if(curPowerState != kSMC_PowerStateVlpr)
-        {
-			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-        }
-        else
-        {
-        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-        }
-        // A:run, D:vlpr, I:vlls3
-//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
-
-		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
-		{
-			/* If could not set the target power mode, loop continue. */
-			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
-			{
-//				PRINTF("\r\n curPowerState %x \r\n", curPowerState);
-//				continue;
-//				break;
-			}
-
-			/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
-			if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
-			{
-				needSetWakeup = false;
-			}
-
-			else
-			{
-				needSetWakeup = true;
-			}
-
-			if (needSetWakeup)
-			{
-				APP_GetWakeupConfig(targetPowerMode);
-			}
-
-			APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-
-			if (needSetWakeup)
-			{
-				APP_SetWakeupConfig(targetPowerMode);
-			}
-
-			APP_PowerModeSwitch(curPowerState, targetPowerMode);
-			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-		}
-
-    };
-
-
-
+    // enter vlpr
+    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
     /* Send g_tipString out. */
     xfer.data = g_tipString;
@@ -1198,44 +1246,7 @@ int main(void)
 #ifdef DEBUG_END
 
 
-/*******************************************************************************
- *
- *  pwm init
- *
- *  *******************************************************************************/
-//     tpm config init
-#ifndef TPM_LED_ON_LEVEL
-#define TPM_LED_ON_LEVEL kTPM_LowTrue
-#endif
-#if USER_PWM_NUM == 1
-    tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam;
 
-    tpmParam.chnlNumber = (tpm_chnl_t)BOARD_TPM_CHANNEL;
-    tpmParam.level = TPM_LED_ON_LEVEL;
-    tpmParam.dutyCyclePercent = updatedDutycycle;
-
-#elif USER_PWM_NUM == 2
-    tpm_config_t tpmInfo;
-    tpm_chnl_pwm_signal_param_t tpmParam[2];
-
-#ifndef TPM_LED_ON_LEVEL
-      #define TPM_LED_ON_LEVEL kTPM_LowTrue
-#endif
-#define BOARD_FIRST_TPM_CHANNEL 0U
-#define BOARD_SECOND_TPM_CHANNEL 1U
-
-    tpmParam[0].chnlNumber = (tpm_chnl_t)BOARD_FIRST_TPM_CHANNEL;
-    tpmParam[0].level = TPM_LED_ON_LEVEL;
-    tpmParam[0].dutyCyclePercent = updatedDutycycle;
-
-    tpmParam[1].chnlNumber = (tpm_chnl_t)BOARD_SECOND_TPM_CHANNEL;
-    tpmParam[1].level = TPM_LED_ON_LEVEL;
-    tpmParam[1].dutyCyclePercent = updatedDutycycle;
-
-#else
-    #error "pwm num set err!"
-#endif
 
 /******************************************************************************/
 
@@ -1267,73 +1278,18 @@ int main(void)
     // ptb3 init gpio
     LED1_INIT();
     user_timerInit();
-    while(1);
+
 /******************************************************************************/
-    // debug
-//    while (0)
-    {
-        curPowerState = SMC_GetPowerModeState(SMC);
-
-//        APP_ShowPowerMode(curPowerState);
-//        user_showFreqList();
-
-        // set default powermode as vlpr
-        if(curPowerState != kSMC_PowerStateVlpr)
-        {
-			targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-        }
-        else
-        {
-        		targetPowerMode = (app_power_mode_t)kAPP_PowerModeVlpr;
-        }
-        // A:run, D:vlpr, I:vlls3
-//        PRINTF("\r\nTarget %c \r\n", targetPowerMode);
-
-		if ((targetPowerMode > kAPP_PowerModeMin) && (targetPowerMode < kAPP_PowerModeMax))
-		{
-			/* If could not set the target power mode, loop continue. */
-			if (!APP_CheckPowerMode(curPowerState, targetPowerMode))
-			{
-//				PRINTF("\r\n curPowerState %x \r\n", curPowerState);
-//				continue;
-//				break;
-			}
-
-			/* If target mode is RUN/VLPR/HSRUN, don't need to set wakeup source. */
-			if ((kAPP_PowerModeRun == targetPowerMode) || (kAPP_PowerModeVlpr == targetPowerMode))
-			{
-				needSetWakeup = false;
-			}
-
-			else
-			{
-				needSetWakeup = true;
-			}
-
-			if (needSetWakeup)
-			{
-				APP_GetWakeupConfig(targetPowerMode);
-			}
-
-			APP_PowerPreSwitchHook(curPowerState, targetPowerMode);
-
-			if (needSetWakeup)
-			{
-				APP_SetWakeupConfig(targetPowerMode);
-			}
-
-			APP_PowerModeSwitch(curPowerState, targetPowerMode);
-			APP_PowerPostSwitchHook(curPowerState, targetPowerMode);
-		}
-
-    };
+    // enter vlpr
+    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
     // debug: show state to check
 //    {
+//    	u32 freq;
 //        curPowerState = SMC_GetPowerModeState(SMC);
 //        freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 //        APP_ShowPowerMode(curPowerState);
-
+//
 //    	  user_showFreqList();
 //    }
 
@@ -1342,18 +1298,9 @@ int main(void)
  *  init and run pwm here
  *
  *  *******************************************************************************/
-    /* Select the clock source for the TPM counter as kCLOCK_McgInternalRefClk */
-//    CLOCK_SetTpmClock(1U);
-    CLOCK_SetTpmClock(3U);
+    user_pwmInit();
 
-    TPM_GetDefaultConfig(&tpmInfo);
-    /* Initialize TPM module */
-    TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
-
-    // redefine ch number by micro, set freq divider here
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 500000U, 2000000); //  2M clock source @VLPR
-    TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
-
+    while(1);
 /******************************************************************************/
 
     // debug
