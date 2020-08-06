@@ -136,8 +136,8 @@
 
 //#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
 //#define LPTMR_COMPARE_VALUE (500U) // 8k square  @8M clk
-#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
-
+//#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
+#define LPTMR_COMPARE_VALUE (8000U) // 1ms  @2M clk
 
 
 /*******************************************************************************
@@ -687,10 +687,10 @@ static void LPTMR_InitTriggerSourceOfAdc(LPTMR_Type *base)
     LPTMR_SetTimerPeriod(base, LPTMR_COMPARE_VALUE);
 
     /* Start the LPTimer */
-    LPTMR_StartTimer(base);
+//    LPTMR_StartTimer(base);
 
     /* Configure SIM for ADC hw trigger source selection */
-    BOARD_ConfigTriggerSource();
+//    BOARD_ConfigTriggerSource();
 }
 /*!
  * @brief ADC stop conversion
@@ -914,7 +914,7 @@ void LPTMR_LED_HANDLER(void)
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
 
     // debug
-//    GPIO_PortToggle(GPIOB, 1u << 3U);
+    GPIO_PortToggle(GPIOB, 1u << 3U);
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
@@ -980,6 +980,7 @@ void user_showFreq(void)
 
 }
 
+#define DEBUG_END
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -995,7 +996,7 @@ int main(void)
         NVIC_ClearPendingIRQ(LLWU_IRQn);
     }
 
-
+#ifndef DEBUG_END
     lpuart_config_t config;
     lpuart_transfer_t xfer;
     lpuart_transfer_t sendXfer;
@@ -1170,7 +1171,7 @@ int main(void)
     }
 
 
-
+#endif
 
 
 #ifdef DEBUG_END
@@ -1252,26 +1253,27 @@ int main(void)
 //	GPIO_WritePinOutput(GPIOB, 3U, 0);
 
     /* Calibrate param Temperature sensor */
-    ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
+//    ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
 
     /* Initialize ADC */
-  if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
-  {
-      PRINTF("Failed to do the ADC init\r\n");
-      return -1;
-  }
+//  if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
+//  {
+//      PRINTF("Failed to do the ADC init\r\n");
+//      return -1;
+//  }
     LPTMR_InitTriggerSourceOfAdc(DEMO_LPTMR_BASE);
-    NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
+//    NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
 
 
     // debug timer test
     /* Enable timer interrupt */
-//    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
 
     /* Enable at the NVIC */
-//    EnableIRQ(DEMO_LPTMR_IRQn);
-//    LPTMR_StartTimer(DEMO_LPTMR_BASE);
+    EnableIRQ(DEMO_LPTMR_IRQn);
+    LPTMR_StartTimer(DEMO_LPTMR_BASE);
 
+    while(1);
 /******************************************************************************/
     // debug
 //    while (0)
