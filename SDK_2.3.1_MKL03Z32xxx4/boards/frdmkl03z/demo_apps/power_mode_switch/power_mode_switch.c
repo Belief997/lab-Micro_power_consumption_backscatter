@@ -938,7 +938,7 @@ extern volatile bool txOnGoing;
 extern volatile bool rxOnGoing;
 
 
-#define USER_PWM_NUM  2
+#define USER_PWM_NUM  1
 #define WAKEUP_ENABLE 0
 /*!
  * @brief main demo function.
@@ -979,6 +979,27 @@ void user_showFreq(void)
     }
 
 }
+
+
+void user_timerInit(void)
+{
+	lptmr_config_t lptmrUserConfig;
+
+	LPTMR_GetDefaultConfig(&lptmrUserConfig);
+	/* Init LPTimer driver */
+	LPTMR_Init(DEMO_LPTMR_BASE, &lptmrUserConfig);
+
+	/* Set the LPTimer period */
+	LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, LPTMR_COMPARE_VALUE);
+
+	/* Enable timer interrupt */
+	LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+
+	/* Enable at the NVIC */
+	EnableIRQ(DEMO_LPTMR_IRQn);
+	LPTMR_StartTimer(DEMO_LPTMR_BASE);
+}
+
 
 #define DEBUG_END
 int main(void)
@@ -1227,10 +1248,6 @@ int main(void)
     /* Init output ENABLE GPIO. */
     GPIO_PinInit(GPIOA, 7U, &enable_config);
 
-    // api to write gpio value
-//    GPIO_WritePinOutput(GPIOA, 7U, 1);
-//    GPIO_WritePinOutput(GPIOA, 7U, 0);
-
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
@@ -1249,30 +1266,7 @@ int main(void)
  *  *******************************************************************************/
     // ptb3 init gpio
     LED1_INIT();
-//	GPIO_WritePinOutput(GPIOB, 3U, 1);
-//	GPIO_WritePinOutput(GPIOB, 3U, 0);
-
-    /* Calibrate param Temperature sensor */
-//    ADC16_CalibrateParams(DEMO_ADC16_BASEADDR);
-
-    /* Initialize ADC */
-//  if (!ADC16_InitHardwareTrigger(DEMO_ADC16_BASEADDR))
-//  {
-//      PRINTF("Failed to do the ADC init\r\n");
-//      return -1;
-//  }
-    LPTMR_InitTriggerSourceOfAdc(DEMO_LPTMR_BASE);
-//    NVIC_EnableIRQ(DEMO_ADC16_IRQ_ID);
-
-
-    // debug timer test
-    /* Enable timer interrupt */
-    LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
-
-    /* Enable at the NVIC */
-    EnableIRQ(DEMO_LPTMR_IRQn);
-    LPTMR_StartTimer(DEMO_LPTMR_BASE);
-
+    user_timerInit();
     while(1);
 /******************************************************************************/
     // debug
