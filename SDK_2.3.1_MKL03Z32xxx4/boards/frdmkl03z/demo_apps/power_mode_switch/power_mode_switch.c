@@ -1110,7 +1110,7 @@ int main(void)
     receiveXfer.data = g_rxBuffer;
     receiveXfer.dataSize = ECHO_BUFFER_SIZE;
 
-    u8 uart_rx[32] = "\0";
+    u8 uart_rx[64] = "\0";
     u8 cnt_rx = 0;
     u8 cnt_rx_last = 0;
     u8 cnt_uart_sample = 0;
@@ -1144,13 +1144,14 @@ int main(void)
 
         	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
             {
-        		if(0)
+//        		if(0)
         		{
 
         		}
 
             }
         	cnt_rx_last = cnt_rx;
+        	cnt_uart_sample = 0;
         }
 
 
