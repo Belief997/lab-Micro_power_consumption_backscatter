@@ -1106,6 +1106,16 @@ void user_VLPR(smc_power_state_t *pcurPowerState, app_power_mode_t *ptargetPower
 
 }
 
+void user_gpioInit(void)
+{
+    gpio_pin_config_t config_output_L = {kGPIO_DigitalOutput, 0};
+    gpio_pin_config_t config_output_H = {kGPIO_DigitalOutput, 1};
+    gpio_pin_config_t config_input    = {kGPIO_DigitalInput, 0};
+
+    /* Init output ENABLE GPIO. */
+    GPIO_PinInit(GPIOA, 7U, &config_output_L);
+    GPIO_PinInit(GPIOB, 3U, &config_output_L);
+}
 
 #define DEBUG_END
 int main(void)
@@ -1246,18 +1256,10 @@ int main(void)
 #ifdef DEBUG_END
 
 
-
-
 /******************************************************************************/
-
-    /* Define the init structure for the output ENABLE pin*/
-    gpio_pin_config_t enable_config = {
-        kGPIO_DigitalOutput, 0,
-    };
+    //
     BOARD_InitPins();
-
-    /* Init output ENABLE GPIO. */
-    GPIO_PinInit(GPIOA, 7U, &enable_config);
+    user_gpioInit();
 
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
@@ -1275,8 +1277,6 @@ int main(void)
  *  adc & lptmr init
  *
  *  *******************************************************************************/
-    // ptb3 init gpio
-    LED1_INIT();
     user_timerInit();
 
 /******************************************************************************/
