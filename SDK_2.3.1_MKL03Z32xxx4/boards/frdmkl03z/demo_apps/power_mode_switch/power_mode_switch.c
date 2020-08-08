@@ -899,13 +899,58 @@ void DEMO_ADC16_IRQ_HANDLER_FUNC(void)
 
 #define DEMO_LPTMR_IRQn LPTMR0_IRQn
 #define LPTMR_LED_HANDLER LPTMR0_IRQHandler
+volatile u8 dataBuf[SENSOR_DATA_LEN];
+
+volatile u8 status = STATUS_WAIT_TRIG;
+volatile u8 status_rec = REC_WAIT;
+volatile u8 status_send = SEND_WAIT;
+
 void LPTMR_LED_HANDLER(void)
 //void LPTMR0_IRQHandler(void)
 {
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
 
     // debug
-    GPIO_PortToggle(GPIOB, 1u << 3U);
+//    GPIO_PortToggle(GPIOB, 1u << 3U);
+    if(STATUS_WAIT_SEND == status)
+    {
+    	static u8 cnt_bit = 0;
+    	static u8 cnt_byte = 0;
+    	static u8 checkSum = 0;
+
+    	if(cnt_byte < SENSOR_HEADER_LEN)
+    	{
+    		GPIO_PinWrite(GPIOB, 3U, SENSOR_HEADER & (0x80 >> cnt_bit));
+    		checkSum = 0;
+    	}
+    	else if(cnt_byte < SENSOR_HEADER_LEN + SENSOR_DATA_LEN)
+    	{
+    		GPIO_PinWrite(GPIOB, 3U, dataBuf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
+    		if(!cnt_bit)
+    		{
+    			checkSum += dataBuf[cnt_byte - SENSOR_HEADER_LEN];
+    		}
+    	}
+    	else
+    	{
+			GPIO_PinWrite(GPIOB, 3U, checkSum & (0x80 >> cnt_bit));
+    	}
+
+    	cnt_bit =  (cnt_bit + 1) % 8;
+    	cnt_byte = (cnt_bit == 7)? (cnt_byte + 1) % SENSOR_FRAME_LEN : cnt_byte;
+
+    	if(0 == cnt_bit && 0 == cnt_byte)
+    	{
+    		GPIO_PinWrite(GPIOB, 3U, 0);
+    		status_send = SEND_SUCCESS;
+    	}
+    	else
+    	{
+    		status_send = SEND_WAIT;
+    	}
+    }
+
+
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
@@ -1103,12 +1148,14 @@ void user_gpioInit(void)
     gpio_pin_config_t config_input    = {kGPIO_DigitalInput, 0};
 
     /* Init output ENABLE GPIO. */
+    // GPIOA
     GPIO_PinInit(GPIOA, 7U, &config_output_L);
+    GPIO_PinInit(GPIOA, 5U, &config_output_H);
+
+    // GPIOB
     GPIO_PinInit(GPIOB, 3U, &config_output_L);
+
 }
-
-
-
 
 void delay(void)
 {
@@ -1159,6 +1206,7 @@ int main(void)
     // gpio init
     user_gpioInit();
 
+    // timer init 1ms
     user_timerInit();
 
 
@@ -1211,6 +1259,7 @@ int main(void)
     u8 cnt_rx = 0;
     u8 cnt_rx_last = 0;
     u8 cnt_uart_sample = 0;
+
     while (1)
     {
         /* If g_txBuffer is empty and g_rxBuffer is full, copy g_rxBuffer to g_txBuffer. */
@@ -1241,9 +1290,14 @@ int main(void)
 
         	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
             {
-        		if(0)
+        		if(cnt_rx % 6 == 0)
         		{
-
+        			memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
+        			status_rec = REC_SUCCESS;
+        		}
+        		else
+        		{
+        			status_rec = REC_FAIL;
         		}
         		cnt_rx = 0;
             }
@@ -1258,11 +1312,59 @@ int main(void)
             LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &sendXfer);
         }
 
+        if(STATUS_WAIT_TRIG == status)
+        {
+        	// IDLE
+        	GPIO_PinWrite(GPIOB, 3U, 0);
 
+        	GPIO_PinWrite(GPIOA, 5U, 1);
+        	delay_n(10);
+        	GPIO_PinWrite(GPIOA, 5U, 0);
 
+//        	GPIO_PinWrite(GPIOA, 5U, 1);
 
+        	status = STATUS_WAIT_DATA;
+        	status_rec = REC_WAIT;
+        }
 
+        if(STATUS_WAIT_DATA == status)
+        {
+        	// IDLE
+        	GPIO_PinWrite(GPIOB, 3U, 0);
 
+        	if(REC_SUCCESS == status_rec)
+        	{
+        		GPIO_PinWrite(GPIOA, 5U, 1);
+
+        		status = STATUS_WAIT_SEND;
+				status_rec = REC_WAIT;
+        	}
+        	else if(REC_FAIL == status_rec)
+        	{
+        		GPIO_PinWrite(GPIOA, 5U, 1);
+
+        		status = STATUS_WAIT_TRIG;
+        		status_rec = REC_WAIT;
+        	}
+        	else
+        	{
+        		status = STATUS_WAIT_DATA;
+        	}
+        }
+
+        if(STATUS_WAIT_SEND == status)
+        {
+        	if(SEND_SUCCESS == status_send)
+        	{
+        		status_send = SEND_WAIT;
+        		status = STATUS_WAIT_TRIG;
+        	}
+        	else
+        	{
+        		status = STATUS_WAIT_SEND;
+        	}
+
+        }
 
 
     }

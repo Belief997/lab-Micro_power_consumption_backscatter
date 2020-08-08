@@ -15,6 +15,13 @@
 #define ADC_HEADER  (0xAE >> 1)
 
 
+#define SENSOR_DATA_LEN (6)
+#define SENSOR_HEADER (0XA5)
+#define SENSOR_HEADER_LEN (1)
+#define SENSOR_CHECK_LEN (1)
+#define SENSOR_FRAME_LEN (SENSOR_HEADER_LEN + SENSOR_DATA_LEN + SENSOR_CHECK_LEN) // 1+6+1
+
+
 typedef uint8_t  u8 ;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -23,6 +30,18 @@ typedef enum
 {
 	FALSE = 0,
 	TRUE,
+
+	STATUS_WAIT_TRIG,
+	STATUS_WAIT_DATA,
+	STATUS_WAIT_SEND,
+
+	REC_WAIT,
+	REC_FAIL,
+	REC_SUCCESS,
+
+	SEND_WAIT,
+	SEND_SUCCESS,
+
 }USER_BOOL;
 
 typedef struct
