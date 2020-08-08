@@ -137,8 +137,9 @@
 //#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
 //#define LPTMR_COMPARE_VALUE (500U) // 8k square  @8M clk
 //#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
-#define LPTMR_COMPARE_VALUE (8000U) // 1ms  @2M clk
+//#define LPTMR_COMPARE_VALUE (8000U) // 1ms  @2M clk
 
+#define LPTMR_COMPARE_VALUE (2000U) // 1ms  @2M clk
 
 /*******************************************************************************
  * Prototypes
@@ -650,16 +651,6 @@ void APP_PowerModeSwitch(smc_power_state_t curPowerState, app_power_mode_t targe
     }
 }
 
-void delay(void)
-{
-    volatile uint32_t i = 0;
-    for (i = 0; i < 90000; ++i)
-    {
-        __asm("NOP"); /* delay */
-    }
-}
-
-
 void BOARD_ConfigTriggerSource(void)
 {
     /* Configure SIM for ADC hw trigger source selection */
@@ -945,7 +936,7 @@ extern volatile bool rxOnGoing;
 void user_showFreq(void)
 {
 //	PRINTF("\r\n--------------------------\r\n");
-    PRINTF("kCLOCK_CoreSysClk %d.\r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
+//    PRINTF("kCLOCK_CoreSysClk %d.\r\n", CLOCK_GetFreq(kCLOCK_CoreSysClk));
 //    PRINTF("kCLOCK_PlatClk %d.\r\n", CLOCK_GetFreq(kCLOCK_PlatClk));
 //    PRINTF("kCLOCK_BusClk %d.\r\n", CLOCK_GetFreq(kCLOCK_BusClk));
 //    PRINTF("kCLOCK_FlashClk %d.\r\n", CLOCK_GetFreq(kCLOCK_FlashClk));
@@ -957,6 +948,9 @@ void user_showFreq(void)
 //    PRINTF("kCLOCK_LpoClk %d.\r\n", CLOCK_GetFreq(kCLOCK_LpoClk));
 
 
+	// 2M kCLOCK_CoreSysClk
+	// 2M kCLOCK_McgInternalRefClk
+	// 0  kCLOCK_McgPeriphClk
     u32 freq = CLOCK_GetFreq(kCLOCK_CoreSysClk);
     char buf[32] = "\0";
 
@@ -1113,6 +1107,27 @@ void user_gpioInit(void)
     GPIO_PinInit(GPIOB, 3U, &config_output_L);
 }
 
+
+
+
+void delay(void)
+{
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+}
+
+void delay_n(uint16_t time)
+{
+    volatile uint32_t i = 0;
+    for (i = 0; i < time; ++i)
+    {
+    	delay();
+    }
+}
+
 //#define DEBUG_END
 int main(void)
 {
@@ -1141,7 +1156,10 @@ int main(void)
     BOARD_BootClockRUN();
     CLOCK_SetLpuart0Clock(0x1U);
 
+    // gpio init
+    user_gpioInit();
 
+    user_timerInit();
 
 
     /*
@@ -1179,6 +1197,9 @@ int main(void)
     while (txOnGoing)
     {
     }
+
+
+    user_showFreq();
 
     /* Start to echo. */
     sendXfer.data = g_txBuffer;
@@ -1237,12 +1258,13 @@ int main(void)
             LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &sendXfer);
         }
 
-        /* Delay some time, simulate the app is processing other things, input data save to ring buffer. */
-        i = 0x10U;
-        while (i--)
-        {
-            __NOP();
-        }
+
+
+
+
+
+
+
     }
 
 
@@ -1301,9 +1323,7 @@ int main(void)
         while (1)
         {
             /* Prevents the use of wrong values */
-            while (!conversionCompleted)
-            {
-            }
+            while (!conversionCompleted);
 
 #if WAKEUP_ENABLE
             // hold output for about xxx sec
