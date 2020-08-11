@@ -929,7 +929,7 @@ void LPTMR_LED_HANDLER(void)
 
 
 #define USER_PWM_NUM  2
-#define WAKEUP_ENABLE 1
+#define WAKEUP_ENABLE 0
 /*!
  * @brief main demo function.
  */
@@ -1166,6 +1166,18 @@ int main(void)
 #endif
 
             // debug
+
+//			if(cntBit++ % 2)
+//			{
+//				TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0U);
+//			}
+//			else
+//			{
+//				TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, TPM_LED_ON_LEVEL);
+//			}
+
+#define DEBUG_END
+#ifdef DEBUG_END
 //            if(0)
             {
             	static ADC_PACK adc_pack = {0};
@@ -1189,24 +1201,28 @@ int main(void)
             	// send header
             	if(cntBit < ADC_HEADER_LEN)
             	{
-            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
+//            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
+            		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
             		adc_pack.check = 0;
             	}
             	else if(cntBit < ADC_HEADER_LEN + ADC_DATA_LEN)
             	{
             		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cntBit - 1)) & 0x01;
-            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
+//            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
+            		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, sendBit);
             		adc_pack.check ^= sendBit & 0x01;
             	}
             	else
             	{
-            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
+//            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
+            		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, adc_pack.check);
 //            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
             	}
 
             	cntBit ++;
 //            	PRINTF("%d\n\r", cntBit);
             }
+#endif
             conversionCompleted = false;
 
         }

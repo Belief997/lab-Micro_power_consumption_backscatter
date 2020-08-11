@@ -9,7 +9,7 @@
 #define ADC_HEADER_LEN (7)
 #define ADC_DATA_LEN   (12)
 
-#define ADC_HEADER  (0xAE >> 1)
+#define ADC_HEADER  (0x5E >> 1)
 
 
 typedef uint8_t  u8 ;
