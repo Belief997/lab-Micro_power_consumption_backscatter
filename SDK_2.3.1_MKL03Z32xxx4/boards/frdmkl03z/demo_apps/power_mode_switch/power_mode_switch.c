@@ -52,8 +52,9 @@
 #include "user.h"
 
 
-
-
+#ifndef ECHO_BUFFER_SIZE
+#define ECHO_BUFFER_SIZE 1U
+#endif
 
 
 
@@ -912,44 +913,57 @@ void LPTMR_LED_HANDLER(void)
 
     // debug
 //    GPIO_PortToggle(GPIOB, 1u << 3U);
+    char debug_buf[6]={0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
     if(STATUS_WAIT_SEND == status)
     {
     	static u8 cnt_bit = 0;
     	static u8 cnt_byte = 0;
     	static u8 checkSum = 0;
+    	static u8 islastBit = FALSE;
 
-    	if(cnt_byte < SENSOR_HEADER_LEN)
-    	{
-    		GPIO_PinWrite(GPIOB, 3U, SENSOR_HEADER & (0x80 >> cnt_bit));
-    		checkSum = 0;
-    	}
-    	else if(cnt_byte < SENSOR_HEADER_LEN + SENSOR_DATA_LEN)
-    	{
-    		GPIO_PinWrite(GPIOB, 3U, dataBuf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
-    		if(!cnt_bit)
-    		{
-    			checkSum += dataBuf[cnt_byte - SENSOR_HEADER_LEN];
-    		}
-    	}
-    	else
-    	{
-			GPIO_PinWrite(GPIOB, 3U, checkSum & (0x80 >> cnt_bit));
-    	}
+    	do{
+			if(islastBit)
+			{
+				islastBit = FALSE;
+				GPIO_PinWrite(GPIOB, 3U, 0);
+				status_send = SEND_SUCCESS;
+				break;
+			}
 
-    	cnt_bit =  (cnt_bit + 1) % 8;
-    	cnt_byte = (cnt_bit == 7)? (cnt_byte + 1) % SENSOR_FRAME_LEN : cnt_byte;
+			if(cnt_byte < SENSOR_HEADER_LEN)
+			{
+				GPIO_PinWrite(GPIOB, 3U, SENSOR_HEADER & (0x80 >> cnt_bit));
+				checkSum = 0;
+			}
+			else if(cnt_byte < SENSOR_HEADER_LEN + SENSOR_DATA_LEN)
+			{
+	//    		GPIO_PinWrite(GPIOB, 3U, dataBuf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
+				GPIO_PinWrite(GPIOB, 3U, debug_buf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
+				if(!cnt_bit)
+				{
+	//    			checkSum += dataBuf[cnt_byte - SENSOR_HEADER_LEN];
+					checkSum += debug_buf[cnt_byte - SENSOR_HEADER_LEN];
+				}
+			}
+			else
+			{
+				GPIO_PinWrite(GPIOB, 3U, checkSum & (0x80 >> cnt_bit));
+			}
 
-    	if(0 == cnt_bit && 0 == cnt_byte)
-    	{
-    		GPIO_PinWrite(GPIOB, 3U, 0);
-    		status_send = SEND_SUCCESS;
-    	}
-    	else
-    	{
-    		status_send = SEND_WAIT;
-    	}
+			cnt_byte = (cnt_bit == 7)? (cnt_byte + 1) % SENSOR_FRAME_LEN : cnt_byte;
+			cnt_bit =  (cnt_bit + 1) % 8;
+
+			if(0 == cnt_bit && 0 == cnt_byte)
+			{
+				islastBit = TRUE;
+			}
+			else
+			{
+				status_send = SEND_WAIT;
+			}
+			break;
+    	}while(1);
     }
-
 
 
     /*
@@ -1290,7 +1304,8 @@ int main(void)
 
         	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
             {
-        		if(cnt_rx % 6 == 0)
+//        		if(cnt_rx % 6 == 0)
+        		if(cnt_rx >= 6)
         		{
         			memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
         			status_rec = REC_SUCCESS;

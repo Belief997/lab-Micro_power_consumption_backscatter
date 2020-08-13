@@ -39,6 +39,7 @@ typedef enum
 	REC_FAIL,
 	REC_SUCCESS,
 
+	SEND_IDLE,
 	SEND_WAIT,
 	SEND_SUCCESS,
 
