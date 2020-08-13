@@ -136,7 +136,9 @@
 
 //#define LPTMR_COMPARE_VALUE (500U) /* Low Power Timer interrupt time in miliseconds */
 //#define LPTMR_COMPARE_VALUE (500U) // 8k square  @8M clk
-#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
+//#define LPTMR_COMPARE_VALUE (2000U) // 500 square  @2M clk
+//#define LPTMR_COMPARE_VALUE (2000000U) // 500 square  @2M clk
+#define LPTMR_COMPARE_VALUE (1000U) // 1bps
 
 
 
@@ -1192,7 +1194,8 @@ int main(void)
             	if(cntBit % ADC_PACK_LEN == 0)
             	{
             		adc_pack.header = ADC_HEADER;
-            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
+//            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
+            		adc_pack.data = adc.adcValue > 2048 ? 0xc53 : 0xc5a;
             		adc_sum = 0;
 
             		cntBit = 0;
