@@ -913,7 +913,7 @@ void LPTMR_LED_HANDLER(void)
 
     // debug
 //    GPIO_PortToggle(GPIOB, 1u << 3U);
-    char debug_buf[6]={0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
+//    char debug_buf[6]={0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
     if(STATUS_WAIT_SEND == status)
     {
     	static u8 cnt_bit = 0;
@@ -937,12 +937,12 @@ void LPTMR_LED_HANDLER(void)
 			}
 			else if(cnt_byte < SENSOR_HEADER_LEN + SENSOR_DATA_LEN)
 			{
-	//    		GPIO_PinWrite(GPIOB, 3U, dataBuf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
-				GPIO_PinWrite(GPIOB, 3U, debug_buf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
+	    		GPIO_PinWrite(GPIOB, 3U, dataBuf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
+//				GPIO_PinWrite(GPIOB, 3U, debug_buf[cnt_byte - SENSOR_HEADER_LEN] & (0x80 >> cnt_bit));
 				if(!cnt_bit)
 				{
-	//    			checkSum += dataBuf[cnt_byte - SENSOR_HEADER_LEN];
-					checkSum += debug_buf[cnt_byte - SENSOR_HEADER_LEN];
+	    			checkSum += dataBuf[cnt_byte - SENSOR_HEADER_LEN];
+//					checkSum += debug_buf[cnt_byte - SENSOR_HEADER_LEN];
 				}
 			}
 			else
@@ -1294,29 +1294,53 @@ int main(void)
                 rxBufferEmpty = false;
                 rxOnGoing = false;
             }
-            memcpy(uart_rx + cnt_rx, g_rxBuffer, 1);
+//            memcpy(uart_rx + cnt_rx, g_rxBuffer, 1);
+            uart_rx[cnt_rx] = g_rxBuffer[0];
             cnt_rx++;
-
         }
 
-        if(cnt_uart_sample ++ >= 100)
-        {
+//        if(cnt_uart_sample ++ >= 100)
+//        {
+//
+//        	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
+//            {
+////        		if(cnt_rx % 6 == 0)
+//        		if(cnt_rx >= 6)
+//        		{
+//        			memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
+//        			status_rec = REC_SUCCESS;
+//        		}
+//        		else
+//        		{
+//        			status_rec = REC_FAIL;
+//        		}
+//        		cnt_rx = 0;
+//            }
+//        	cnt_rx_last = cnt_rx;
+//        }
 
-        	if(cnt_rx == cnt_rx_last && cnt_rx != 0)
-            {
-//        		if(cnt_rx % 6 == 0)
-        		if(cnt_rx >= 6)
-        		{
-        			memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
-        			status_rec = REC_SUCCESS;
-        		}
-        		else
-        		{
-        			status_rec = REC_FAIL;
-        		}
-        		cnt_rx = 0;
-            }
-        	cnt_rx_last = cnt_rx;
+
+        if(STATUS_WAIT_DATA == status)
+        {
+			if(cnt_rx == 6)
+			{
+				memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
+				status_rec = REC_SUCCESS;
+				cnt_rx = 0;
+			}
+			else if(cnt_rx > 6)
+			{
+				status_rec = REC_FAIL;
+				cnt_rx = 0;
+			}
+			else
+			{
+				status_rec = REC_WAIT;
+			}
+        }
+        else
+        {
+        	cnt_rx = 0;
         }
 
 
