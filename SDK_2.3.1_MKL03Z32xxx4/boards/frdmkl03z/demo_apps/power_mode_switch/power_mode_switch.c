@@ -1273,6 +1273,7 @@ int main(void)
     u8 cnt_rx = 0;
     u8 cnt_rx_last = 0;
     u8 cnt_uart_sample = 0;
+    u32 cnt_overTime = 0;
 
     while (1)
     {
@@ -1328,30 +1329,30 @@ int main(void)
 				memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
 				status_rec = REC_SUCCESS;
 				cnt_rx = 0;
-				cnt_uart_sample = 0;
+				cnt_overTime = 0;
 			}
 			else if(cnt_rx > 6)
 			{
 				status_rec = REC_FAIL;
 				cnt_rx = 0;
-				cnt_uart_sample = 0;
+				cnt_overTime = 0;
 			}
 			else
 			{
-				cnt_uart_sample ++ ;
+				cnt_overTime ++ ;
 				status_rec = REC_WAIT;
-				if(cnt_uart_sample > 999999)
+				if(cnt_overTime > 50000) // 6s
 				{
 					status_rec = REC_FAIL;
 					cnt_rx = 0;
-					cnt_uart_sample = 0;
+					cnt_overTime = 0;
 				}
 			}
         }
         else
         {
         	cnt_rx = 0;
-        	cnt_uart_sample = 0;
+        	cnt_overTime = 0;
         }
 
 
@@ -1368,7 +1369,7 @@ int main(void)
         	GPIO_PinWrite(GPIOB, 3U, 0);
 
         	GPIO_PinWrite(GPIOA, 5U, 1);
-        	delay_n(100);
+        	delay_n(100); // 2ms
         	GPIO_PinWrite(GPIOA, 5U, 0);
 
 //        	GPIO_PinWrite(GPIOA, 5U, 1);
