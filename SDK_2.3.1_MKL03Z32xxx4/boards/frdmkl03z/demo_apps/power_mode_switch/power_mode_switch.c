@@ -1164,7 +1164,7 @@ void user_gpioInit(void)
     /* Init output ENABLE GPIO. */
     // GPIOA
     GPIO_PinInit(GPIOA, 7U, &config_output_L);
-    GPIO_PinInit(GPIOA, 5U, &config_output_H);
+    GPIO_PinInit(GPIOA, 5U, &config_output_L);
 
     // GPIOB
     GPIO_PinInit(GPIOB, 3U, &config_output_L);
@@ -1322,25 +1322,36 @@ int main(void)
 
         if(STATUS_WAIT_DATA == status)
         {
+
 			if(cnt_rx == 6)
 			{
 				memcpy(dataBuf, uart_rx, SENSOR_DATA_LEN);
 				status_rec = REC_SUCCESS;
 				cnt_rx = 0;
+				cnt_uart_sample = 0;
 			}
 			else if(cnt_rx > 6)
 			{
 				status_rec = REC_FAIL;
 				cnt_rx = 0;
+				cnt_uart_sample = 0;
 			}
 			else
 			{
+				cnt_uart_sample ++ ;
 				status_rec = REC_WAIT;
+				if(cnt_uart_sample > 999999)
+				{
+					status_rec = REC_FAIL;
+					cnt_rx = 0;
+					cnt_uart_sample = 0;
+				}
 			}
         }
         else
         {
         	cnt_rx = 0;
+        	cnt_uart_sample = 0;
         }
 
 
@@ -1357,7 +1368,7 @@ int main(void)
         	GPIO_PinWrite(GPIOB, 3U, 0);
 
         	GPIO_PinWrite(GPIOA, 5U, 1);
-        	delay_n(10);
+        	delay_n(100);
         	GPIO_PinWrite(GPIOA, 5U, 0);
 
 //        	GPIO_PinWrite(GPIOA, 5U, 1);
