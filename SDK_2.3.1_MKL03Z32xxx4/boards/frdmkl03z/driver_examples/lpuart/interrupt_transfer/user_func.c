@@ -88,12 +88,12 @@ void dac_init(void)
     gpio_pin_config_t config = {0};
 
 
-//    {
-//        //
-//        config.pinDirection = kGPIO_DigitalOutput;
-//        config.outputLogic = GPIO_H;
-//        GPIO_PinInit(GPIOB, 1, &config);
-//    }
+    {
+        //
+        config.pinDirection = kGPIO_DigitalOutput;
+        config.outputLogic = GPIO_H;
+        GPIO_PinInit(GPIOB, 1, &config);
+    }
 
     // DOUT
     config.pinDirection = kGPIO_DigitalInput;
@@ -243,14 +243,15 @@ void dac_test(void)
 
 // Timer
 
-//#define TIMER_DEBUG
+#define TIMER_DEBUG
 #define DEMO_LPTMR_BASE LPTMR0
 #define DEMO_LPTMR_IRQn LPTMR0_IRQn
 #define LPTMR_HANDLER LPTMR0_IRQHandler
 /* Get source clock for LPTMR driver */
 #define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
 /* Define LPTMR microseconds counts value */
-#define LPTMR_USEC_COUNT 250000U
+//#define LPTMR_USEC_COUNT 250000U // 1k 1s
+#define LPTMR_USEC_COUNT 10000U // 8M 8ms 250000U
 
 //#define TIMER_DEBUG
 #ifdef TIMER_DEBUG
@@ -263,15 +264,15 @@ void LPTMR_HANDLER(void)
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
 
     static u8 cnt = 0;
-//    LED_TOGGLE();
+    LED_TOGGLE();
     // input high: output square, input low: output power
     if(GPIO_PinRead(GPIOB, PIN_MOD))
     {
-		if(++cnt % 2 == 0)
+		if(++cnt % 1 == 0)
 		{
 //	    	LED_TOGGLE();
 			adc_value = adc_low;
-			if(cnt % 4 == 0)
+			if(cnt % 2 == 0)
 			{
 //				LED_TOGGLE();
 				adc_value = adc_high;
@@ -319,7 +320,8 @@ void timer_init(void)
      * Set timer period.
      * Note : the parameter "ticks" of LPTMR_SetTimerPeriod should be equal or greater than 1.
     */
-    LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
+//    LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
+    LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, USEC_TO_COUNT(LPTMR_USEC_COUNT, 8000000));
 
     /* Enable timer interrupt */
     LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
@@ -329,4 +331,25 @@ void timer_init(void)
 
     /* Start counting */
     LPTMR_StartTimer(DEMO_LPTMR_BASE);
+}
+
+//#define LPTMR_COMPARE_VALUE (2000U) // 1ms  @2M clk   250us @48M clk
+#define LPTMR_COMPARE_VALUE (4000U) // 500us @48M clk
+void user_timerInit(void)
+{
+	lptmr_config_t lptmrUserConfig;
+
+	LPTMR_GetDefaultConfig(&lptmrUserConfig);
+	/* Init LPTimer driver */
+	LPTMR_Init(DEMO_LPTMR_BASE, &lptmrUserConfig);
+
+	/* Set the LPTimer period */
+	LPTMR_SetTimerPeriod(DEMO_LPTMR_BASE, LPTMR_COMPARE_VALUE);
+
+	/* Enable timer interrupt */
+	LPTMR_EnableInterrupts(DEMO_LPTMR_BASE, kLPTMR_TimerInterruptEnable);
+
+	/* Enable at the NVIC */
+	EnableIRQ(DEMO_LPTMR_IRQn);
+	LPTMR_StartTimer(DEMO_LPTMR_BASE);
 }

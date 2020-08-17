@@ -92,7 +92,7 @@ void BOARD_InitPins(void)
 
     PORT_SetPinMux(PORTB, 3U, kPORT_MuxAsGpio); // MOD
 
-//    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(PORTB, 1U, kPORT_MuxAsGpio);
 //    PORT_SetPinMux(PORTB, 2U, kPORT_MuxAsGpio);
 
     SIM->SOPT5 = ((SIM->SOPT5 &

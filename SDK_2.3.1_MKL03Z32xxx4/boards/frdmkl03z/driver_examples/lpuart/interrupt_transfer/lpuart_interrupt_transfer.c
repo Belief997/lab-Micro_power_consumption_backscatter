@@ -53,6 +53,11 @@ extern volatile bool txOnGoing ;
 extern volatile bool rxOnGoing ;
 #endif
 
+
+
+
+
+
 // adc voltage mV
 volatile float adc_high = 100.f;
 volatile float adc_low = 0.f;
@@ -75,12 +80,18 @@ int main(void)
 //    dac_test();
 
 // TIMER
-    timer_init();
+//    timer_init();
+    user_timerInit();
 
+    float adc_value_last = 0.f;
     while(1)
     {
-    	// set dac voltage by mV with a shift voltage
-    	dac_setVol(adc_value, 0.f);
+    	if(adc_value_last != adc_value)
+    	{
+    		// set dac voltage by mV with a shift voltage
+    		dac_setVol(adc_value, 0.f);
+    		adc_value_last = adc_value;
+    	}
     }
 
 
