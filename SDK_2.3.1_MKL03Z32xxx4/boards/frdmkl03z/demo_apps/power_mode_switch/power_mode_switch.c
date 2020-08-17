@@ -906,6 +906,9 @@ volatile u8 status = STATUS_WAIT_TRIG;
 volatile u8 status_rec = REC_WAIT;
 volatile u8 status_send = SEND_WAIT;
 
+volatile u32 cntBit = 0;
+volatile u8 cntByte = 0;
+volatile u8 iovalue = 0;
 void LPTMR_LED_HANDLER(void)
 //void LPTMR0_IRQHandler(void)
 {
@@ -913,6 +916,8 @@ void LPTMR_LED_HANDLER(void)
 
     // debug
 //    GPIO_PortToggle(GPIOB, 1u << 3U);
+
+#if 0
 //    char debug_buf[6]={0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
     if(STATUS_WAIT_SEND == status)
     {
@@ -965,6 +970,24 @@ void LPTMR_LED_HANDLER(void)
     	}while(1);
     }
 
+#endif
+
+
+    // debug
+	{
+
+	    u32 dataBuff[10] = {0x00,0xaaaaaaaa,0xaac32987, 0xec765400};
+//		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
+//		u32 tempMask = 0x80000000 >> cntBit;
+		u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
+//		u8  iovalue = dataBuff[cntByte] & tempMask;
+
+		iovalue = tempvalue & 0x01;
+//		GPIO_PinWrite(GPIOB, 3U, iovalue);
+
+		cntByte = (cntBit == 31)? (cntByte + 1) % (sizeof(dataBuff)/4) : cntByte;
+		cntBit =  (cntBit + 1) % 32;
+	}
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
@@ -1094,7 +1117,7 @@ void user_pwmInit(void)
 	TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
 	// redefine ch number by micro, set freq divider here
-	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 500000U, 2000000); //  2M clock source @VLPR
+	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 150000U, 2000000); //  2M clock source @VLPR
 	TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 }
 
@@ -1167,7 +1190,8 @@ void user_gpioInit(void)
     GPIO_PinInit(GPIOA, 5U, &config_output_L);
 
     // GPIOB
-    GPIO_PinInit(GPIOB, 3U, &config_output_L);
+//    GPIO_PinInit(GPIOB, 3U, &config_output_L);
+    GPIO_PinInit(GPIOB, 3U, &config_input);
 
 }
 
@@ -1189,7 +1213,7 @@ void delay_n(uint16_t time)
     }
 }
 
-//#define DEBUG_END
+#define DEBUG_END
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -1462,7 +1486,6 @@ int main(void)
 // pwm init
     user_pwmInit();
 
-    while(1);
 /******************************************************************************/
 
     // debug
@@ -1472,11 +1495,15 @@ int main(void)
 #define SLEEP_CNT 990000
     	u32 debug_cnt = 0;
 #endif
-    	u8 cntBit = 0;
+
+    	u8 last_io = 0;
         while (1)
         {
-            /* Prevents the use of wrong values */
-            while (!conversionCompleted);
+        	if(iovalue != last_io)
+        	{
+        		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, iovalue);
+        		last_io = iovalue;
+        	}
 
 #if WAKEUP_ENABLE
             // hold output for about xxx sec
@@ -1494,49 +1521,6 @@ int main(void)
 
 #endif
 
-            // debug
-//            if(0)
-            {
-            	static ADC_PACK adc_pack = {0};
-            	static u32 adc_sum = 0;
-
-            	ADC_DATA adc = {0};
-
-            	data_dequeueadc(&adc);
-            	adc_sum += adc.adcValue;
-
-            	// 第一次发或发完一帧
-            	if(cntBit % ADC_PACK_LEN == 0)
-            	{
-            		adc_pack.header = ADC_HEADER;
-            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
-            		adc_sum = 0;
-
-            		cntBit = 0;
-            	}
-
-            	// send header
-            	if(cntBit < ADC_HEADER_LEN)
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
-            		adc_pack.check = 0;
-            	}
-            	else if(cntBit < ADC_HEADER_LEN + ADC_DATA_LEN)
-            	{
-            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cntBit - 1)) & 0x01;
-            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
-            		adc_pack.check ^= sendBit & 0x01;
-            	}
-            	else
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
-//            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
-            	}
-
-            	cntBit ++;
-//            	PRINTF("%d\n\r", cntBit);
-            }
-            conversionCompleted = false;
 
         }
 
