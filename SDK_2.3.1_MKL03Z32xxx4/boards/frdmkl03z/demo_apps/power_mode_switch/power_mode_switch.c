@@ -1482,7 +1482,7 @@ int main(void)
 //    user_timerInit();
 
  // enter vlpr
-//    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
+    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
     // debug: show state to check
 //    {
