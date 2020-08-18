@@ -48,6 +48,7 @@
 #include "fsl_pmc.h"
 
 #include "fsl_tpm.h"
+#include "fsl_i2c.h"
 
 #include "user.h"
 
@@ -1189,7 +1190,40 @@ void delay_n(uint16_t time)
     }
 }
 
-//#define DEBUG_END
+/* I2C source clock */
+#define I2C_MASTER_CLK_SRC I2C0_CLK_SRC
+#define I2C_MASTER_CLK_FREQ CLOCK_GetFreq(I2C0_CLK_SRC)
+#define EXAMPLE_I2C_MASTER_BASEADDR I2C0
+
+#define I2C_MASTER_SLAVE_ADDR_7BIT 0x7EU
+#define I2C_BAUDRATE 100000U
+#define I2C_DATA_LENGTH 33U
+
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+
+uint8_t g_master_txBuff[I2C_DATA_LENGTH];
+uint8_t g_master_rxBuff[I2C_DATA_LENGTH];
+i2c_master_handle_t g_m_handle;
+volatile bool g_MasterCompletionFlag = false;
+
+static void i2c_master_callback(I2C_Type *base, i2c_master_handle_t *handle, status_t status, void *userData)
+{
+    /* Signal transfer success when received success status. */
+    if (status == kStatus_Success)
+    {
+        g_MasterCompletionFlag = true;
+    }
+}
+
+
+
+#define DEBUG_END
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -1430,7 +1464,8 @@ int main(void)
 /******************************************************************************/
     //
     BOARD_InitPins();
-    user_gpioInit();
+//    BOARD_I2C_ConfigurePins();
+//    user_gpioInit();
 
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
@@ -1444,10 +1479,10 @@ int main(void)
     }
 
 // lptmr init
-    user_timerInit();
+//    user_timerInit();
 
  // enter vlpr
-    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
+//    user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
     // debug: show state to check
 //    {
@@ -1460,10 +1495,23 @@ int main(void)
 //    }
 
 // pwm init
-    user_pwmInit();
+//    user_pwmInit();
 
-    while(1);
+    // iic init
+
+
 /******************************************************************************/
+
+    while(1)
+    {
+
+
+
+
+
+
+
+    }
 
     // debug
 //    user_showFreqList();
@@ -1472,11 +1520,8 @@ int main(void)
 #define SLEEP_CNT 990000
     	u32 debug_cnt = 0;
 #endif
-    	u8 cntBit = 0;
         while (1)
         {
-            /* Prevents the use of wrong values */
-            while (!conversionCompleted);
 
 #if WAKEUP_ENABLE
             // hold output for about xxx sec
@@ -1495,48 +1540,7 @@ int main(void)
 #endif
 
             // debug
-//            if(0)
-            {
-            	static ADC_PACK adc_pack = {0};
-            	static u32 adc_sum = 0;
 
-            	ADC_DATA adc = {0};
-
-            	data_dequeueadc(&adc);
-            	adc_sum += adc.adcValue;
-
-            	// 第一次发或发完一帧
-            	if(cntBit % ADC_PACK_LEN == 0)
-            	{
-            		adc_pack.header = ADC_HEADER;
-            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
-            		adc_sum = 0;
-
-            		cntBit = 0;
-            	}
-
-            	// send header
-            	if(cntBit < ADC_HEADER_LEN)
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
-            		adc_pack.check = 0;
-            	}
-            	else if(cntBit < ADC_HEADER_LEN + ADC_DATA_LEN)
-            	{
-            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cntBit - 1)) & 0x01;
-            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
-            		adc_pack.check ^= sendBit & 0x01;
-            	}
-            	else
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
-//            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
-            	}
-
-            	cntBit ++;
-//            	PRINTF("%d\n\r", cntBit);
-            }
-            conversionCompleted = false;
 
         }
 
