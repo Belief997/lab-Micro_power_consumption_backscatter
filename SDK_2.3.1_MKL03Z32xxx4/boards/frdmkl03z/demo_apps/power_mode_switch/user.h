@@ -96,7 +96,12 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 
 
 
+#define I2C_DATA_LENGTH 33U
 
+u8 user_isIICSendDone(void);
+void user_setIICSendDone(u8 isDone);
+void user_i2c_init();
+void user_iicSend(u8 *pbuff, u8 dataSize);
 
 #endif
 

@@ -1190,92 +1190,6 @@ void delay_n(uint16_t time)
     }
 }
 
-/* I2C source clock */
-#define I2C_MASTER_CLK_SRC I2C0_CLK_SRC
-#define I2C_MASTER_CLK_FREQ CLOCK_GetFreq(I2C0_CLK_SRC)
-#define EXAMPLE_I2C_MASTER_BASEADDR I2C0
-
-#define I2C_MASTER_SLAVE_ADDR_7BIT 0x7EU
-#define I2C_BAUDRATE 100000U
-#define I2C_DATA_LENGTH 33U
-
-/*******************************************************************************
- * Prototypes
- ******************************************************************************/
-
-/*******************************************************************************
- * Variables
- ******************************************************************************/
-
-uint8_t g_master_txBuff[I2C_DATA_LENGTH];
-uint8_t g_master_rxBuff[I2C_DATA_LENGTH];
-i2c_master_handle_t g_m_handle;
-volatile bool g_MasterCompletionFlag = false;
-static i2c_master_transfer_t IIC_masterXfer;
-
-
-static void i2c_master_callback(I2C_Type *base, i2c_master_handle_t *handle, status_t status, void *userData)
-{
-    /* Signal transfer success when received success status. */
-    if (status == kStatus_Success)
-    {
-        g_MasterCompletionFlag = true;
-    }
-}
-
-void user_i2c_init(i2c_master_transfer_t *pIIC_masterXfer)
-{
-	// iic init
-	BOARD_I2C_ConfigurePins();
-	i2c_master_config_t masterConfig;
-	uint32_t sourceClock;
-	i2c_master_transfer_t *pmasterXfer;
-	pmasterXfer = pIIC_masterXfer;
-	PRINTF("\r\nI2C board2board interrupt example -- Master transfer.\r\n");
-
-	/* Set up i2c master to send data to slave*/
-
-	/*
-	 * masterConfig->baudRate_Bps = 100000U;
-	 * masterConfig->enableStopHold = false;
-	 * masterConfig->glitchFilterWidth = 0U;
-	 * masterConfig->enableMaster = true;
-	 */
-	I2C_MasterGetDefaultConfig(&masterConfig);
-	masterConfig.baudRate_Bps = I2C_BAUDRATE;
-
-	sourceClock = I2C_MASTER_CLK_FREQ;
-
-	I2C_MasterInit(EXAMPLE_I2C_MASTER_BASEADDR, &masterConfig, sourceClock);
-
-	memset(&g_m_handle, 0, sizeof(g_m_handle));
-	memset(pmasterXfer, 0, sizeof(i2c_master_transfer_t));
-
-	/* subAddress = 0x01, data = g_master_txBuff - write to slave.
-	  start + slaveaddress(w) + subAddress + length of data buffer + data buffer + stop*/
-	uint8_t deviceAddress = 0x01U;
-	pmasterXfer->slaveAddress = I2C_MASTER_SLAVE_ADDR_7BIT;//  <<1
-	pmasterXfer->direction = kI2C_Write;
-	pmasterXfer->subaddress = (uint32_t)deviceAddress;
-	pmasterXfer->subaddressSize = 1;
-//		pmasterXfer->data = g_master_txBuff;
-//		pmasterXfer->dataSize = I2C_DATA_LENGTH;
-	pmasterXfer->flags = kI2C_TransferDefaultFlag;
-
-	I2C_MasterTransferCreateHandle(EXAMPLE_I2C_MASTER_BASEADDR, &g_m_handle, i2c_master_callback, NULL);
-}
-
-
-void 	user_iicSend(u8 *pbuff, u8 dataSize)
-{
-	g_master_txBuff[0] = dataSize;
-	memcpy(g_master_txBuff + 1, pbuff, dataSize);
-	IIC_masterXfer.data = g_master_txBuff;
-	IIC_masterXfer.dataSize = dataSize + 1;
-	I2C_MasterTransferNonBlocking(EXAMPLE_I2C_MASTER_BASEADDR, &g_m_handle, &IIC_masterXfer);
-
-}
-
 #define DEBUG_END
 int main(void)
 {
@@ -1552,7 +1466,7 @@ int main(void)
 
 #define IIC_TEST
 
-    user_i2c_init(&IIC_masterXfer);
+    user_i2c_init();
 
     u8 iic_buffer[I2C_DATA_LENGTH] = {0};
     u8 iic_dataSize = I2C_DATA_LENGTH-1;
@@ -1578,10 +1492,10 @@ int main(void)
     while(1)
     {
     	user_iicSend(iic_buffer, iic_dataSize);
-        while (!g_MasterCompletionFlag)
+        while (!user_isIICSendDone())
         {
         }
-        g_MasterCompletionFlag = false;
+        user_setIICSendDone(false);
 
         delay_n(99999999);
         PRINTF("MASTER sent data TO slave Once...\r\n");
