@@ -118,6 +118,12 @@ int main(void)
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
 
+
+
+
+
+
+
     PRINTF("\r\nI2C board2board interrupt example -- Slave transfer.\r\n\r\n");
 
     /*1.Set up i2c slave first*/

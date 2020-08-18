@@ -1470,27 +1470,53 @@ int main(void)
 
     u8 iic_buffer[I2C_DATA_LENGTH] = {0};
     u8 iic_dataSize = I2C_DATA_LENGTH-1;
-	for (uint32_t i = 0U; i < iic_dataSize; i++)
-	{
-		iic_buffer[i] = i;
-	}
+//	for (uint32_t i = 0U; i < iic_dataSize; i++)
+//	{
+//		iic_buffer[i] = i;
+//	}
 
-	PRINTF("Master will send data :");
-	for (uint32_t i = 0U; i < iic_dataSize; i++)
-	{
-		if (i % 8 == 0)
-		{
-			PRINTF("\r\n");
-		}
-		PRINTF("0x%2x  ", iic_buffer[i + 1]);
-	}
-	PRINTF("\r\n\r\n");
+//	PRINTF("Master will send data :");
+//	for (uint32_t i = 0U; i < iic_dataSize; i++)
+//	{
+//		if (i % 8 == 0)
+//		{
+//			PRINTF("\r\n");
+//		}
+//		PRINTF("0x%2x  ", iic_buffer[i + 1]);
+//	}
+//	PRINTF("\r\n\r\n");
 
 
 /******************************************************************************/
-
+	u8 cnt=0;
     while(1)
     {
+    	if(cnt++ % 2)
+    	{
+    		for (uint32_t i = 0U; i < iic_dataSize; i++)
+    		{
+    			iic_buffer[i] = i;
+    		}
+    	}
+    	else
+    	{
+    		for (uint32_t i = 0U; i < iic_dataSize; i++)
+    		{
+    			iic_buffer[i] = iic_dataSize - 1 - i;
+    		}
+    	}
+
+    	PRINTF("Master will send data :");
+    	for (uint32_t i = 0U; i < iic_dataSize; i++)
+    	{
+    		if (i % 8 == 0)
+    		{
+    			PRINTF("\r\n");
+    		}
+    		PRINTF("0x%2x  ", iic_buffer[i + 1]);
+    	}
+    	PRINTF("\r\n\r\n");
+
     	user_iicSend(iic_buffer, iic_dataSize);
         while (!user_isIICSendDone())
         {
