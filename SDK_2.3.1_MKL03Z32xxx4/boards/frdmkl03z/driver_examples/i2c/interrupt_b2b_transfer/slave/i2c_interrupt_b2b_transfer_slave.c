@@ -145,6 +145,9 @@ int main(void)
 
     I2C_SlaveTransferCreateHandle(EXAMPLE_I2C_SLAVE_BASEADDR, &g_s_handle, i2c_slave_callback, NULL);
 
+    while(1)
+    {
+    	PRINTF("Slave wait data :\r\n");
     /* Set up slave transfer. */
     I2C_SlaveTransferNonBlocking(EXAMPLE_I2C_SLAVE_BASEADDR, &g_s_handle,
                                  kI2C_SlaveCompletionEvent | kI2C_SlaveAddressMatchEvent);
@@ -166,15 +169,15 @@ int main(void)
     }
     PRINTF("\r\n\r\n");
 
-    /* Wait for master receive completed.*/
-    while (!g_SlaveCompletionFlag)
-    {
+//    /* Wait for master receive completed.*/
+//    while (!g_SlaveCompletionFlag)
+//    {
+//    }
+//    g_SlaveCompletionFlag = false;
+//
+//    PRINTF("\r\nEnd of I2C example .\r\n");
     }
-    g_SlaveCompletionFlag = false;
-
-    PRINTF("\r\nEnd of I2C example .\r\n");
-
-    while (1)
-    {
-    }
+//    while (1)
+//    {
+//    }
 }
