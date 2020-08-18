@@ -1438,7 +1438,7 @@ int main(void)
     APP_InitDefaultDebugConsole();
 
     NVIC_EnableIRQ(LLWU_IRQn);
-    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+//    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
     if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
     {
@@ -1470,21 +1470,6 @@ int main(void)
 
     u8 iic_buffer[I2C_DATA_LENGTH] = {0};
     u8 iic_dataSize = I2C_DATA_LENGTH-1;
-//	for (uint32_t i = 0U; i < iic_dataSize; i++)
-//	{
-//		iic_buffer[i] = i;
-//	}
-
-//	PRINTF("Master will send data :");
-//	for (uint32_t i = 0U; i < iic_dataSize; i++)
-//	{
-//		if (i % 8 == 0)
-//		{
-//			PRINTF("\r\n");
-//		}
-//		PRINTF("0x%2x  ", iic_buffer[i + 1]);
-//	}
-//	PRINTF("\r\n\r\n");
 
 
 /******************************************************************************/
@@ -1513,7 +1498,7 @@ int main(void)
     		{
     			PRINTF("\r\n");
     		}
-    		PRINTF("0x%2x  ", iic_buffer[i + 1]);
+    		PRINTF("0x%2x  ", iic_buffer[i]);
     	}
     	PRINTF("\r\n\r\n");
 
@@ -1529,6 +1514,7 @@ int main(void)
 
     // debug
 //    user_showFreqList();
+//#define WAKEUP_ENABLE 1
 
 #if WAKEUP_ENABLE
 #define SLEEP_CNT 990000
