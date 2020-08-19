@@ -124,101 +124,100 @@ void uart_init()
 
 // iic
 
-/* I2C source clock */
-#define I2C_MASTER_CLK_SRC I2C0_CLK_SRC
-#define I2C_MASTER_CLK_FREQ CLOCK_GetFreq(I2C0_CLK_SRC)
-#define EXAMPLE_I2C_MASTER_BASEADDR I2C0
+#define EXAMPLE_I2C_SLAVE_BASEADDR I2C0
+#define I2C_SLAVE_CLK_SRC I2C0_CLK_SRC
+#define I2C_SLAVE_CLK_FREQ CLOCK_GetFreq(I2C0_CLK_SRC)
 
 #define I2C_MASTER_SLAVE_ADDR_7BIT 0x7EU
-#define I2C_BAUDRATE 100000U
+#define I2C_DATA_LENGTH 34U
 
+uint8_t g_slave_buff[I2C_DATA_LENGTH];
+i2c_slave_handle_t g_s_handle;
+volatile bool g_SlaveCompletionFlag = false;
 
-/*******************************************************************************
- * Prototypes
- ******************************************************************************/
-
-/*******************************************************************************
- * Variables
- ******************************************************************************/
-
-uint8_t g_master_txBuff[I2C_DATA_LENGTH];
-uint8_t g_master_rxBuff[I2C_DATA_LENGTH];
-i2c_master_handle_t g_m_handle;
-volatile bool g_MasterCompletionFlag = false;
-static i2c_master_transfer_t IIC_masterXfer;
-
-
-static void i2c_master_callback(I2C_Type *base, i2c_master_handle_t *handle, status_t status, void *userData)
+u8 user_isIICRecDone(void)
 {
-    /* Signal transfer success when received success status. */
-    if (status == kStatus_Success)
+	return g_SlaveCompletionFlag;
+}
+
+void user_setIICRecDone(u8 isDone)
+{
+	g_SlaveCompletionFlag = isDone ? 1:0;
+}
+
+static void i2c_slave_callback(I2C_Type *base, i2c_slave_transfer_t *xfer, void *userData)
+{
+    switch (xfer->event)
     {
-        g_MasterCompletionFlag = true;
+        /*  Address match event */
+        case kI2C_SlaveAddressMatchEvent:
+            xfer->data = NULL;
+            xfer->dataSize = 0;
+            break;
+        /*  Transmit request */
+        case kI2C_SlaveTransmitEvent:
+            /*  Update information for transmit process */
+            xfer->data = &g_slave_buff[2];
+            xfer->dataSize = g_slave_buff[1];
+            break;
+
+        /*  Receive request */
+        case kI2C_SlaveReceiveEvent:
+            /*  Update information for received process */
+            xfer->data = g_slave_buff;
+            xfer->dataSize = I2C_DATA_LENGTH;
+            break;
+
+        /*  Transfer done */
+        case kI2C_SlaveCompletionEvent:
+            g_SlaveCompletionFlag = true;
+            xfer->data = NULL;
+            xfer->dataSize = 0;
+            break;
+
+        default:
+            g_SlaveCompletionFlag = false;
+            break;
     }
 }
 
-u8 user_isIICSendDone(void)
+void user_iicSlaveInit(void)
 {
-	return g_MasterCompletionFlag;
-}
-
-void user_setIICSendDone(u8 isDone)
-{
-	g_MasterCompletionFlag = isDone ? 1:0;
-}
-
-void user_i2c_init()
-{
-	// iic init
-	i2c_master_transfer_t *pIIC_masterXfer = &IIC_masterXfer;
+	i2c_slave_config_t slaveConfig;
 	BOARD_I2C_ConfigurePins();
-	i2c_master_config_t masterConfig;
-	uint32_t sourceClock;
-	i2c_master_transfer_t *pmasterXfer;
-	pmasterXfer = pIIC_masterXfer;
-	PRINTF("\r\nI2C board2board interrupt example -- Master transfer.\r\n");
+	PRINTF("\r\nI2C board2board interrupt example -- Slave transfer.\r\n\r\n");
 
-	/* Set up i2c master to send data to slave*/
-
+	/*1.Set up i2c slave first*/
 	/*
-	 * masterConfig->baudRate_Bps = 100000U;
-	 * masterConfig->enableStopHold = false;
-	 * masterConfig->glitchFilterWidth = 0U;
-	 * masterConfig->enableMaster = true;
+	 * slaveConfig->addressingMode = kI2C_Address7bit;
+	 * slaveConfig->enableGeneralCall = false;
+	 * slaveConfig->enableWakeUp = false;
+	 * slaveConfig->enableBaudRateCtl = false;
+	 * slaveConfig->enableSlave = true;
 	 */
-	I2C_MasterGetDefaultConfig(&masterConfig);
-	masterConfig.baudRate_Bps = I2C_BAUDRATE;
+	I2C_SlaveGetDefaultConfig(&slaveConfig);
 
-	sourceClock = I2C_MASTER_CLK_FREQ;
+	slaveConfig.addressingMode = kI2C_Address7bit;
+	slaveConfig.slaveAddress = I2C_MASTER_SLAVE_ADDR_7BIT;
+	slaveConfig.upperAddress = 0; /*  not used for this example */
 
-	I2C_MasterInit(EXAMPLE_I2C_MASTER_BASEADDR, &masterConfig, sourceClock);
+	I2C_SlaveInit(EXAMPLE_I2C_SLAVE_BASEADDR, &slaveConfig, I2C_SLAVE_CLK_FREQ);
 
-	memset(&g_m_handle, 0, sizeof(g_m_handle));
-	memset(pmasterXfer, 0, sizeof(i2c_master_transfer_t));
+	memset(g_slave_buff, 0, sizeof(g_slave_buff));
+	memset(&g_s_handle, 0, sizeof(g_s_handle));
 
-	/* subAddress = 0x01, data = g_master_txBuff - write to slave.
-	  start + slaveaddress(w) + subAddress + length of data buffer + data buffer + stop*/
-	uint8_t deviceAddress = 0x01U;
-	pmasterXfer->slaveAddress = I2C_MASTER_SLAVE_ADDR_7BIT;//  <<1
-	pmasterXfer->direction = kI2C_Write;
-	pmasterXfer->subaddress = (uint32_t)deviceAddress;
-	pmasterXfer->subaddressSize = 1;
-//		pmasterXfer->data = g_master_txBuff;
-//		pmasterXfer->dataSize = I2C_DATA_LENGTH;
-	pmasterXfer->flags = kI2C_TransferDefaultFlag;
-
-	I2C_MasterTransferCreateHandle(EXAMPLE_I2C_MASTER_BASEADDR, &g_m_handle, i2c_master_callback, NULL);
+	I2C_SlaveTransferCreateHandle(EXAMPLE_I2C_SLAVE_BASEADDR, &g_s_handle, i2c_slave_callback, NULL);
 }
 
-
-void user_iicSend(u8 *pbuff, u8 dataSize)
+void user_iicSlaveRec(void)
 {
-	g_master_txBuff[0] = dataSize;
-	memcpy(g_master_txBuff + 1, pbuff, dataSize);
-	IIC_masterXfer.data = g_master_txBuff;
-	IIC_masterXfer.dataSize = dataSize + 1;
-	I2C_MasterTransferNonBlocking(EXAMPLE_I2C_MASTER_BASEADDR, &g_m_handle, &IIC_masterXfer);
-
+	I2C_SlaveTransferNonBlocking(EXAMPLE_I2C_SLAVE_BASEADDR, &g_s_handle,
+								 kI2C_SlaveCompletionEvent | kI2C_SlaveAddressMatchEvent);
 }
 
+u8 user_iicSlaveRead(u8 *buff)
+{
+	memcpy(buff, g_slave_buff + 2, g_slave_buff[1]);
+	return g_slave_buff[1];
+}
 
