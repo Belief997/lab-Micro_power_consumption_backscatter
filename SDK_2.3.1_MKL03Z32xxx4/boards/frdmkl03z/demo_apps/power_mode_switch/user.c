@@ -118,3 +118,39 @@ void uart_init()
 
 }
 
+
+//
+static u8 array_lfsr[] = {
+//		11111111 10000111 10111000 01011001
+//		10110111 10100001 11001100 00100100
+//		01010111 01011110 01001011 10011100
+//		00001110 11101001 11101010 01010000
+//		00101010 10111110
+
+		0xff, 0x87, 0xb8, 0x59,
+		0xb7, 0xa1, 0xcc, 0x24,
+		0x57, 0x5e, 0x4b, 0x9c,
+		0x0e, 0xe9, 0xea, 0x50,
+		0x2a, 0xbe
+};
+
+// I/O buffer size should be same
+s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut)
+{
+	if(lenIn > sizeof(array_lfsr))
+	{
+		// data is oversized
+		return -1;
+	}
+
+	u8 i = 0;
+	for(i = 0; i < lenIn; i++)
+	{
+		bufferOut[i] = bufferIn[i] ^ array_lfsr[i];
+	}
+	return 0;
+}
+
+
+
+

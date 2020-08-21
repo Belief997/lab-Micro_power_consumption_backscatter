@@ -23,6 +23,7 @@
 
 
 typedef uint8_t  u8 ;
+typedef int8_t  s8 ;
 typedef uint16_t u16;
 typedef uint32_t u32;
 
@@ -95,7 +96,7 @@ USER_BOOL data_dequeueadc(ADC_DATA* adc);
 void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData);
 
 
-
+s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut);
 
 
 #endif

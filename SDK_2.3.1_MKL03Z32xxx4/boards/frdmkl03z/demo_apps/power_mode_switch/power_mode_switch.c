@@ -976,7 +976,7 @@ void LPTMR_LED_HANDLER(void)
     // debug
 	{
 
-	    u32 dataBuff[10] = {0x00,0xaaaaaaaa,0xaac32987, 0xec765400};
+	    u32 dataBuff[10] = {0x00,0xaaaaaaaa,0xaac194c1, 0xfb86ba5a,0xb3000000};
 //		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
 //		u32 tempMask = 0x80000000 >> cntBit;
 		u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
@@ -985,7 +985,7 @@ void LPTMR_LED_HANDLER(void)
 		iovalue = tempvalue & 0x01;
 //		GPIO_PinWrite(GPIOB, 3U, iovalue);
 
-		cntByte = (cntBit == 31)? (cntByte + 1) % (sizeof(dataBuff)/4) : cntByte;
+		cntByte = (cntBit == 31)? (cntByte + 1) % (sizeof(dataBuff)/sizeof(dataBuff[0])) : cntByte;
 		cntBit =  (cntBit + 1) % 32;
 	}
 
@@ -1117,7 +1117,8 @@ void user_pwmInit(void)
 	TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
 	// redefine ch number by micro, set freq divider here
-	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 150000U, 2000000); //  2M clock source @VLPR
+	// 25k freq deviation  50k bandwidth
+	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 50000U, 2000000); //  2M clock source @VLPR
 	TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 }
 
@@ -1453,6 +1454,7 @@ int main(void)
 
 /******************************************************************************/
     //
+#define DEBUG_FSK
     BOARD_InitPins();
     user_gpioInit();
 
@@ -1460,7 +1462,6 @@ int main(void)
     APP_InitDefaultDebugConsole();
 
     NVIC_EnableIRQ(LLWU_IRQn);
-    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
     if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
     {
