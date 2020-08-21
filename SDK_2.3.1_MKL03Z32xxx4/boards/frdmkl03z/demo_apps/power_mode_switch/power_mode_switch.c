@@ -48,6 +48,7 @@
 #include "fsl_pmc.h"
 
 #include "fsl_tpm.h"
+#include "fsl_i2c.h"
 
 #include "user.h"
 
@@ -1189,7 +1190,7 @@ void delay_n(uint16_t time)
     }
 }
 
-//#define DEBUG_END
+#define DEBUG_END
 int main(void)
 {
     smc_power_state_t curPowerState;
@@ -1430,13 +1431,14 @@ int main(void)
 /******************************************************************************/
     //
     BOARD_InitPins();
+
     user_gpioInit();
 
     BOARD_BootClockRUN();
     APP_InitDefaultDebugConsole();
 
     NVIC_EnableIRQ(LLWU_IRQn);
-    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+//    NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 
     if (kRCM_SourceWakeup & RCM_GetPreviousResetSources(RCM)) /* Wakeup from VLLS. */
     {
@@ -1444,7 +1446,7 @@ int main(void)
     }
 
 // lptmr init
-    user_timerInit();
+//    user_timerInit();
 
  // enter vlpr
     user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
@@ -1460,23 +1462,66 @@ int main(void)
 //    }
 
 // pwm init
-    user_pwmInit();
+//    user_pwmInit();
 
-    while(1);
+#define IIC_TEST
+
+    user_i2c_init();
+
+    u8 iic_buffer[I2C_DATA_LENGTH] = {0};
+    u8 iic_dataSize = I2C_DATA_LENGTH-1;
+
+
 /******************************************************************************/
+	u8 cnt=0;
+    while(1)
+    {
+    	if(cnt++ % 2)
+    	{
+    		for (uint32_t i = 0U; i < iic_dataSize; i++)
+    		{
+    			iic_buffer[i] = i;
+    		}
+    	}
+    	else
+    	{
+    		for (uint32_t i = 0U; i < iic_dataSize; i++)
+    		{
+    			iic_buffer[i] = iic_dataSize - 1 - i;
+    		}
+    	}
+
+    	PRINTF("Master will send data :");
+    	for (uint32_t i = 0U; i < iic_dataSize; i++)
+    	{
+    		if (i % 8 == 0)
+    		{
+    			PRINTF("\r\n");
+    		}
+    		PRINTF("0x%2x  ", iic_buffer[i]);
+    	}
+    	PRINTF("\r\n\r\n");
+
+    	user_iicSend(iic_buffer, iic_dataSize);
+        while (!user_isIICSendDone())
+        {
+        }
+        user_setIICSendDone(false);
+
+        delay_n(99999999);
+        PRINTF("MASTER sent data TO slave Once...\r\n");
+    }
 
     // debug
 //    user_showFreqList();
+//#define WAKEUP_ENABLE 1
 
 #if WAKEUP_ENABLE
 #define SLEEP_CNT 990000
     	u32 debug_cnt = 0;
 #endif
-    	u8 cntBit = 0;
         while (1)
         {
-            /* Prevents the use of wrong values */
-            while (!conversionCompleted);
 
 #if WAKEUP_ENABLE
             // hold output for about xxx sec
@@ -1495,48 +1540,7 @@ int main(void)
 #endif
 
             // debug
-//            if(0)
-            {
-            	static ADC_PACK adc_pack = {0};
-            	static u32 adc_sum = 0;
 
-            	ADC_DATA adc = {0};
-
-            	data_dequeueadc(&adc);
-            	adc_sum += adc.adcValue;
-
-            	// 第一次发或发完一帧
-            	if(cntBit % ADC_PACK_LEN == 0)
-            	{
-            		adc_pack.header = ADC_HEADER;
-            		adc_pack.data = cntBit ? adc_sum / ADC_PACK_LEN : adc_sum ;
-            		adc_sum = 0;
-
-            		cntBit = 0;
-            	}
-
-            	// send header
-            	if(cntBit < ADC_HEADER_LEN)
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, (adc_pack.header >> (ADC_HEADER_LEN - cntBit - 1)) & 0x01);
-            		adc_pack.check = 0;
-            	}
-            	else if(cntBit < ADC_HEADER_LEN + ADC_DATA_LEN)
-            	{
-            		u8 sendBit = (adc_pack.data >> (ADC_HEADER_LEN + ADC_DATA_LEN - cntBit - 1)) & 0x01;
-            		GPIO_WritePinOutput(GPIOB, 3U, sendBit);
-            		adc_pack.check ^= sendBit & 0x01;
-            	}
-            	else
-            	{
-            		GPIO_WritePinOutput(GPIOB, 3U, adc_pack.check);
-//            		PRINTF("%x %x %x\n\r", adc_pack.header, adc_pack.data, adc_pack.check);
-            	}
-
-            	cntBit ++;
-//            	PRINTF("%d\n\r", cntBit);
-            }
-            conversionCompleted = false;
 
         }
 
