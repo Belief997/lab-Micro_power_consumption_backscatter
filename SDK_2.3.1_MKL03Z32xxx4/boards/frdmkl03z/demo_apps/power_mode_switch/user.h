@@ -14,16 +14,24 @@
 
 #define ADC_HEADER  (0xAE >> 1)
 
-
+// sensor
 #define SENSOR_DATA_LEN (6)
-#define SENSOR_HEADER (0XA5)
-#define SENSOR_HEADER_LEN (1)
-#define SENSOR_CHECK_LEN (1)
-#define SENSOR_FRAME_LEN (SENSOR_HEADER_LEN + SENSOR_DATA_LEN + SENSOR_CHECK_LEN) // 1+6+1
 
+// fsk
+// crc is default enable
+#define FSK_PREAMBLE (0XAA)
+#define FSK_PREAMBLE_LEN (5)
+#define FSK_SYNC_WORD (0X00C194C1)
+#define FSK_SYNC_LEN (3)
+#define FSK_PAYPLOAD_LEN (6)
+#define FSK_CRC_LEN (2)
+#define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
+
+
+#define n2s16(x) (((x & 0xff00) >> 8) | ((x & 0x00ff) << 8))
 
 typedef uint8_t  u8 ;
-typedef int8_t  s8 ;
+typedef int8_t   s8 ;
 typedef uint16_t u16;
 typedef uint32_t u32;
 
@@ -97,7 +105,7 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
 
 u16 CRC_calc(u8 *buffer, u8 bufferLength);
 s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut);
-
+u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen);
 
 #endif
 

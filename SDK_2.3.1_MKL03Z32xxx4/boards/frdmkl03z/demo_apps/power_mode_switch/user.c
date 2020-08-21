@@ -180,5 +180,32 @@ s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut)
 }
 
 
+u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
+{
+	if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
+	{
+		// wrong dataLen
+		return 1;
+	}
 
+    u8 *pdata = fskBuff;
+
+    memset(pdata, FSK_PREAMBLE, FSK_PREAMBLE_LEN);
+    pdata += FSK_PREAMBLE_LEN;
+
+    u32 temp = FSK_SYNC_WORD;
+    memcpy(pdata, &temp, FSK_SYNC_LEN);
+    pdata += FSK_SYNC_LEN;
+
+	u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
+	memcpy(dataBuff[0] + 1, data, FSK_PAYPLOAD_LEN);
+
+	temp = n2s16(CRC_calc(dataBuff, FSK_PAYPLOAD_LEN + 1));
+	memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
+
+	user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
+	memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+
+	return 0;
+}
 

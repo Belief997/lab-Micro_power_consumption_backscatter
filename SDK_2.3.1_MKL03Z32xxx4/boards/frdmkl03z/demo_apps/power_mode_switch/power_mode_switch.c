@@ -909,13 +909,69 @@ volatile u8 status_send = SEND_WAIT;
 volatile u32 cntBit = 0;
 volatile u8 cntByte = 0;
 volatile u8 iovalue = 0;
-void LPTMR_LED_HANDLER(void)
-//void LPTMR0_IRQHandler(void)
+void LPTMR0_IRQHandler(void)
 {
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
 
     // debug
 //    GPIO_PortToggle(GPIOB, 1u << 3U);
+
+//    // debug
+//	{
+//
+//	    u32 dataBuff[10] = {0x00,0xaaaaaaaa,0xaac194c1, 0xfb86ba5a,0xb3000000};
+////		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
+////		u32 tempMask = 0x80000000 >> cntBit;
+//		u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
+////		u8  iovalue = dataBuff[cntByte] & tempMask;
+//
+//		iovalue = tempvalue & 0x01;
+////		GPIO_PinWrite(GPIOB, 3U, iovalue);
+//
+//		cntByte = (cntBit == (sizeof(dataBuff[0]) * 8 - 1))? (cntByte + 1) % (sizeof(dataBuff)/sizeof(dataBuff[0])) : cntByte;
+//		cntBit =  (cntBit + 1) % (sizeof(dataBuff[0]) * 8);
+//	}
+
+    // debug
+
+
+//    u8 *pdata = fskBuff;
+//
+//    memset(pdata, FSK_PREAMBLE, FSK_PREAMBLE_LEN);
+//    pdata += FSK_PREAMBLE_LEN;
+//
+//    u32 temp = FSK_SYNC_WORD;
+//    memcpy(pdata, &temp, FSK_SYNC_LEN);
+//    pdata += FSK_SYNC_LEN;
+//
+//	u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN, 0x01,0x02,0x03, 0x04,0x05,0x06};
+////	memcpy(pdata, dataBuff, FSK_PAYPLOAD_LEN+1);
+////	pdata += FSK_PAYPLOAD_LEN + 1;
+//
+//	temp = n2s16(CRC_calc(dataBuff, FSK_PAYPLOAD_LEN + 1));
+//	memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
+//	user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
+//	memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+
+//	pdata += FSK_CRC_LEN;
+
+////		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
+////		u32 tempMask = 0x80000000 >> cntBit;
+//	u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
+////		u8  iovalue = dataBuff[cntByte] & tempMask;
+//
+//	iovalue = tempvalue & 0x01;
+////		GPIO_PinWrite(GPIOB, 3U, iovalue);
+//
+//	cntByte = (cntBit == (sizeof(dataBuff[0]) * 8 - 1))? (cntByte + 1) % (sizeof(dataBuff)/sizeof(dataBuff[0])) : cntByte;
+//	cntBit =  (cntBit + 1) % (sizeof(dataBuff[0]) * 8);
+
+
+
+
+
+
+
 
 #if 0
 //    char debug_buf[6]={0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
@@ -973,21 +1029,7 @@ void LPTMR_LED_HANDLER(void)
 #endif
 
 
-    // debug
-	{
 
-	    u32 dataBuff[10] = {0x00,0xaaaaaaaa,0xaac194c1, 0xfb86ba5a,0xb3000000};
-//		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
-//		u32 tempMask = 0x80000000 >> cntBit;
-		u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
-//		u8  iovalue = dataBuff[cntByte] & tempMask;
-
-		iovalue = tempvalue & 0x01;
-//		GPIO_PinWrite(GPIOB, 3U, iovalue);
-
-		cntByte = (cntBit == 31)? (cntByte + 1) % (sizeof(dataBuff)/sizeof(dataBuff[0])) : cntByte;
-		cntBit =  (cntBit + 1) % 32;
-	}
 
     /*
      * Workaround for TWR-KV58: because write buffer is enabled, adding
@@ -1488,6 +1530,12 @@ int main(void)
     user_pwmInit();
 
 /******************************************************************************/
+
+
+    static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
+
+    u8 data[] = {1, 2, 3, 4, 5, 6};
+    user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
 
     // debug
 //    user_showFreqList();
