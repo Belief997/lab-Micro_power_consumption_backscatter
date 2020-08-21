@@ -95,7 +95,7 @@ USER_BOOL data_dequeueadc(ADC_DATA* adc);
 
 void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t status, void *userData);
 
-
+u16 CRC_calc(u8 *buffer, u8 bufferLength);
 s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut);
 
 

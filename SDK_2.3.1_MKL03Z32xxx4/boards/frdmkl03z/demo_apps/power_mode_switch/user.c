@@ -119,6 +119,34 @@ void uart_init()
 }
 
 
+// crc
+u16 CRC_calc(u8 *buffer, u8 bufferLength)
+{
+    u16 crc = 0x1D0F;
+    u16 poly = 0x1021;
+
+    u8 i;
+    for(i = 0; i < bufferLength; i++)
+    {
+        u8 data = buffer[i];
+        u8 j;
+        for(j = 0; j < 8; j++)
+        {
+            if( (( (crc & 0x8000) >> 8 ) ^ (data & 0x80)) != 0 )
+            {
+                crc <<= 1;
+                crc ^= poly;
+            }
+            else
+            {
+                crc <<= 1;
+            }
+            data <<= 1;
+        }
+    }
+    return (u16)(~crc);
+}
+
 //
 static u8 array_lfsr[] = {
 //		11111111 10000111 10111000 01011001
