@@ -909,6 +909,9 @@ volatile u8 status_send = SEND_WAIT;
 volatile u32 cntBit = 0;
 volatile u8 cntByte = 0;
 volatile u8 iovalue = 0;
+
+static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
+u8 fskLen = 0;
 void LPTMR0_IRQHandler(void)
 {
     LPTMR_ClearStatusFlags(DEMO_LPTMR_BASE, kLPTMR_TimerCompareFlag);
@@ -955,16 +958,18 @@ void LPTMR0_IRQHandler(void)
 
 //	pdata += FSK_CRC_LEN;
 
-////		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
-////		u32 tempMask = 0x80000000 >> cntBit;
-//	u32 tempvalue = dataBuff[cntByte] >> (31 - cntBit);
-////		u8  iovalue = dataBuff[cntByte] & tempMask;
-//
-//	iovalue = tempvalue & 0x01;
-////		GPIO_PinWrite(GPIOB, 3U, iovalue);
-//
-//	cntByte = (cntBit == (sizeof(dataBuff[0]) * 8 - 1))? (cntByte + 1) % (sizeof(dataBuff)/sizeof(dataBuff[0])) : cntByte;
-//	cntBit =  (cntBit + 1) % (sizeof(dataBuff[0]) * 8);
+//		u32 dataBuff[3] = {0xaaaaaaaa,0xaac32987, 0xec765400};
+//		u32 tempMask = 0x80000000 >> cntBit;
+
+    u8 *pdata = fskBuff;
+	u32 tempvalue = pdata[cntByte] >> (7 - cntBit);
+//		u8  iovalue = dataBuff[cntByte] & tempMask;
+
+	iovalue = tempvalue & 0x01;
+//	GPIO_PinWrite(GPIOB, 3U, iovalue);
+
+	cntByte = (cntBit == (sizeof(pdata[0]) * 8 - 1))? (cntByte + 1) % (fskLen + 5) : cntByte;
+	cntBit =  (cntBit + 1) % (sizeof(pdata[0]) * 8);
 
 
 
@@ -1532,10 +1537,10 @@ int main(void)
 /******************************************************************************/
 
 
-    static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
+//    static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
 
     u8 data[] = {1, 2, 3, 4, 5, 6};
-    user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
+    fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
 
     // debug
 //    user_showFreqList();

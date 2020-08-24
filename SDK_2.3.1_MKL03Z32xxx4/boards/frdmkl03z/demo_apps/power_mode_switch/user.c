@@ -185,7 +185,7 @@ u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
 	if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
 	{
 		// wrong dataLen
-		return 1;
+		return 0;
 	}
 
     u8 *pdata = fskBuff;
@@ -200,12 +200,14 @@ u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
 	u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
 	memcpy(dataBuff[0] + 1, data, FSK_PAYPLOAD_LEN);
 
-	temp = n2s16(CRC_calc(dataBuff, FSK_PAYPLOAD_LEN + 1));
+	temp = n2s16(CRC_calc(dataBuff, (u8)(FSK_PAYPLOAD_LEN + 1)));
 	memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
 
 	user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
 	memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+	pdata += FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN;
 
-	return 0;
+//	while(1);
+	return (pdata - fskBuff);
 }
 
