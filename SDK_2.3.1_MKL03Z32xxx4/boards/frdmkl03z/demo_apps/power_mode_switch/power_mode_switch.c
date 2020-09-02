@@ -1302,7 +1302,7 @@ int main(void)
     user_gpioInit();
 
     // timer init 1ms
-    user_timerInit();
+//    user_timerInit();
 
 
     /*
@@ -1400,6 +1400,11 @@ int main(void)
 //            }
 //        	cnt_rx_last = cnt_rx;
 //        }
+
+
+
+        continue;
+
 
 
         if(STATUS_WAIT_DATA == status)
@@ -1559,8 +1564,8 @@ int main(void)
     	u32 debug_cnt = 0;
 #endif
 
-    	TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0);
-    	while(1);
+//    	TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0);
+//    	while(1);
 
     	u8 last_io = 0;
         while (1)

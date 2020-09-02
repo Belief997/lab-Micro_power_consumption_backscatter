@@ -41,7 +41,8 @@
  * Definitions
  ******************************************************************************/
 #define BOARD_TPM_BASEADDR TPM0
-#define BOARD_TPM_CHANNEL 0U
+//#define BOARD_TPM_CHANNEL 0U
+#define BOARD_TPM_CHANNEL 1U
 
 /* Interrupt to enable and flag to read; depends on the TPM channel used */
 #define TPM_CHANNEL_INTERRUPT_ENABLE kTPM_Chnl0InterruptEnable
@@ -67,7 +68,7 @@ void delay(void);
  * Variables
  ******************************************************************************/
 volatile bool brightnessUp = true; /* Indicate LED is brighter or dimmer */
-volatile uint8_t updatedDutycycle = 10U;
+volatile uint8_t updatedDutycycle = 50U;
 volatile uint8_t getCharValue = 0U;
 
 /*******************************************************************************
@@ -93,25 +94,27 @@ int main(void)
     /* Board pin, clock, debug console init */
     BOARD_InitPins();
     BOARD_BootClockRUN();
-    BOARD_InitDebugConsole();
+//    BOARD_InitDebugConsole();
 
     /* Select the clock source for the TPM counter as MCGPLLCLK */
     CLOCK_SetTpmClock(1U);
 
     /* Print a note to terminal */
-    PRINTF("\r\nTPM example to output center-aligned PWM signal\r\n");
-    PRINTF("\r\nIf an LED is connected to the TPM pin, you will see a change in LED brightness if you enter different values");
-    PRINTF("\r\nIf no LED is connected to the TPM pin, then probe the signal using an oscilloscope");
+//    PRINTF("\r\nTPM example to output center-aligned PWM signal\r\n");
+//    PRINTF("\r\nIf an LED is connected to the TPM pin, you will see a change in LED brightness if you enter different values");
+//    PRINTF("\r\nIf no LED is connected to the TPM pin, then probe the signal using an oscilloscope");
 
     TPM_GetDefaultConfig(&tpmInfo);
     /* Initialize TPM module */
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 24000U, TPM_SOURCE_CLOCK);
+//    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 4000000U, TPM_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 4000000U, TPM_SOURCE_CLOCK);
 
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
-    while (1)
+
+    while (1);
     {
         do
         {

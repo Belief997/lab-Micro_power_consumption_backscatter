@@ -74,12 +74,15 @@ void BOARD_InitPins(void)
 {
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
+    CLOCK_EnableClock(kCLOCK_PortA);
 
     /* PORTB1 (pin 13) is configured as LPUART0_TX */
     PORT_SetPinMux(PORTB, 1U, kPORT_MuxAlt2);
 
     /* PORTB11 (pin 10) is configured as TPM0_CH0 */
-    PORT_SetPinMux(PORTB, 11U, kPORT_MuxAlt2);
+//    PORT_SetPinMux(PORTB, 11U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTA, 6U, kPORT_MuxAlt2);
+    PORT_SetPinMux(PORTA, 5U, kPORT_MuxAlt2);
 
     /* PORTB2 (pin 14) is configured as LPUART0_RX */
     PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2);
