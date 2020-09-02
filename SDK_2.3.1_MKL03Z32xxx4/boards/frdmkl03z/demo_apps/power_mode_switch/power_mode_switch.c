@@ -977,7 +977,7 @@ void LPTMR_LED_HANDLER(void)
 
 
 lpuart_handle_t g_lpuartHandle;
-uint8_t g_tipString[] = "LPUART RX ring buffer example\r\nSend back received data\r\nEcho every 8 types\r\n";
+uint8_t g_tipString[] = "fuck world\r\n";
 uint8_t g_rxRingBuffer[RX_RING_BUFFER_SIZE] = {0}; /* RX ring buffer. */
 
 extern uint8_t g_rxBuffer[ECHO_BUFFER_SIZE]; /* Buffer for receive data to echo. */
@@ -1167,7 +1167,7 @@ void user_gpioInit(void)
     GPIO_PinInit(GPIOA, 5U, &config_output_L);
 
     // GPIOB
-    GPIO_PinInit(GPIOB, 3U, &config_output_L);
+//    GPIO_PinInit(GPIOB, 3U, &config_output_L);
 
 }
 
@@ -1221,7 +1221,7 @@ int main(void)
     user_gpioInit();
 
     // timer init 1ms
-    user_timerInit();
+//    user_timerInit();
 
 
     /*
@@ -1249,6 +1249,8 @@ int main(void)
     // enter vlpr
     user_VLPR(&curPowerState, &targetPowerMode,  &needSetWakeup);
 
+    while(1)
+    {
     /* Send g_tipString out. */
     xfer.data = g_tipString;
     xfer.dataSize = sizeof(g_tipString) - 1;
@@ -1259,6 +1261,14 @@ int main(void)
     while (txOnGoing)
     {
     }
+
+    delay_n(100000); // 2ms
+    }
+
+
+
+
+
 
 
     user_showFreq();
