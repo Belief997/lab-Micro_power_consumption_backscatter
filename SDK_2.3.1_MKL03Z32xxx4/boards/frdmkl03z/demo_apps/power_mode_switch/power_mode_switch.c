@@ -907,7 +907,7 @@ volatile u8 status_rec = REC_WAIT;
 volatile u8 status_send = SEND_WAIT;
 
 volatile u32 cntBit = 0;
-volatile u8 cntByte = 0;
+volatile u16 cntByte = 0;
 volatile u8 iovalue = 0;
 
 static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
@@ -962,13 +962,18 @@ void LPTMR0_IRQHandler(void)
 //		u32 tempMask = 0x80000000 >> cntBit;
 
     u8 *pdata = fskBuff;
-	u32 tempvalue = pdata[cntByte] >> (7 - cntBit);
+	u32 tempvalue = 0; //pdata[cntByte] >> (7 - cntBit);
 //		u8  iovalue = dataBuff[cntByte] & tempMask;
+
+	if(cntByte < fskLen + 5)
+	{
+		tempvalue = pdata[cntByte] >> (7 - cntBit);
+	}
 
 	iovalue = tempvalue & 0x01;
 //	GPIO_PinWrite(GPIOB, 3U, iovalue);
 
-	cntByte = (cntBit == (sizeof(pdata[0]) * 8 - 1))? (cntByte + 1) % (fskLen + 5) : cntByte;
+	cntByte = (cntBit == (sizeof(pdata[0]) * 8 - 1))? (cntByte + 1) % (fskLen + 500) : cntByte;
 	cntBit =  (cntBit + 1) % (sizeof(pdata[0]) * 8);
 
 
@@ -1165,7 +1170,11 @@ void user_pwmInit(void)
 
 	// redefine ch number by micro, set freq divider here
 	// 25k freq deviation  50k bandwidth
-	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 50000U, 2000000); //  2M clock source @VLPR
+//	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, USER_PWM_NUM, kTPM_CenterAlignedPwm, 50000U, 2000000); //  2M clock source @VLPR
+
+	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, BOARD_TPM_CHANNEL, kTPM_CenterAlignedPwm, 50000U, 2000000); //  2M clock source @VLPR
+//	tpmParam.chnlNumber = (tpm_chnl_t)0;
+//	TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 0, kTPM_CenterAlignedPwm, 50000U, 2000000); //  2M clock source @VLPR
 	TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 }
 
@@ -1235,7 +1244,7 @@ void user_gpioInit(void)
     /* Init output ENABLE GPIO. */
     // GPIOA
     GPIO_PinInit(GPIOA, 7U, &config_output_L);
-    GPIO_PinInit(GPIOA, 5U, &config_output_L);
+//    GPIO_PinInit(GPIOA, 5U, &config_output_L);
 
     // GPIOB
 //    GPIO_PinInit(GPIOB, 3U, &config_output_L);
@@ -1550,12 +1559,16 @@ int main(void)
     	u32 debug_cnt = 0;
 #endif
 
+    	TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, 0);
+    	while(1);
+
     	u8 last_io = 0;
         while (1)
         {
         	if(iovalue != last_io)
         	{
         		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)BOARD_TPM_CHANNEL, iovalue);
+//        		TPM_UpdateChnlEdgeLevelSelect(BOARD_TPM_BASEADDR, (tpm_chnl_t)0, iovalue);
         		last_io = iovalue;
         	}
 

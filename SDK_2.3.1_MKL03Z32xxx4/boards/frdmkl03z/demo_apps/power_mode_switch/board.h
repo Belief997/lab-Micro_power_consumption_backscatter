@@ -71,7 +71,8 @@
 
 /*! @brief The TPM instance/channel used for board */
 #define BOARD_TPM_BASEADDR TPM0
-#define BOARD_TPM_CHANNEL 0U
+//#define BOARD_TPM_CHANNEL 0U
+#define BOARD_TPM_CHANNEL 1U
 
 /*! @brief The bubble level demo information */
 #define BOARD_BUBBLE_TPM_BASEADDR TPM0
