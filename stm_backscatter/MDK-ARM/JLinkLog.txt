@@ -1,62 +1,62 @@
-T97D0 000:079.486   SEGGER J-Link V6.80b Log File
-T97D0 000:079.700   DLL Compiled: Jun  5 2020 17:40:22
-T97D0 000:079.709   Logging started @ 2020-09-05 07:57
-T97D0 000:079.725 JLINK_SetWarnOutHandler(...)
-T97D0 000:079.736 - 0.015ms
-T97D0 000:079.753 JLINK_OpenEx(...)
-T97D0 000:081.412   Firmware: J-Link V9 compiled Dec 13 2019 11:14:50
-T97D0 000:081.641   Decompressing FW timestamp took 188 us
-T97D0 000:090.463   Hardware: V9.20
-T97D0 000:090.507   S/N: 4294967295
-T97D0 000:090.519   OEM: SEGGER
-T97D0 000:090.531   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
-T97D0 000:092.622   TELNET listener socket opened on port 19021
-T97D0 000:092.941   WEBSRV Starting webserver
-T97D0 000:093.152   WEBSRV Webserver running on local port 19080
-T97D0 000:093.169 - 13.420ms returns "O.K."
-T97D0 000:093.209 JLINK_SetErrorOutHandler(...)
-T97D0 000:093.217 - 0.012ms
-T97D0 000:093.251 JLINK_ExecCommand("ProjectFile = "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\stm_backscatter\MDK-ARM\JLinkSettings.ini"", ...). 
-T97D0 000:104.977   Ref file found at: D:\29446\MDK514\ARM\Segger\JLinkDevices.ref
-T97D0 000:105.168   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
-T97D0 000:106.316   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
-T97D0 000:161.933 - 68.706ms returns 0x00
-T97D0 000:169.055 JLINK_ExecCommand("Device = STM32L051K8Tx", ...). 
-T97D0 000:175.532   Device "STM32L051K8" selected.
-T97D0 000:175.956 - 6.877ms returns 0x00
-T97D0 000:175.977 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
-T97D0 000:175.993 - 0.008ms returns 0x01
-T97D0 000:176.005 JLINK_GetHardwareVersion()
-T97D0 000:176.014 - 0.012ms returns 0x16760
-T97D0 000:176.038 JLINK_GetDLLVersion()  returns 68002
-T97D0 000:176.053 JLINK_GetFirmwareString(...)
-T97D0 000:176.061 - 0.012ms
-T97D0 000:198.437 JLINK_GetDLLVersion()  returns 68002
-T97D0 000:198.465 JLINK_GetCompileDateTime()
-T97D0 000:198.474 - 0.012ms
-T97D0 000:205.069 JLINK_GetFirmwareString(...)
-T97D0 000:205.092 - 0.027ms
-T97D0 000:209.634 JLINK_GetHardwareVersion()
-T97D0 000:209.663 - 0.033ms returns 0x16760
-T97D0 000:229.491 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
-T97D0 000:231.575 - 2.097ms returns 0x00
-T97D0 000:231.623 JLINK_SetSpeed(20000)
-T97D0 000:231.905 - 0.292ms
-T97D0 000:231.927 JLINK_GetIdData(pIdData)
-T97D0 000:238.066   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T97D0 000:245.062   STM32 (connect): Can not attach to CPU. Trying connect under reset.
-T97D0 000:303.663   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T97D0 000:304.167   
+T45D4 000:086.996   SEGGER J-Link V6.80b Log File
+T45D4 000:087.186   DLL Compiled: Jun  5 2020 17:40:22
+T45D4 000:087.195   Logging started @ 2020-09-06 03:12
+T45D4 000:087.210 JLINK_SetWarnOutHandler(...)
+T45D4 000:087.221 - 0.015ms
+T45D4 000:087.238 JLINK_OpenEx(...)
+T45D4 000:088.819   Firmware: J-Link V9 compiled Dec 13 2019 11:14:50
+T45D4 000:089.121   Decompressing FW timestamp took 250 us
+T45D4 000:095.444   Hardware: V9.70
+T45D4 000:095.468   S/N: 59700618
+T45D4 000:095.480   OEM: SEGGER
+T45D4 000:095.491   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
+T45D4 000:096.719   TELNET listener socket opened on port 19021
+T45D4 000:097.051   WEBSRV Starting webserver
+T45D4 000:097.346   WEBSRV Webserver running on local port 19080
+T45D4 000:097.366 - 10.132ms returns "O.K."
+T45D4 000:097.406 JLINK_SetErrorOutHandler(...)
+T45D4 000:097.414 - 0.012ms
+T45D4 000:097.453 JLINK_ExecCommand("ProjectFile = "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\stm_backscatter\MDK-ARM\JLinkSettings.ini"", ...). 
+T45D4 000:110.631   Ref file found at: D:\29446\MDK514\ARM\Segger\JLinkDevices.ref
+T45D4 000:110.789   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
+T45D4 000:111.954   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T45D4 000:174.092 - 76.662ms returns 0x00
+T45D4 000:185.150 JLINK_ExecCommand("Device = STM32L051K8Tx", ...). 
+T45D4 000:191.696   Device "STM32L051K8" selected.
+T45D4 000:192.108 - 6.939ms returns 0x00
+T45D4 000:192.131 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T45D4 000:192.149 - 0.008ms returns 0x01
+T45D4 000:192.161 JLINK_GetHardwareVersion()
+T45D4 000:192.172 - 0.014ms returns 0x17AE8
+T45D4 000:192.197 JLINK_GetDLLVersion()  returns 68002
+T45D4 000:192.213 JLINK_GetFirmwareString(...)
+T45D4 000:192.221 - 0.012ms
+T45D4 000:215.477 JLINK_GetDLLVersion()  returns 68002
+T45D4 000:215.503 JLINK_GetCompileDateTime()
+T45D4 000:215.512 - 0.012ms
+T45D4 000:224.376 JLINK_GetFirmwareString(...)
+T45D4 000:224.398 - 0.026ms
+T45D4 000:234.269 JLINK_GetHardwareVersion()
+T45D4 000:234.290 - 0.025ms returns 0x17AE8
+T45D4 000:271.132 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T45D4 000:271.868 - 0.747ms returns 0x00
+T45D4 000:271.940 JLINK_SetSpeed(25000)
+T45D4 000:272.018 - 0.085ms
+T45D4 000:272.036 JLINK_GetIdData(pIdData)
+T45D4 000:281.221   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
+T45D4 000:289.026   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T45D4 000:348.835   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
+T45D4 000:349.092   
   ***** Error: 
-T97D0 000:304.192   STM32: Connecting to CPU via connect under reset failed.
-T97D0 000:424.139   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T97D0 000:428.611   STM32 (connect): Can not attach to CPU. Trying connect under reset.
-T97D0 000:486.847   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T97D0 000:487.327   
+T45D4 000:349.111   STM32: Connecting to CPU via connect under reset failed.
+T45D4 000:468.821   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
+T45D4 000:477.687   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T45D4 000:536.930   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
+T45D4 000:537.204   
   ***** Error: 
-T97D0 000:487.346   STM32: Connecting to CPU via connect under reset failed.
-T97D0 000:537.845 - 305.937ms
-T97D0 010:722.278 JLINK_Close()
-T97D0 010:732.552 - 10.293ms
-T97D0 010:732.576   
-T97D0 010:732.585   Closed
+T45D4 000:537.219   STM32: Connecting to CPU via connect under reset failed.
+T45D4 000:588.143 - 316.125ms
+T45D4 003:010.952 JLINK_Close()
+T45D4 003:023.081 - 12.149ms
+T45D4 003:023.106   
+T45D4 003:023.114   Closed
