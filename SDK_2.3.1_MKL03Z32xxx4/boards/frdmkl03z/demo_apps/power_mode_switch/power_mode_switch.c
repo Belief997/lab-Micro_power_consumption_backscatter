@@ -977,7 +977,8 @@ void LPTMR_LED_HANDLER(void)
 
 
 lpuart_handle_t g_lpuartHandle;
-uint8_t g_tipString[] = "fuck world\r\n";
+//uint8_t g_tipString[] = "fuck world\r\n";
+uint8_t g_tipString[] = "\005\000\009\007\008\005";
 uint8_t g_rxRingBuffer[RX_RING_BUFFER_SIZE] = {0}; /* RX ring buffer. */
 
 extern uint8_t g_rxBuffer[ECHO_BUFFER_SIZE]; /* Buffer for receive data to echo. */
