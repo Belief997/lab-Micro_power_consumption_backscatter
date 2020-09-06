@@ -1,62 +1,58 @@
-T45D4 000:086.996   SEGGER J-Link V6.80b Log File
-T45D4 000:087.186   DLL Compiled: Jun  5 2020 17:40:22
-T45D4 000:087.195   Logging started @ 2020-09-06 03:12
-T45D4 000:087.210 JLINK_SetWarnOutHandler(...)
-T45D4 000:087.221 - 0.015ms
-T45D4 000:087.238 JLINK_OpenEx(...)
-T45D4 000:088.819   Firmware: J-Link V9 compiled Dec 13 2019 11:14:50
-T45D4 000:089.121   Decompressing FW timestamp took 250 us
-T45D4 000:095.444   Hardware: V9.70
-T45D4 000:095.468   S/N: 59700618
-T45D4 000:095.480   OEM: SEGGER
-T45D4 000:095.491   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
-T45D4 000:096.719   TELNET listener socket opened on port 19021
-T45D4 000:097.051   WEBSRV Starting webserver
-T45D4 000:097.346   WEBSRV Webserver running on local port 19080
-T45D4 000:097.366 - 10.132ms returns "O.K."
-T45D4 000:097.406 JLINK_SetErrorOutHandler(...)
-T45D4 000:097.414 - 0.012ms
-T45D4 000:097.453 JLINK_ExecCommand("ProjectFile = "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\stm_backscatter\MDK-ARM\JLinkSettings.ini"", ...). 
-T45D4 000:110.631   Ref file found at: D:\29446\MDK514\ARM\Segger\JLinkDevices.ref
-T45D4 000:110.789   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
-T45D4 000:111.954   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
-T45D4 000:174.092 - 76.662ms returns 0x00
-T45D4 000:185.150 JLINK_ExecCommand("Device = STM32L051K8Tx", ...). 
-T45D4 000:191.696   Device "STM32L051K8" selected.
-T45D4 000:192.108 - 6.939ms returns 0x00
-T45D4 000:192.131 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
-T45D4 000:192.149 - 0.008ms returns 0x01
-T45D4 000:192.161 JLINK_GetHardwareVersion()
-T45D4 000:192.172 - 0.014ms returns 0x17AE8
-T45D4 000:192.197 JLINK_GetDLLVersion()  returns 68002
-T45D4 000:192.213 JLINK_GetFirmwareString(...)
-T45D4 000:192.221 - 0.012ms
-T45D4 000:215.477 JLINK_GetDLLVersion()  returns 68002
-T45D4 000:215.503 JLINK_GetCompileDateTime()
-T45D4 000:215.512 - 0.012ms
-T45D4 000:224.376 JLINK_GetFirmwareString(...)
-T45D4 000:224.398 - 0.026ms
-T45D4 000:234.269 JLINK_GetHardwareVersion()
-T45D4 000:234.290 - 0.025ms returns 0x17AE8
-T45D4 000:271.132 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
-T45D4 000:271.868 - 0.747ms returns 0x00
-T45D4 000:271.940 JLINK_SetSpeed(25000)
-T45D4 000:272.018 - 0.085ms
-T45D4 000:272.036 JLINK_GetIdData(pIdData)
-T45D4 000:281.221   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T45D4 000:289.026   STM32 (connect): Can not attach to CPU. Trying connect under reset.
-T45D4 000:348.835   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T45D4 000:349.092   
+T2730 000:099.568   SEGGER J-Link V6.80b Log File
+T2730 000:099.767   DLL Compiled: Jun  5 2020 17:40:22
+T2730 000:099.776   Logging started @ 2020-09-06 03:37
+T2730 000:099.790 JLINK_SetWarnOutHandler(...)
+T2730 000:099.801 - 0.015ms
+T2730 000:099.817 JLINK_OpenEx(...)
+T2730 000:101.157   Firmware: J-Link V9 compiled Dec 13 2019 11:14:50
+T2730 000:101.431   Decompressing FW timestamp took 221 us
+T2730 000:108.068   Hardware: V9.70
+T2730 000:108.110   S/N: 59700618
+T2730 000:108.122   OEM: SEGGER
+T2730 000:108.133   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
+T2730 000:109.387   TELNET listener socket opened on port 19021
+T2730 000:109.713   WEBSRV Starting webserver
+T2730 000:109.915   WEBSRV Webserver running on local port 19080
+T2730 000:109.930 - 10.117ms returns "O.K."
+T2730 000:109.969 JLINK_SetErrorOutHandler(...)
+T2730 000:109.977 - 0.012ms
+T2730 000:110.010 JLINK_ExecCommand("ProjectFile = "E:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backscatter\stm_backscatter\MDK-ARM\JLinkSettings.ini"", ...). 
+T2730 000:123.432   Ref file found at: D:\29446\MDK514\ARM\Segger\JLinkDevices.ref
+T2730 000:123.595   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
+T2730 000:124.716   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T2730 000:186.548 - 76.562ms returns 0x00
+T2730 000:192.844 JLINK_ExecCommand("Device = STM32L051K8Tx", ...). 
+T2730 000:201.861   Device "STM32L051K8" selected.
+T2730 000:202.321 - 9.457ms returns 0x00
+T2730 000:202.344 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T2730 000:202.362 - 0.008ms returns 0x01
+T2730 000:202.374 JLINK_GetHardwareVersion()
+T2730 000:202.383 - 0.012ms returns 0x17AE8
+T2730 000:202.409 JLINK_GetDLLVersion()  returns 68002
+T2730 000:202.425 JLINK_GetFirmwareString(...)
+T2730 000:202.433 - 0.012ms
+T2730 000:227.169 JLINK_GetDLLVersion()  returns 68002
+T2730 000:227.214 JLINK_GetCompileDateTime()
+T2730 000:227.222 - 0.012ms
+T2730 000:236.979 JLINK_GetFirmwareString(...)
+T2730 000:237.013 - 0.038ms
+T2730 000:245.999 JLINK_GetHardwareVersion()
+T2730 000:246.037 - 0.043ms returns 0x17AE8
+T2730 000:276.051 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T2730 000:276.644 - 0.606ms returns 0x00
+T2730 000:276.693 JLINK_SetSpeed(10000)
+T2730 000:276.782 - 0.096ms
+T2730 000:276.801 JLINK_GetId()
+T2730 001:119.324   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T2730 001:274.271   
   ***** Error: 
-T45D4 000:349.111   STM32: Connecting to CPU via connect under reset failed.
-T45D4 000:468.821   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T45D4 000:477.687   STM32 (connect): Can not attach to CPU. Trying connect under reset.
-T45D4 000:536.930   TotalIRLen = ?, IRPrint = 0x..000000000000000000000000
-T45D4 000:537.204   
+T2730 001:274.312   STM32: Connecting to CPU via connect under reset failed.
+T2730 001:512.550   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T2730 001:668.053   
   ***** Error: 
-T45D4 000:537.219   STM32: Connecting to CPU via connect under reset failed.
-T45D4 000:588.143 - 316.125ms
-T45D4 003:010.952 JLINK_Close()
-T45D4 003:023.081 - 12.149ms
-T45D4 003:023.106   
-T45D4 003:023.114   Closed
+T2730 001:668.082   STM32: Connecting to CPU via connect under reset failed.
+T2730 001:718.884 - 1442.103ms   returns 0x00000000
+T2730 003:251.837 JLINK_Close()
+T2730 003:255.389 - 3.583ms
+T2730 003:255.425   
+T2730 003:255.433   Closed
