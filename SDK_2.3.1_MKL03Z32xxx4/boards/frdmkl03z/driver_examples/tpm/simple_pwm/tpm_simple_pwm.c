@@ -41,8 +41,8 @@
  * Definitions
  ******************************************************************************/
 #define BOARD_TPM_BASEADDR TPM0
-//#define BOARD_TPM_CHANNEL 0U
-#define BOARD_TPM_CHANNEL 1U
+#define BOARD_TPM_CHANNEL 0U
+//#define BOARD_TPM_CHANNEL 1U
 
 /* Interrupt to enable and flag to read; depends on the TPM channel used */
 #define TPM_CHANNEL_INTERRUPT_ENABLE kTPM_Chnl0InterruptEnable
@@ -109,7 +109,7 @@ int main(void)
     TPM_Init(BOARD_TPM_BASEADDR, &tpmInfo);
 
 //    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 4000000U, TPM_SOURCE_CLOCK);
-    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 4000000U, TPM_SOURCE_CLOCK);
+    TPM_SetupPwm(BOARD_TPM_BASEADDR, &tpmParam, 1U, kTPM_CenterAlignedPwm, 2000000U, TPM_SOURCE_CLOCK);
 
     TPM_StartTimer(BOARD_TPM_BASEADDR, kTPM_SystemClock);
 
