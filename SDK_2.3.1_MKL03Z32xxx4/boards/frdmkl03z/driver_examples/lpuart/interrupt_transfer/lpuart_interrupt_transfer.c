@@ -77,10 +77,15 @@ int main(void)
 // TIMER
     timer_init();
 
+    float adc_last = adc_value;
     while(1)
     {
-    	// set dac voltage by mV with a shift voltage
-    	dac_setVol(adc_value, 0.f);
+    	if(adc_value != adc_last)
+    	{
+			// set dac voltage by mV with a shift voltage
+			dac_setVol(adc_value, 0.f);
+			adc_last = adc_value;
+    	}
     }
 
 

@@ -88,12 +88,12 @@ void dac_init(void)
     gpio_pin_config_t config = {0};
 
 
-//    {
-//        //
-//        config.pinDirection = kGPIO_DigitalOutput;
-//        config.outputLogic = GPIO_H;
-//        GPIO_PinInit(GPIOB, 1, &config);
-//    }
+    {
+        //
+        config.pinDirection = kGPIO_DigitalOutput;
+        config.outputLogic = GPIO_H;
+        GPIO_PinInit(GPIOB, 1, &config);
+    }
 
     // DOUT
     config.pinDirection = kGPIO_DigitalInput;
@@ -243,7 +243,7 @@ void dac_test(void)
 
 // Timer
 
-//#define TIMER_DEBUG
+#define TIMER_DEBUG
 #define DEMO_LPTMR_BASE LPTMR0
 #define DEMO_LPTMR_IRQn LPTMR0_IRQn
 #define LPTMR_HANDLER LPTMR0_IRQHandler
@@ -273,7 +273,7 @@ void LPTMR_HANDLER(void)
 			adc_value = adc_low;
 			if(cnt % 4 == 0)
 			{
-//				LED_TOGGLE();
+				LED_TOGGLE();
 				adc_value = adc_high;
 			}
 		}
