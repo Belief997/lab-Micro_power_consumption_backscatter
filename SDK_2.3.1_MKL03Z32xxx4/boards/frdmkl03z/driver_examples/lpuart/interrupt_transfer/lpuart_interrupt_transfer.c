@@ -43,7 +43,8 @@
 #define DEMO_LPUART LPUART0
 #define DEMO_LPUART_CLKSRC SYS_CLK
 #define DEMO_LPUART_CLK_FREQ CLOCK_GetFreq(SYS_CLK)
-#define ECHO_BUFFER_LENGTH 8
+//#define ECHO_BUFFER_LENGTH 8
+#define ECHO_BUFFER_LENGTH 20
 
 /*******************************************************************************
  * Prototypes
@@ -57,8 +58,9 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
  ******************************************************************************/
 lpuart_handle_t g_lpuartHandle;
 
-uint8_t g_tipString[] =
-    "Lpuart interrupt example\r\nBoard receives 8 characters then sends them out\r\nNow please input:\r\n";
+//uint8_t g_tipString[] =
+//    "Lpuart interrupt example\r\nBoard receives 8 characters then sends them out\r\nNow please input:\r\n";
+uint8_t g_tipString[] = {5,0,9,7,8,5};
 
 uint8_t g_txBuffer[ECHO_BUFFER_LENGTH] = {0};
 uint8_t g_rxBuffer[ECHO_BUFFER_LENGTH] = {0};
@@ -87,7 +89,23 @@ void LPUART_UserCallback(LPUART_Type *base, lpuart_handle_t *handle, status_t st
         rxOnGoing = false;
     }
 }
+void delay(void)
+{
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+	__asm("NOP"); /* delay */
+}
 
+void delay_n(uint32_t time)
+{
+    uint32_t i = 0;
+    for (i = 0; i < time; ++i)
+    {
+    	delay();
+    }
+}
 /*!
  * @brief Main function
  */
@@ -97,10 +115,18 @@ int main(void)
     lpuart_transfer_t xfer;
     lpuart_transfer_t sendXfer;
     lpuart_transfer_t receiveXfer;
+    gpio_pin_config_t config_output_L = {kGPIO_DigitalOutput, 0};
 
     BOARD_InitPins();
+    /* Init output ENABLE GPIO. */
+    // GPIOA
+//    GPIO_PinInit(GPIOA, 7U, &config_output_L);
     BOARD_BootClockRUN();
     CLOCK_SetLpuart0Clock(0x1U);
+
+
+
+
 
     /*
      * config.baudRate_Bps = 115200U;
@@ -119,45 +145,62 @@ int main(void)
     LPUART_Init(DEMO_LPUART, &config, DEMO_LPUART_CLK_FREQ);
     LPUART_TransferCreateHandle(DEMO_LPUART, &g_lpuartHandle, LPUART_UserCallback, NULL);
 
-    /* Send g_tipString out. */
-    xfer.data = g_tipString;
-    xfer.dataSize = sizeof(g_tipString) - 1;
-    txOnGoing = true;
-    LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &xfer);
+//    /* Send g_tipString out. */
+//    xfer.data = g_tipString;
+//    xfer.dataSize = sizeof(g_tipString) - 1;
+//    txOnGoing = true;
+//    LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &xfer);
+//
+//    /* Wait send finished */
+//    while (txOnGoing)
+//    {
+//    }
+//
+//    /* Start to echo. */
+//    sendXfer.data = g_txBuffer;
+//    sendXfer.dataSize = ECHO_BUFFER_LENGTH;
+//    receiveXfer.data = g_rxBuffer;
+//    receiveXfer.dataSize = ECHO_BUFFER_LENGTH;
 
-    /* Wait send finished */
-    while (txOnGoing)
+
+    while(1)
     {
+		/* Send g_tipString out. */
+		xfer.data = g_tipString;
+		xfer.dataSize = 6;
+		txOnGoing = true;
+		LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &xfer);
+
+		/* Wait send finished */
+		while (txOnGoing)
+		{
+		}
+
+		delay_n(1500000); // 2ms
     }
 
-    /* Start to echo. */
-    sendXfer.data = g_txBuffer;
-    sendXfer.dataSize = ECHO_BUFFER_LENGTH;
-    receiveXfer.data = g_rxBuffer;
-    receiveXfer.dataSize = ECHO_BUFFER_LENGTH;
-
-    while (1)
-    {
-        /* If RX is idle and g_rxBuffer is empty, start to read data to g_rxBuffer. */
-        if ((!rxOnGoing) && rxBufferEmpty)
-        {
-            rxOnGoing = true;
-            LPUART_TransferReceiveNonBlocking(DEMO_LPUART, &g_lpuartHandle, &receiveXfer, NULL);
-        }
-
-        /* If TX is idle and g_txBuffer is full, start to send data. */
-        if ((!txOnGoing) && txBufferFull)
-        {
-            txOnGoing = true;
-            LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &sendXfer);
-        }
-
-        /* If g_txBuffer is empty and g_rxBuffer is full, copy g_rxBuffer to g_txBuffer. */
-        if ((!rxBufferEmpty) && (!txBufferFull))
-        {
-            memcpy(g_txBuffer, g_rxBuffer, ECHO_BUFFER_LENGTH);
-            rxBufferEmpty = true;
-            txBufferFull = true;
-        }
-    }
+//    while (1)
+//    {
+//        /* If RX is idle and g_rxBuffer is empty, start to read data to g_rxBuffer. */
+//        if ((!rxOnGoing) && rxBufferEmpty)
+//        {
+//            rxOnGoing = true;
+//            LPUART_TransferReceiveNonBlocking(DEMO_LPUART, &g_lpuartHandle, &receiveXfer, NULL);
+//        }
+//
+//        /* If TX is idle and g_txBuffer is full, start to send data. */
+//        if ((!txOnGoing) && txBufferFull)
+//        {
+//            txOnGoing = true;
+//            LPUART_TransferSendNonBlocking(DEMO_LPUART, &g_lpuartHandle, &sendXfer);
+//        }
+//
+//        /* If g_txBuffer is empty and g_rxBuffer is full, copy g_rxBuffer to g_txBuffer. */
+//        if ((!rxBufferEmpty) && (!txBufferFull))
+//        {
+//            memcpy(g_txBuffer, g_rxBuffer, ECHO_BUFFER_LENGTH);
+//            rxBufferEmpty = true;
+//            txBufferFull = true;
+//        }
+//    }
 }
