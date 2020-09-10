@@ -5,6 +5,8 @@
 "stm_backscatter\stm32l0xx_hal_msp.o"
 "stm_backscatter\stm32l0xx_hal_tim.o"
 "stm_backscatter\stm32l0xx_hal_tim_ex.o"
+"stm_backscatter\stm32l0xx_hal_uart.o"
+"stm_backscatter\stm32l0xx_hal_uart_ex.o"
 "stm_backscatter\stm32l0xx_hal.o"
 "stm_backscatter\stm32l0xx_hal_i2c.o"
 "stm_backscatter\stm32l0xx_hal_i2c_ex.o"
