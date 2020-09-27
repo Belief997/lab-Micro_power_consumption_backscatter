@@ -373,12 +373,11 @@ ARM Macro Assembler    Page 6
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
 work --depend=stm_backscatter\startup_stm32l051xx.d -ostm_backscatter\startup_s
-tm32l051xx.o -IE:\Project\IAR\MPC_backscatter\lab-Micro_power_consumption_backs
-catter\stm_backscatter\MDK-ARM\RTE -ID:\29446\MDK514\ARM\PACK\ARM\CMSIS\4.5.0\C
-MSIS\Include -ID:\29446\MDK514\ARM\PACK\Keil\STM32L0xx_DFP\2.1.0 --predefine="_
-_MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 514" --predefine="_RTE_ S
-ETA 1" --predefine="STM32L051xx SETA 1" --list=startup_stm32l051xx.lst startup_
-stm32l051xx.s
+tm32l051xx.o -ID:\Project\lab-Micro_power_consumption_backscatter\stm_backscatt
+er\MDK-ARM\RTE -ID:\application\MDK514\PACK\ARM\CMSIS\4.2.0\CMSIS\Include -ID:\
+application\MDK514\PACK\Keil\STM32L0xx_DFP\2.0.1 --predefine="__MICROLIB SETA 1
+" --predefine="__UVISION_VERSION SETA 514" --predefine="_RTE_ SETA 1" --predefi
+ne="STM32L051xx SETA 1" --list=startup_stm32l051xx.lst startup_stm32l051xx.s
 
 
 
