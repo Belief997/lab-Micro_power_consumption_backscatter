@@ -17,3 +17,8 @@
 - simulate 分支为 matlab 仿真代码
 > update @04/21
 ---
+### tag 使用stm32 l152c8t6a
+- keil + cubemx
+
+- master 分支重置
+> update @09/28
