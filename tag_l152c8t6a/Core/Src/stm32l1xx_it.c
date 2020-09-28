@@ -23,6 +23,8 @@
 #include "stm32l1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "radio.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +44,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+uint32_t tim22_cnt = 0;
+char Buffer[7] = {1,2,3,4,5,6,7};
+extern tRadioDriver *Radio;
+extern uint8_t tx_cmd;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -52,10 +57,12 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+volatile uint32_t TickCounter = 0;
+volatile uint32_t TickCounter_NTZ = 0;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim6;
 extern UART_HandleTypeDef huart1;
 /* USER CODE BEGIN EV */
@@ -183,7 +190,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+	TickCounter++;
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
@@ -210,6 +217,23 @@ void EXTI0_IRQHandler(void)
   /* USER CODE BEGIN EXTI0_IRQn 1 */
 
   /* USER CODE END EXTI0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM4 global interrupt.
+  */
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+	tim22_cnt++;
+	if(tim22_cnt%1000==0){	
+		tx_cmd = 1;
+	}
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+
+  /* USER CODE END TIM4_IRQn 1 */
 }
 
 /**

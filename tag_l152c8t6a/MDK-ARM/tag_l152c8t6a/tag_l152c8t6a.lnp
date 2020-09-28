@@ -1,5 +1,13 @@
 --cpu Cortex-M3
 "tag_l152c8t6a\startup_stm32l152xba.o"
+"tag_l152c8t6a\radio.o"
+"tag_l152c8t6a\sx1276.o"
+"tag_l152c8t6a\sx1276-fsk.o"
+"tag_l152c8t6a\sx1276-fskmisc.o"
+"tag_l152c8t6a\sx1276-hal.o"
+"tag_l152c8t6a\sx1276-lora.o"
+"tag_l152c8t6a\sx1276-loramisc.o"
+"tag_l152c8t6a\ioe.o"
 "tag_l152c8t6a\main.o"
 "tag_l152c8t6a\stm32l1xx_it.o"
 "tag_l152c8t6a\stm32l1xx_hal_msp.o"
