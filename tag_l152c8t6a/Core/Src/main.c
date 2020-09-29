@@ -29,6 +29,7 @@
 #include "radio.h"
 #include "platform.h"
 #include "sx1276-Hal.h"
+#include "stm32f10x_type.h"
 #include <stdlib.h>
 
 #define BUFFER_SIZE                                 18 // Define the payload size here
@@ -101,7 +102,10 @@ char rxBuf1[7] = "11111";
 char rxBuf2[20];
 char rcv_flag1 = 0;
 char rcv_flag2 = 0;
-char read_over = 0;
+volatile char read_over = 0;
+
+
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   /* Prevent unused argument(s) compilation warning */
@@ -198,7 +202,7 @@ void OnMaster( void )
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=1000){
+				if(TickCounter-TxTimer>=50){
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
@@ -208,12 +212,13 @@ void OnMaster( void )
 					//Connect sensor
 					
 					tri_sensor();
-					while(read_over==0)
-						if(TickCounter-TxTimer>=SENSOR_TIMEOUT)
-							break;
+//					while(read_over==0)
+//						if(TickCounter-TxTimer>=SENSOR_TIMEOUT)
+//							break;
 					
 					sensor_is_timeout = (TickCounter-TxTimer>=SENSOR_TIMEOUT);
-
+					sensor_is_timeout = 1;
+					
 					read_over=0;
 					HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
 					if(0==sensor_is_timeout){
@@ -222,6 +227,11 @@ void OnMaster( void )
 						else
 							Radio->SetTxPacket( rxBuf1+1, SENSOR_BYTE-1 );
 						toggle_led();
+					}
+					else
+					{
+						char timeout_buf[] = "_nope";
+						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
 					}
 					memset(rxBuf1,0, SENSOR_BYTE);
 					
