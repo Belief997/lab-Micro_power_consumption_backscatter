@@ -32,6 +32,8 @@
 #include "stm32f10x_type.h"
 #include <stdlib.h>
 
+#include "sx1276-Fsk.h"
+
 #define BUFFER_SIZE                                 18 // Define the payload size here
 #define MAX_USER                                    5  
 #define TIME_GAP                                    1000 //ms
@@ -202,7 +204,7 @@ void OnMaster( void )
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=50){
+				if(TickCounter-TxTimer>=1000){
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
@@ -348,14 +350,45 @@ int main(void)
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
 //	HAL_UART_Receive_IT(&huart2, (uint8_t *)rxBuf2, 10);
 
+	HAL_TIM_Base_Start_IT(&htim4);
+
+
 	Radio = RadioDriverInit( );
 	Radio->Init( );
 	Radio->StartRx( );
-	
-	HAL_TIM_Base_Start_IT(&htim4);
+
+#if LORA == 0
+	{
+		uint8_t data_temp = 0;
+		SX1276Read( REG_PACKETCONFIG2, &data_temp );
+		data_temp &= RF_PACKETCONFIG2_DATAMODE_MASK;
+		SX1276Write( REG_PACKETCONFIG2, data_temp );
+    }
+
+// Disable radio interrupts
+    SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_11 );
+    SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_10 | RF_DIOMAPPING2_DIO5_10 );
+	SX1276FskSetOpMode(RF_OPMODE_TRANSMITTER);
+
+//	{
+//        uint8_t reg_buf[128] = {0};
+//        uint8_t reg_adr = 0;
+//        for(reg_adr = 0; reg_adr <= 0x70; reg_adr++)
+//        {
+//            uint8_t value = 0;
+//            SX1276Read(reg_adr, &value);
+//            reg_buf[reg_adr] = value;   
+//        }
+//				reg_adr = 0;
+//	}
+    
+	while(1);
+#endif
 	
 
 	
+
+
 
   /* USER CODE END 2 */
 

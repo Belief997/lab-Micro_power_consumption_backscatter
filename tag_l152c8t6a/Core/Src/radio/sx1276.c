@@ -44,7 +44,9 @@ void SX1276Init( void )
     SX1276 = ( tSX1276* )SX1276Regs;
     SX1276LR = ( tSX1276LR* )SX1276Regs;
 
+    // init gpios connected to lora module
     SX1276InitIo( );
+    // pull dowm nRest for 1ms and wait for rest done
     SX1276Reset( );
 
 //		while(version!=0x12)
@@ -52,14 +54,14 @@ void SX1276Init( void )
     // REMARK: After radio reset the default modem is FSK
 
 #if ( LORA == 0 ) 
-
+//    FSK MODE
     LoRaOn = false;
     SX1276SetLoRaOn( LoRaOn );
     // Initialize FSK modem
     SX1276FskInit( );
 
 #else
-
+//    LORA MODE
     LoRaOn = true;
     SX1276SetLoRaOn( LoRaOn );
     // Initialize LoRa modem
@@ -79,21 +81,23 @@ void SX1276Reset( void )
 
     SX1276SetReset( RADIO_RESET_OFF );
     
-    // Wait 6ms
+    // Wait 10ms
     startTick = GET_TICK_COUNT( );
-    while( ( GET_TICK_COUNT( ) - startTick ) < TICK_RATE_MS( 6 ) );    
+    while( ( GET_TICK_COUNT( ) - startTick ) < TICK_RATE_MS( 10 ) );    
 }
 
 void SX1276SetLoRaOn( bool enable )
 {
     if( LoRaOnState == enable )
     {
-        return;
+        // Keep state still and return
+        //return;
     }
+    // set new state
     LoRaOnState = enable;
     LoRaOn = enable;
 
-    if( LoRaOn == true )
+    if( LoRaOn == true ) // LoRa
     {
         SX1276LoRaSetOpMode( RFLR_OPMODE_SLEEP );
         
@@ -109,8 +113,10 @@ void SX1276SetLoRaOn( bool enable )
         
         SX1276ReadBuffer( REG_LR_OPMODE, SX1276Regs + 1, 0x70 - 1 );
     }
-    else
+    else // FSK 
     {
+				SX1276ReadBuffer( REG_OPMODE, SX1276Regs + 1, 0x70 - 1 );
+			
         SX1276LoRaSetOpMode( RFLR_OPMODE_SLEEP );
         
         SX1276LR->RegOpMode = ( SX1276LR->RegOpMode & RFLR_OPMODE_LONGRANGEMODE_MASK ) | RFLR_OPMODE_LONGRANGEMODE_OFF;

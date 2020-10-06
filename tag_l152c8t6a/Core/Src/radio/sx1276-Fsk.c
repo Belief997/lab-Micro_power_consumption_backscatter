@@ -36,6 +36,7 @@
 #include "sx1276-Fsk.h"
 
 // Default settings
+/*
 tFskSettings FskSettings = 
 {
     470000000,      // RFFrequency
@@ -47,6 +48,21 @@ tFskSettings FskSettings =
     true,           // CrcOn
     true,           // AfcOn    
     255             // PayloadLength (set payload size to the maximum for variable mode, else set the exact payload length)
+};
+	*/
+
+// test continous wave
+tFskSettings FskSettings = 
+{
+    433000000,      // RFFrequency
+    4800,           // Bitrate
+    0,          // Fdev
+    20,             // Power
+    0,         // RxBw
+    0,         // RxBwAfc
+    false,           // CrcOn
+    false,           // AfcOn    
+    0             // PayloadLength (set payload size to the maximum for variable mode, else set the exact payload length)
 };
 
 /*!
@@ -122,7 +138,8 @@ void SX1276FskInit( void )
     SX1276ReadBuffer( REG_OPMODE, SX1276Regs + 1, 0x70 - 1 );
 
     // Set the device in FSK mode and Sleep Mode
-    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_SLEEP;
+//    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_SLEEP ; 
+    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_FREQMODE_ACCESS_LF | RF_OPMODE_SLEEP ; 
     SX1276Write( REG_OPMODE, SX1276->RegOpMode );
 
     SX1276->RegPaRamp = RF_PARAMP_MODULATIONSHAPING_01;

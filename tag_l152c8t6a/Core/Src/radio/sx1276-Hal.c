@@ -141,7 +141,8 @@ void SX1276InitIo( void )
 {
 		GPIO_WriteBit( NSS_IOPORT, NSS_PIN, Bit_SET );
 		GPIO_WriteBit(SENSOR_IOPORT, SENSOR_PIN,Bit_SET);
-		GPIO_WriteBit(GATE_IOPORT, GATE_PIN,Bit_SET);
+		//GPIO_WriteBit(GATE_IOPORT, GATE_PIN,Bit_SET);
+		GPIO_WriteBit(GATE_IOPORT, GATE_PIN,Bit_RESET);
 
 	
 //    GPIO_InitTypeDef GPIO_InitStructure;
