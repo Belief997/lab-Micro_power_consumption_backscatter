@@ -36,11 +36,11 @@
 #include "sx1276-Fsk.h"
 
 // Default settings
-/*
+
 tFskSettings FskSettings = 
 {
-    470000000,      // RFFrequency
-    9600,           // Bitrate
+    433000000,      // RFFrequency
+    2400,           // Bitrate
     50000,          // Fdev
     20,             // Power
     100000,         // RxBw
@@ -49,21 +49,24 @@ tFskSettings FskSettings =
     true,           // AfcOn    
     255             // PayloadLength (set payload size to the maximum for variable mode, else set the exact payload length)
 };
-	*/
+	
 
 // test continous wave
-tFskSettings FskSettings = 
-{
-    433000000,      // RFFrequency
-    4800,           // Bitrate
-    0,          // Fdev
-    20,             // Power
-    0,         // RxBw
-    0,         // RxBwAfc
-    false,           // CrcOn
-    false,           // AfcOn    
-    0             // PayloadLength (set payload size to the maximum for variable mode, else set the exact payload length)
-};
+//tFskSettings FskSettings = 
+//{
+//    433000000,      // RFFrequency
+//    4800,           // Bitrate
+//    0,          // Fdev
+//    20,             // Power
+//    0,         // RxBw
+//    0,         // RxBwAfc
+//    false,           // CrcOn
+//    false,           // AfcOn    
+//    0             // PayloadLength (set payload size to the maximum for variable mode, else set the exact payload length)
+//};
+
+
+
 
 /*!
  * SX1276 FSK registers variable
@@ -128,6 +131,7 @@ static uint16_t TxPacketSize = 0;
 static uint32_t TxTimeoutTimer = 0;
 
 extern volatile uint32_t TickCounter;
+#define OOK
 void SX1276FskInit( void )
 {
 		uint8_t read_buf;
@@ -140,9 +144,15 @@ void SX1276FskInit( void )
     // Set the device in FSK mode and Sleep Mode
 //    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_SLEEP ; 
     SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_FREQMODE_ACCESS_LF | RF_OPMODE_SLEEP ; 
+#ifdef OOK
+    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_OOK | RF_OPMODE_SLEEP | RF_OPMODE_FREQMODE_ACCESS_LF;
+#endif
     SX1276Write( REG_OPMODE, SX1276->RegOpMode );
 
     SX1276->RegPaRamp = RF_PARAMP_MODULATIONSHAPING_01;
+#ifdef OOK
+    SX1276->RegPaRamp = RF_PARAMP_MODULATIONSHAPING_10;
+#endif
     SX1276Write( REG_PARAMP, SX1276->RegPaRamp );
 
     SX1276->RegLna = RF_LNA_GAIN_G1;
@@ -182,6 +192,13 @@ void SX1276FskInit( void )
 		SX1276FskGetPacketCrcOn( ); // Update CrcOn on FskSettings
 
     SX1276->RegPayloadLength = FskSettings.PayloadLength;
+    
+#ifdef OOK
+    SX1276->RegOokPeak = RF_OOKPEAK_BITSYNC_ON | RF_OOKPEAK_OOKTHRESHTYPE_PEAK | RF_OOKPEAK_OOKPEAKTHRESHSTEP_0_5_DB;
+    SX1276->RegOokFix = RF_OOKFIX_OOKFIXEDTHRESHOLD;
+    SX1276->RegOokAvg = RF_OOKAVG_OOKPEAKTHRESHDEC_000 | RF_OOKAVG_AVERAGEOFFSET_0_DB | RF_OOKAVG_OOKAVERAGETHRESHFILT_10;
+
+#endif  
 
     // we can now update the registers with our configuration
     SX1276WriteBuffer( REG_OPMODE, SX1276Regs + 1, 0x70 - 1 );

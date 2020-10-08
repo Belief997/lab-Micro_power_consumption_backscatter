@@ -204,7 +204,7 @@ void OnMaster( void )
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=1000){
+				if(TickCounter-TxTimer>=200){
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
@@ -357,7 +357,7 @@ int main(void)
 	Radio->Init( );
 	Radio->StartRx( );
 
-#if LORA == 0
+#if ((LORA == 0) && 0)
 	{
 		uint8_t data_temp = 0;
 		SX1276Read( REG_PACKETCONFIG2, &data_temp );
