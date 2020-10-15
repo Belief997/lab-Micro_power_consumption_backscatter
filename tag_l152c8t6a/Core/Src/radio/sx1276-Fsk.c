@@ -231,7 +231,7 @@ void SX1276FskInit( void )
 
     SX1276FskSetPAOutput( RF_PACONFIG_PASELECT_PABOOST );
     SX1276FskSetPa20dBm( true );
-    FskSettings.Power = 10;// 20;
+    FskSettings.Power = 20;
     SX1276FskSetRFPower( FskSettings.Power );
 
     
