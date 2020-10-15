@@ -134,6 +134,116 @@ extern volatile uint32_t TickCounter;
 #define OOK
 void SX1276FskInit( void )
 {
+    uint8_t read_buf[70];
+    uint8_t read_tmp;
+    RFState = RF_STATE_IDLE;
+
+    SX1276FskSetDefaults( );
+    
+    SX1276ReadBuffer( REG_OPMODE, SX1276Regs + 1, 0x70 - 1 );
+
+    // Set the device in FSK mode and Sleep Mode
+    SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_FSK | RF_OPMODE_SLEEP;
+    #ifdef OOK
+      SX1276->RegOpMode = RF_OPMODE_MODULATIONTYPE_OOK | RF_OPMODE_SLEEP;
+    #endif
+    if(FskSettings.RFFrequency<520000000){
+      SX1276->RegOpMode = SX1276->RegOpMode | RF_OPMODE_FREQMODE_ACCESS_LF;
+    }
+    SX1276Write( REG_OPMODE, SX1276->RegOpMode );
+
+    SX1276->RegPaRamp = RF_PARAMP_MODULATIONSHAPING_01;
+    #ifdef OOK
+      SX1276->RegPaRamp = RF_PARAMP_MODULATIONSHAPING_10;
+      SX1276->RegRssiConfig = (SX1276->RegRssiConfig & ~RF_RSSICONFIG_SMOOTHING_MASK) | RF_RSSICONFIG_SMOOTHING_4;
+    //SX1276Read( REG_RSSICONFIG,&read_tmp);
+      
+    SX1276Write( REG_RSSICONFIG, SX1276->RegRssiConfig); 
+    #endif    
+    SX1276Write( REG_PARAMP, SX1276->RegPaRamp );
+
+    SX1276->RegLna = RF_LNA_GAIN_G1;
+    SX1276Write( REG_LNA, SX1276->RegLna );
+    //SX1276ReadBuffer( 0x30, &read_buf, 1);
+    if( FskSettings.AfcOn == true )
+    {
+        SX1276->RegRxConfig = RF_RXCONFIG_RESTARTRXONCOLLISION_OFF | RF_RXCONFIG_AFCAUTO_ON |
+                              RF_RXCONFIG_AGCAUTO_ON | RF_RXCONFIG_RXTRIGER_PREAMBLEDETECT;
+    }
+    else
+    {
+        SX1276->RegRxConfig = RF_RXCONFIG_RESTARTRXONCOLLISION_OFF | RF_RXCONFIG_AFCAUTO_OFF |
+                              RF_RXCONFIG_AGCAUTO_ON | RF_RXCONFIG_RXTRIGER_PREAMBLEDETECT;
+    }
+
+
+    #ifdef OOK
+    SX1276->RegPreambleLsb = 2;
+    SX1276->RegPreambleDetect = RF_PREAMBLEDETECT_DETECTOR_ON | RF_PREAMBLEDETECT_DETECTORSIZE_1 |  //RF_PREAMBLEDETECT_DETECTORSIZE_2
+                                RF_PREAMBLEDETECT_DETECTORTOL_10;
+    SX1276->RegRssiThresh = 0xFF;
+
+    SX1276->RegSyncConfig = RF_SYNCCONFIG_AUTORESTARTRXMODE_WAITPLL_ON | RF_SYNCCONFIG_PREAMBLEPOLARITY_AA |
+                            RF_SYNCCONFIG_SYNC_ON |
+                            RF_SYNCCONFIG_SYNCSIZE_1; 
+    SX1276->RegSyncValue1 = 0xC1;
+    SX1276->RegPacketConfig1 = RF_PACKETCONFIG1_PACKETFORMAT_VARIABLE | RF_PACKETCONFIG1_DCFREE_OFF  | //RF_PACKETCONFIG1_DCFREE_WHITENING
+                               ( FskSettings.CrcOn << 4 ) | RF_PACKETCONFIG1_CRCAUTOCLEAR_ON |
+                               RF_PACKETCONFIG1_ADDRSFILTERING_OFF | RF_PACKETCONFIG1_CRCWHITENINGTYPE_CCITT;
+    #else
+    SX1276->RegPreambleLsb = 5;
+    SX1276->RegPreambleDetect = RF_PREAMBLEDETECT_DETECTOR_ON | RF_PREAMBLEDETECT_DETECTORSIZE_2 |  //
+                                RF_PREAMBLEDETECT_DETECTORTOL_10;
+    SX1276->RegSyncConfig = RF_SYNCCONFIG_AUTORESTARTRXMODE_WAITPLL_ON | RF_SYNCCONFIG_PREAMBLEPOLARITY_AA |
+                            RF_SYNCCONFIG_SYNC_ON |
+                            RF_SYNCCONFIG_SYNCSIZE_3; 
+    SX1276->RegSyncValue1 = 0xC1;
+    SX1276->RegSyncValue2 = 0x94;
+    SX1276->RegSyncValue3 = 0xC1;        
+    SX1276->RegPacketConfig1 = RF_PACKETCONFIG1_PACKETFORMAT_VARIABLE | RF_PACKETCONFIG1_DCFREE_WHITENING  | //RF_PACKETCONFIG1_DCFREE_WHITENING
+                               ( FskSettings.CrcOn << 4 ) | RF_PACKETCONFIG1_CRCAUTOCLEAR_ON |
+                               RF_PACKETCONFIG1_ADDRSFILTERING_OFF | RF_PACKETCONFIG1_CRCWHITENINGTYPE_CCITT;
+
+    #endif
+    SX1276Write( REG_PACKETCONFIG1, SX1276->RegPacketConfig1 );
+    //SIZE_3
+    
+        SX1276FskGetPacketCrcOn( ); // Update CrcOn on FskSettings
+
+    SX1276->RegPayloadLength = FskSettings.PayloadLength;
+    #ifdef OOK
+      SX1276->RegOokPeak = RF_OOKPEAK_BITSYNC_ON | RF_OOKPEAK_OOKTHRESHTYPE_PEAK | RF_OOKPEAK_OOKPEAKTHRESHSTEP_0_5_DB;
+      SX1276->RegOokFix = 150;//RF_OOKFIX_OOKFIXEDTHRESHOLD;
+      SX1276->RegOokAvg = RF_OOKAVG_OOKPEAKTHRESHDEC_000 | RF_OOKAVG_AVERAGEOFFSET_0_DB | RF_OOKAVG_OOKAVERAGETHRESHFILT_10;
+
+    #endif    
+    // we can now update the registers with our configuration
+    SX1276WriteBuffer( REG_OPMODE, SX1276Regs + 1, 0x70 - 1 );
+
+    // then we need to set the RF settings 
+    SX1276FskSetRFFrequency( FskSettings.RFFrequency );
+    SX1276FskSetBitrate( FskSettings.Bitrate );
+    SX1276FskSetFdev( FskSettings.Fdev );
+
+    SX1276FskSetDccBw( &SX1276->RegRxBw, 0, FskSettings.RxBw );
+    SX1276FskSetDccBw( &SX1276->RegAfcBw, 0, FskSettings.RxBwAfc );
+    SX1276FskSetRssiOffset( 0 );
+
+    SX1276FskSetPAOutput( RF_PACONFIG_PASELECT_PABOOST );
+    SX1276FskSetPa20dBm( true );
+    FskSettings.Power = 10;// 20;
+    SX1276FskSetRFPower( FskSettings.Power );
+
+    
+    SX1276FskSetOpMode( RF_OPMODE_STANDBY );
+    //SX1276ReadBuffer( REG_OPMODE, read_buf + 1, 0x70 - 1 );
+    // Calibrate the HF
+    SX1276FskRxCalibrate( );
+}
+
+#if 0
+void SX1276FskInit( void )
+{
 		uint8_t read_buf;
     RFState = RF_STATE_IDLE;
 
@@ -169,7 +279,7 @@ void SX1276FskInit( void )
                               RF_RXCONFIG_AGCAUTO_ON | RF_RXCONFIG_RXTRIGER_PREAMBLEDETECT;
     }
 
-    SX1276->RegPreambleLsb = 5;
+    SX1276->RegPreambleLsb = 2;
     
     SX1276->RegPreambleDetect = RF_PREAMBLEDETECT_DETECTOR_ON | RF_PREAMBLEDETECT_DETECTORSIZE_2 |
                                 RF_PREAMBLEDETECT_DETECTORTOL_10;
@@ -221,6 +331,8 @@ void SX1276FskInit( void )
     // Calibrate the HF
     SX1276FskRxCalibrate( );
 }
+#endif 
+
 
 void SX1276FskSetDefaults( void )
 {

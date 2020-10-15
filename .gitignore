@@ -10,6 +10,8 @@ KinetisSDK/*.xml
 KinetisSDK/*.htm
 KinetisSDK/*.txt
 
+tag_l152c8t6a/MDK-ARM/JLinkLog.txt
+
 *.mat
 *.o
 *.d

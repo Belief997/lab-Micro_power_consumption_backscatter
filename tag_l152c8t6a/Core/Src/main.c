@@ -232,7 +232,8 @@ void OnMaster( void )
 					}
 					else
 					{
-						char timeout_buf[] = "_nope";
+//						char timeout_buf[] = "_nope";
+                        char timeout_buf[] = {31,32,33,34,35,36};
 						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
 					}
 					memset(rxBuf1,0, SENSOR_BYTE);
