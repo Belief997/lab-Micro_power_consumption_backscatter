@@ -196,6 +196,20 @@ void OnSlave( void )
     }
 }
 
+
+
+
+typedef enum
+{
+    STATE_BKSCT_IDLE = 0,
+    STATE_BKSCT_BUSY = 1,
+
+
+};
+
+volatile u8 State_bksct = STATE_BKSCT_IDLE;
+
+
 /*
  * Manages the master operation
  */
@@ -232,8 +246,14 @@ void OnMaster( void )
 					}
 					else
 					{
-						char timeout_buf[] = "_nope";
-						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
+//						char timeout_buf[] = "_nope";
+//						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
+                        u8 data[] = {1, 2, 3, 4, 5, 6};
+                        if(STATE_BKSCT_IDLE == State_bksct)
+                        {
+                            fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
+                            State_bksct = STATE_BKSCT_BUSY;
+                        }
 					}
 					memset(rxBuf1,0, SENSOR_BYTE);
 					
@@ -302,6 +322,156 @@ void OnMaster( void )
 
 
 
+
+static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
+u8 fskLen = 0;
+
+/**
+  * @brief  Period elapsed callback in non-blocking mode
+  * @param  htim TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
+    if(htim->Instance == TIM4)
+    {
+        if(State_bksct == STATE_BKSCT_BUSY;)
+        {
+            static u32 cntBit = 0;
+            u16 cntByte = cntBit % 8;
+
+            u8 *pdata = fskBuff;
+        	u8 tempvalue = 0; 
+
+            u8 BitAll = 8 * (fskLen + 2);
+        	if(cntBit < BitAll)
+        	{
+                u8 iovalue = 0;
+        		tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
+                iovalue = tempvalue & 0x01;
+                GPIO_PinWrite(GPIOB, 3U, iovalue);
+                cntBit++;
+        	}
+            else
+            {
+                // send complete reset state
+                cntBit = 0;
+                State_bksct = STATE_BKSCT_IDLE;
+            }
+        }
+
+    }
+}
+
+
+#define FSK_PREAMBLE (0XAA)
+#define FSK_PREAMBLE_LEN (5)
+#define FSK_SYNC_WORD (0X00C194C1)
+#define FSK_SYNC_LEN (3)
+#define FSK_PAYPLOAD_LEN (6)
+#define FSK_CRC_LEN (2)
+#define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
+
+#define n2s16(x) (((x & 0xff00) >> 8) | ((x & 0x00ff) << 8))
+
+// crc
+u16 CRC_calc(u8 *buffer, u8 bufferLength)
+{
+    u16 crc = 0x1D0F;
+    u16 poly = 0x1021;
+
+    u8 i;
+    for(i = 0; i < bufferLength; i++)
+    {
+        u8 data = buffer[i];
+        u8 j;
+        for(j = 0; j < 8; j++)
+        {
+            if( (( (crc & 0x8000) >> 8 ) ^ (data & 0x80)) != 0 )
+            {
+                crc <<= 1;
+                crc ^= poly;
+            }
+            else
+            {
+                crc <<= 1;
+            }
+            data <<= 1;
+        }
+    }
+    return (u16)(~crc);
+}
+
+//
+static u8 array_lfsr[] = {
+//		11111111 10000111 10111000 01011001
+//		10110111 10100001 11001100 00100100
+//		01010111 01011110 01001011 10011100
+//		00001110 11101001 11101010 01010000
+//		00101010 10111110
+
+		0xff, 0x87, 0xb8, 0x59,
+		0xb7, 0xa1, 0xcc, 0x24,
+		0x57, 0x5e, 0x4b, 0x9c,
+		0x0e, 0xe9, 0xea, 0x50,
+		0x2a, 0xbe
+};
+
+// I/O buffer size should be same
+s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut)
+{
+	if(lenIn > sizeof(array_lfsr))
+	{
+		// data is oversized
+		return -1;
+	}
+
+	u8 i = 0;
+	for(i = 0; i < lenIn; i++)
+	{
+		bufferOut[i] = bufferIn[i] ^ array_lfsr[i];
+	}
+	return 0;
+}
+
+
+u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
+{
+	if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
+	{
+		// wrong dataLen
+		return 0;
+	}
+
+    u8 *pdata = fskBuff;
+
+    memset(pdata, FSK_PREAMBLE, FSK_PREAMBLE_LEN);
+    pdata += FSK_PREAMBLE_LEN;
+
+    u32 temp = FSK_SYNC_WORD;
+    memcpy(pdata, &temp, FSK_SYNC_LEN);
+    pdata += FSK_SYNC_LEN;
+
+	u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
+	memcpy(dataBuff[0] + 1, data, FSK_PAYPLOAD_LEN);
+
+	temp = n2s16(CRC_calc(dataBuff, (u8)(FSK_PAYPLOAD_LEN + 1)));
+	memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
+
+	user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
+	memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+	pdata += FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN;
+
+//	while(1);
+	return (pdata - fskBuff);
+}
+
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -357,7 +527,7 @@ int main(void)
 	Radio->Init( );
 	Radio->StartRx( );
 
-#if LORA == 0
+#if CW == 1
 	{
 		uint8_t data_temp = 0;
 		SX1276Read( REG_PACKETCONFIG2, &data_temp );
@@ -381,8 +551,9 @@ int main(void)
 //        }
 //				reg_adr = 0;
 //	}
-    
-	while(1);
+
+
+//	while(1);
 #endif
 	
 
@@ -553,11 +724,11 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 1;
+  htim4.Init.Prescaler = 23;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
   {
     Error_Handler();
@@ -665,16 +836,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_11|GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_11|GPIO_PIN_15, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4|GPIO_PIN_8, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15|GPIO_PIN_8, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 
   /*Configure GPIO pins : PA1 PA15 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_15;
@@ -689,11 +860,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  /*Configure GPIO pins : PA4 PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB0 */
@@ -715,13 +886,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA11 */
   GPIO_InitStruct.Pin = GPIO_PIN_11;
