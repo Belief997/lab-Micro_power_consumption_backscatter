@@ -31,7 +31,7 @@
 #include "sx1276-Hal.h"
 #include "stm32f10x_type.h"
 #include <stdlib.h>
-
+#include "stm32l1xx_hal_gpio.h"
 #include "sx1276-Fsk.h"
 
 #define BUFFER_SIZE                                 18 // Define the payload size here
@@ -213,6 +213,118 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
 /*
  * Manages the master operation
  */
+
+ 
+
+
+#define FSK_PREAMBLE (0XAA)
+#define FSK_PREAMBLE_LEN (5)
+#define FSK_SYNC_WORD (0X00C194C1)
+#define FSK_SYNC_LEN (3)
+#define FSK_PAYPLOAD_LEN (6)
+#define FSK_CRC_LEN (2)
+#define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
+ 
+#define n2s16(x) (((x & 0xff00) >> 8) | ((x & 0x00ff) << 8))
+
+
+ u8 fskLen = 0;
+ static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
+
+ // crc
+ u16 CRC_calc(u8 *buffer, u8 bufferLength)
+ {
+     u16 crc = 0x1D0F;
+     u16 poly = 0x1021;
+ 
+     u8 i;
+     for(i = 0; i < bufferLength; i++)
+     {
+         u8 data = buffer[i];
+         u8 j;
+         for(j = 0; j < 8; j++)
+         {
+             if( (( (crc & 0x8000) >> 8 ) ^ (data & 0x80)) != 0 )
+             {
+                 crc <<= 1;
+                 crc ^= poly;
+             }
+             else
+             {
+                 crc <<= 1;
+             }
+             data <<= 1;
+         }
+     }
+     return (u16)(~crc);
+ }
+ 
+ //
+ static u8 array_lfsr[] = {
+ //      11111111 10000111 10111000 01011001
+ //      10110111 10100001 11001100 00100100
+ //      01010111 01011110 01001011 10011100
+ //      00001110 11101001 11101010 01010000
+ //      00101010 10111110
+ 
+         0xff, 0x87, 0xb8, 0x59,
+         0xb7, 0xa1, 0xcc, 0x24,
+         0x57, 0x5e, 0x4b, 0x9c,
+         0x0e, 0xe9, 0xea, 0x50,
+         0x2a, 0xbe
+ };
+ 
+ // I/O buffer size should be same
+ s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut)
+ {
+     if(lenIn > sizeof(array_lfsr))
+     {
+         // data is oversized
+         return -1;
+     }
+ 
+     u8 i = 0;
+     for(i = 0; i < lenIn; i++)
+     {
+         bufferOut[i] = bufferIn[i] ^ array_lfsr[i];
+     }
+     return 0;
+ }
+ 
+ 
+ u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
+ {
+     if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
+     {
+         // wrong dataLen
+         return 0;
+     }
+ 
+     u8 *pdata = fskBuff;
+ 
+     memset(pdata, FSK_PREAMBLE, FSK_PREAMBLE_LEN);
+     pdata += FSK_PREAMBLE_LEN;
+ 
+     u32 temp = FSK_SYNC_WORD;
+     memcpy(pdata, &temp, FSK_SYNC_LEN);
+     pdata += FSK_SYNC_LEN;
+ 
+     u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
+     memcpy(&dataBuff[0][1], data, FSK_PAYPLOAD_LEN);
+ 
+     temp = n2s16(CRC_calc(dataBuff[0], (u8)(FSK_PAYPLOAD_LEN + 1)));
+     memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
+ 
+     user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
+     memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+     pdata += FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN;
+ 
+ //  while(1);
+     return (pdata - fskBuff);
+ }
+ 
+ 
+
 void OnMaster( void )
 {
     uint8_t i,sensor_is_timeout;
@@ -251,6 +363,7 @@ void OnMaster( void )
                         u8 data[] = {1, 2, 3, 4, 5, 6};
                         if(STATE_BKSCT_IDLE == State_bksct)
                         {
+                            memset(fskBuff, 0, sizeof(fskBuff));
                             fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
                             State_bksct = STATE_BKSCT_BUSY;
                         }
@@ -323,8 +436,7 @@ void OnMaster( void )
 
 
 
-static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
-u8 fskLen = 0;
+
 
 /**
   * @brief  Period elapsed callback in non-blocking mode
@@ -338,21 +450,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     if(htim->Instance == TIM4)
     {
-        if(State_bksct == STATE_BKSCT_BUSY;)
+        if(State_bksct == STATE_BKSCT_BUSY)
         {
             static u32 cntBit = 0;
             u16 cntByte = cntBit % 8;
+            u8 BitAll = 8 * (fskLen + 2);
 
             u8 *pdata = fskBuff;
         	u8 tempvalue = 0; 
 
-            u8 BitAll = 8 * (fskLen + 2);
         	if(cntBit < BitAll)
         	{
                 u8 iovalue = 0;
         		tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
                 iovalue = tempvalue & 0x01;
-                GPIO_PinWrite(GPIOB, 3U, iovalue);
+                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 1 : 0);
                 cntBit++;
         	}
             else
@@ -365,110 +477,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     }
 }
-
-
-#define FSK_PREAMBLE (0XAA)
-#define FSK_PREAMBLE_LEN (5)
-#define FSK_SYNC_WORD (0X00C194C1)
-#define FSK_SYNC_LEN (3)
-#define FSK_PAYPLOAD_LEN (6)
-#define FSK_CRC_LEN (2)
-#define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
-
-#define n2s16(x) (((x & 0xff00) >> 8) | ((x & 0x00ff) << 8))
-
-// crc
-u16 CRC_calc(u8 *buffer, u8 bufferLength)
-{
-    u16 crc = 0x1D0F;
-    u16 poly = 0x1021;
-
-    u8 i;
-    for(i = 0; i < bufferLength; i++)
-    {
-        u8 data = buffer[i];
-        u8 j;
-        for(j = 0; j < 8; j++)
-        {
-            if( (( (crc & 0x8000) >> 8 ) ^ (data & 0x80)) != 0 )
-            {
-                crc <<= 1;
-                crc ^= poly;
-            }
-            else
-            {
-                crc <<= 1;
-            }
-            data <<= 1;
-        }
-    }
-    return (u16)(~crc);
-}
-
-//
-static u8 array_lfsr[] = {
-//		11111111 10000111 10111000 01011001
-//		10110111 10100001 11001100 00100100
-//		01010111 01011110 01001011 10011100
-//		00001110 11101001 11101010 01010000
-//		00101010 10111110
-
-		0xff, 0x87, 0xb8, 0x59,
-		0xb7, 0xa1, 0xcc, 0x24,
-		0x57, 0x5e, 0x4b, 0x9c,
-		0x0e, 0xe9, 0xea, 0x50,
-		0x2a, 0xbe
-};
-
-// I/O buffer size should be same
-s8 user_whitening(u8 *bufferIn, u8 lenIn, u8 *bufferOut)
-{
-	if(lenIn > sizeof(array_lfsr))
-	{
-		// data is oversized
-		return -1;
-	}
-
-	u8 i = 0;
-	for(i = 0; i < lenIn; i++)
-	{
-		bufferOut[i] = bufferIn[i] ^ array_lfsr[i];
-	}
-	return 0;
-}
-
-
-u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
-{
-	if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
-	{
-		// wrong dataLen
-		return 0;
-	}
-
-    u8 *pdata = fskBuff;
-
-    memset(pdata, FSK_PREAMBLE, FSK_PREAMBLE_LEN);
-    pdata += FSK_PREAMBLE_LEN;
-
-    u32 temp = FSK_SYNC_WORD;
-    memcpy(pdata, &temp, FSK_SYNC_LEN);
-    pdata += FSK_SYNC_LEN;
-
-	u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
-	memcpy(dataBuff[0] + 1, data, FSK_PAYPLOAD_LEN);
-
-	temp = n2s16(CRC_calc(dataBuff, (u8)(FSK_PAYPLOAD_LEN + 1)));
-	memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
-
-	user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
-	memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
-	pdata += FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN;
-
-//	while(1);
-	return (pdata - fskBuff);
-}
-
 
 
 

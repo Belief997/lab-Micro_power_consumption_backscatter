@@ -40,6 +40,14 @@ typedef unsigned int  uint32_t;
 typedef unsigned short uint16_t;
 typedef unsigned char  uint8_t;
 
+typedef uint32_t  u32;
+typedef uint16_t u16;
+typedef uint8_t  u8;
+typedef  signed int  s32;
+typedef  signed short s16;
+typedef  signed char  s8;
+
+
 typedef unsigned int  const uc32;  /* Read Only */
 typedef unsigned short const uc16;  /* Read Only */
 typedef unsigned char  const uc8;   /* Read Only */
