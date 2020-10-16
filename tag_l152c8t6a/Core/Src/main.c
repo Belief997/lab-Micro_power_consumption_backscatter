@@ -218,9 +218,9 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
 
 
 #define FSK_PREAMBLE (0XAA)
-#define FSK_PREAMBLE_LEN (5)
-#define FSK_SYNC_WORD (0X00C194C1)
-#define FSK_SYNC_LEN (3)
+#define FSK_PREAMBLE_LEN (2)//(5)
+#define FSK_SYNC_WORD (0X000000C1) // (0X00C194C1)
+#define FSK_SYNC_LEN (1) //(3)
 #define FSK_PAYPLOAD_LEN (6)
 #define FSK_CRC_LEN (2)
 #define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
@@ -291,7 +291,9 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
      return 0;
  }
  
- 
+
+#define FSK_CRC 1
+#define FSK_WHITENING 0
  u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
  {
      if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
@@ -308,18 +310,28 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
      u32 temp = FSK_SYNC_WORD;
      memcpy(pdata, &temp, FSK_SYNC_LEN);
      pdata += FSK_SYNC_LEN;
- 
+
+     // dataBuff[0] as raw data buff, set length and copy into data here
      u8 dataBuff[2][FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN] = {FSK_PAYPLOAD_LEN};
      memcpy(&dataBuff[0][1], data, FSK_PAYPLOAD_LEN);
- 
+
+     // copy crc to dataBuff[0]
+#if FSK_CRC == 1
      temp = n2s16(CRC_calc(dataBuff[0], (u8)(FSK_PAYPLOAD_LEN + 1)));
+#else
+    temp = 0;
+#endif
      memcpy(&dataBuff[0][0]+FSK_PAYPLOAD_LEN + 1, &temp, FSK_CRC_LEN);
- 
-     user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
-     memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+
+#if FSK_WHITENING == 1
+    // whitening (len + data + crc) and copy to dataBuff[1]
+    user_whitening(dataBuff[0], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN, dataBuff[1]);
+    memcpy(pdata, dataBuff[1], FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN);
+#else
+     memcpy(pdata, dataBuff[0], 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN);
+#endif
      pdata += FSK_PAYPLOAD_LEN + 1 + FSK_CRC_LEN;
  
- //  while(1);
      return (pdata - fskBuff);
  }
  
@@ -360,7 +372,7 @@ void OnMaster( void )
 					{
 //						char timeout_buf[] = "_nope";
 //						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
-                        u8 data[] = {1, 2, 3, 4, 5, 6};
+                        u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
                         if(STATE_BKSCT_IDLE == State_bksct)
                         {
                             memset(fskBuff, 0, sizeof(fskBuff));
@@ -371,7 +383,7 @@ void OnMaster( void )
 					memset(rxBuf1,0, SENSOR_BYTE);
 					
 				}
-			Radio->Process( );
+//			Radio->Process( );
 		}
 		
     switch( Radio->Process( ) )
@@ -453,7 +465,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         if(State_bksct == STATE_BKSCT_BUSY)
         {
             static u32 cntBit = 0;
-            u16 cntByte = cntBit % 8;
+            u16 cntByte = cntBit / 8;
             u8 BitAll = 8 * (fskLen + 2);
 
             u8 *pdata = fskBuff;
@@ -464,7 +476,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                 u8 iovalue = 0;
         		tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
                 iovalue = tempvalue & 0x01;
-                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 1 : 0);
+                // INVERSE
+                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
                 cntBit++;
         	}
             else
@@ -535,6 +548,8 @@ int main(void)
 	Radio->Init( );
 	Radio->StartRx( );
 
+
+
 #if CW == 1
 	{
 		uint8_t data_temp = 0;
@@ -546,7 +561,7 @@ int main(void)
 // Disable radio interrupts
     SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_11 );
     SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_10 | RF_DIOMAPPING2_DIO5_10 );
-	SX1276FskSetOpMode(RF_OPMODE_TRANSMITTER);
+		SX1276FskSetOpMode(RF_OPMODE_TRANSMITTER);
 
 //	{
 //        uint8_t reg_buf[128] = {0};
@@ -561,7 +576,16 @@ int main(void)
 //	}
 
 
-//	while(1);
+//	while(1)
+//	{
+//        u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
+//        if(STATE_BKSCT_IDLE == State_bksct)
+//        {
+//            memset(fskBuff, 0, sizeof(fskBuff));
+//            fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
+//            State_bksct = STATE_BKSCT_BUSY;
+//        }
+//	}
 #endif
 	
 
@@ -578,15 +602,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		if( EnableMaster == true )
-        {
-            OnMaster( );
-        }
-        else
-        {
-            OnSlave( );
-        }    
-		}
+
+		OnMaster( );
+  }
   /* USER CODE END 3 */
 }
 
@@ -732,7 +750,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 23;
+  htim4.Init.Prescaler = 9;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

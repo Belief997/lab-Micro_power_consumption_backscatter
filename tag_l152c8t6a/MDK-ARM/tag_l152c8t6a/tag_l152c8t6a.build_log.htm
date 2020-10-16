@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\tag_l152c8t6a.uvprojx
-Project File Date:  10/15/2020
+Project File Date:  10/16/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
@@ -31,19 +31,21 @@ compiling main.c...
                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
 ../Core/Src/main.c(208): warning:  #375-D: declaration requires a typedef name
   };
-../Core/Src/main.c(377): warning:  #111-D: statement is unreachable
+../Core/Src/main.c(389): warning:  #111-D: statement is unreachable
       switch( Radio->Process( ) )
-../Core/Src/main.c(400): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Src/main.c(412): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(331): warning:  #177-D: variable "tickstart" was declared but never referenced
+../Core/Src/main.c(343): warning:  #177-D: variable "tickstart" was declared but never referenced
                 uint32_t tickstart;
-../Core/Src/main.c(467): warning:  #188-D: enumerated type mixed with another type
-                  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 1 : 0);
-../Core/Src/main.c: 6 warnings, 0 errors
+../Core/Src/main.c(480): warning:  #188-D: enumerated type mixed with another type
+                  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
+../Core/Src/main.c(48): warning:  #550-D: variable "EnableMaster" was set but never used
+  static uint8_t EnableMaster = true;                           // Master/Slave selection
+../Core/Src/main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=22244 RO-data=692 RW-data=308 ZI-data=2092  
+Program Size: Code=21684 RO-data=692 RW-data=304 ZI-data=2080  
 FromELF: creating hex file...
-"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 6 Warning(s).
+"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
