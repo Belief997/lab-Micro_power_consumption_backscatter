@@ -1,0 +1,25 @@
+--cpu Cortex-M0+
+"tag_l051k8t\startup_stm32l051xx.o"
+"tag_l051k8t\main.o"
+"tag_l051k8t\stm32l0xx_it.o"
+"tag_l051k8t\stm32l0xx_hal_msp.o"
+"tag_l051k8t\stm32l0xx_hal_tim.o"
+"tag_l051k8t\stm32l0xx_hal_tim_ex.o"
+"tag_l051k8t\stm32l0xx_hal.o"
+"tag_l051k8t\stm32l0xx_hal_i2c.o"
+"tag_l051k8t\stm32l0xx_hal_i2c_ex.o"
+"tag_l051k8t\stm32l0xx_hal_rcc.o"
+"tag_l051k8t\stm32l0xx_hal_rcc_ex.o"
+"tag_l051k8t\stm32l0xx_hal_flash_ramfunc.o"
+"tag_l051k8t\stm32l0xx_hal_flash.o"
+"tag_l051k8t\stm32l0xx_hal_flash_ex.o"
+"tag_l051k8t\stm32l0xx_hal_gpio.o"
+"tag_l051k8t\stm32l0xx_hal_dma.o"
+"tag_l051k8t\stm32l0xx_hal_pwr.o"
+"tag_l051k8t\stm32l0xx_hal_pwr_ex.o"
+"tag_l051k8t\stm32l0xx_hal_cortex.o"
+"tag_l051k8t\system_stm32l0xx.o"
+--library_type=microlib --strict --scatter "tag_l051k8t\tag_l051k8t.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "tag_l051k8t.map" -o tag_l051k8t\tag_l051k8t.axf
