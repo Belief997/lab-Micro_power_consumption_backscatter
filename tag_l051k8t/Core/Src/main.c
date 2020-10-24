@@ -196,10 +196,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	AD9838_Init() ;
-	AD9838_Select_Wave(Sine_Wave) ;
-	AD9838_Set_Freq(FREQ_1, 2025000);
+	AD9838_Select_Wave(Square_Wave) ;
+	AD9838_Set_Freq(FREQ_1, 4025000);
 	AD9838_Set_Freq(FREQ_0, 3975000);
 
+
+		
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -208,9 +210,9 @@ int main(void)
   {
 		
 				delay_n(100);
-		AD9838_Write_16Bits(0x2008);
+		AD9838_Write_16Bits(0x2038);
 		delay_n(100);
-		AD9838_Write_16Bits(0x2808);
+		AD9838_Write_16Bits(0x2838);
 
 		
     /* USER CODE END WHILE */
