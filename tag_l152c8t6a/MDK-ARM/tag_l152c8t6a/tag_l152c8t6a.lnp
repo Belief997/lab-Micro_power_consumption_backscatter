@@ -11,7 +11,8 @@
 "tag_l152c8t6a\main.o"
 "tag_l152c8t6a\stm32l1xx_it.o"
 "tag_l152c8t6a\stm32l1xx_hal_msp.o"
-"tag_l152c8t6a\stm32l1xx_hal_spi.o"
+"tag_l152c8t6a\stm32l1xx_hal_rtc.o"
+"tag_l152c8t6a\stm32l1xx_hal_rtc_ex.o"
 "tag_l152c8t6a\stm32l1xx_hal.o"
 "tag_l152c8t6a\stm32l1xx_hal_rcc.o"
 "tag_l152c8t6a\stm32l1xx_hal_rcc_ex.o"
@@ -26,7 +27,6 @@
 "tag_l152c8t6a\stm32l1xx_hal_exti.o"
 "tag_l152c8t6a\stm32l1xx_hal_tim.o"
 "tag_l152c8t6a\stm32l1xx_hal_tim_ex.o"
-"tag_l152c8t6a\stm32l1xx_hal_uart.o"
 "tag_l152c8t6a\system_stm32l1xx.o"
 --library_type=microlib --strict --scatter "tag_l152c8t6a\tag_l152c8t6a.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

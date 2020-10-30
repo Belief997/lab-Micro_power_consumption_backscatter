@@ -98,7 +98,7 @@ extern volatile uint32_t TickCounter;
 #define GPIO_ReadInputDataBit HAL_GPIO_ReadPin
 #define GPIO_WriteBit HAL_GPIO_WritePin
 
-extern SPI_HandleTypeDef hspi1;
+//extern SPI_HandleTypeDef hspi1;
 
 void tri_sensor(void){
 	uint32_t tickstart;
@@ -130,7 +130,7 @@ uint8_t SpiInOut( uint8_t outData )
     /* Send SPIy data */
 		uint8_t rx_data;
 		//GPIO_WriteBit( NSS_IOPORT, NSS_PIN, Bit_SET );
-		HAL_SPI_TransmitReceive( &hspi1, &outData, &rx_data,1,50);
+		//HAL_SPI_TransmitReceive( &hspi1, &outData, &rx_data,1,50);
 		//GPIO_WriteBit( NSS_IOPORT, NSS_PIN, Bit_SET );
 //    SPI_I2S_SendData( SPI_INTERFACE, outData );
 //    while( SPI_I2S_GetFlagStatus( SPI_INTERFACE, SPI_I2S_FLAG_RXNE ) == RESET );
