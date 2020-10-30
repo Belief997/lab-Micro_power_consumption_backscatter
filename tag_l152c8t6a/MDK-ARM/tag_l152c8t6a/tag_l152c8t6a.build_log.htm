@@ -22,14 +22,16 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\tag_l152c8t6a.uvprojx
-Project File Date:  10/29/2020
+Project File Date:  10/30/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
 compiling main.c...
 ../Core/Src/main.c(201): warning:  #375-D: declaration requires a typedef name
   };
-../Core/Src/main.c(678): warning:  #128-D: loop is not reachable
+../Core/Src/main.c(609): warning:  #128-D: loop is not reachable
+    while (1)
+../Core/Src/main.c(655): warning:  #128-D: loop is not reachable
         while (1);
 ../Core/Src/main.c(46): warning:  #177-D: variable "BufferSize" was declared but never referenced
   static uint16_t BufferSize = BUFFER_SIZE;                     // RF buffer size
@@ -39,11 +41,11 @@ compiling main.c...
   static uint8_t EnableMaster = true;                           // Master/Slave selection
 ../Core/Src/main.c(225): warning:  #177-D: variable "fskBuff" was declared but never referenced
    static u8 fskBuff[2*FSK_FRAME_LEN] = {0};
-../Core/Src/main.c: 6 warnings, 0 errors
+../Core/Src/main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=9012 RO-data=312 RW-data=128 ZI-data=1208  
+Program Size: Code=7732 RO-data=312 RW-data=128 ZI-data=1208  
 FromELF: creating hex file...
-"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 6 Warning(s).
+"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 

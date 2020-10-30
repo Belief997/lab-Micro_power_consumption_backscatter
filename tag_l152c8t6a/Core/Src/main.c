@@ -506,11 +506,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 }
 
 
-
-RTC_DateTypeDef sdatestructure;
-RTC_TimeTypeDef stimestructure;
-
-
+/*
 void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
 {
     int i = 0;
@@ -518,6 +514,7 @@ void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_11);
 		MX_RTC_Init();
 }
+*/
 
 /* USER CODE END 0 */
 
@@ -534,7 +531,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-		HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -555,128 +552,63 @@ int main(void)
 	
 	//HAL_TIM_PWM_Start(&htim22, TIM_CHANNEL_1);
 	//HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-	//__HAL_TIM_SET_COMPARE(&htim22, TIM_CHANNEL_1, 3);
-	//__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 3);
-	
-
-//	HAL_UART_Transmit(&huart1, (uint8_t *)txBuf1, strlen(txBuf1), 0xffff);
-//	HAL_UART_Transmit(&huart2, (uint8_t *)txBuf2, strlen(txBuf2), 0xffff);
-//	HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
-//	HAL_UART_Receive_IT(&huart2, (uint8_t *)rxBuf2, 10);
-
-//	HAL_TIM_Base_Start_IT(&htim4);
-
-#if 0
-	Radio = RadioDriverInit( );
-	Radio->Init( );
-	Radio->StartRx( );
-
-
-
-//#if CW == 1
-	{
-		uint8_t data_temp = 0;
-		SX1276Read( REG_PACKETCONFIG2, &data_temp );
-		data_temp &= RF_PACKETCONFIG2_DATAMODE_MASK;
-		SX1276Write( REG_PACKETCONFIG2, data_temp );
-    }
-
-// Disable radio interrupts
-    SX1276Write( REG_DIOMAPPING1, RF_DIOMAPPING1_DIO0_11 | RF_DIOMAPPING1_DIO1_11 );
-    SX1276Write( REG_DIOMAPPING2, RF_DIOMAPPING2_DIO4_10 | RF_DIOMAPPING2_DIO5_10 );
-		SX1276FskSetOpMode(RF_OPMODE_TRANSMITTER);
-
-//	{
-//        uint8_t reg_buf[128] = {0};
-//        uint8_t reg_adr = 0;
-//        for(reg_adr = 0; reg_adr <= 0x70; reg_adr++)
-//        {
-//            uint8_t value = 0;
-//            SX1276Read(reg_adr, &value);
-//            reg_buf[reg_adr] = value;   
-//        }
-//				reg_adr = 0;
-//	}
-
-
-//	while(1)
-//	{
-//        u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
-//        if(STATE_BKSCT_IDLE == State_bksct)
-//        {
-//            memset(fskBuff, 0, sizeof(fskBuff));
-//            fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
-//            State_bksct = STATE_BKSCT_BUSY;
-//        }
-//	}
-#endif
-	
-
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	
-	// RTC
+	// PWM
 
-	
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
-
-	//while(1);
-
 	HAL_Delay(500);
+	
+	// STANDBY
+	
+	  /* The Following Wakeup sequence is highly recommended prior to each Standby mode entry
+    mainly  when using more than one wakeup source this is to not miss any wakeup event.
+    - Disable all used wakeup sources,
+    - Clear all related wakeup flags, 
+    - Re-enable all used wakeup sources,
+    - Enter the Standby mode.
+  */
+  /* Disable all used wakeup sources*/
+  HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
+  
+  /* Re-enable all used wakeup sources*/
+  /* ## Setting the Wake up time ############################################*/
+  /*  RTC Wakeup Interrupt Generation:
+    Wakeup Time Base = (RTC_WAKEUPCLOCK_RTCCLK_DIV /(LSI))
+    Wakeup Time = Wakeup Time Base * WakeUpCounter 
+      = (RTC_WAKEUPCLOCK_RTCCLK_DIV /(LSI)) * WakeUpCounter
+      ==> WakeUpCounter = Wakeup Time / Wakeup Time Base
+  
+    To configure the wake up timer to 4s the WakeUpCounter is set to 0x1FFF:
+    RTC_WAKEUPCLOCK_RTCCLK_DIV = RTCCLK_Div16 = 16 
+    Wakeup Time Base = 16 /(~39.000KHz) = ~0,410 ms
+    Wakeup Time = ~4s = 0,410ms  * WakeUpCounter
+      ==> WakeUpCounter = ~4s/0,410ms = 9750 = 0x2616 */
+  HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 0x2616, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
+  
+  /* Clear all related wakeup flags */
+  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+  
+  /* Enter the Standby mode */
+  HAL_PWR_EnterSTANDBYMode();
+	
+	
 	
   while (1)
   {
-			SysTick->VAL = 0x00;   //??val,?????
-		
-			__HAL_RCC_APB2_FORCE_RESET();//
-	      /* Enable Power Clock*/
-    __HAL_RCC_PWR_CLK_ENABLE();
-
-    /* Allow access to Backup */
-    HAL_PWR_EnableBkUpAccess();
-
-		__HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
-    __HAL_RTC_WRITEPROTECTION_DISABLE(&hrtc);			//??RTC???
-		
-		__HAL_RTC_TIMESTAMP_DISABLE_IT(&hrtc,RTC_IT_TS);
-    __HAL_RTC_ALARM_DISABLE_IT(&hrtc,RTC_IT_ALRA|RTC_IT_ALRB);
-		
-		   //??RTC???????
-    __HAL_RTC_ALARM_CLEAR_FLAG(&hrtc,RTC_FLAG_ALRAF|RTC_FLAG_ALRBF);
-    __HAL_RTC_TIMESTAMP_CLEAR_FLAG(&hrtc,RTC_FLAG_TSF); 
-    __HAL_RTC_WAKEUPTIMER_CLEAR_FLAG(&hrtc,RTC_FLAG_WUTF);
-		
-		
-
-    __HAL_RTC_WRITEPROTECTION_ENABLE(&hrtc);     		//??RTC???
-    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);                  //??Wake_UP??
-
-
-    /* Disable all used wakeup sources: Pin1(PA.0) */
-    HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
-
-    /* Clear all related wakeup flags */
-    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-
-    /* Re-enable all used wakeup sources: Pin1(PA.0) */
-    HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
-
-    /*## Enter Standby Mode ####################################################*/
-    /* Request to enter STANDBY mode  */
-    HAL_PWR_EnterSTANDBYMode(); 
+			
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
 		//OnMaster( );
   }
-	while (1);
-  /* USER CODE END 3 */
+ /* USER CODE END 3 */
 }
 
 /**
@@ -737,12 +669,14 @@ static void MX_RTC_Init(void)
 {
 
   /* USER CODE BEGIN RTC_Init 0 */
+  
+	/* Enable Ultra low power mode */
+  HAL_PWREx_EnableUltraLowPower();
 
+  /* Enable the fast wake up from Ultra low power mode */
+  HAL_PWREx_EnableFastWakeUp();
+	
   /* USER CODE END RTC_Init 0 */
-
-  RTC_TimeTypeDef sTime = {0};
-  RTC_DateTypeDef sDate = {0};
-  RTC_AlarmTypeDef sAlarm = {0};
 
   /* USER CODE BEGIN RTC_Init 1 */
 
@@ -757,49 +691,6 @@ static void MX_RTC_Init(void)
   hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* USER CODE BEGIN Check_RTC_BKUP */
-
-  /* USER CODE END Check_RTC_BKUP */
-
-  /** Initialize RTC and set the Time and Date
-  */
-  sTime.Hours = 0;
-  sTime.Minutes = 0;
-  sTime.Seconds = 0;
-  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
-  sDate.Month = RTC_MONTH_JANUARY;
-  sDate.Date = 1;
-  sDate.Year = 0;
-
-  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BIN) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Enable the Alarm A
-  */
-  sAlarm.AlarmTime.Hours = 0;
-  sAlarm.AlarmTime.Minutes = 0;
-  sAlarm.AlarmTime.Seconds = 2;
-  sAlarm.AlarmTime.SubSeconds = 0;
-  sAlarm.AlarmTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-  sAlarm.AlarmTime.StoreOperation = RTC_STOREOPERATION_RESET;
-  sAlarm.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY|RTC_ALARMMASK_HOURS
-                              |RTC_ALARMMASK_MINUTES;
-  sAlarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
-  sAlarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_DATE;
-  sAlarm.AlarmDateWeekDay = 1;
-  sAlarm.Alarm = RTC_ALARM_A;
-  if (HAL_RTC_SetAlarm_IT(&hrtc, &sAlarm, RTC_FORMAT_BIN) != HAL_OK)
   {
     Error_Handler();
   }
