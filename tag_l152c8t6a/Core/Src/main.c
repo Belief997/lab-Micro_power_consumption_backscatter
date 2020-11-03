@@ -202,7 +202,7 @@ void OnMaster( void )
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=50){
+				if(TickCounter-TxTimer>=600){
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
