@@ -24,8 +24,8 @@
 /*!
  * SX1272 and SX1276 General parameters definition
  */
-#define LORA                                        0         // [0: OFF, 1: ON]
-#define CW                                          1         // 
+#define LORA                                        1         // [0: OFF, 1: ON]
+#define CW                                          0         // 
 
 /*!
  * RF process function return codes

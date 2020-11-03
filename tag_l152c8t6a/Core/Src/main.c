@@ -70,9 +70,6 @@ volatile uint32_t TxTimer;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-RTC_HandleTypeDef hrtc;
-
-TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
@@ -81,8 +78,6 @@ TIM_HandleTypeDef htim2;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_TIM2_Init(void);
-static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -329,13 +324,13 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
  }
  
  
-#if 0
+#if 1
 void OnMaster( void )
 {
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=1000){
+				if(TickCounter-TxTimer>=600){
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
@@ -344,7 +339,7 @@ void OnMaster( void )
 					*/
 					//Connect sensor
 					
-					tri_sensor();
+					//tri_sensor();
 //					while(read_over==0)
 //						if(TickCounter-TxTimer>=SENSOR_TIMEOUT)
 //							break;
@@ -353,7 +348,7 @@ void OnMaster( void )
 					sensor_is_timeout = 1;
 					
 					read_over=0;
-					HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
+					//HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
 					if(0==sensor_is_timeout){
 						if(rxBuf1[0]!=0x00)
 								Radio->SetTxPacket( rxBuf1, SENSOR_BYTE-1 );
@@ -363,20 +358,20 @@ void OnMaster( void )
 					}
 					else
 					{
-//						char timeout_buf[] = "_nope";
-//						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
-                        u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
-                        if(STATE_BKSCT_IDLE == State_bksct)
-                        {
-                            memset(fskBuff, 0, sizeof(fskBuff));
-                            fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
-                            State_bksct = STATE_BKSCT_BUSY;
-                        }
+						char timeout_buf[] = "_nope";
+						Radio->SetTxPacket( timeout_buf, SENSOR_BYTE-1 );
+//									u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
+//									if(STATE_BKSCT_IDLE == State_bksct)
+//									{
+//											memset(fskBuff, 0, sizeof(fskBuff));
+//											fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
+//											State_bksct = STATE_BKSCT_BUSY;
+//									}
 					}
 					memset(rxBuf1,0, SENSOR_BYTE);
 					
 				}
-//			Radio->Process( );
+			Radio->Process( );
 		}
 		
     switch( Radio->Process( ) )
@@ -402,7 +397,7 @@ void OnMaster( void )
     
         if( BufferSize > 0 )
         {
-						HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
+						//HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
             if( strncmp( ( const char* )Buffer, ( const char* )PongMsg, 4 ) == 0 )
             {
                 // Indicates on a LED that the received frame is a PONG
@@ -439,71 +434,8 @@ void OnMaster( void )
 #endif
 
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == GPIO_PIN_12)
-	{
-		static uint8_t i = 0;
-		if(i++ % 2 == 0)
-		{
-				HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
-				
-		}
-		else
-		{
-			HAL_TIM_PWM_Stop(&htim2,TIM_CHANNEL_1);
-		}
-		
-		
-		
-	}
-	
-}
 
 
-
-/**
-  * @brief  Period elapsed callback in non-blocking mode
-  * @param  htim TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(htim);
-
-	#if 0
-    if(htim->Instance == TIM4)
-    {
-        if(State_bksct == STATE_BKSCT_BUSY)
-        {
-            static u32 cntBit = 0;
-            u16 cntByte = cntBit / 8;
-            u8 BitAll = 8 * (fskLen + 2);
-
-            u8 *pdata = fskBuff;
-        	u8 tempvalue = 0; 
-
-        	if(cntBit < BitAll)
-        	{
-                u8 iovalue = 0;
-        		tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
-                iovalue = tempvalue & 0x01;  
-                // INVERSE
-                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
-                cntBit++;
-        	}
-            else
-            {
-                // send complete reset state
-                cntBit = 0;
-                State_bksct = STATE_BKSCT_IDLE;
-            }
-        }
-
-    }
-		#endif
-}
 
 
 /*
@@ -546,8 +478,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM2_Init();
-  //MX_RTC_Init();
   /* USER CODE BEGIN 2 */
 	
 	//HAL_TIM_PWM_Start(&htim22, TIM_CHANNEL_1);
@@ -561,44 +491,10 @@ int main(void)
 	// PWM
 
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
-	while(1);
-	HAL_Delay(500);
+	//while(1);
+	//HAL_Delay(500);
 	
-	// STANDBY
-	
-	  /* The Following Wakeup sequence is highly recommended prior to each Standby mode entry
-    mainly  when using more than one wakeup source this is to not miss any wakeup event.
-    - Disable all used wakeup sources,
-    - Clear all related wakeup flags, 
-    - Re-enable all used wakeup sources,
-    - Enter the Standby mode.
-  */
-  /* Disable all used wakeup sources*/
-  HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
-  
-  /* Re-enable all used wakeup sources*/
-  /* ## Setting the Wake up time ############################################*/
-  /*  RTC Wakeup Interrupt Generation:
-    Wakeup Time Base = (RTC_WAKEUPCLOCK_RTCCLK_DIV /(LSI))
-    Wakeup Time = Wakeup Time Base * WakeUpCounter 
-      = (RTC_WAKEUPCLOCK_RTCCLK_DIV /(LSI)) * WakeUpCounter
-      ==> WakeUpCounter = Wakeup Time / Wakeup Time Base
-  
-    To configure the wake up timer to 4s the WakeUpCounter is set to 0x1FFF:
-    RTC_WAKEUPCLOCK_RTCCLK_DIV = RTCCLK_Div16 = 16 
-    Wakeup Time Base = 16 /(~39.000KHz) = ~0,410 ms
-    Wakeup Time = ~4s = 0,410ms  * WakeUpCounter
-      ==> WakeUpCounter = ~4s/0,410ms = 9750 = 0x2616 */
-			//0.435ms  11495 5s
-  //HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 0x2616, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
-  HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 10345, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
-	
-  /* Clear all related wakeup flags */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-  
-  /* Enter the Standby mode */
-  HAL_PWR_EnterSTANDBYMode();
+
 	
 	
 	
@@ -609,7 +505,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-		//OnMaster( );
+		OnMaster( );
   }
   /* USER CODE END 3 */
 }
@@ -622,7 +518,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Configure the main internal regulator output voltage
   */
@@ -630,10 +525,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;
@@ -655,111 +549,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-/**
-  * @brief RTC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_RTC_Init(void)
-{
-
-  /* USER CODE BEGIN RTC_Init 0 */
-  
-	/* Enable Ultra low power mode */
-  HAL_PWREx_EnableUltraLowPower();
-
-  /* Enable the fast wake up from Ultra low power mode */
-  HAL_PWREx_EnableFastWakeUp();
-	
-  /* USER CODE END RTC_Init 0 */
-
-  /* USER CODE BEGIN RTC_Init 1 */
-
-  /* USER CODE END RTC_Init 1 */
-  /** Initialize RTC Only
-  */
-  hrtc.Instance = RTC;
-  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-  hrtc.Init.AsynchPrediv = 127;
-  hrtc.Init.SynchPrediv = 255;
-  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-  if (HAL_RTC_Init(&hrtc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN RTC_Init 2 */
-
-  /* USER CODE END RTC_Init 2 */
-
-}
-
-/**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 9;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 4;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-  HAL_TIM_MspPostInit(&htim2);
-
 }
 
 /**
@@ -775,6 +564,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PA0 PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA15 */
   GPIO_InitStruct.Pin = GPIO_PIN_15;

@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L152xBA,USE_SX1276_RADIO</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;                                     ../Drivers/STM32L1xx_HAL_Driver/Inc;                                     ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                                     ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                                     ../Drivers/CMSIS/Include;                                     ..\Core\Src\radio</IncludePath>
+              <IncludePath>../Core/Inc;                                      ../Drivers/STM32L1xx_HAL_Driver/Inc;                                      ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                                      ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                                      ../Drivers/CMSIS/Include;                                      ..\Core\Src\radio</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -487,14 +487,14 @@
           <GroupName>Drivers/STM32L1xx_HAL_Driver</GroupName>
           <Files>
             <File>
-              <FileName>stm32l1xx_hal_rtc.c</FileName>
+              <FileName>stm32l1xx_hal_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_rtc.c</FilePath>
+              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_tim.c</FilePath>
             </File>
             <File>
-              <FileName>stm32l1xx_hal_rtc_ex.c</FileName>
+              <FileName>stm32l1xx_hal_tim_ex.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_rtc_ex.c</FilePath>
+              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_tim_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32l1xx_hal.c</FileName>
@@ -555,16 +555,6 @@
               <FileName>stm32l1xx_hal_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l1xx_hal_tim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_tim.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l1xx_hal_tim_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_tim_ex.c</FilePath>
             </File>
           </Files>
         </Group>
