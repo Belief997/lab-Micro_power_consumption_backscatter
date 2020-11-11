@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L152xBA,USE_SX1276_RADIO</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;         ../Drivers/STM32L1xx_HAL_Driver/Inc;         ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;         ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;         ../Drivers/CMSIS/Include;         ..\Core\Src\radio</IncludePath>
+              <IncludePath>../Core/Inc;                  ../Drivers/STM32L1xx_HAL_Driver/Inc;                  ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                  ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                  ../Drivers/CMSIS/Include;                  ..\Core\Src\radio</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -457,6 +457,11 @@
               <FileName>ioe.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Src\radio\ioe.c</FilePath>
+            </File>
+            <File>
+              <FileName>AD9838.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\AD9838.c</FilePath>
             </File>
           </Files>
         </Group>

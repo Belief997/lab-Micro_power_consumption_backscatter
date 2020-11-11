@@ -8,6 +8,7 @@
 "tag_l152c8t6a\sx1276-lora.o"
 "tag_l152c8t6a\sx1276-loramisc.o"
 "tag_l152c8t6a\ioe.o"
+"tag_l152c8t6a\ad9838.o"
 "tag_l152c8t6a\main.o"
 "tag_l152c8t6a\stm32l1xx_it.o"
 "tag_l152c8t6a\stm32l1xx_hal_msp.o"

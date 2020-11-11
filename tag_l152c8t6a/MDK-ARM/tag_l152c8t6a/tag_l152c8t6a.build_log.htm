@@ -22,30 +22,34 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\tag_l152c8t6a.uvprojx
-Project File Date:  10/16/2020
+Project File Date:  11/11/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
 compiling main.c...
-../Core/Src/main.c(166): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Inc/AD9838.h(13): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
+  void AD9838_Init(); 
+../Core/Inc/AD9838.h(22): warning:  #1-D: last line of file ends without a newline
+  #endif
+../Core/Src/main.c(170): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(208): warning:  #375-D: declaration requires a typedef name
+../Core/Src/main.c(212): warning:  #375-D: declaration requires a typedef name
   };
-../Core/Src/main.c(389): warning:  #111-D: statement is unreachable
+../Core/Src/main.c(393): warning:  #111-D: statement is unreachable
       switch( Radio->Process( ) )
-../Core/Src/main.c(412): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Src/main.c(416): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(343): warning:  #177-D: variable "tickstart" was declared but never referenced
+../Core/Src/main.c(347): warning:  #177-D: variable "tickstart" was declared but never referenced
                 uint32_t tickstart;
-../Core/Src/main.c(480): warning:  #188-D: enumerated type mixed with another type
+../Core/Src/main.c(484): warning:  #188-D: enumerated type mixed with another type
                   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
-../Core/Src/main.c(48): warning:  #550-D: variable "EnableMaster" was set but never used
+../Core/Src/main.c(50): warning:  #550-D: variable "EnableMaster" was set but never used
   static uint8_t EnableMaster = true;                           // Master/Slave selection
-../Core/Src/main.c: 7 warnings, 0 errors
+../Core/Src/main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=21684 RO-data=692 RW-data=304 ZI-data=2080  
+Program Size: Code=22768 RO-data=664 RW-data=304 ZI-data=2144  
 FromELF: creating hex file...
-"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 7 Warning(s).
+"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
