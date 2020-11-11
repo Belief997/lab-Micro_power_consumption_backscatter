@@ -3,7 +3,7 @@
 <title>Static Call Graph - [tag_l152c8t6a\tag_l152c8t6a.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image tag_l152c8t6a\tag_l152c8t6a.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Nov 11 21:03:04 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Nov 11 21:39:01 2020
 <BR><P>
 <H3>Maximum Stack Usage =        344 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -638,7 +638,6 @@ Global Symbols
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276SetReset
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276ReadBuffer
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276InitIo
-<LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD9838_Write_16Bits
@@ -905,7 +904,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[83]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 128 bytes, Stack size 32 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
+<P><STRONG><a name="[83]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 130 bytes, Stack size 32 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_TIM_PeriodElapsedCallback
 </UL>
 <BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -1641,7 +1640,7 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pow
 </UL>
 
-<P><STRONG><a name="[37]"></a>main</STRONG> (Thumb, 238 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[37]"></a>main</STRONG> (Thumb, 200 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = main &rArr; SX1276FskSetOpMode &rArr; SX1276Write &rArr; SX1276WriteBuffer &rArr; SpiInOut &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SX1276Read
@@ -1665,7 +1664,6 @@ Global Symbols
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD9838_Set_Freq
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD9838_Select_Wave
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD9838_Init
-<LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)

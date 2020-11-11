@@ -297,7 +297,7 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
  
 
 #define FSK_CRC 1
-#define FSK_WHITENING 0
+#define FSK_WHITENING 1
  u8 user_fskFrame(u8 *fskBuff, u8 fskBufSize, u8 *data, u8 dataLen)
  {
      if(dataLen != FSK_PAYPLOAD_LEN || fskBufSize < FSK_FRAME_LEN)
@@ -478,10 +478,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         	if(cntBit < BitAll)
         	{
                 u8 iovalue = 0;
-        		tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
+								tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
                 iovalue = tempvalue & 0x01;
                 // INVERSE
-                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
+								HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, iovalue? GPIO_PIN_RESET:GPIO_PIN_SET); 
+                //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
                 cntBit++;
         	}
             else
@@ -581,22 +582,13 @@ int main(void)
 //	}
 
 
-//	while(1)
-//	{
-//        u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
-//        if(STATE_BKSCT_IDLE == State_bksct)
-//        {
-//            memset(fskBuff, 0, sizeof(fskBuff));
-//            fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
-//            State_bksct = STATE_BKSCT_BUSY;
-//        }
-//	}
+
 #endif
 	
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	
 	HAL_Delay(2000);
-	
+		
 	AD9838_Init() ;
 	AD9838_Select_Wave(Square_Wave) ;
 	
@@ -604,17 +596,26 @@ int main(void)
 	AD9838_Set_Freq(FREQ_1, 500000);
 	
 	//AD9838_Write_16Bits(0x2038);
-	//while(1);
+	while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_Delay(1000);
-		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_RESET); 
-		HAL_Delay(1000);
-		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET); 
+//		HAL_Delay(1000);
+//		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_RESET); 
+//		HAL_Delay(1000);
+//		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET); 
+		
+		u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
+		if(STATE_BKSCT_IDLE == State_bksct)
+		{
+				memset(fskBuff, 0, sizeof(fskBuff));
+				fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
+				HAL_Delay(50);
+				State_bksct = STATE_BKSCT_BUSY;
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -825,7 +826,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 9;
+  htim4.Init.Prescaler = 31;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

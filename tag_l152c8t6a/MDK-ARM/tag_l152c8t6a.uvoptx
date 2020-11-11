@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ProjectOpt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_optx.xsd">
 
   <SchemaVersion>1.0</SchemaVersion>
@@ -45,7 +45,7 @@
         <PageWidth>79</PageWidth>
         <PageLength>66</PageLength>
         <TabStop>8</TabStop>
-        <ListingPath></ListingPath>
+        <ListingPath />
       </OPTLEX>
       <ListingPage>
         <CreateCListing>1</CreateCListing>
@@ -123,16 +123,16 @@
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <nTsel>6</nTsel>
-        <sDll></sDll>
-        <sDllPa></sDllPa>
-        <sDlgDll></sDlgDll>
-        <sDlgPa></sDlgPa>
-        <sIfile></sIfile>
-        <tDll></tDll>
-        <tDllPa></tDllPa>
-        <tDlgDll></tDlgDll>
-        <tDlgPa></tDlgPa>
-        <tIfile></tIfile>
+        <sDll />
+        <sDllPa />
+        <sDlgDll />
+        <sDlgPa />
+        <sIfile />
+        <tDll />
+        <tDllPa />
+        <tDlgDll />
+        <tDlgPa />
+        <tIfile />
         <pMon>Segger\JL2CM3.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
@@ -149,7 +149,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ARMDBGFLAGS</Key>
-          <Name></Name>
+          <Name />
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -181,7 +181,7 @@
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Core/Src/main.c</Filename>
-          <ExecCommand></ExecCommand>
+          <ExecCommand />
           <Expression>\\tag_l152c8t6a\../Core/Src/main.c\379</Expression>
         </Bp>
         <Bp>
@@ -197,7 +197,7 @@
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Core/Src/main.c</Filename>
-          <ExecCommand></ExecCommand>
+          <ExecCommand />
           <Expression>\\tag_l152c8t6a\../Core/Src/main.c\468</Expression>
         </Bp>
       </Breakpoint>
@@ -267,8 +267,8 @@
         <newCpu>0</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
-      <LintExecutable></LintExecutable>
-      <LintConfigFile></LintConfigFile>
+      <LintExecutable />
+      <LintConfigFile />
     </TargetOption>
   </Target>
 
