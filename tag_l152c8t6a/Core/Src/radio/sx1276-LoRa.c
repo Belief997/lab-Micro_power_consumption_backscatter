@@ -135,7 +135,7 @@ const int32_t HoppingFrequencies[] =
 
 tLoRaSettings LoRaSettings =
 {
-    900000000,        // RFFrequency
+    433000000,        // RFFrequency
     10,               // Power
     7,                // SignalBw [0: 7.8kHz, 1: 10.4 kHz, 2: 15.6 kHz, 3: 20.8 kHz, 4: 31.2 kHz,
                       // 5: 41.6 kHz, 6: 62.5 kHz, 7: 125 kHz, 8: 250 kHz, 9: 500 kHz, other: Reserved]

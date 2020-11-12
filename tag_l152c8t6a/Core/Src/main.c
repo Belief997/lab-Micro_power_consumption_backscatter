@@ -211,7 +211,7 @@ void OnMaster( void )
 					*/
 					//Connect sensor
 					
-					tri_sensor();
+					//tri_sensor();
 //					while(read_over==0)
 //						if(TickCounter-TxTimer>=SENSOR_TIMEOUT)
 //							break;
