@@ -222,9 +222,9 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
 
 
 #define FSK_PREAMBLE (0XAA)
-#define FSK_PREAMBLE_LEN (2)//(5)
-#define FSK_SYNC_WORD (0X000000C1) // (0X00C194C1)
-#define FSK_SYNC_LEN (1) //(3)
+#define FSK_PREAMBLE_LEN (5)//(2)//(5)
+#define FSK_SYNC_WORD (0X00C194C1)//(0X000000C1) // (0X00C194C1)
+#define FSK_SYNC_LEN (3) //(1) //(3)
 #define FSK_PAYPLOAD_LEN (6)
 #define FSK_CRC_LEN (2)
 #define FSK_FRAME_LEN (FSK_PREAMBLE_LEN + FSK_SYNC_LEN + 1 + FSK_PAYPLOAD_LEN + FSK_CRC_LEN) // 5() + 3 + 1 + 6 + 2
@@ -481,7 +481,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 								tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
                 iovalue = tempvalue & 0x01;
                 // INVERSE
-								HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, iovalue? GPIO_PIN_RESET:GPIO_PIN_SET); 
+								HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, iovalue? GPIO_PIN_SET:GPIO_PIN_RESET); 
                 //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
                 cntBit++;
         	}
@@ -550,9 +550,9 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim4);
 
 
-	Radio = RadioDriverInit( );
-	Radio->Init( );
-	Radio->StartRx( );
+	//Radio = RadioDriverInit( );
+	//Radio->Init( );
+	//Radio->StartRx( );
 
 
 
@@ -592,11 +592,11 @@ int main(void)
 	AD9838_Init() ;
 	AD9838_Select_Wave(Square_Wave) ;
 	
-	AD9838_Set_Freq(FREQ_0, 400000);
-	AD9838_Set_Freq(FREQ_1, 500000);
+	AD9838_Set_Freq(FREQ_0, 1400000);
+	AD9838_Set_Freq(FREQ_1, 1500000);
 	
 	//AD9838_Write_16Bits(0x2038);
-	while(1);
+	//while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -608,7 +608,10 @@ int main(void)
 //		HAL_Delay(1000);
 //		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET); 
 		
-		u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
+		//u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
+		char str[] = "txtest";
+		u8 data[6] = {0};
+		memcpy(data, str, 6);
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
 				memset(fskBuff, 0, sizeof(fskBuff));
