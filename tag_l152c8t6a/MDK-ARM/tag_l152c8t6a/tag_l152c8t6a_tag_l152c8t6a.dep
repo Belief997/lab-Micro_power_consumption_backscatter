@@ -2,13 +2,13 @@ Dependencies for Project 'tag_l152c8t6a', Target 'tag_l152c8t6a': (DO NOT MODIFY
 F (startup_stm32l152xba.s)(0x5FABE5D8)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0--pd "__UVISION_VERSION SETA 514" --pd "_RTE_ SETA 1" --pd "STM32L152xBA SETA 1"--list startup_stm32l152xba.lst --xref -o tag_l152c8t6a\startup_stm32l152xba.o --depend tag_l152c8t6a\startup_stm32l152xba.d)
 F (..\Core\Src\radio\radio.c)(0x5F87C00E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\radio.o --omf_browse tag_l152c8t6a\radio.crf --depend tag_l152c8t6a\radio.d)
 I (..\Core\Src\radio\platform.h)(0x5F87C00E)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
 I (..\Core\Src\radio\sx1276.h)(0x5F87C00F)
 F (..\Core\Src\radio\sx1276.c)(0x5FA14496)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\sx1276.o --omf_browse tag_l152c8t6a\sx1276.crf --depend tag_l152c8t6a\sx1276.d)
 I (..\Core\Src\radio\platform.h)(0x5F87C00E)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
 I (..\Core\Src\radio\sx1276.h)(0x5F87C00F)
@@ -16,11 +16,11 @@ I (..\Core\Src\radio\sx1276-Hal.h)(0x5F87C00F)
 I (..\Core\Src\radio\ioe.h)(0x5F87C00E)
 I (..\Core\Src\radio\sx1276-Fsk.h)(0x5F87C00F)
 I (..\Core\Src\radio\sx1276-LoRa.h)(0x5F87C00F)
-F (..\Core\Src\radio\sx1276-Fsk.c)(0x5FAB8BE2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\sx1276-fsk.o --omf_browse tag_l152c8t6a\sx1276-fsk.crf --depend tag_l152c8t6a\sx1276-fsk.d)
+F (..\Core\Src\radio\sx1276-Fsk.c)(0x5FAC9B6D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\sx1276-fsk.o --omf_browse tag_l152c8t6a\sx1276-fsk.crf --depend tag_l152c8t6a\sx1276-fsk.d)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\string.h)(0x5475F300)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\math.h)(0x5475F2FE)
 I (..\Core\Src\radio\platform.h)(0x5F87C00E)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
 I (..\Core\Src\radio\sx1276-Hal.h)(0x5F87C00F)
@@ -107,7 +107,7 @@ I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h)(0x5F7091A7)
 I (..\Core\Src\radio\platform.h)(0x5F87C00E)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
 I (..\Core\Src\radio\sx1276-Hal.h)(0x5F87C00F)
@@ -161,7 +161,7 @@ I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h)(0x5F7091A7)
 I (../Core/Inc/AD9838.h)(0x5FABDC70)
-F (../Core/Src/main.c)(0x5FAC030E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\main.o --omf_browse tag_l152c8t6a\main.crf --depend tag_l152c8t6a\main.d)
+F (../Core/Src/main.c)(0x5FACAAD9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc -I../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L1xx/Include -I../Drivers/CMSIS/Include -I..\Core\Src\radio-I D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\RTE-I D:\application\MDK514\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\application\MDK514\PACK\Keil\STM32L1xx_DFP\1.3.0-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L152xBA -DUSE_HAL_DRIVER -DSTM32L152xBA -DUSE_SX1276_RADIO-o tag_l152c8t6a\main.o --omf_browse tag_l152c8t6a\main.crf --depend tag_l152c8t6a\main.d)
 I (../Core/Inc/main.h)(0x5FABE5D5)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h)(0x5F7091A7)
 I (../Core/Inc/stm32l1xx_hal_conf.h)(0x5FABE5D5)
@@ -195,7 +195,7 @@ I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h)(0x5F7091A7)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\string.h)(0x5475F300)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (..\Core\Src\radio\platform.h)(0x5F87C00E)
 I (..\Core\Src\radio\sx1276-Hal.h)(0x5F87C00F)
@@ -236,7 +236,7 @@ I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h)(0x5F7091A7)
 I (../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h)(0x5F7091A7)
 I (../Core/Inc/stm32l1xx_it.h)(0x5FABE5D4)
-I (..\Core\Src\radio\radio.h)(0x5FAC0314)
+I (..\Core\Src\radio\radio.h)(0x5FAC9D09)
 I (..\Core\Src\radio\stm32f10x_type.h)(0x5FA14496)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\stdbool.h)(0x5475F300)
 I (D:\application\MDK514\CORE\ARM\ARMCC\include\string.h)(0x5475F300)

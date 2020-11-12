@@ -550,13 +550,14 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim4);
 
 
-	//Radio = RadioDriverInit( );
-	//Radio->Init( );
-	//Radio->StartRx( );
+
 
 
 
 #if CW == 1
+	Radio = RadioDriverInit( );
+	Radio->Init( );
+	Radio->StartRx( );
 	{
 		uint8_t data_temp = 0;
 		SX1276Read( REG_PACKETCONFIG2, &data_temp );
@@ -584,6 +585,7 @@ int main(void)
 
 
 #endif
+	//while(1);
 	
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	
@@ -592,11 +594,11 @@ int main(void)
 	AD9838_Init() ;
 	AD9838_Select_Wave(Square_Wave) ;
 	
-	AD9838_Set_Freq(FREQ_0, 1400000);
-	AD9838_Set_Freq(FREQ_1, 1500000);
+	AD9838_Set_Freq(FREQ_0, 800000);
+	AD9838_Set_Freq(FREQ_1, 2000000);
 	
-	//AD9838_Write_16Bits(0x2038);
-	//while(1);
+	HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET);
+	while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */

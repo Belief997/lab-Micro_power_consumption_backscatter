@@ -104,7 +104,7 @@ void AD9838_Write_16Bits(unsigned int data)
 } 
 
 #define Triangle_Wave    0x2002 
-#define Sine_Wave  0x2008 
+#define Sine_Wave  0x2038 
 #define Square_Wave 0x2028
 
 void AD9838_Select_Wave(unsigned int initdata) 
@@ -196,12 +196,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	AD9838_Init() ;
-	AD9838_Select_Wave(Square_Wave) ;
+	AD9838_Select_Wave(Sine_Wave) ;
 	AD9838_Set_Freq(FREQ_1, 4025000);
-	AD9838_Set_Freq(FREQ_0, 3975000);
+	AD9838_Set_Freq(FREQ_0, 5000);
 
 
-		
+	AD9838_Write_16Bits(0x2038);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -210,9 +210,9 @@ int main(void)
   {
 		
 				delay_n(100);
-		AD9838_Write_16Bits(0x2038);
+		//AD9838_Write_16Bits(0x2038);
 		delay_n(100);
-		AD9838_Write_16Bits(0x2838);
+		//AD9838_Write_16Bits(0x2838);
 
 		
     /* USER CODE END WHILE */

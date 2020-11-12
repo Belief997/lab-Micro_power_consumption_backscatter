@@ -54,7 +54,7 @@ tFskSettings FskSettings =
 // test continous wave
 tFskSettings FskSettings = 
 {
-    433000000,      // RFFrequency
+    525000000,      // RFFrequency
     4800,           // Bitrate
     0,          // Fdev
     20,             // Power
