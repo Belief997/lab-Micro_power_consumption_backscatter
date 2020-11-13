@@ -5,6 +5,7 @@
 #define Sine_Wave  0x2008 
 //#define Square_Wave 0x2028
 #define Square_Wave 0x2228
+//#define Square_Wave 0x2238
 
 
 #define FREQ_0      0 

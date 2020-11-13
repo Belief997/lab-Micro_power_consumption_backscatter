@@ -22,14 +22,20 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\tag_l152c8t6a.uvprojx
-Project File Date:  11/12/2020
+Project File Date:  11/13/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
-compiling main.c...
-../Core/Inc/AD9838.h(13): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
+compiling AD9838.c...
+../Core/Inc/AD9838.h(14): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
   void AD9838_Init(); 
-../Core/Inc/AD9838.h(22): warning:  #1-D: last line of file ends without a newline
+../Core/Inc/AD9838.h(23): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Core\Src\AD9838.c: 2 warnings, 0 errors
+compiling main.c...
+../Core/Inc/AD9838.h(14): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
+  void AD9838_Init(); 
+../Core/Inc/AD9838.h(23): warning:  #1-D: last line of file ends without a newline
   #endif
 ../Core/Src/main.c(170): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
@@ -47,7 +53,7 @@ compiling main.c...
 linking...
 Program Size: Code=11248 RO-data=340 RW-data=132 ZI-data=1508  
 FromELF: creating hex file...
-"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 8 Warning(s).
+"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 

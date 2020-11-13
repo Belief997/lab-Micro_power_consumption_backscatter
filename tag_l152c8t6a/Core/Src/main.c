@@ -481,7 +481,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 								tempvalue = pdata[cntByte] >> (7 - cntBit % 8);
                 iovalue = tempvalue & 0x01;
                 // INVERSE
-								HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, iovalue? GPIO_PIN_RESET:GPIO_PIN_SET); 
+								HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, iovalue? GPIO_PIN_SET:GPIO_PIN_RESET); 
                 //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
                 cntBit++;
         	}
@@ -594,8 +594,8 @@ int main(void)
 	AD9838_Init() ;
 	AD9838_Select_Wave(Square_Wave) ;
 	
-	AD9838_Set_Freq(FREQ_0, 800000);
-	AD9838_Set_Freq(FREQ_1, 1000000);
+	AD9838_Set_Freq(FREQ_0, 450000);
+	AD9838_Set_Freq(FREQ_1, 500000);
 	
 	//HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET);
 	//while(1);
