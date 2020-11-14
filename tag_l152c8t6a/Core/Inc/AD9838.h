@@ -3,7 +3,10 @@
 
 #define Triangle_Wave    0x2002 
 #define Sine_Wave  0x2008 
+//#define Sine_Wave  0x2230 
+
 //#define Square_Wave 0x2028
+
 #define Square_Wave 0x2228
 //#define Square_Wave 0x2238
 

@@ -594,11 +594,14 @@ int main(void)
 	AD9838_Init() ;
 	AD9838_Select_Wave(Square_Wave) ;
 	
-	AD9838_Set_Freq(FREQ_0, 450000);
-	AD9838_Set_Freq(FREQ_1, 500000);
+	//AD9838_Select_Wave(Sine_Wave) ;
+	
+//	AD9838_Set_Freq(FREQ_0, 450000);
+	AD9838_Set_Freq(FREQ_0, 3000000);
+	AD9838_Set_Freq(FREQ_1, 1000);
 	
 	//HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET);
-	//while(1);
+	while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */

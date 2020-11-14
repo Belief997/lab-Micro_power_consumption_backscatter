@@ -198,10 +198,10 @@ int main(void)
 	AD9838_Init() ;
 	AD9838_Select_Wave(Sine_Wave) ;
 	AD9838_Set_Freq(FREQ_1, 4025000);
-	AD9838_Set_Freq(FREQ_0, 5000);
+	AD9838_Set_Freq(FREQ_0, 4600000);
 
 
-	AD9838_Write_16Bits(0x2038);
+	AD9838_Write_16Bits(0x2030);
   /* USER CODE END 2 */
 
   /* Infinite loop */
