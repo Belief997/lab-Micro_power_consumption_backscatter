@@ -2,8 +2,8 @@
 #define ___AD9838__H
 
 #define Triangle_Wave    0x2002 
-#define Sine_Wave  0x2008 
-//#define Sine_Wave  0x2230 
+//#define Sine_Wave  0x2008 
+#define Sine_Wave  0x2230 
 
 //#define Square_Wave 0x2028
 
