@@ -3,7 +3,7 @@
 
 #define PIN_CONTROL  1
 #define SIN_OUTPUT 1
-#define COMPARE_ONBOARD 0
+#define COMPARE_ONBOARD 1
 
 
 

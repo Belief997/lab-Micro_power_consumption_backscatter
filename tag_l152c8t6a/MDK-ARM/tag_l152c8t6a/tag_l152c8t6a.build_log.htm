@@ -26,34 +26,30 @@ Project File Date:  11/15/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
-compiling AD9838.c...
-../Core/Inc/AD9838.h(23): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
-  void AD9838_Init(); 
-../Core/Inc/AD9838.h(32): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\Core\Src\AD9838.c: 2 warnings, 0 errors
 compiling main.c...
 ../Core/Inc/AD9838.h(23): warning:  #1295-D: Deprecated declaration AD9838_Init - give arg types
   void AD9838_Init(); 
 ../Core/Inc/AD9838.h(32): warning:  #1-D: last line of file ends without a newline
   #endif
-../Core/Src/main.c(168): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Src/main.c(166): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(210): warning:  #375-D: declaration requires a typedef name
+../Core/Src/main.c(208): warning:  #375-D: declaration requires a typedef name
   };
-../Core/Src/main.c(391): warning:  #111-D: statement is unreachable
+../Core/Src/main.c(389): warning:  #111-D: statement is unreachable
       switch( Radio->Process( ) )
-../Core/Src/main.c(414): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Src/main.c(412): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(345): warning:  #177-D: variable "tickstart" was declared but never referenced
+../Core/Src/main.c(343): warning:  #177-D: variable "tickstart" was declared but never referenced
                 uint32_t tickstart;
+../Core/Src/main.c(604): warning:  #128-D: loop is not reachable
+    while (1)
 ../Core/Src/main.c(50): warning:  #550-D: variable "EnableMaster" was set but never used
   static uint8_t EnableMaster = true;                           // Master/Slave selection
-../Core/Src/main.c: 8 warnings, 0 errors
+../Core/Src/main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=11096 RO-data=340 RW-data=132 ZI-data=1444  
+Program Size: Code=10520 RO-data=312 RW-data=132 ZI-data=1380  
 FromELF: creating hex file...
-"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 10 Warning(s).
+"tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
