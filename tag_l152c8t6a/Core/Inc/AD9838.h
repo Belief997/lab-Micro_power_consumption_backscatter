@@ -1,9 +1,15 @@
 #ifndef ___AD9838__H
 #define ___AD9838__H
 
+#define PIN_CONTROL  1
+#define SIN_OUTPUT 1
+#define COMPARE_ONBOARD 0
+
+
+
 #define Triangle_Wave    0x2002 
-//#define Sine_Wave  0x2008 
-#define Sine_Wave  0x2230 
+#define WaveSetting  (0x2008 | (PIN_CONTROL <<  9)| (SIN_OUTPUT <<  5) | (COMPARE_ONBOARD <<  4))
+//#define Sine_Wave  0x2230 
 
 //#define Square_Wave 0x2028
 

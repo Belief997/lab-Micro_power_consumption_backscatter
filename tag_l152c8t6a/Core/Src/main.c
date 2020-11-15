@@ -77,7 +77,6 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
-TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart1;
 
@@ -92,7 +91,6 @@ static void MX_SPI1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
-static void MX_TIM6_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -532,7 +530,6 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
-  MX_TIM6_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	
@@ -591,19 +588,18 @@ int main(void)
 	
 	HAL_Delay(2000);
 		
-		while(1);
+		//while(1);
 		
 	AD9838_Init() ;
 	//AD9838_Select_Wave(Square_Wave) ;
 	
-	AD9838_Select_Wave(Sine_Wave) ;
+	AD9838_Select_Wave(WaveSetting) ;
 	
-//	AD9838_Set_Freq(FREQ_0, 450000);
-	AD9838_Set_Freq(FREQ_0, 4000000);
-	AD9838_Set_Freq(FREQ_1, 1000);
+	AD9838_Set_Freq(FREQ_0, 450000);
+	AD9838_Set_Freq(FREQ_1, 500000);
 	
 	//HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET);
-	while(1);
+	//while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -619,6 +615,7 @@ int main(void)
 		char str[] = "txtest";
 		u8 data[6] = {0};
 		memcpy(data, str, 6);
+		// 9586.8
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
 				memset(fskBuff, 0, sizeof(fskBuff));
@@ -836,9 +833,9 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 31;
+  htim4.Init.Prescaler = 2;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 999;
+  htim4.Init.Period = 1110;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
@@ -859,44 +856,6 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
-
-}
-
-/**
-  * @brief TIM6 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM6_Init(void)
-{
-
-  /* USER CODE BEGIN TIM6_Init 0 */
-
-  /* USER CODE END TIM6_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM6_Init 1 */
-
-  /* USER CODE END TIM6_Init 1 */
-  htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 23;
-  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 999;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM6_Init 2 */
-
-  /* USER CODE END TIM6_Init 2 */
 
 }
 
