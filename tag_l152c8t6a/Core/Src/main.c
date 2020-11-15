@@ -591,6 +591,8 @@ int main(void)
 	
 	HAL_Delay(2000);
 		
+		while(1);
+		
 	AD9838_Init() ;
 	//AD9838_Select_Wave(Square_Wave) ;
 	
