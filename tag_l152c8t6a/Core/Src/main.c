@@ -107,6 +107,7 @@ char rxBuf2[20];
 char rcv_flag1 = 0;
 char rcv_flag2 = 0;
 volatile char read_over = 0;
+uint32_t Sensor_ID = 0;
 
 
 
@@ -125,76 +126,79 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //	}
 }
 
+
+
+
+enum tag_state{
+  TAG_READY = 0,
+  TAG_RECEIVE,
+  TAG_START,
+  TAG_SENDDING
+};
+
+enum master_state{
+  M_READY=0,
+  M_START,
+  M_RECEIVE,
+  M_SENDDING
+
+};
+
 /*
  * Manages the slave operation
  */
 void OnSlave( void )
 {
     uint8_t i;
-		static uint32_t time_pos_sec,time_pos_ms = 0;    //send message on time_pos sec
-    while(Radio->Process()==RF_RX_DONE){
-        Radio->GetRxPacket( Buffer, ( uint16_t* )&BufferSize );
-				//HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-				if(strcmp((const char *)Buffer,txBuf1)==0){ 
-					//connection established
-					toggle_led();
-					TickCounter = Buffer[RX_TIMMER_SYNC] * TIME_GAP;
-					time_pos_ms = time_pos_sec * TIME_GAP;
-				}else{   
-				//connection lost, retreat rand sec, range from (0,MAX_USER-1)
-					srand(TickCounter_NTZ);
-					time_pos_ms = TickCounter + rand()%MAX_USER*1000;
-				}
-				
-				if(TickCounter-time_pos_ms >= MAX_USER*TIME_GAP){
-					TickCounter = time_pos_ms;
-					
-					Buffer[0] = '5';
-					Buffer[1] = '0';
-					Buffer[2] = '9';
-					Buffer[3] = '7';
-					Buffer[4] = '9';					
-					Buffer[5] = 0xfe;
-					// We fill the buffer with numbers for the payload 
-					Radio->SetTxPacket( Buffer, 6 );
-					toggle_led();
-				}
+		uint8_t rf_state = Radio->Process();
+		static uint8_t tag_state = TAG_READY;
+	
+		static uint32_t time_now;
+		static uint32_t time_before_send;
+
+		if(TickCounter-TxTimer>=500){ //read sensor per 500ms.
+			Sensor_ID = 33333;
 		}
-		
-    switch( Radio->Process( ) )
+		switch (tag_state)
     {
-    case RF_RX_DONE:
-        Radio->GetRxPacket( Buffer, ( uint16_t* )&BufferSize );
-				HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-        if( BufferSize > 0 )
-        {
-            if( strncmp( ( const char* )Buffer, ( const char* )PingMsg, 4 ) == 0 )
-            {
-                // Indicates on a LED that the received frame is a PING
-                //LedToggle( LED_GREEN );
+    case TAG_READY:
+      /* code */
+      memset(rxBuf1, 0, BUFFER_SIZE);
+      tag_state = TAG_RECEIVE;
+      break;
 
-               // Send the reply to the PONG string
-                Buffer[0] = '5';
-                Buffer[1] = '6';
-                Buffer[2] = '7';
-                Buffer[3] = '8';
-                // We fill the buffer with numbers for the payload 
-                for( i = 4; i < BufferSize; i++ )
-                {
-                    Buffer[i] = i - 4;
-                }
+    case TAG_RECEIVE:
+			if(rf_state==RF_RX_DONE){
+					Radio->GetRxPacket( Buffer, ( uint16_t* )&BufferSize );
+					//printf("%s",Buffer);  //usart
+					toggle_led();
+					if(Buffer[0] == 'T'){
+					time_before_send = Sensor_ID%Buffer[1];
+					tag_state = TAG_START;
+					time_now = TickCounter;
+					}
+				}
+      break;
 
-                Radio->SetTxPacket( Buffer, BufferSize );
-            }
-        }
-        break;
-    case RF_TX_DONE:
-        // Indicates on a LED that we have sent a PONG
-        //LedToggle( LED_RED );
-        Radio->StartRx( );
-        break;
+    case TAG_START:
+			if (TickCounter - time_now > time_before_send * Buffer[2] * 100)
+			{
+        //TODO : ??????????
+				sprintf(txBuf1, "%d", Sensor_ID);
+//				printf("start_buf : %s\r\n", start_buf);  //usart
+				Radio->SetTxPacket(txBuf1, strlen(txBuf1));
+				tag_state = TAG_SENDDING;
+	    }  
+      break;
+			
+	case TAG_SENDDING:
+		if(rf_state==RF_TX_DONE){//Waiting for TX DONE.
+			Radio->StartRx();
+			tag_state = TAG_READY;
+		}
+		break;
     default:
-        break;
+      break;
     }
 }
 
@@ -464,6 +468,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     if(htim->Instance == TIM4)
     {
+				static u8 cnt_pkgInter = 0;
+				
         if(State_bksct == STATE_BKSCT_BUSY)
         {
             static u32 cntBit = 0;
@@ -483,12 +489,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
                 //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, iovalue? 0 : 1);
                 cntBit++;
         	}
-            else
-            {
-                // send complete reset state
-                cntBit = 0;
-                State_bksct = STATE_BKSCT_IDLE;
-            }
+					else
+					{
+							// wait 50 bit time
+							if(cnt_pkgInter < 50)
+							{
+								cnt_pkgInter ++;
+							}
+							else
+							{
+								cnt_pkgInter = 0;
+								// send complete reset state
+								cntBit = 0;
+								State_bksct = STATE_BKSCT_IDLE;
+							}
+					}
         }
 
     }
@@ -549,12 +564,12 @@ int main(void)
 
 
 
-
-
-#if CW == 1
 	Radio = RadioDriverInit( );
 	Radio->Init( );
 	Radio->StartRx( );
+
+#if CW == 1
+
 	{
 		uint8_t data_temp = 0;
 		SX1276Read( REG_PACKETCONFIG2, &data_temp );
@@ -578,8 +593,6 @@ int main(void)
 //        }
 //				reg_adr = 0;
 //	}
-
-
 
 #endif
 	//while(1);
@@ -615,18 +628,19 @@ int main(void)
 		char str[] = "txtest";
 		u8 data[6] = {0};
 		memcpy(data, str, 6);
-		// 9586.8
+		// 1k
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
 				memset(fskBuff, 0, sizeof(fskBuff));
 				fskLen = user_fskFrame(fskBuff, sizeof(fskBuff), data, sizeof(data));
-				HAL_Delay(50);
+				//HAL_Delay(50);
 				State_bksct = STATE_BKSCT_BUSY;
 		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
+		OnSlave();
 		//OnMaster( );
   }
   /* USER CODE END 3 */
@@ -833,9 +847,9 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 2;
+  htim4.Init.Prescaler = 31;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 1110;
+  htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)

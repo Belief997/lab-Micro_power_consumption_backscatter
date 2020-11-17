@@ -117,8 +117,8 @@ const int32_t HoppingFrequencies[] =
 //};
 tLoRaSettings LoRaSettings =
 {
-    435000000,        // RFFrequency
-    10,               // Power
+    433000000,        // RFFrequency
+    18,                // Power
     7,                // SignalBw [0: 7.8kHz, 1: 10.4 kHz, 2: 15.6 kHz, 3: 20.8 kHz, 4: 31.2 kHz,
                       // 5: 41.6 kHz, 6: 62.5 kHz, 7: 125 kHz, 8: 250 kHz, 9: 500 kHz, other: Reserved]
     12,                // SpreadingFactor [6: 64, 7: 128, 8: 256, 9: 512, 10: 1024, 11: 2048, 12: 4096  chips]
