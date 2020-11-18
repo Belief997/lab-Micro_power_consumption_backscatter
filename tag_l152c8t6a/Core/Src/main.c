@@ -191,11 +191,11 @@ void OnSlave( void )
 		static uint32_t time_before_send;
 
 		if(TickCounter-TxTimer>=1000){ //read sensor per 500ms.
-			Sensor_ID = 33333;
+			Sensor_ID = 533333;
 			// without sensor 				
 			if(!SENSOR_CONNECT) 				
 			{ 					
-				sprintf(txBuf1, "%d", Sensor_ID); 				
+				sprintf(rxBuf1, "%d", Sensor_ID); 				
 			}
 		}
 
@@ -224,6 +224,7 @@ void OnSlave( void )
 			if (TickCounter - time_now > time_before_send * Buffer[2] * 100)
 			{
 //				printf("start_buf : %s\r\n", start_buf);  //usart
+				memcpy(txBuf1, rxBuf1, 6);
 				Radio->SetTxPacket(txBuf1, strlen(txBuf1));
 				tag_state = TAG_SENDDING;
 	    }  
@@ -664,8 +665,8 @@ int main(void)
 		//u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
 		char str[] = "txtest";
 		u8 data[6] = {0};
-		//memcpy(data, str, 6);
-		memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
+		memcpy(data, str, 6);
+		//memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
 		// 1k
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
