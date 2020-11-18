@@ -41,8 +41,12 @@
 #define TIME_GAP                                    1000 //ms
 
 #define RX_TIMMER_SYNC                              2 // byte position of sync time 
-#define SENSOR_BYTE                                 7
+#define SENSOR_BYTE                                 8
+#define SENSOR_DATA_BYTE                            6
 #define SENSOR_TIMEOUT															500 //ms
+
+#define SENSOR_CONNECT 															0
+
 extern volatile uint32_t TickCounter_NTZ;
 extern volatile uint32_t TickCounter;
 static uint16_t BufferSize = BUFFER_SIZE;			// RF buffer size
@@ -108,7 +112,7 @@ char rcv_flag1 = 0;
 char rcv_flag2 = 0;
 volatile char read_over = 0;
 uint32_t Sensor_ID = 0;
-
+static u8 uartByte = 0;
 
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -116,8 +120,38 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(huart);
 	if(huart == &huart1){
+		static u8 rxBuff_temp[SENSOR_BYTE + 1] = {0};
+		static u8 cntRx = 0;
+		
 		//HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
-		read_over = 1;
+		if(uartByte == 0x00)
+		{
+			HAL_UART_Receive_IT(&huart1, (uint8_t *)&uartByte, 1); 			
+			return;
+		}
+		
+		if(uartByte == '\r' || uartByte == '\n')
+		{
+			if(cntRx < 6)
+			{
+				cntRx = 0;
+				HAL_UART_Receive_IT(&huart1, (uint8_t *)&uartByte, 1); 			
+				return;
+			}
+		}			
+		rxBuff_temp[cntRx++] = uartByte;
+		HAL_UART_Receive_IT(&huart1, (uint8_t *)&uartByte, 1);
+		if(cntRx == SENSOR_BYTE)
+		{	
+			memcpy(rxBuf1, rxBuff_temp, SENSOR_DATA_BYTE);
+			read_over = 1;
+			cntRx = 0;
+		}
+		else
+		{
+			
+			read_over = 0;
+		}
 	}
 //	else if(huart == &huart2){
 //		HAL_UART_Transmit(&huart2, (uint8_t *)rxBuf2, strlen(txBuf2), 0xffff);
@@ -156,9 +190,15 @@ void OnSlave( void )
 		static uint32_t time_now;
 		static uint32_t time_before_send;
 
-		if(TickCounter-TxTimer>=500){ //read sensor per 500ms.
+		if(TickCounter-TxTimer>=1000){ //read sensor per 500ms.
 			Sensor_ID = 33333;
+			// without sensor 				
+			if(!SENSOR_CONNECT) 				
+			{ 					
+				sprintf(txBuf1, "%d", Sensor_ID); 				
+			}
 		}
+
 		switch (tag_state)
     {
     case TAG_READY:
@@ -183,8 +223,6 @@ void OnSlave( void )
     case TAG_START:
 			if (TickCounter - time_now > time_before_send * Buffer[2] * 100)
 			{
-        //TODO : ??????????
-				sprintf(txBuf1, "%d", Sensor_ID);
 //				printf("start_buf : %s\r\n", start_buf);  //usart
 				Radio->SetTxPacket(txBuf1, strlen(txBuf1));
 				tag_state = TAG_SENDDING;
@@ -193,6 +231,8 @@ void OnSlave( void )
 			
 	case TAG_SENDDING:
 		if(rf_state==RF_TX_DONE){//Waiting for TX DONE.
+			// clear data send
+			memset(txBuf1, '0', sizeof(txBuf1));
 			Radio->StartRx();
 			tag_state = TAG_READY;
 		}
@@ -366,7 +406,7 @@ void OnMaster( void )
 					sensor_is_timeout = 1;
 					
 					read_over=0;
-					HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
+					HAL_UART_Receive_IT(&huart1, (uint8_t *)&uartByte, 1);
 					if(0==sensor_is_timeout){
 						if(rxBuf1[0]!=0x00)
 								Radio->SetTxPacket( rxBuf1, SENSOR_BYTE-1 );
@@ -492,7 +532,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 					else
 					{
 							// wait 50 bit time
-							if(cnt_pkgInter < 50)
+							if(cnt_pkgInter < 200)
 							{
 								cnt_pkgInter ++;
 							}
@@ -554,10 +594,12 @@ int main(void)
 	//__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 3);
 	
 
-	HAL_UART_Transmit(&huart1, (uint8_t *)txBuf1, strlen(txBuf1), 0xffff);
+//	HAL_UART_Transmit(&huart1, (uint8_t *)txBuf1, strlen(txBuf1), 0xffff);
 //	HAL_UART_Transmit(&huart2, (uint8_t *)txBuf2, strlen(txBuf2), 0xffff);
-	HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
-//	HAL_UART_Receive_IT(&huart2, (uint8_t *)rxBuf2, 10);
+	if(SENSOR_CONNECT)
+	{
+		HAL_UART_Receive_IT(&huart1, (uint8_t *)&uartByte, 1);
+	}
 
 	HAL_TIM_Base_Start_IT(&htim4);
 
@@ -601,10 +643,9 @@ int main(void)
 	
 	HAL_Delay(2000);
 		
-		//while(1);
+	//while(1);
 		
 	AD9838_Init() ;
-	//AD9838_Select_Wave(Square_Wave) ;
 	
 	AD9838_Select_Wave(WaveSetting) ;
 	
@@ -619,15 +660,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//		HAL_Delay(1000);
-//		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_RESET); 
-//		HAL_Delay(1000);
-//		HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET); 
-		
+		// fsk dataIn
 		//u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
 		char str[] = "txtest";
 		u8 data[6] = {0};
-		memcpy(data, str, 6);
+		//memcpy(data, str, 6);
+		memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
 		// 1k
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{

@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\Project\lab-Micro_power_consumption_backscatter\tag_l152c8t6a\MDK-ARM\tag_l152c8t6a.uvprojx
-Project File Date:  11/16/2020
+Project File Date:  11/17/2020
 
 <h2>Output:</h2>
 Build target 'tag_l152c8t6a'
@@ -31,23 +31,23 @@ compiling main.c...
   void AD9838_Init(); 
 ../Core/Inc/AD9838.h(32): warning:  #1-D: last line of file ends without a newline
   #endif
-../Core/Src/main.c(187): warning:  #223-D: function "sprintf" declared implicitly
-                                sprintf(txBuf1, "%d", Sensor_ID);
-../Core/Src/main.c(152): warning:  #177-D: variable "i" was declared but never referenced
+../Core/Src/main.c(198): warning:  #223-D: function "sprintf" declared implicitly
+                                sprintf(txBuf1, "%d", Sensor_ID);                               
+../Core/Src/main.c(186): warning:  #177-D: variable "i" was declared but never referenced
       uint8_t i;
-../Core/Src/main.c(214): warning:  #375-D: declaration requires a typedef name
+../Core/Src/main.c(254): warning:  #375-D: declaration requires a typedef name
   };
-../Core/Src/main.c(395): warning:  #111-D: statement is unreachable
+../Core/Src/main.c(435): warning:  #111-D: statement is unreachable
       switch( Radio->Process( ) )
-../Core/Src/main.c(418): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
+../Core/Src/main.c(458): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *"
                                                 HAL_UART_Transmit(&huart1, (uint8_t *)Buffer, strlen(Buffer), 0xffff);
-../Core/Src/main.c(349): warning:  #177-D: variable "tickstart" was declared but never referenced
+../Core/Src/main.c(389): warning:  #177-D: variable "tickstart" was declared but never referenced
                 uint32_t tickstart;
-../Core/Src/main.c(50): warning:  #550-D: variable "EnableMaster" was set but never used
+../Core/Src/main.c(54): warning:  #550-D: variable "EnableMaster" was set but never used
   static uint8_t EnableMaster = true;                           // Master/Slave selection
 ../Core/Src/main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=19844 RO-data=544 RW-data=312 ZI-data=2096  
+Program Size: Code=19632 RO-data=544 RW-data=312 ZI-data=2104  
 FromELF: creating hex file...
 "tag_l152c8t6a\tag_l152c8t6a.axf" - 0 Error(s), 9 Warning(s).
 
