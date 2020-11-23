@@ -58,6 +58,7 @@ const uint8_t PongMsg[] = "5678";
 uint8_t tx_cmd = 0; 
 
 volatile uint32_t TxTimer;
+volatile u8 flg_loraBusy = 0;
 
 /* USER CODE END Includes */
 
@@ -227,6 +228,7 @@ void OnSlave( void )
     case TAG_START:
 			if (TickCounter - time_now > time_before_send * Buffer[2] * 100)
 			{
+				flg_loraBusy = 1;
 //				printf("start_buf : %s\r\n", start_buf);  //usart
 				memcpy(txBuf1, rxBuf1, 6);
 				toggle_led();
@@ -238,6 +240,7 @@ void OnSlave( void )
 	case TAG_SENDDING:
 		if(rf_state==RF_TX_DONE){//Waiting for TX DONE.
 			// clear data send
+			flg_loraBusy = 0;
 			memset(txBuf1, 0, sizeof(txBuf1));
 			memset(txBuf1, '0', SENSOR_DATA_BYTE);
 			Radio->StartRx();
@@ -526,6 +529,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             u8 *pdata = fskBuff;
         	  u8 tempvalue = 0; 
 
+					if(flg_loraBusy)
+					{
+						cntBit = 0;
+						cnt_pkgInter = 0;
+						// send complete reset state
+						State_bksct = STATE_BKSCT_IDLE;
+						return;
+					}
         	if(cntBit < BitAll)
         	{
                 u8 iovalue = 0;
@@ -538,7 +549,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         	}
 					else
 					{
-							// wait 50 bit time
+							// wait xxx bit time
 							// 
 							const u8 cnt_1ms = 1;
 							if(cnt_pkgInter < 200 * cnt_1ms)
