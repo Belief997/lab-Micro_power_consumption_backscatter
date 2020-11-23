@@ -552,7 +552,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 							// wait xxx bit time
 							// 
 							const u8 cnt_1ms = 1;
-							if(cnt_pkgInter < 200 * cnt_1ms)
+							if(cnt_pkgInter < 50 * cnt_1ms)
 							{
 								cnt_pkgInter ++;
 							}
