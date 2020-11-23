@@ -464,7 +464,7 @@ uint32_t SX1276FskProcess( void )
 #endif
         if( DIO0 == 1 ) // PayloadReady/CrcOk
         {
-						toggle_led();
+						//toggle_led();
             RxTimeoutTimer = GET_TICK_COUNT( );
             if( ( RxPacketSize == 0 ) && ( RxBytesRead == 0 ) ) // Read received packet size
             {

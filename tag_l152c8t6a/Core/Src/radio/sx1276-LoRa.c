@@ -399,7 +399,7 @@ uint32_t SX1276LoRaProcess( void )
 //				}
         if( DIO0 == 1 ) // RxDone
         {
-						toggle_led();
+						//toggle_led();
             RxTimeoutTimer = GET_TICK_COUNT( );
             if( LoRaSettings.FreqHopOn == true )
             {

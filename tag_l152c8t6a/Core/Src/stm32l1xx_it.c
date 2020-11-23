@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "radio.h"
 #include <string.h>
+#include "sx1276-Hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,6 +190,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
+	//toggle_led();
 	TickCounter++;
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();

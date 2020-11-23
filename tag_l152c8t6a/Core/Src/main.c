@@ -103,10 +103,11 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 //char txBuf1[18] = {'5','0','8','7','9',0xff,'5','0','8','7','9',0xff,'5','0','8','7','9',0xff};
-char txBuf1[18] = {'4','3','3','0','0','0'};
+//char txBuf1[18] = {'4','3','3','0','0','0'};
+char txBuf1[18] = {0};
 
-char txBuf2[20] = "hello fuck world";
-char rxBuf1[7] = "11111";
+char txBuf2[35] = {0};
+char rxBuf1[12] = {0};
 char rxBuf2[20];
 char rcv_flag1 = 0;
 char rcv_flag2 = 0;
@@ -191,7 +192,9 @@ void OnSlave( void )
 		static uint32_t time_before_send;
 
 		if(TickCounter-TxTimer>=1000){ //read sensor per 500ms.
-			Sensor_ID = 533333;
+			TxTimer = TickCounter;
+			//toggle_led();
+			Sensor_ID = 533332;
 			// without sensor 				
 			if(!SENSOR_CONNECT) 				
 			{ 					
@@ -203,7 +206,7 @@ void OnSlave( void )
     {
     case TAG_READY:
       /* code */
-      memset(rxBuf1, 0, BUFFER_SIZE);
+      //memset(rxBuf1, 0, sizeof(rxBuf1));
       tag_state = TAG_RECEIVE;
       break;
 
@@ -211,8 +214,9 @@ void OnSlave( void )
 			if(rf_state==RF_RX_DONE){
 					Radio->GetRxPacket( Buffer, ( uint16_t* )&BufferSize );
 					//printf("%s",Buffer);  //usart
-					toggle_led();
+					
 					if(Buffer[0] == 'T'){
+					toggle_led();
 					time_before_send = Sensor_ID%Buffer[1];
 					tag_state = TAG_START;
 					time_now = TickCounter;
@@ -225,7 +229,8 @@ void OnSlave( void )
 			{
 //				printf("start_buf : %s\r\n", start_buf);  //usart
 				memcpy(txBuf1, rxBuf1, 6);
-				Radio->SetTxPacket(txBuf1, strlen(txBuf1));
+				toggle_led();
+				Radio->SetTxPacket(txBuf1, SENSOR_DATA_BYTE);
 				tag_state = TAG_SENDDING;
 	    }  
       break;
@@ -233,7 +238,8 @@ void OnSlave( void )
 	case TAG_SENDDING:
 		if(rf_state==RF_TX_DONE){//Waiting for TX DONE.
 			// clear data send
-			memset(txBuf1, '0', sizeof(txBuf1));
+			memset(txBuf1, 0, sizeof(txBuf1));
+			memset(txBuf1, '0', SENSOR_DATA_BYTE);
 			Radio->StartRx();
 			tag_state = TAG_READY;
 		}
@@ -307,7 +313,7 @@ volatile u8 State_bksct = STATE_BKSCT_IDLE;
  }
  
  //
- static u8 array_lfsr[] = {
+ const static u8 array_lfsr[] = {
  //      11111111 10000111 10111000 01011001
  //      10110111 10100001 11001100 00100100
  //      01010111 01011110 01001011 10011100
@@ -413,7 +419,7 @@ void OnMaster( void )
 								Radio->SetTxPacket( rxBuf1, SENSOR_BYTE-1 );
 						else
 							Radio->SetTxPacket( rxBuf1+1, SENSOR_BYTE-1 );
-						toggle_led();
+						//toggle_led();
 					}
 					else
 					{
@@ -509,16 +515,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
     if(htim->Instance == TIM4)
     {
-				static u8 cnt_pkgInter = 0;
+				static u32 cnt_pkgInter = 0;
 				
         if(State_bksct == STATE_BKSCT_BUSY)
         {
             static u32 cntBit = 0;
-            u16 cntByte = cntBit / 8;
-            u8 BitAll = 8 * (fskLen + 2);
+            u32 cntByte = cntBit / 8;
+            u32 BitAll = 8 * (fskLen + 2);
 
             u8 *pdata = fskBuff;
-        	u8 tempvalue = 0; 
+        	  u8 tempvalue = 0; 
 
         	if(cntBit < BitAll)
         	{
@@ -533,7 +539,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 					else
 					{
 							// wait 50 bit time
-							if(cnt_pkgInter < 200)
+							// 
+							const u8 cnt_1ms = 1;
+							if(cnt_pkgInter < 200 * cnt_1ms)
 							{
 								cnt_pkgInter ++;
 							}
@@ -604,7 +612,7 @@ int main(void)
 
 	HAL_TIM_Base_Start_IT(&htim4);
 
-
+	
 
 
 	Radio = RadioDriverInit( );
@@ -653,20 +661,24 @@ int main(void)
 	AD9838_Set_Freq(FREQ_0, 450000);
 	AD9838_Set_Freq(FREQ_1, 500000);
 	
+	//AD9838_Set_Freq(FREQ_0, 1);
+	//AD9838_Set_Freq(FREQ_1, 2);
+	
 	//HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_15, GPIO_PIN_SET);
 	//while(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	HAL_GPIO_WritePin(GPIOA ,GPIO_PIN_11, GPIO_PIN_RESET);
   while (1)
   {
 		// fsk dataIn
 		//u8 data[] = {0XAA, 0X31, 0XAA, 0X32, 0XAA, 0X33};
 		char str[] = "txtest";
 		u8 data[6] = {0};
-		memcpy(data, str, 6);
-		//memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
+		//memcpy(data, str, 6);
+		memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
 		// 1k
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
@@ -679,7 +691,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-		OnSlave();
+			//HAL_GPIO_WritePin(GPIOA ,GPIO_PIN_11, GPIO_PIN_RESET);
+			OnSlave();
+			//HAL_GPIO_WritePin(GPIOA ,GPIO_PIN_11, GPIO_PIN_RESET);
 		//OnMaster( );
   }
   /* USER CODE END 3 */

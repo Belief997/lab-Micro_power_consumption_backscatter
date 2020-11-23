@@ -84,8 +84,8 @@ extern volatile uint32_t TickCounter;
 #define DIO5_IOPORT                                 GPIOA
 #define DIO5_PIN                                    GPIO_PIN_2
 
-#define LED_IOPORT 									GPIOB
-#define LED_PIN                						GPIO_PIN_15
+#define LED_IOPORT 									GPIOA
+#define LED_PIN                						GPIO_PIN_11
 #define SENSOR_IOPORT 								GPIOA
 #define SENSOR_PIN									GPIO_PIN_11
 #define GATE_IOPORT									GPIOA
