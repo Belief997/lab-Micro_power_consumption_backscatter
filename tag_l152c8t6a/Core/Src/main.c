@@ -552,7 +552,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 							// wait xxx bit time
 							// 
 							const u8 cnt_1ms = 1;
-							if(cnt_pkgInter < 50 * cnt_1ms)
+							if(cnt_pkgInter < 300 * cnt_1ms)
 							{
 								cnt_pkgInter ++;
 							}
@@ -669,8 +669,8 @@ int main(void)
 	
 	AD9838_Select_Wave(WaveSetting) ;
 	
-	AD9838_Set_Freq(FREQ_0, 450000);
-	AD9838_Set_Freq(FREQ_1, 500000);
+	AD9838_Set_Freq(FREQ_0, 800000);
+	AD9838_Set_Freq(FREQ_1, 1000000);
 	
 	//AD9838_Set_Freq(FREQ_0, 1);
 	//AD9838_Set_Freq(FREQ_1, 2);
@@ -690,7 +690,7 @@ int main(void)
 		u8 data[6] = {0};
 		//memcpy(data, str, 6);
 		memcpy(data, rxBuf1, SENSOR_DATA_BYTE);
-		// 1k
+		//  1k
 		if(STATE_BKSCT_IDLE == State_bksct)
 		{
 				memset(fskBuff, 0, sizeof(fskBuff));
