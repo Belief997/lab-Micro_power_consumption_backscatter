@@ -195,7 +195,8 @@ void OnSlave( void )
 		if(TickCounter-TxTimer>=1000){ //read sensor per 500ms.
 			TxTimer = TickCounter;
 			//toggle_led();
-			Sensor_ID = 533333;
+			Sensor_ID = 533335;
+			
 			// without sensor 				
 			if(!SENSOR_CONNECT) 				
 			{ 					
@@ -218,7 +219,7 @@ void OnSlave( void )
 					
 					if(Buffer[0] == 'T'){
 					toggle_led();
-					time_before_send = Sensor_ID%Buffer[1];
+					time_before_send = ( Sensor_ID / 10 )%Buffer[1];
 					tag_state = TAG_START;
 					time_now = TickCounter;
 					}
