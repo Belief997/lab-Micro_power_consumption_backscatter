@@ -660,9 +660,9 @@ int main(void)
 #endif
 	//while(1);
 	
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	//HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	
-	HAL_Delay(2000);
+	HAL_Delay(500);
 		
 	//while(1);
 		
