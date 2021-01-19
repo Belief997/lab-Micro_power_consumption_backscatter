@@ -195,7 +195,7 @@ void OnSlave( void )
 		if(TickCounter-TxTimer>=1000){ //read sensor per 500ms.
 			TxTimer = TickCounter;
 			//toggle_led();
-			Sensor_ID = 533335;
+			Sensor_ID = 588833;
 			
 			// without sensor 				
 			if(!SENSOR_CONNECT) 				
