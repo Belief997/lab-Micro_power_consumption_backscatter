@@ -515,7 +515,13 @@ void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
 		MX_RTC_Init();
 }
 */
-
+void NVIC_SysReset(void)  
+{   
+	__DSB();       
+	SCB->AIRCR  = ((0x5FA << SCB_AIRCR_VECTKEY_Pos)| (SCB->AIRCR & SCB_AIRCR_PRIGROUP_Msk) |  SCB_AIRCR_SYSRESETREQ_Msk);
+	__DSB();
+	while(1);  
+}
 /* USER CODE END 0 */
 
 /**
@@ -562,8 +568,11 @@ int main(void)
 
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
+	HAL_Delay(10);
+	HAL_TIM_PWM_Stop(&htim2,TIM_CHANNEL_2);
+	//NVIC_SysReset();
 	while(1);
-	HAL_Delay(500);
+
 	
 	// STANDBY
 	
@@ -633,7 +642,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL4;
+  RCC_OscInitStruct.PLL.PLLDIV = RCC_PLL_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -642,7 +654,7 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
