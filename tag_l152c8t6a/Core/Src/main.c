@@ -204,7 +204,7 @@ void OnMaster( void )
     uint8_t i,sensor_is_timeout;
 		uint32_t tickstart;
     while(1){
-				if(TickCounter-TxTimer>=1200){
+				if(TickCounter-TxTimer>=100){  // 245(SF10)320 /  60(SF8)  
 					TxTimer = TickCounter;
 					//Without sensor.
 					/*
@@ -341,11 +341,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	//HAL_TIM_PWM_Start(&htim22, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+//	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	//__HAL_TIM_SET_COMPARE(&htim22, TIM_CHANNEL_1, 3);
 	//__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 3);
 	
-while(1);
+//while(1);
 	//HAL_UART_Transmit(&huart1, (uint8_t *)txBuf1, strlen(txBuf1), 0xffff);
 //	HAL_UART_Transmit(&huart2, (uint8_t *)txBuf2, strlen(txBuf2), 0xffff);
 	//HAL_UART_Receive_IT(&huart1, (uint8_t *)rxBuf1, SENSOR_BYTE);
@@ -476,7 +476,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 31;
+  htim2.Init.Prescaler = 15;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 127;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
